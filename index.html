@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BT.Dev Digital | Profesyonel Web Çözümleri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .hero-gradient {
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover:hover { border-color: #22d3ee; transform: translateY(-5px); transition: all 0.3s; }
+        .testimonial-card { background: linear-gradient(145deg, #0f172a, #020617); }
+    </style>
+</head>
+<body>
+
+    <nav class="flex justify-between items-center p-6 max-w-7xl mx-auto border-b border-slate-800">
+        <div class="flex items-center gap-2 group cursor-pointer">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition shadow-lg shadow-cyan-500/20">
+                <i class="fas fa-code text-white text-lg"></i>
+            </div>
+            <div class="text-2xl font-bold tracking-tighter text-white">
+                BT <span class="text-cyan-400">DEV</span>
+            </div>
+        </div>
+        
+        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest text-slate-400">
+            <a href="#hizmetler" class="hover:text-cyan-400 transition">Hizmetler</a>
+            <a href="#yorumlar" class="hover:text-cyan-400 transition">Referanslar</a>
+            <a href="#iletisim" class="hover:text-cyan-400 transition">İletişim</a>
+        </div>
+        <a href="#iletisim" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 px-6 py-2 rounded-full font-bold text-sm transition shadow-lg shadow-cyan-500/20">
+            <i class="fab fa-whatsapp mr-1"></i> Hemen Yaz
+        </a>
+    </nav>
+
+    <section class="hero-gradient py-24 px-6 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="bg-slate-800 text-cyan-400 px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 inline-block">Freelance Full-Stack Developer</span>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">
+                Dijital Potansiyelinizi <br>
+                <span class="text-gradient">Zirveye Taşıyın</span>
+            </h1>
+            
+            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                Sadece bir web sitesi değil, işleyen bir sistem kuruyorum. Komisyonsuz tahsilat, otomatik sipariş takibi ve size özel yönetim panelleriyle kontrolü ele alın.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#iletisim" class="bg-white text-slate-950 px-8 py-4 rounded-lg font-bold hover:bg-cyan-50 transition flex items-center justify-center gap-2">
+                    <i class="fas fa-rocket"></i> Projeni Başlat
+                </a>
+                <a href="#hizmetler" class="border border-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-slate-800 transition">
+                    Neler Yapıyorum?
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="hizmetler" class="py-20 max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold">Size Özel Çözümler</h2>
+            <p class="text-slate-400 mt-2">İhtiyacınıza nokta atışı, yüksek performanslı projeler.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 card-hover group">
+                <div class="bg-slate-800 w-14 h-14 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 transition">
+                    <i class="fas fa-wallet text-2xl text-cyan-400"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Komisyonsuz E-Ticaret</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Aracı kurumlara komisyon ödemeyin. Müşterilerinizden doğrudan <strong>Havale/EFT (IBAN)</strong> ile ödeme alabileceğiniz sistemler.</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 card-hover group">
+                <div class="bg-slate-800 w-14 h-14 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 transition">
+                    <i class="fas fa-tasks text-2xl text-cyan-400"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Sipariş Yönetimi</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">WhatsApp veya Yönetim Paneli üzerinden siparişleri kolayca takip edin. İş akışınızı hızlandıran özel paneller.</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 card-hover group">
+                <div class="bg-slate-800 w-14 h-14 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 transition">
+                    <i class="fas fa-mobile-screen-button text-2xl text-cyan-400"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Mobil Uyumlu Tasarım</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Telefon, tablet veya bilgisayar fark etmez. Siteniz her cihazda kusursuz görünür ve hızlı açılır.</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 card-hover group">
+                <div class="bg-slate-800 w-14 h-14 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 transition">
+                    <i class="fas fa-bolt text-2xl text-cyan-400"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Optimize Altyapı</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Gereksiz kodlardan arındırılmış, hızlı çalışan özel kodlama. İşiniz yarıda kalmaz, siteniz yavaşlamaz.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="yorumlar" class="bg-slate-900/30 py-24 px-6 border-y border-slate-800/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold">Müşteriler Ne Diyor?</h2>
+                <p class="text-slate-400 mt-2">Daha önce çalıştığım bazı iş ortaklarının görüşleri.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card p-8 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-4xl text-slate-800 absolute top-6 right-6"></i>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center font-bold text-white text-lg">M</div>
+                        <div>
+                            <h4 class="font-bold text-white">Murat Yılmaz</h4>
+                            <span class="text-xs text-cyan-400 uppercase tracking-wider">E-Ticaret Girişimcisi</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm italic">"Berkay Bey ile çalışmak çok rahattı. İstediğim IBAN ödemeli sistemi tam anlattığım gibi kurdu. Satışlarımızı kolayca yönetiyoruz."</p>
+                    <div class="flex text-yellow-500 text-xs mt-4 gap-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl relative mt-0 md:-mt-4 border border-slate-800 shadow-2xl shadow-cyan-900/10">
+                    <i class="fas fa-quote-left text-4xl text-slate-800 absolute top-6 right-6"></i>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold text-white text-lg">S</div>
+                        <div>
+                            <h4 class="font-bold text-white">Selin Demir</h4>
+                            <span class="text-xs text-cyan-400 uppercase tracking-wider">Butik Sahibi</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm italic">"Sitemizin mobil görünümü harika oldu. Müşterilerim telefondan çok rahat sipariş verebiliyor. Hızlı teslimat için teşekkürler."</p>
+                    <div class="flex text-yellow-500 text-xs mt-4 gap-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-4xl text-slate-800 absolute top-6 right-6"></i>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-white text-lg">K</div>
+                        <div>
+                            <h4 class="font-bold text-white">Kemal A.</h4>
+                            <span class="text-xs text-cyan-400 uppercase tracking-wider">Restoran İşletmecisi</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm italic">"Sipariş takip sistemi işimizi çok kolaylaştırdı. İstediğimiz zaman ulaşıp destek alabiliyoruz, bu çok önemli."</p>
+                    <div class="flex text-yellow-500 text-xs mt-4 gap-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="iletisim" class="py-20 px-6 border-t border-slate-800 bg-[#020617]">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-4">Projenizi Konuşalım</h2>
+            <p class="text-slate-400 mb-8">
+                Formu doldurun, detayları WhatsApp üzerinden konuşalım.
+            </p>
+            
+            <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-md mx-auto shadow-2xl">
+                <form onsubmit="whatsappGonder(event)" class="space-y-4 text-left">
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold ml-1">Adınız Soyadınız</label>
+                        <input id="musteriAd" type="text" placeholder="Örn: Ahmet Yılmaz" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition mt-1" required>
+                    </div>
+                    
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold ml-1">İletişim Numaranız</label>
+                        <input id="musteriTel" type="tel" placeholder="Örn: 0555 123 45 67" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition mt-1" required>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold ml-1">Proje Tipi</label>
+                        <select id="projeTipi" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-400 focus:outline-none focus:border-cyan-500 transition mt-1">
+                            <option value="Belirtilmedi">Seçiniz...</option>
+                            <option value="E-Ticaret (IBAN Ödemeli)">E-Ticaret (IBAN Ödemeli)</option>
+                            <option value="Sipariş Yönetim Sistemi">Sipariş Yönetim Sistemi</option>
+                            <option value="Kurumsal Web Sitesi">Kurumsal Web Sitesi</option>
+                            <option value="Özel Web Yazılımı">Özel Web Yazılımı</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold ml-1">Mesajınız</label>
+                        <textarea id="musteriMesaj" rows="3" placeholder="Projenizden kısaca bahsedin..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition mt-1"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-4 rounded-lg transition shadow-lg flex items-center justify-center gap-2 group">
+                        <i class="fab fa-whatsapp text-xl group-hover:scale-110 transition"></i> 
+                        WhatsApp ile Teklif Al
+                    </button>
+                    <p class="text-center text-xs text-slate-500 mt-2">Butona tıkladığınızda cihazınızdaki WhatsApp uygulaması açılacaktır.</p>
+                </form>
+            </div>
+
+            <div class="mt-12 text-slate-600 text-sm">
+                © 2024 BT.Dev Digital. Tüm Hakları Saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function whatsappGonder(e) {
+            e.preventDefault();
+            
+            var ad = document.getElementById("musteriAd").value;
+            var tel = document.getElementById("musteriTel").value;
+            var tip = document.getElementById("projeTipi").value;
+            var mesaj = document.getElementById("musteriMesaj").value;
+
+            // Müşterinin numarasını buraya tanımladık (Senin Numaran)
+            var telefonNumaran = "905340188445"; 
+
+            var metin = "*WEB SİTESİNDEN YENİ TEKLİF!* %0A%0A" +
+                        "👤 *Ad Soyad:* " + ad + "%0A" +
+                        "📞 *Müşteri Tel:* " + tel + "%0A" +
+                        "💻 *Proje Tipi:* " + tip + "%0A" +
+                        "📝 *Mesaj:* " + mesaj;
+
+            // wa.me protokolü mobilde öncelikle uygulamayı tetikler
+            window.open("https://wa.me/" + telefonNumaran + "?text=" + metin, '_blank');
+        }
+    </script>
+
+</body>
+</html>

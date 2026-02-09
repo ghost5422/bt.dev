@@ -1,0 +1,58 @@
+/* style.css - FİNAL VERSİYON */
+
+/* Temel Ayarlar & Taşmayı Önleme */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Scrollbar Özelleştirme */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
+
+/* Yumuşak Renk Geçişleri */
+* {
+    transition: all 0.3s ease-in-out;
+}
+
+/* HERO Arkaplan - Çok Hafif Hareket */
+@keyframes pulseSlow {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.25; transform: scale(1.1); }
+}
+.animate-pulse-slow {
+    animation: pulseSlow 8s infinite ease-in-out alternate;
+}
+
+/* *** TEKLİF AL BUTONU NABIZ EFEKTİ *** */
+@keyframes softPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+.btn-pulse {
+    animation: softPulse 2s infinite;
+}
+.btn-pulse:hover {
+    animation: none;
+}
+
+/* Kart Hover Efekti */
+.service-card:hover, .package-card:hover, .testimonial-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(34, 211, 238, 0.5);
+}
+
+/* Navbar Scroll Durumu */
+#navbar.scrolled {
+    background: rgba(2, 6, 23, 0.95);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.1);
+}

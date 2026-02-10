@@ -1,6 +1,6 @@
-/* style.css - FİNAL VERSİYON */
+/* style.css */
 
-/* Temel Ayarlar & Taşmayı Önleme */
+/* --- TEMEL AYARLAR --- */
 html, body {
     width: 100%;
     max-width: 100%;
@@ -9,6 +9,8 @@ html, body {
 
 body {
     font-family: 'Outfit', sans-serif;
+    background-color: #020617; /* HTML'den taşındı, garanti olsun */
+    color: #e2e8f0;
 }
 
 /* Scrollbar Özelleştirme */
@@ -17,12 +19,14 @@ body {
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
 
-/* Yumuşak Renk Geçişleri */
+/* Yumuşak Geçişler */
 * {
     transition: all 0.3s ease-in-out;
 }
 
-/* HERO Arkaplan - Çok Hafif Hareket */
+/* --- ANİMASYONLAR --- */
+
+/* Hero Arkaplan - Çok Hafif Hareket */
 @keyframes pulseSlow {
     0%, 100% { opacity: 0.1; transform: scale(1); }
     50% { opacity: 0.25; transform: scale(1.1); }
@@ -31,7 +35,7 @@ body {
     animation: pulseSlow 8s infinite ease-in-out alternate;
 }
 
-/* *** TEKLİF AL BUTONU NABIZ EFEKTİ *** */
+/* Teklif Al Butonu Nabız Efekti */
 @keyframes softPulse {
     0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
     70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
@@ -44,15 +48,52 @@ body {
     animation: none;
 }
 
-/* Kart Hover Efekti */
+/* --- KART EFEKTLERİ --- */
 .service-card:hover, .package-card:hover, .testimonial-card:hover {
     transform: translateY(-5px);
     border-color: rgba(34, 211, 238, 0.5);
 }
 
-/* Navbar Scroll Durumu */
+/* --- NAVBAR SCROLL DURUMU --- */
 #navbar.scrolled {
     background: rgba(2, 6, 23, 0.95);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
     border-bottom: 1px solid rgba(34, 211, 238, 0.1);
 }
+
+/* --- FİYAT LİSTESİ ÖZEL TASARIM (Glassmorphism) --- */
+
+.glass-box {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.glass-box:hover {
+    border-color: rgba(6, 182, 212, 0.3); /* Cyan border on hover */
+    transform: translateY(-5px);
+}
+
+/* Öne Çıkan Paket Parlaması */
+.glow-effect {
+    box-shadow: 0 0 50px -15px rgba(59, 130, 246, 0.25);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: linear-gradient(180deg, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 0.6) 100%);
+}
+
+.glow-effect:hover {
+    box-shadow: 0 0 60px -10px rgba(59, 130, 246, 0.4);
+    transform: scale(1.04) translateY(-5px) !important; 
+}
+
+.popular-badge {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/* Liste İkon Renkleri */
+.icon-check { color: #22c55e; width: 20px; text-align: center; } /* Yeşil */
+.icon-star { color: #eab308; width: 20px; text-align: center; } /* Sarı */
+.icon-blue { color: #60a5fa; width: 20px; text-align: center; } /* Mavi */
+.icon-purple { color: #a855f7; width: 20px; text-align: center; } /* Mor */

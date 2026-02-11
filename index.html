@@ -14,56 +14,10 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        outfit: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            dark: '#020617', // Slate 950
-                            primary: '#06b6d4', // Cyan 500
-                            secondary: '#2563eb', // Blue 600
-                        }
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    </head>
+<body class="bg-slate-950 text-slate-200 font-[Outfit] selection:bg-cyan-500 selection:text-white antialiased overflow-x-hidden">
 
-    <style>
-        /* Özel Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
-        
-        /* Grid Deseni */
-        .bg-grid-pattern {
-            background-image: linear-gradient(to right, #1e293b 1px, transparent 1px),
-                              linear-gradient(to bottom, #1e293b 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: linear-gradient(to bottom, transparent, black, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 40%, transparent 95%);
-        }
-    </style>
-</head>
-<body class="bg-brand-dark text-slate-200 font-outfit selection:bg-cyan-500 selection:text-white antialiased overflow-x-hidden">
-
-    <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-brand-dark/80 backdrop-blur-md transition-all duration-300">
+    <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition shadow-lg shadow-cyan-500/20">
@@ -77,11 +31,10 @@
             <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-400">
                 <a href="#hizmetler" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Hizmetler</a>
                 <a href="#paketler" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Fiyat & Paketler</a>
-                <a href="#referanslar" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Referanslar</a>
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="#iletisim" class="hidden md:inline-block bg-white text-brand-dark px-5 py-2 rounded-full font-bold text-sm hover:bg-cyan-400 hover:text-white transition shadow-lg shadow-white/10 hover:shadow-cyan-400/20">
+                <a href="#iletisim" class="hidden md:inline-block bg-white text-slate-950 px-5 py-2 rounded-full font-bold text-sm hover:bg-cyan-400 hover:text-white transition shadow-lg shadow-white/10 hover:shadow-cyan-400/20">
                     Teklif Al
                 </a>
                 <button id="mobile-menu-btn" class="md:hidden text-2xl text-white focus:outline-none">
@@ -90,18 +43,17 @@
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-brand-dark border-b border-white/10 p-6 flex-col gap-4 shadow-2xl md:hidden">
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-slate-950 border-b border-white/10 p-6 flex-col gap-4 shadow-2xl md:hidden">
             <a href="#hizmetler" class="block text-slate-300 hover:text-cyan-400 font-medium">Hizmetler</a>
             <a href="#paketler" class="block text-slate-300 hover:text-cyan-400 font-medium">Paketler</a>
-            <a href="#referanslar" class="block text-slate-300 hover:text-cyan-400 font-medium">Referanslar</a>
             <a href="#iletisim" class="block text-center bg-cyan-600 text-white py-3 rounded-lg font-bold">Teklif Al</a>
         </div>
     </nav>
 
     <section class="relative pt-40 pb-24 px-6 overflow-hidden min-h-[90vh] flex items-center justify-center">
-        <div class="absolute inset-0 bg-grid-pattern opacity-[0.03] -z-10"></div>
-        <div class="absolute top-20 right-0 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] -z-10 animate-blob"></div>
-        <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/20 rounded-full blur-[100px] -z-10 animate-blob animation-delay-2000"></div>
+        <div class="absolute inset-0 opacity-[0.03] -z-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBwMCAwIiBzdHJva2U9IiMxZTI5M2IiIGZpbGw9Im5vbmUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')]"></div>
+        <div class="absolute top-20 right-0 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
 
         <div class="max-w-5xl mx-auto text-center z-10">
             <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm">
@@ -142,7 +94,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
                 <div class="group p-8 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-cyan-500/20"></div>
                     <div class="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center text-2xl text-cyan-400 mb-6 border border-slate-800 group-hover:scale-110 transition">
@@ -162,17 +114,6 @@
                     <h3 class="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition">Online Yemek Sipariş</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
                         Yemeksepeti komisyonlarından kurtulun. Siparişler anında hem <strong>Yönetim Paneline</strong> hem de <strong>Telegram Botunuza</strong> düşer.
-                    </p>
-                </div>
-
-                <div class="group p-8 rounded-2xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-indigo-500/20"></div>
-                    <div class="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center text-2xl text-indigo-400 mb-6 border border-slate-800 group-hover:scale-110 transition">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white group-hover:text-indigo-400 transition">Kurumsal Web Sitesi</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Firmanızın dijital kartviziti. Mobil uyumlu, hızlı açılan ve Google (SEO) dostu modern tasarımlar. WhatsApp butonu dahildir.
                     </p>
                 </div>
 
@@ -203,7 +144,7 @@
                 
                 <div class="bg-slate-950/80 backdrop-blur border border-slate-800 rounded-2xl p-6 hover:border-slate-600 transition">
                     <div class="mb-4">
-                        <h3 class="text-lg font-bold text-white">Ekonomik Paket</h3>
+                        <h3 class="text-lg font-bold text-white">Temel Paket</h3>
                         <p class="text-xs text-slate-500 mt-1">Tek Sayfalık Tanıtım Siteleri</p>
                     </div>
                     <div class="mb-6">
@@ -230,8 +171,8 @@
                     </div>
 
                     <div class="mb-4 mt-2">
-                        <h3 class="text-xl font-bold text-white">Kurumsal Paket</h3>
-                        <p class="text-xs text-cyan-300/80 mt-1">Çok Sayfalı Profesyonel Siteler</p>
+                        <h3 class="text-xl font-bold text-white">Standart Paket</h3>
+                        <p class="text-xs text-cyan-300/80 mt-1">Gelişmiş & Dinamik Siteler</p>
                     </div>
                     <div class="mb-6">
                         <span class="text-4xl font-black text-white">₺7.500</span>
@@ -241,7 +182,7 @@
                     <ul class="space-y-3 text-sm text-white font-medium mb-6">
                         <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> <strong>Gelişmiş SEO</strong> Altyapısı</li>
                         <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Hızlı Sunucu + SSL</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Sınırsız Alt Sayfa</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i> Yönetilebilir İçerik</li>
                         <li class="flex items-center gap-2"><i class="fas fa-check-circle text-cyan-400"></i>Ücretsiz Teknik Destek</li>
                     </ul>
 
@@ -258,8 +199,8 @@
 
                 <div class="bg-slate-950/80 backdrop-blur border border-slate-800 rounded-2xl p-6 hover:border-yellow-500/50 transition group">
                     <div class="mb-4">
-                        <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">VIP / E-Ticaret</h3>
-                        <p class="text-xs text-slate-500 mt-1">Admin Paneli & Bot Entegrasyonu</p>
+                        <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">Premium Paket</h3>
+                        <p class="text-xs text-slate-500 mt-1">E-Ticaret & Özel Yazılım</p>
                     </div>
                     <div class="mb-6">
                         <span class="text-3xl font-black text-white">₺10.000</span>
@@ -267,13 +208,13 @@
                     </div>
                     
                     <ul class="space-y-3 text-sm text-slate-300 mb-6">
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-yellow-500 text-xs"></i> <strong>Yönetim Paneli</strong></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-yellow-500 text-xs"></i> <strong>Özel Proje & Otomasyon</strong></li>
                         <li class="flex items-center gap-2"><i class="fab fa-telegram text-yellow-500 text-xs"></i> Telegram Bot Bildirimi</li>
                         <li class="flex items-center gap-2"><i class="fas fa-language text-yellow-500 text-xs"></i> Çoklu Dil Desteği</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-check text-yellow-500 text-xs"></i> Özel Tasarım Arayüz</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-yellow-500 text-xs"></i> Yönetim Paneli Dahil</li>
                     </ul>
 
-                    <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-xs space-y-1">
+                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs space-y-1">
                         <p class="text-slate-400 font-bold">Domain Seçeneği:</p>
                         <div class="flex justify-between text-slate-300"><span>.con.tc</span> <span class="text-green-400">Ücretsiz</span></div>
                         <div class="flex justify-between text-slate-500"><span>.com</span> <span>+Yıllık Ücret</span></div>
@@ -309,7 +250,7 @@
                         <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down text-sm"></i></span>
                     </summary>
                     <div class="p-5 pt-0 text-slate-400 text-sm leading-relaxed border-t border-slate-900/50 mt-2">
-                        Evet. E-Ticaret ve VIP paketlerimizde size özel, kullanımı çok kolay bir panel yapıyorum. Ürün ekleyebilir ve siparişleri yönetebilirsiniz.
+                        Evet. Premium ve Standart paketlerimizde size özel, kullanımı çok kolay bir panel sunabilirim.
                     </div>
                 </details>
 
@@ -326,7 +267,7 @@
         </div>
     </section>
 
-    <footer id="iletisim" class="bg-[#020617] pt-20 pb-10 border-t border-slate-900">
+    <footer id="iletisim" class="bg-slate-950 pt-20 pb-10 border-t border-slate-900">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-4">Projenizi Konuşalım</h2>
             <p class="text-slate-400 mb-8">
@@ -344,7 +285,6 @@
                             <option value="Genel">Konu Seçiniz...</option>
                             <option value="Yönetim Panelli E-Ticaret">Yönetim Panelli E-Ticaret</option>
                             <option value="Yemek Sipariş Sistemi">Yemek Sipariş Sistemi</option>
-                            <option value="Kurumsal Site">Kurumsal Site</option>
                             <option value="Özel Yazılım">Özel Yazılım</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-500">
@@ -364,35 +304,5 @@
         </div>
     </footer>
 
-    <script>
-        // Yıl Güncelleme
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Mobil Menü Toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        });
-
-        // WhatsApp Formu
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const ad = document.getElementById('ad').value;
-            const konu = document.getElementById('konu').value;
-            const tel = "905340188445"; // Telefon numaran
-
-            if(!ad) { alert("Lütfen adınızı girin."); return; }
-
-            const mesaj = `Merhaba Berkay Bey, ben *${ad}*. \n\nKonu: *${konu}* hakkında bilgi almak istiyorum.`;
-            
-            const url = `https://wa.me/${tel}?text=${encodeURIComponent(mesaj)}`;
-            
-            window.open(url, '_blank');
-        });
-    </script>
-</body>
+    </body>
 </html>

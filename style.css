@@ -1,99 +1,62 @@
-/* style.css */
-
-/* --- TEMEL AYARLAR --- */
-html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+/* Genel Ayarlar */
+* { 
+  box-sizing: border-box; 
 }
 
-body {
-    font-family: 'Outfit', sans-serif;
-    background-color: #020617; /* HTML'den taşındı, garanti olsun */
-    color: #e2e8f0;
+/* --- Animasyonlar --- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
-/* Scrollbar Özelleştirme */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #020617; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
-
-/* Yumuşak Geçişler */
-* {
-    transition: all 0.3s ease-in-out;
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
 }
 
-/* --- ANİMASYONLAR --- */
-
-/* Hero Arkaplan - Çok Hafif Hareket */
-@keyframes pulseSlow {
-    0%, 100% { opacity: 0.1; transform: scale(1); }
-    50% { opacity: 0.25; transform: scale(1.1); }
-}
-.animate-pulse-slow {
-    animation: pulseSlow 8s infinite ease-in-out alternate;
+@keyframes scan-line {
+  0% { top: -100%; }
+  100% { top: 100%; }
 }
 
-/* Teklif Al Butonu Nabız Efekti */
-@keyframes softPulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-}
-.btn-pulse {
-    animation: softPulse 2s infinite;
-}
-.btn-pulse:hover {
-    animation: none;
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, 2px); }
+  98% { transform: translate(1px, -2px); }
 }
 
-/* --- KART EFEKTLERİ --- */
-.service-card:hover, .package-card:hover, .testimonial-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(34, 211, 238, 0.5);
+/* --- Özel Sınıflar (Class) --- */
+.cyber-card {
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- NAVBAR SCROLL DURUMU --- */
-#navbar.scrolled {
-    background: rgba(2, 6, 23, 0.95);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(34, 211, 238, 0.1);
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, rgba(0, 212, 255, 0.1), transparent);
+  animation: scan-line 3s linear infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* --- FİYAT LİSTESİ ÖZEL TASARIM (Glassmorphism) --- */
-
-.glass-box {
-    background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s ease;
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.5), 0 0 30px rgba(0, 212, 255, 0.3);
 }
 
-.glass-box:hover {
-    border-color: rgba(6, 182, 212, 0.3); /* Cyan border on hover */
-    transform: translateY(-5px);
+.neon-border {
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5), inset 0 0 5px rgba(0, 212, 255, 0.1);
 }
 
-/* Öne Çıkan Paket Parlaması */
-.glow-effect {
-    box-shadow: 0 0 50px -15px rgba(59, 130, 246, 0.25);
-    border: 1px solid rgba(59, 130, 246, 0.4);
-    background: linear-gradient(180deg, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 0.6) 100%);
+.grid-bg {
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
-
-.glow-effect:hover {
-    box-shadow: 0 0 60px -10px rgba(59, 130, 246, 0.4);
-    transform: scale(1.04) translateY(-5px) !important; 
-}
-
-.popular-badge {
-    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-}
-
-/* Liste İkon Renkleri */
-.icon-check { color: #22c55e; width: 20px; text-align: center; } /* Yeşil */
-.icon-star { color: #eab308; width: 20px; text-align: center; } /* Sarı */
-.icon-blue { color: #60a5fa; width: 20px; text-align: center; } /* Mavi */
-.icon-purple { color: #a855f7; width: 20px; text-align: center; } /* Mor */

@@ -1,40 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Mobil Menü İşlemleri
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+// script.js
 
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
-        });
-    }
+// --- KOPYALAMAYA KARŞI TEMEL ÖNLEMLER (CAYDIRICILAR) ---
+// Sağ tıklamayı engeller
+document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // WhatsApp Form Yönlendirme İşlemi
-    const contactForm = document.getElementById('contactForm');
+// F12 ve geliştirici araçları kısayollarını engeller
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) { return false; } // F12
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (Kaynağı görüntüle)
+};
+// -------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
     
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Sayfanın yenilenmesini engeller
-
-            // Formdaki verileri al
-            const ad = document.getElementById('ad').value;
-            const konu = document.getElementById('konu').value;
-            
-            // Yönlendirilecek numara (Başında + olmadan, ülke kodu ile)
-            const telefonNumarasi = '905340188445';
-
-            // WhatsApp ekranına düşecek taslak mesaj
-            const mesaj = `Merhaba Berkay Bey, ben ${ad}. Siteniz üzerinden ulaşıyorum.\n\nİlgilendiğim konu: ${konu}`;
-
-            // Mesajı URL formatına dönüştür (boşlukları ve özel karakterleri ayarlar)
-            const urlEncodedMesaj = encodeURIComponent(mesaj);
-
-            // Hem mobil hem masaüstü için evrensel WhatsApp linki
-            const whatsappUrl = `https://wa.me/${telefonNumarasi}?text=${urlEncodedMesaj}`;
-
-            // Linki yeni sekmede aç
-            window.open(whatsappUrl, '_blank');
-        });
-    }
+    // Navbar Scroll Efekti
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
 });
+
+// WhatsApp Form Fonksiyonu
+function whatsappGonder(e) {
+    e.preventDefault();
+    
+    // HTML'deki id="ad" ve id="konu" alanlarından veri alır
+    const ad = document.getElementById('ad').value;
+    const konu = document.getElementById('konu').value;
+    
+    // Telefon numarası (Başında + olmadan, ülke kodu ile)
+    const numara = "905340188445"; 
+
+    if(ad === "" || konu === "Genel") {
+        alert("Lütfen adınızı girin ve bir konu seçin.");
+        return;
+    }
+
+    // Mesajı oluştur
+    // %0A = Yeni satır
+    const mesaj = `*WEB SİTESİNDEN MESAJ VAR!* %0A%0A👤 *İsim:* ${ad}%0A📝 *Konu:* ${konu}%0A%0AMerhaba Berkay Bey, hizmetleriniz hakkında görüşmek istiyorum.`;
+    
+    // WhatsApp'ı yeni sekmede aç
+    window.open(`https://wa.me/${numara}?text=${mesaj}`, '_blank');
+}

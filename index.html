@@ -12,65 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <style>
-        * { box-sizing: border-box; }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
-        }
-        
-        @keyframes scan-line {
-          0% { top: -100%; }
-          100% { top: 100%; }
-        }
-        
-        @keyframes glitch {
-          0%, 90%, 100% { transform: translate(0); }
-          92% { transform: translate(-2px, 1px); }
-          94% { transform: translate(2px, -1px); }
-          96% { transform: translate(-1px, 2px); }
-          98% { transform: translate(1px, -2px); }
-        }
-        
-        .cyber-card {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .cyber-card::before {
-          content: '';
-          position: absolute;
-          top: -100%;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(transparent, rgba(0, 212, 255, 0.1), transparent);
-          animation: scan-line 3s linear infinite;
-          z-index: 0;
-          pointer-events: none;
-        }
-        
-        .glow-text {
-          text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.5), 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-        
-        .neon-border {
-          box-shadow: 0 0 5px rgba(0, 212, 255, 0.5), inset 0 0 5px rgba(0, 212, 255, 0.1);
-        }
-        
-        .grid-bg {
-          background-image: 
-            linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-950 text-slate-200 font-[Outfit] selection:bg-cyan-500 selection:text-white antialiased overflow-x-hidden relative">
 
@@ -362,12 +304,6 @@
         </div>
     </footer>
 
-    <script>
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

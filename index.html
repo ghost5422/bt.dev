@@ -18,7 +18,7 @@
 
     <div class="fixed inset-0 pointer-events-none grid-bg -z-20"></div>
 
-    <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
+    <nav id="navbar" class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group" style="animation: glitch 5s infinite;">
                 <div class="w-10 h-10 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition shadow-lg neon-border">
@@ -292,7 +292,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 group shadow-lg shadow-green-900/20 neon-border">
+                    <button type="button" onclick="whatsappGonder()" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 group shadow-lg shadow-green-900/20 neon-border">
                         <i class="fab fa-whatsapp text-xl group-hover:scale-110 transition"></i> WhatsApp ile Başlat
                     </button>
                 </form>

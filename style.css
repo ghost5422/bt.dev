@@ -1,62 +1,91 @@
-/* Genel Ayarlar */
-* { 
-  box-sizing: border-box; 
+/* Arka Plan Grid Deseni */
+.bg-grid {
+    background-image: 
+        linear-gradient(to right, rgba(6, 182, 212, 0.03) 1px, transparent 1px), 
+        linear-gradient(to bottom, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
 }
 
-/* --- Animasyonlar --- */
+/* Hafif ve Şık Neon Yazı Efekti */
+.neon-text-soft { text-shadow: 0 0 8px rgba(6, 182, 212, 0.4); }
+.neon-text-hover:hover { text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
+
+/* Hafif Neon İkon Gölgeleri */
+.shadow-cyan { filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.5)); }
+.shadow-teal { filter: drop-shadow(0 0 5px rgba(20, 184, 166, 0.5)); }
+.shadow-purple { filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5)); }
+
+/* Süzülme Animasyonu (Hero kısmı) */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
+.animate-float { animation: float 5s ease-in-out infinite; }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
+/* Yavaş Nabız Animasyonu (Arka plan) */
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
 }
+.animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
 
-@keyframes scan-line {
-  0% { top: -100%; }
-  100% { top: 100%; }
-}
-
-@keyframes glitch {
-  0%, 90%, 100% { transform: translate(0); }
-  92% { transform: translate(-2px, 1px); }
-  94% { transform: translate(2px, -1px); }
-  96% { transform: translate(-1px, 2px); }
-  98% { transform: translate(1px, -2px); }
-}
-
-/* --- Özel Sınıflar (Class) --- */
-.cyber-card {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Siberpunk Tarama Çizgisi */
 .cyber-card::before {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(transparent, rgba(0, 212, 255, 0.1), transparent);
-  animation: scan-line 3s linear infinite;
-  z-index: 0;
-  pointer-events: none;
+    content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(transparent, rgba(6, 182, 212, 0.05), transparent);
+    animation: scan-line 4s linear infinite; z-index: 0; pointer-events: none;
+}
+@keyframes scan-line { 0% { top: -100%; } 100% { top: 100%; } }
+
+/* Daktilo İmleci */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor { animation: blink 1s infinite; text-shadow: 0 0 8px rgba(6, 182, 212, 0.6); }
+.cursor.typing { animation: none; opacity: 1; }
+
+/* İçerik Geçiş Animasyonu */
+.animate-fadeSlideUp { animation: fadeSlideUp 0.4s ease-out forwards; }
+@keyframes fadeSlideUp { 
+    0% { opacity: 0; transform: translateY(15px); } 
+    100% { opacity: 1; transform: translateY(0); } 
 }
 
-.glow-text {
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.5), 0 0 30px rgba(0, 212, 255, 0.3);
+/* YENİ: Teknoloji Şeridi Kayan Yazı Animasyonu */
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); } /* İçerik iki kere kopyalandığı için %50 yeterli */
+}
+.animate-marquee {
+    animation: marquee 20s linear infinite;
+}
+.animate-marquee:hover {
+    animation-play-state: paused;
 }
 
-.neon-border {
-  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5), inset 0 0 5px rgba(0, 212, 255, 0.1);
+/* YENİ: Scroll Reveal (Aşağı Kaydırdıkça Belirme) Animasyonu */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.grid-bg {
-  background-image: 
-    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
+/* Yatay Kaydırma Çubuğunu Gizleme (Mobil Sekmeler) */
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* YENİ: Kart İkonları İçin Süzülme Animasyonu */
+@keyframes float-icon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
+.animate-float-icon { animation: float-icon 3s ease-in-out infinite; }
+
+/* YENİ: Yazılar İçin Yavaş Nabız/Parlama Animasyonu */
+@keyframes pulse-glow {
+    0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; opacity: 0.9; }
+    50% { text-shadow: 0 0 15px currentColor, 0 0 25px currentColor; opacity: 1; transform: scale(1.02); }
+}
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }

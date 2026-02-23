@@ -1,532 +1,447 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Berkay Taşkan | Full Stack Web Developer & E-Ticaret - Edirne</title>
-    <meta name="description" content="Edirne freelance web tasarım, yönetim panelli e-ticaret siteleri, komisyonsuz yemek sipariş sistemleri ve Telegram bot entegrasyonu.">
-    <meta name="keywords" content="yönetim panelli e-ticaret sitesi, berkay taşkan, komisyonsuz yemek sipariş sistemi, telegram bot yazılımı, edirne web tasarım, freelance web developer, özel yazılım, hazır web sitesi fiyatları, restoran sipariş sistemi, uygun fiyatlı e-ticaret, shopier entegrasyonu">
-    <link rel="canonical" href="https://berkaytdev.com/">
-    
-    <meta property="og:title" content="Berkay Taşkan | Özel Web Yazılım Çözümleri">
-    <meta property="og:description" content="Komisyonsuz e-ticaret, Telegram botlu sistemler ve yönetim panelli web siteleri.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/ghost5422/bt.dev/main/logo.png">
-    <meta property="og:url" content="https://berkaytdev.com/">
-    <meta property="og:type" content="website">
-    
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/ghost5422/bt.dev/main/logo.png" type="image/png">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cyan: { 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2' },
-                        teal: { 400: '#2dd4bf', 500: '#14b8a6' },
-                        purple: { 400: '#c084fc', 500: '#a855f7' },
-                        slate: { 850: '#151e32', 900: '#0f172a', 950: '#020617' }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berkay Taşkan | Freelance Web Developer</title>
+  <meta name="description" content="E-ticaret, yemek sipariş sistemi ve özel web yazılımı. Komisyonsuz çözümler, Telegram bot entegrasyonu.">
+  <link rel="canonical" href="https://berkaytdev.com/">
+  <link rel="shortcut icon" href="https://raw.githubusercontent.com/ghost5422/bt.dev/main/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-950 text-slate-200 font-sans antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-white bg-grid">
+<body>
 
-    <nav id="navbar" class="fixed w-full z-50 top-0 left-0 border-b border-cyan-500/10 bg-slate-950/80 backdrop-blur-md transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="text-2xl font-black tracking-tighter text-white transition-all duration-300 group-hover:text-cyan-400 neon-text-hover">
-                    bt<span class="text-cyan-500">dev</span>
-                </div>
-            </a>
-            
-            <div class="hidden lg:flex space-x-8 text-sm font-semibold text-slate-400">
-                <a href="#hero" class="hover:text-cyan-400 transition hover:-translate-y-0.5 text-cyan-400">Ana Sayfa</a>
-                <a href="#hizmetler-vitrin" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Hizmetler</a>
-                <a href="#surec" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Süreç</a>
-                <a href="#paketler" class="hover:text-cyan-400 transition hover:-translate-y-0.5">Fiyatlar</a>
-            </div>
+<nav id="navbar">
+  <div class="nav-wrap">
+    <a href="#" class="logo">bt<span>dev</span></a>
+    <ul class="nav-links">
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#surec">Süreç</a></li>
+      <li><a href="#paketler">Fiyatlar</a></li>
+      <li><a href="#sss">SSS</a></li>
+    </ul>
+    <a href="#iletisim" class="nav-btn">Teklif Al <i class="fas fa-arrow-right"></i></a>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div id="mob-menu">
+    <a href="#hizmetler" class="mob-link">Hizmetler</a>
+    <a href="#surec" class="mob-link">Süreç</a>
+    <a href="#paketler" class="mob-link">Fiyatlar</a>
+    <a href="#sss" class="mob-link">SSS</a>
+    <button class="mob-btn" onclick="window.location.href='#iletisim'">Teklif Al →</button>
+  </div>
+</nav>
 
-            <div class="flex items-center gap-4">
-                <a href="#iletisim" class="hidden md:inline-flex bg-cyan-500 text-slate-950 px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-cyan-400 transition shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transform hover:-translate-y-0.5">
-                    Teklif Al <i class="fas fa-rocket ml-2"></i>
-                </a>
-                <button id="mobile-menu-btn" class="lg:hidden text-2xl text-slate-300 focus:outline-none">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+<section id="hero">
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Freelancer web Developer</div>
+    <div class="type-row">
+      <span id="typed-text"></span><span class="cursor">|</span>
+    </div>
+    <h1 class="hero-title">
+      Berkay<br><span class="gr">Taşkan</span>
+    </h1>
+    <p class="hero-desc">
+      İşletmenizi dijitale taşıyorum.
+      <strong>Telegram botlu</strong> yemek sipariş sistemleri,
+      <strong>komisyonsuz</strong> e-ticaret mağazaları ve
+      size özel web yazılımları.
+    </p>
+    <div class="hero-btns">
+      <a href="#paketler" class="btn btn-green">Fiyatları İncele <i class="fas fa-arrow-right"></i></a>
+      <a href="https://wa.me/905340188445" target="_blank" class="btn btn-ghost">
+        <i class="fab fa-whatsapp" style="color:#25d366;font-size:1.1rem;"></i> WhatsApp
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat">
+        <div class="h-stat-val"><span>%0</span></div>
+        <div class="h-stat-label">Komisyon</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val">7<span>/</span>24</div>
+        <div class="h-stat-label">Destek</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val">3<span>+</span></div>
+        <div class="h-stat-label">Gün Teslimat</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val"><span>∞</span></div>
+        <div class="h-stat-label">Revizyon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-section reveal">
+  <div class="marquee-track">
+    <span class="mq-item"><i class="fa-brands fa-html5"></i> HTML5</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-brands fa-js"></i> JavaScript</span>
+    <span class="mq-sep"></span>
+    
+    <span class="mq-item"><i class="fa-brands fa-telegram"></i> Telegram Bot API</span>
+    <span class="mq-sep"></span>
+    
+    <span class="mq-item"><i class="fa-solid fa-server"></i> Hosting</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-solid fa-lock"></i> SSL Güvenlik</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-brands fa-html5"></i> HTML5</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-brands fa-js"></i> JavaScript</span>
+    <span class="mq-sep"></span>
+    
+    <span class="mq-item"><i class="fa-brands fa-telegram"></i> Telegram Bot API</span>
+    <span class="mq-sep"></span>
+    
+    <span class="mq-item"><i class="fa-solid fa-server"></i> Hosting</span>
+    <span class="mq-sep"></span>
+    <span class="mq-item"><i class="fa-solid fa-lock"></i> SSL Güvenlik</span>
+    <span class="mq-sep"></span>
+  </div>
+</div>
+
+<section id="hizmetler" class="section">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-tag">Hizmetler</div>
+      <h2 class="s-title">Ne inşa edebilirim?</h2>
+      <p class="s-sub">Platform bağımlılığından kurtulun. Her şey size özel, her şey sizin kontrolünüzde.</p>
+    </div>
+    <div class="svc-grid reveal">
+
+      <div class="svc-card" style="--card-color:rgba(0,229,160,0.5);">
+        <span class="svc-n">01 / E-Ticaret</span>
+        <div class="svc-icon" style="background:rgba(0,229,160,0.08);border-color:rgba(0,229,160,0.2);color:var(--green);">
+          <i class="fa-solid fa-cart-shopping"></i>
         </div>
-
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-slate-900 border-b border-cyan-500/20 p-6 flex-col gap-4 shadow-2xl lg:hidden backdrop-blur-lg">
-            <a href="#hizmetler-vitrin" class="block text-slate-300 hover:text-cyan-400 font-medium mobile-link">Hizmetler</a>
-            <a href="#surec" class="block text-slate-300 hover:text-cyan-400 font-medium mobile-link">Süreç</a>
-            <a href="#paketler" class="block text-slate-300 hover:text-cyan-400 font-medium mobile-link">Fiyatlar</a>
-            <a href="#iletisim" class="block text-center bg-cyan-500 text-slate-950 py-3 rounded-lg font-bold shadow-[0_0_15px_rgba(6,182,212,0.3)] mobile-link">Teklif Al</a>
+        <h3 class="svc-title">E-Ticaret Sitesi</h3>
+        <p class="svc-desc">Shopier veya Trendyol komisyonlarına son. IBAN/Havale ödeme destekli, gelişmiş admin panelli, sınırsız ürün eklenebilir kendi mağazanız.</p>
+        <div class="svc-chips">
+          <span class="chip chip-g">%0 Komisyon</span>
+          <span class="chip chip-g">Admin Panel</span>
+          <span class="chip chip-b">Ödeme Modülü</span>
         </div>
-    </nav>
+        <a href="#iletisim" class="svc-link">Sipariş Ver <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-    <main>
+      <div class="svc-card" style="--card-color:rgba(79,142,255,0.5);">
+        <span class="svc-n">02 / Yemek Sistemi</span>
+        <div class="svc-icon" style="background:rgba(79,142,255,0.08);border-color:rgba(79,142,255,0.2);color:var(--blue);">
+          <i class="fa-solid fa-motorcycle"></i>
+        </div>
+        <h3 class="svc-title">Online Yemek Sipariş Sistemi</h3>
+        <p class="svc-desc">Yemeksepeti ve Getir kesintilerini sıfırlayın. Restoranınıza özel sipariş sitesi kurun, her sipariş anında Telegram'a bildirim gelsin.</p>
+        <div class="svc-chips">
+          <span class="chip chip-b">Telegram Botlu</span>
+          <span class="chip chip-b">Dijital Menü</span>
+          <span class="chip chip-g">Saat Kontrolü</span>
+        </div>
+        <a href="#iletisim" class="svc-link">Sipariş Ver <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="svc-card" style="--card-color:rgba(155,109,255,0.5);">
+        <span class="svc-n">03 / Özel Yazılım</span>
+        <div class="svc-icon" style="background:rgba(155,109,255,0.08);border-color:rgba(155,109,255,0.2);color:var(--purple);">
+          <i class="fa-solid fa-laptop-code"></i>
+        </div>
+        <h3 class="svc-title">Özel Web Yazılımları</h3>
+        <p class="svc-desc">Excel tablolarından kurtulun. Stok takibi, personel yönetimi, randevu sistemi — işletmenize özel otomasyon çözümleri.</p>
+        <div class="svc-chips">
+          <span class="chip chip-p">Stok Takip</span>
+          <span class="chip chip-p">Randevu</span>
+          <span class="chip chip-b">Raporlama</span>
+        </div>
+        <a href="#iletisim" class="svc-link">Projeni Anlat <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="band reveal">
+  <h2 class="band-title">
+    Platform komisyonları her siparişten<br>
+    <em>%20–35</em> <span>götürüyor.</span><br>
+    Kendi sisteminizle bu parayı cebinizde tutun.
+  </h2>
+  <a href="https://wa.me/905340188445" target="_blank" class="btn btn-green" style="font-size:.95rem;padding:14px 30px;">
+    <i class="fab fa-whatsapp"></i> Hemen Konuşalım
+  </a>
+</div>
+
+<section id="surec" class="section s-alt">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-tag">Süreç</div>
+      <h2 class="s-title">Fikirden yayına 4 adım</h2>
+      <p class="s-sub">Şeffaf ve düzenli bir iş akışı. Her adımda ne olduğunu bilirsiniz.</p>
+    </div>
+    <div class="process-list reveal">
+
+      <div class="p-row">
+        <div class="p-num">01</div>
+        <div>
+          <h4 class="p-title">Görüşme & Analiz</h4>
+          <p class="p-desc">İhtiyaçlarınızı ve bütçenizi dinleyerek en uygun çözümü birlikte belirliyoruz. WhatsApp üzerinden kısa bir görüşme yeterli.</p>
+          <span class="p-pill">Ücretsiz Danışmanlık</span>
+        </div>
+      </div>
+
+      <div class="p-row">
+        <div class="p-num">02</div>
+        <div>
+          <h4 class="p-title">Tasarım Onayı</h4>
+          <p class="p-desc">Size özel, mobil uyumlu arayüz hazırlıyorum. Beğenmediğiniz her şeyi revize edebilirsiniz, ta ki memnun kalana dek.</p>
+          <span class="p-pill">Sınırsız Revizyon</span>
+        </div>
+      </div>
+
+      <div class="p-row">
+        <div class="p-num">03</div>
+        <div>
+          <h4 class="p-title">Geliştirme & Test</h4>
+          <p class="p-desc">Onay sonrası kodlamaya başlanır. Tüm ekranlar, ödeme sistemleri ve Telegram bot entegrasyonları titizlikle test edilir.</p>
+          <span class="p-pill">Hatasız Teslimat</span>
+        </div>
+      </div>
+
+      <div class="p-row">
+        <div class="p-num">04</div>
+        <div>
+          <h4 class="p-title">Yayına Alma & Destek</h4>
+          <p class="p-desc">Projeniz alan adınıza kurulur, SSL yapılandırılır ve kullanım eğitimi verilir. Yayın sonrası 7/24 teknik destek devam eder.</p>
+          <span class="p-pill">7/24 Destek</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="paketler" class="section">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-tag">2026 Fiyat Listesi</div>
+      <h2 class="s-title">Projenize uygun paketi seçin</h2>
+      <p class="s-sub">Tek seferlik ödeme. Gizli ücret yok.</p>
+    </div>
+    <div class="price-grid reveal">
+
+      <div class="p-card">
+        <span class="p-tier">Başlangıç Paketi</span>
+        <h3 class="p-name">Tanıtım Sitesi</h3>
+        <span class="p-tagline">Dijital dünyadaki prestijli vitrininiz.</span>
+        <div class="p-div"></div>
+        <div class="p-price">₺5.000</div>
+        <span class="p-period">Tek Seferlik ·</span>
+        <ul class="p-features">
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Modern ve Mobil Uyumlu Tasarım</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Tek Sayfa (Landing Page) Yapısı</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Hızlı İletişim & WhatsApp Butonu</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Temel Düzey SEO Optimizasyonu</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Yüksek Performans ve Hızlı Yükleme</li>
+        </ul>
+        <div class="p-domain">
+          <strong>.con.tc</strong> → Ücretsiz &nbsp;|&nbsp; <strong>.com</strong> → +Yıllık Ücret
+        </div>
+        <a href="https://wa.me/905340188445" class="p-cta-out">Projeyi Başlat</a>
+      </div>
+
+      <div class="p-card hot">
+        <div class="hot-badge">En Popüler</div>
+        <span class="p-tier">Standart Paket</span>
+        <h3 class="p-name">Dinamik Kurumsal Site</h3>
+        <span class="p-tagline">Büyüyen işletmeler için çok sayfalı çözüm.</span>
+        <div class="p-div"></div>
+        <div class="p-price">₺7.500</div>
+        <span class="p-period">Tek Seferlik ·</span>
+        <ul class="p-features">
+          <li><span class="p-check"><i class="fas fa-check"></i></span> İhtiyacınıza Göre Çok Sayfalı Yapı</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Gelişmiş SEO ve Arama Motoru Uyumu</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Ücretsiz SSL Sertifikası ve Güvenlik</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Hızlı ve Kesintisiz Sunucu Altyapısı</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> 30 Gün Boyunca Ücretsiz Teknik Destek</li>
+        </ul>
+        <div class="p-domain">
+          <strong>.con.tc</strong> → Ücretsiz &nbsp;|&nbsp; <strong>.com/.com.tr</strong> → +Yıllık
+        </div>
+        <a href="https://wa.me/905340188445" class="p-cta-fill">Paketi Seç</a>
+      </div>
+
+      <div class="p-card">
+        <span class="p-tier">Premium Paket</span>
+        <h3 class="p-name">E-Ticaret & Özel Yazılım</h3>
+        <span class="p-tagline">Sınırları kaldıran, tam kapsamlı otomasyonlar.</span>
+        <div class="p-div"></div>
+        <div class="p-price">₺10.000<span style="font-size:1.4rem;color:var(--muted);">+</span></div>
+        <span class="p-period">Başlangıç Fiyatı · Proje Bazlı</span>
+        <ul class="p-features">
+          <li><span class="p-check"><i class="fas fa-star"></i></span> İşletmenize Tamamen Özel Mimari</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Kolay Kullanımlı Yönetim Paneli</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Telegram Bot ile Anlık Sipariş Bildirimi</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Kapsamlı Personel ve Stok Yönetimi</li>
+          <li><span class="p-check"><i class="fas fa-check"></i></span> Öncelikli 7/24 Teknik Destek Garantisi</li>
+        </ul>
+        <div class="p-domain">
+          <strong>.con.tc</strong> → Ücretsiz &nbsp;|&nbsp; <strong>.com</strong> → +Yıllık Ücret
+        </div>
+        <a href="https://wa.me/905340188445" class="p-cta-out">Projeyi Anlat</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="sss" class="section s-alt">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-tag">SSS</div>
+      <h2 class="s-title">Sık sorulan sorular</h2>
+    </div>
+    <div class="faq-wrap reveal">
+
+      <div class="faq-item open">
+        <button class="faq-btn">
+          Yıllık ödeme yapacak mıyım?
+          <span class="faq-ico"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-inner">
+            İki seçenek var:<br>
+            — <strong style="color:#e8eaf2;">.con.tc</strong> alan adı kullanırsanız yıllık hiçbir ücret ödemezsiniz.<br>
+            — <strong style="color:#e8eaf2;">.com</strong> isterseniz domain sağlayıcısına yıllık ~200-350₺ ödersiniz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn">
+          Teslim süresi ne kadar?
+          <span class="faq-ico"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-inner">
+            Tanıtım siteleri <strong style="color:#e8eaf2;">2–3 iş günü</strong>, e-ticaret ve yemek sipariş sistemleri <strong style="color:#e8eaf2;">5–7 iş günü</strong>, özel yazılımlar kapsama göre değişir.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn">
+          Yönetim paneli nasıl çalışıyor?
+          <span class="faq-ico"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-inner">
+            Standart ve Premium paketlerde tarayıcı üzerinden erişilen özel bir panel sunulur. Ürün ekleme, sipariş görüntüleme, menü güncelleme gibi işlemleri kod bilgisi gerekmeden yapabilirsiniz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn">
+          Telegram bot entegrasyonu ne işe yarıyor?
+          <span class="faq-ico"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-inner">
+            Sitenize gelen her yeni sipariş anında Telegram hesabınıza bildirim olarak iletilir. Müşteri adı, adres, sipariş içeriği ve tutar detaylı şekilde gelir. İsterseniz onay/red butonu da eklenebilir.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn">
+          Sonradan değişiklik yapabilir miyim?
+          <span class="faq-ico"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-ans">
+          <div class="faq-inner">
+            Evet. Yönetim paneli üzerinden içerik, ürün ve fiyat güncellemelerini kendiniz yapabilirsiniz. Daha kapsamlı geliştirmeler için uygun fiyatlı güncelleme paketi de sunuyorum.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="iletisim" class="section">
+  <div class="s-inner">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <div class="s-tag">İletişim</div>
+        <h2 class="cl-title">Projenizi birlikte başlatalım.</h2>
+        <p class="cl-sub">Fikrinizi anlatın, size en uygun çözümü ve fiyatı birkaç dakika içinde ileteyim. Hemen aşağıdaki butonlardan bana ulaşabilirsiniz.</p>
         
-        <section id="hero" class="relative pt-32 pb-16 px-6 min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] -z-10 animate-pulse-slow"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
-
-            <div class="max-w-4xl mx-auto text-center z-10 animate-float w-full">
-                <div class="inline-flex items-center justify-center gap-2 mb-6 px-4 py-2 rounded-full border border-cyan-500/30 bg-slate-900/50 backdrop-blur-sm shadow-[0_0_10px_rgba(6,182,212,0.1)]">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                    </span>
-                    <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">FREELANCE FULL STACK DEVELOPER</span>
-                </div>
-                
-                <div class="h-[70px] sm:h-[90px] md:h-[110px] w-full flex items-end justify-center mb-2">
-                    <span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
-                        <span id="typed-text" class="neon-text-soft"></span><span class="cursor text-cyan-500">|</span>
-                    </span>
-                </div>
-                
-                <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-cyan-500 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)] tracking-tight mb-8">
-                    Berkay Taşkan
-                </h1>
-                
-                <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-                    İşletmenizi dijital dünyaya taşıyorum. <strong>Telegram Bot entegreli</strong>, yönetim panelli ve tam kontrollü E-Ticaret sistemleri ile iş yükünüzü hafifletin.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4 sm:px-0">
-                    <a href="#paketler" class="bg-cyan-500 text-slate-950 px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 w-full sm:w-auto">
-                        Fiyatları İncele <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="https://wa.me/905340188445" target="_blank" class="bg-slate-800/50 border border-slate-700 text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800 hover:border-green-500/50 transition-all flex items-center justify-center gap-2 group hover:shadow-[0_0_15px_rgba(34,197,94,0.2)] w-full sm:w-auto">
-                        <i class="fab fa-whatsapp text-green-500 text-xl group-hover:scale-110 transition-transform"></i> Hızlı İletişim
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <div class="w-full bg-slate-900/50 border-y border-slate-800 py-6 overflow-hidden flex relative z-20 reveal">
-            <div class="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none"></div>
-            <div class="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none"></div>
-            
-            <div class="animate-marquee flex items-center whitespace-nowrap gap-16 md:gap-32 px-8 opacity-60 hover:opacity-100 transition-opacity duration-300">
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-orange-500 transition-colors"><i class="fa-brands fa-html5 text-3xl"></i> HTML5</div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-cyan-400 transition-colors">
-                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
-                    Tailwind CSS
-                </div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-yellow-400 transition-colors"><i class="fa-brands fa-js text-3xl"></i> JavaScript</div>
-                
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-orange-500 transition-colors"><i class="fa-brands fa-html5 text-3xl"></i> HTML5</div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-cyan-400 transition-colors">
-                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
-                    Tailwind CSS
-                </div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-yellow-400 transition-colors"><i class="fa-brands fa-js text-3xl"></i> JavaScript</div>
-
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-orange-500 transition-colors"><i class="fa-brands fa-html5 text-3xl"></i> HTML5</div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-cyan-400 transition-colors">
-                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
-                    Tailwind CSS
-                </div>
-                <div class="flex items-center gap-3 text-2xl font-bold text-slate-400 hover:text-yellow-400 transition-colors"><i class="fa-brands fa-js text-3xl"></i> JavaScript</div>
-            </div>
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <a href="https://wa.me/905340188445" target="_blank" class="btn btn-green" style="padding: 12px 24px;">
+            <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp
+          </a>
+          <a href="https://instagram.com/berkayt.dev" target="_blank" class="btn btn-ghost" style="padding: 12px 24px;">
+            <i class="fab fa-instagram" style="font-size: 1.2rem;"></i> Instagram
+          </a>
         </div>
 
-        <section class="py-16 relative border-y border-slate-800/80 bg-slate-950/80 backdrop-blur-md reveal overflow-hidden">
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-
-            <div class="max-w-7xl mx-auto px-6 relative z-10">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                    
-                    <div class="group relative bg-slate-900/60 border border-slate-800/60 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 hover:border-cyan-500/40 hover:bg-slate-800/80 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(6,182,212,0.15)]">
-                        <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="text-4xl md:text-5xl text-cyan-400 mb-4 transition-colors duration-300 animate-float-icon">
-                            <i class="fa-solid fa-rocket drop-shadow-[0_0_10px_rgba(6,182,212,0.6)] group-hover:drop-shadow-[0_0_20px_rgba(6,182,212,0.8)]"></i>
-                        </div>
-                        <div class="text-slate-300 group-hover:text-white font-bold text-[0.8rem] md:text-sm uppercase tracking-widest transition-colors duration-300 text-center">Hızlı Teslimat</div>
-                    </div>
-
-                    <div class="group relative bg-slate-900/60 border border-slate-800/60 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 hover:border-blue-500/40 hover:bg-slate-800/80 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(59,130,246,0.15)]">
-                        <div class="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="text-4xl md:text-5xl text-blue-400 mb-4 transition-colors duration-300 transform group-hover:scale-110">
-                            <i class="fa-solid fa-mobile-screen drop-shadow-[0_0_10px_rgba(59,130,246,0.6)] group-hover:drop-shadow-[0_0_20px_rgba(59,130,246,0.8)]"></i>
-                        </div>
-                        <div class="text-slate-300 group-hover:text-white font-bold text-[0.8rem] md:text-sm uppercase tracking-widest transition-colors duration-300 text-center">Mobil Uyumlu</div>
-                    </div>
-
-                    <div class="group relative bg-slate-900/60 border border-slate-800/60 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 hover:border-purple-500/40 hover:bg-slate-800/80 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)]">
-                        <div class="absolute inset-0 bg-gradient-to-b from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="text-4xl md:text-5xl font-black text-purple-400 mb-3 transition-colors duration-300 animate-pulse-glow">
-                            %0
-                        </div>
-                        <div class="text-slate-300 group-hover:text-white font-bold text-[0.8rem] md:text-sm uppercase tracking-widest transition-colors duration-300 text-center">Komisyon Ücreti</div>
-                    </div>
-
-                    <div class="group relative bg-slate-900/60 border border-slate-800/60 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 hover:border-teal-500/40 hover:bg-slate-800/80 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(20,184,166,0.15)]">
-                        <div class="absolute inset-0 bg-gradient-to-b from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="text-4xl md:text-5xl font-black text-teal-400 mb-3 transition-colors duration-300 animate-pulse-glow" style="animation-delay: 1s;">
-                            7/24
-                        </div>
-                        <div class="text-slate-300 group-hover:text-white font-bold text-[0.8rem] md:text-sm uppercase tracking-widest transition-colors duration-300 text-center">Teknik Destek</div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section id="hizmetler-vitrin" class="py-20 relative bg-slate-900/20 reveal">
-            <div class="max-w-7xl mx-auto px-6">
-                
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Neler Yapıyorum?</h2>
-                </div>
-
-                <div class="flex flex-col lg:flex-row gap-8 showcase-content-area">
-                    <div class="w-full lg:w-1/3 flex lg:flex-col gap-3 overflow-x-auto hide-scrollbar pb-4 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-800 lg:pr-6 snap-x">
-                        <button type="button" class="v-tab active flex items-center justify-between p-4 rounded-xl border border-transparent transition-all duration-300 text-left min-w-[260px] lg:min-w-0 snap-center shrink-0" data-target="e-ticaret">
-                            <div class="flex items-center gap-4">
-                                <div class="text-2xl text-cyan-500 opacity-70 v-tab-icon transition-all"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-slate-300 v-tab-title transition-colors">Yönetim Panelli E-Ticaret</h4>
-                                    <span class="text-[0.65rem] font-black tracking-widest text-cyan-500 opacity-0 h-0 block overflow-hidden transition-all v-tab-subtitle">KOMİSYONSUZ</span>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-cyan-500 opacity-0 -translate-x-2 transition-all v-tab-arrow hidden lg:block"></i>
-                        </button>
-
-                        <button type="button" class="v-tab flex items-center justify-between p-4 rounded-xl border border-transparent transition-all duration-300 text-left min-w-[260px] lg:min-w-0 snap-center shrink-0" data-target="yemek-siparis">
-                            <div class="flex items-center gap-4">
-                                <div class="text-2xl text-teal-500 opacity-70 v-tab-icon transition-all"><i class="fa-solid fa-motorcycle"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-slate-300 v-tab-title transition-colors">Yemek Sipariş Sistemi</h4>
-                                    <span class="text-[0.65rem] font-black tracking-widest text-teal-500 opacity-0 h-0 block overflow-hidden transition-all v-tab-subtitle">TELEGRAM BOTLU</span>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-teal-500 opacity-0 -translate-x-2 transition-all v-tab-arrow hidden lg:block"></i>
-                        </button>
-
-                        <button type="button" class="v-tab flex items-center justify-between p-4 rounded-xl border border-transparent transition-all duration-300 text-left min-w-[260px] lg:min-w-0 snap-center shrink-0" data-target="ozel-yazilim">
-                            <div class="flex items-center gap-4">
-                                <div class="text-2xl text-purple-500 opacity-70 v-tab-icon transition-all"><i class="fa-solid fa-laptop-code"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-slate-300 v-tab-title transition-colors">Özel Web Yazılım</h4>
-                                    <span class="text-[0.65rem] font-black tracking-widest text-purple-500 opacity-0 h-0 block overflow-hidden transition-all v-tab-subtitle">OTOMASYON</span>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-purple-500 opacity-0 -translate-x-2 transition-all v-tab-arrow hidden lg:block"></i>
-                        </button>
-                    </div>
-
-                    <div class="w-full lg:w-2/3">
-                        <div class="content-pane block animate-fadeSlideUp" id="e-ticaret">
-                            <div class="cyber-card group bg-slate-900/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-6 md:p-10 shadow-[0_0_15px_rgba(6,182,212,0.05)] hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-all duration-500 relative overflow-hidden">
-                                <i class="fa-solid fa-cart-shopping absolute -bottom-10 -right-10 text-[10rem] md:text-[15rem] text-cyan-500/5 rotate-[-15deg] group-hover:scale-110 transition-transform duration-700"></i>
-                                
-                                <div class="relative z-10">
-                                    <span class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold px-3 py-1.5 rounded-md mb-4 uppercase tracking-wider shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                                        <i class="fa-solid fa-bolt"></i> KOMİSYONSUZ
-                                    </span>
-                                    <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-4 drop-shadow-md">E-Ticaret Sitesi</h2>
-                                    <p class="text-slate-400 mb-6 md:mb-8 text-base md:text-lg">Shopier komisyonlarına son! Hazır e-ticaret paketleri yerine, size özel IBAN/Havale ödeme sistemli ve gelişmiş admin panelli sitenizi hemen kuralım.</p>
-                                    
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 bg-slate-950/50 p-5 rounded-2xl border border-white/5">
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-cyan-500 shadow-cyan"></i> Sınırsız Ürün Ekleme</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-cyan-500 shadow-cyan"></i> IBAN/Havale Modülü</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-cyan-500 shadow-cyan"></i> Kolay Yönetim Paneli</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-cyan-500 shadow-cyan"></i> Mobil Uyumlu Tasarım</div>
-                                    </div>
-                                    
-                                    <a href="#iletisim" class="inline-flex items-center gap-2 bg-cyan-500 text-slate-950 px-6 py-3 rounded-lg font-bold transition-all hover:-translate-y-1 shadow-[0_4px_15px_rgba(6,182,212,0.2)] hover:shadow-[0_4px_25px_rgba(6,182,212,0.4)]">
-                                        Sipariş Ver <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-pane hidden" id="yemek-siparis">
-                            <div class="cyber-card group bg-slate-900/80 backdrop-blur-xl border border-teal-500/20 rounded-3xl p-6 md:p-10 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all duration-500 relative overflow-hidden">
-                                <i class="fa-solid fa-pizza-slice absolute -bottom-10 -right-10 text-[10rem] md:text-[15rem] text-teal-500/5 rotate-[-15deg] group-hover:scale-110 transition-transform duration-700"></i>
-                                
-                                <div class="relative z-10">
-                                    <span class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold px-3 py-1.5 rounded-md mb-4 uppercase tracking-wider shadow-[0_0_10px_rgba(20,184,166,0.2)]">
-                                        <i class="fa-brands fa-telegram-plane"></i> TELEGRAM BOTLU
-                                    </span>
-                                    <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-4 drop-shadow-md">Yemek Sipariş Sistemi</h2>
-                                    <p class="text-slate-400 mb-6 md:mb-8 text-base md:text-lg">Yemeksepeti komisyonlarından kurtulun. Restoranınız için online sipariş sitesi kuruyoruz. Gelen siparişler anında Telegram Botunuza düşsün.</p>
-                                    
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 bg-slate-950/50 p-5 rounded-2xl border border-white/5">
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-teal-500 shadow-teal"></i> 0 Komisyon Kesintisi</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-teal-500 shadow-teal"></i> Telegram Anlık Bildirim</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-teal-500 shadow-teal"></i> Dijital Menü Yönetimi</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-teal-500 shadow-teal"></i> Çalışma Saati Kontrolü</div>
-                                    </div>
-                                    
-                                    <a href="#iletisim" class="inline-flex items-center gap-2 bg-teal-500 text-slate-950 px-6 py-3 rounded-lg font-bold transition-all hover:-translate-y-1 shadow-[0_4px_15px_rgba(20,184,166,0.2)] hover:shadow-[0_4px_25px_rgba(20,184,166,0.4)]">
-                                        Sipariş Ver <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-pane hidden" id="ozel-yazilim">
-                            <div class="cyber-card group bg-slate-900/80 backdrop-blur-xl border border-purple-500/20 rounded-3xl p-6 md:p-10 shadow-[0_0_15px_rgba(168,85,247,0.05)] hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition-all duration-500 relative overflow-hidden">
-                                <i class="fa-solid fa-code absolute -bottom-10 -right-10 text-[10rem] md:text-[15rem] text-purple-500/5 rotate-[-15deg] group-hover:scale-110 transition-transform duration-700"></i>
-                                
-                                <div class="relative z-10">
-                                    <span class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-bold px-3 py-1.5 rounded-md mb-4 uppercase tracking-wider shadow-[0_0_10px_rgba(168,85,247,0.2)]">
-                                        <i class="fa-solid fa-gears"></i> OTOMASYON
-                                    </span>
-                                    <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-4 drop-shadow-md">Özel Web Yazılım</h2>
-                                    <p class="text-slate-400 mb-6 md:mb-8 text-base md:text-lg">Excel'den kurtulun. İşletmenize özel Stok Takip Programı, Personel Yönetimi veya Randevu Sistemi gibi ihtiyaç duyduğunuz otomasyon yazılımları.</p>
-                                    
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 bg-slate-950/50 p-5 rounded-2xl border border-white/5">
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-purple-500 shadow-purple"></i> Stok & Envanter Takibi</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-purple-500 shadow-purple"></i> Personel Yönetim Paneli</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-purple-500 shadow-purple"></i> Randevu & Rezervasyon</div>
-                                        <div class="flex items-center gap-3 text-slate-300 font-medium text-sm md:text-base"><i class="fa-solid fa-circle-check text-purple-500 shadow-purple"></i> Size Özel Mimariler</div>
-                                    </div>
-                                    
-                                    <a href="#iletisim" class="inline-flex items-center gap-2 bg-purple-500 text-white px-6 py-3 rounded-lg font-bold transition-all hover:-translate-y-1 shadow-[0_4px_15px_rgba(168,85,247,0.2)] hover:shadow-[0_4px_25px_rgba(168,85,247,0.4)]">
-                                        Projeni Anlat <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="surec" class="py-24 border-t border-slate-800 bg-slate-900/40 relative reveal">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Nasıl Çalışıyorum?</h2>
-                    <p class="text-slate-400 max-w-2xl mx-auto mt-4 text-lg">Fikirden yayına kadar, şeffaf ve düzenli bir iş akışı izliyoruz.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-                    <div class="hidden md:block absolute top-[45%] left-0 w-full h-0.5 bg-slate-800 z-0"></div>
-
-                    <div class="relative z-10 bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center hover:border-cyan-500/50 transition-colors">
-                        <div class="w-14 h-14 bg-cyan-500/10 border border-cyan-500 text-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl shadow-cyan">1</div>
-                        <h4 class="text-white font-bold mb-2">Görüşme</h4>
-                        <p class="text-sm text-slate-400">İhtiyaçlarınızı ve hedeflerinizi detaylıca analiz ederiz.</p>
-                    </div>
-
-                    <div class="relative z-10 bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center hover:border-teal-500/50 transition-colors">
-                        <div class="w-14 h-14 bg-teal-500/10 border border-teal-500 text-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl shadow-teal">2</div>
-                        <h4 class="text-white font-bold mb-2">Tasarım</h4>
-                        <p class="text-sm text-slate-400">Size özel, modern ve mobil uyumlu arayüz taslağı hazırlarım.</p>
-                    </div>
-
-                    <div class="relative z-10 bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
-                        <div class="w-14 h-14 bg-purple-500/10 border border-purple-500 text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl shadow-purple">3</div>
-                        <h4 class="text-white font-bold mb-2">Geliştirme</h4>
-                        <p class="text-sm text-slate-400">Onayınız sonrası kodlamaya başlar, test ortamı sunarım.</p>
-                    </div>
-
-                    <div class="relative z-10 bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center hover:border-green-500/50 transition-colors">
-                        <div class="w-14 h-14 bg-green-500/10 border border-green-500 text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]">4</div>
-                        <h4 class="text-white font-bold mb-2">Yayına Alma</h4>
-                        <p class="text-sm text-slate-400">Projenizi kusursuz şekilde alan adınıza kurup teslim ederim.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="paketler" class="py-24 relative border-t border-slate-800 reveal">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-16">
-                    <span class="inline-block border border-cyan-500/30 bg-slate-900 text-cyan-400 text-xs font-bold px-4 py-1.5 rounded-full mb-4 tracking-widest shadow-[0_0_10px_rgba(6,182,212,0.1)]">2026 GÜNCEL FİYAT LİSTESİ</span>
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Web Yazılım Paketleri</h2>
-                    <p class="text-slate-400 max-w-2xl mx-auto text-lg">İhtiyacınıza en uygun paketi seçin, dijital mağazanızı hemen kurup teslim edelim.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                    
-                    <div class="cyber-card bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-slate-600 transition-all duration-300">
-                        <div class="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl text-slate-300 mb-6"><i class="fa-solid fa-file-lines"></i></div>
-                        <h3 class="text-2xl font-bold text-white mb-1">Temel Paket</h3>
-                        <p class="text-sm text-slate-500 mb-6">Tek Sayfalık Tanıtım Siteleri</p>
-                        <div class="text-4xl font-black text-white mb-1">₺5.000</div>
-                        <p class="text-xs text-slate-500 mb-8 pb-8 border-b border-slate-800">Tek Seferlik Ödeme</p>
-                        
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center gap-3 text-slate-300"><i class="fa-solid fa-check text-cyan-500"></i> Mobil Uyumlu Tasarım</li>
-                            <li class="flex items-center gap-3 text-slate-300"><i class="fa-solid fa-check text-cyan-500"></i> WhatsApp Butonu</li>
-                            <li class="flex items-center gap-3 text-slate-300"><i class="fa-solid fa-check text-cyan-500"></i> Temel SEO</li>
-                        </ul>
-
-                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-8 text-sm">
-                            <p class="font-bold text-slate-400 mb-2">Domain Seçeneği:</p>
-                            <div class="flex justify-between text-slate-300 mb-1"><span>.con.tc</span> <span class="text-green-400 font-medium">Ücretsiz</span></div>
-                            <div class="flex justify-between text-slate-500"><span>.com</span> <span>+Yıllık Ücret</span></div>
-                        </div>
-
-                        <a href="https://wa.me/905340188445" class="block w-full text-center border border-slate-700 text-slate-300 py-3 rounded-lg font-bold hover:bg-slate-800 transition-colors">Projeyi Başlat</a>
-                    </div>
-                    
-                    <div class="cyber-card bg-slate-900 border-2 border-cyan-500/50 rounded-3xl p-8 transform lg:scale-105 relative z-10 shadow-[0_10px_30px_rgba(6,182,212,0.1)]">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-500 text-slate-950 text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.4)]"><i class="fa-solid fa-star mr-1"></i> EN POPÜLER</div>
-                        
-                        <div class="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl text-cyan-400 mb-6 shadow-cyan"><i class="fa-solid fa-bolt"></i></div>
-                        <h3 class="text-2xl font-bold text-white mb-1">Standart Paket</h3>
-                        <p class="text-sm text-cyan-500/70 mb-6">Gelişmiş & Dinamik Siteler</p>
-                        <div class="text-5xl font-black text-white mb-1 neon-text-soft">₺7.500</div>
-                        <p class="text-xs text-slate-400 mb-8 pb-8 border-b border-slate-800">Tek Seferlik Tasarım Ücreti</p>
-                        
-                        <ul class="space-y-4 mb-8 font-medium">
-                            <li class="flex items-center gap-3 text-white"><i class="fa-solid fa-check text-cyan-400 shadow-cyan"></i> <strong>Gelişmiş SEO</strong> Altyapısı</li>
-                            <li class="flex items-center gap-3 text-white"><i class="fa-solid fa-check text-cyan-400 shadow-cyan"></i> Hızlı Sunucu + SSL</li>
-                            <li class="flex items-center gap-3 text-white"><i class="fa-solid fa-check text-cyan-400 shadow-cyan"></i> Yönetilebilir İçerik</li>
-                            <li class="flex items-center gap-3 text-white"><i class="fa-solid fa-check text-cyan-400 shadow-cyan"></i> Ücretsiz Teknik Destek</li>
-                        </ul>
-
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-cyan-500/20 mb-8 text-sm">
-                            <p class="font-bold text-cyan-400 mb-2">Domain Seçeneği:</p>
-                            <div class="flex justify-between text-white mb-1"><span>.con.tc</span> <span class="text-green-400 font-medium">Ücretsiz</span></div>
-                            <div class="flex justify-between text-slate-400"><span>.com / .com.tr</span> <span>+Yıllık Ücret</span></div>
-                        </div>
-
-                        <a href="https://wa.me/905340188445" class="block w-full text-center bg-cyan-500 text-slate-950 py-3.5 rounded-lg font-extrabold hover:bg-cyan-400 transition-colors shadow-[0_5px_15px_rgba(6,182,212,0.3)]">Paketi Seç</a>
-                    </div>
-                    
-                    <div class="cyber-card bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-purple-500/40 transition-all duration-300">
-                        <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-xl text-purple-400 mb-6"><i class="fa-solid fa-crown"></i></div>
-                        <h3 class="text-2xl font-bold text-white mb-1">Premium Paket</h3>
-                        <p class="text-sm text-slate-500 mb-6">E-Ticaret & Özel Yazılım</p>
-                        <div class="text-4xl font-black text-white mb-1">₺10.000<span class="text-2xl text-slate-500">+</span></div>
-                        <p class="text-xs text-slate-500 mb-8 pb-8 border-b border-slate-800">Başlangıç Fiyatı</p>
-                        
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center gap-3 text-slate-200"><i class="fa-solid fa-star text-purple-400"></i> <strong>Özel Proje & Otomasyon</strong></li>
-                            <li class="flex items-center gap-3 text-slate-200"><i class="fa-brands fa-telegram text-purple-400"></i> Telegram Bot Bildirimi</li>
-                            <li class="flex items-center gap-3 text-slate-200"><i class="fa-solid fa-check text-purple-400"></i> Çoklu Dil Desteği</li>
-                            <li class="flex items-center gap-3 text-slate-200"><i class="fa-solid fa-check text-purple-400"></i> Yönetim Paneli Dahil</li>
-                        </ul>
-
-                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-8 text-sm">
-                            <p class="font-bold text-slate-400 mb-2">Domain Seçeneği:</p>
-                            <div class="flex justify-between text-slate-300 mb-1"><span>.con.tc</span> <span class="text-green-400 font-medium">Ücretsiz</span></div>
-                            <div class="flex justify-between text-slate-500"><span>.com</span> <span>+Yıllık Ücret</span></div>
-                        </div>
-
-                        <a href="https://wa.me/905340188445" class="block w-full text-center border border-slate-700 text-slate-300 py-3 rounded-lg font-bold hover:border-purple-500 hover:text-purple-400 transition-colors">Projeyi Başlat</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="sss" class="py-20 relative border-t border-slate-800 bg-slate-900/30 reveal">
-            <div class="max-w-3xl mx-auto px-6">
-                 <div class="text-center mb-12">
-                    <span class="inline-block border border-cyan-500/30 bg-slate-900 text-cyan-400 text-xs font-bold px-4 py-1.5 rounded-full mb-4 tracking-widest shadow-[0_0_10px_rgba(6,182,212,0.1)]">SSS</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Merak Edilenler</h2>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="faq-item bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 active border-cyan-500/40">
-                        <div class="faq-question p-5 lg:p-6 font-bold text-white flex justify-between items-center cursor-pointer hover:text-cyan-400 transition-colors">
-                            Yıllık ödeme yapacak mıyım? <i class="fa-solid fa-chevron-down text-cyan-500 transition-transform duration-300 transform rotate-180"></i>
-                        </div>
-                        <div class="faq-answer px-5 lg:px-6 pb-6 text-slate-400 leading-relaxed overflow-hidden transition-all duration-300" style="max-height: 200px;">
-                            <p>İki seçeneğiniz var:<br>
-                            - <strong class="text-slate-200">Ücretsiz:</strong> <code class="bg-slate-950 px-1 py-0.5 rounded text-cyan-400">firmaniz.con.tc</code> kullanırsanız yıllık hiçbir ücret ödemezsiniz.<br>
-                            - <strong class="text-slate-200">Ücretli:</strong> <code class="bg-slate-950 px-1 py-0.5 rounded text-cyan-400">firmaniz.com</code> isterseniz, domain firmalarına yıllık ücret ödersiniz.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all duration-300">
-                        <div class="faq-question p-5 lg:p-6 font-bold text-slate-300 flex justify-between items-center cursor-pointer hover:text-cyan-400 transition-colors">
-                            Yönetim paneli var mı? <i class="fa-solid fa-chevron-down text-slate-500 transition-transform duration-300"></i>
-                        </div>
-                        <div class="faq-answer px-5 lg:px-6 text-slate-400 leading-relaxed overflow-hidden transition-all duration-300" style="max-height: 0;">
-                            <p class="pb-6">Evet. Premium ve Standart paketlerimizde size özel, kullanımı çok kolay bir panel sunuyorum.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all duration-300">
-                        <div class="faq-question p-5 lg:p-6 font-bold text-slate-300 flex justify-between items-center cursor-pointer hover:text-cyan-400 transition-colors">
-                            Teslim süresi ne kadar? <i class="fa-solid fa-chevron-down text-slate-500 transition-transform duration-300"></i>
-                        </div>
-                        <div class="faq-answer px-5 lg:px-6 text-slate-400 leading-relaxed overflow-hidden transition-all duration-300" style="max-height: 0;">
-                            <p class="pb-6">Basit siteler <strong class="text-slate-200">2-3 gün</strong>, kapsamlı projeler ortalama <strong class="text-slate-200">1 hafta</strong> sürmektedir.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="iletisim" class="py-20 relative border-t border-slate-800 reveal">
-            <div class="max-w-2xl mx-auto px-6">
-                <div class="bg-slate-900/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-6 md:p-12 shadow-[0_0_20px_rgba(6,182,212,0.05)] relative overflow-hidden cyber-card">
-                    
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-green-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-                    <div class="text-center mb-8 relative z-10">
-                        <div class="text-5xl text-green-500 mb-4 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]"><i class="fa-brands fa-whatsapp"></i></div>
-                        <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">Projenizi Konuşalım</h2>
-                        <p class="text-slate-400 text-sm md:text-base">Aşağıdaki formu doldurun, direkt WhatsApp üzerinden anında iletişime geçelim.</p>
-                    </div>
-                    
-                    <form id="contactForm" class="space-y-4 relative z-10">
-                        <div class="relative">
-                            <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                            <input type="text" id="ad" placeholder="Adınız Soyadınız" class="w-full bg-slate-950/50 border border-slate-700 text-white rounded-xl pl-12 pr-4 py-3 md:py-4 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder-slate-600" required>
-                        </div>
-                        
-                        <div class="relative">
-                            <i class="fa-regular fa-folder-open absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                            <select id="konu" class="w-full bg-slate-950/50 border border-slate-700 text-white rounded-xl pl-12 pr-10 py-3 md:py-4 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 transition-all cursor-pointer" required>
-                                <option value="Genel" class="bg-slate-900">Konu Seçiniz...</option>
-                                <option value="Yönetim Panelli E-Ticaret" class="bg-slate-900">Yönetim Panelli E-Ticaret</option>
-                                <option value="Yemek Sipariş Sistemi" class="bg-slate-900">Yemek Sipariş Sistemi</option>
-                                <option value="Özel Yazılım" class="bg-slate-900">Özel Yazılım</option>
-                            </select>
-                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-sm"></i>
-                        </div>
-                        
-                        <button type="button" onclick="whatsappGonder()" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-lg py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:from-green-400 hover:to-green-500 transition-all shadow-[0_4px_15px_rgba(34,197,94,0.3)] transform hover:-translate-y-1 mt-2">
-                            WhatsApp ile Başlat <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-slate-950 border-t border-slate-900 py-10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-4">
-            <div class="flex gap-4">
-                <a href="https://wa.me/905340188445" target="_blank" class="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500/30 transition-all text-xl">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-                <a href="https://instagram.com/berkayt.dev" target="_blank" class="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500/30 transition-all text-xl">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </div>
-            <div class="text-slate-500 text-sm text-center">
-                &copy; 2026 Berkay Taşkan | BT.Dev Digital - Edirne Web Tasarım ve Yazılım Hizmetleri
-            </div>
+      </div>
+      <div class="reveal">
+        <div class="c-form">
+          <p class="c-form-title">Formu doldurun, WhatsApp'tan ulaşayım</p>
+          <label class="f-label" for="ad">Adınız Soyadınız</label>
+          <input type="text" id="ad" class="f-input" placeholder="Ahmet Yılmaz">
+          <label class="f-label" for="konu">Hizmet Türü</label>
+          <select id="konu" class="f-input" style="cursor:pointer;">
+            <option value="Genel">Seçiniz...</option>
+            <option value="E-Ticaret Sitesi">E-Ticaret Sitesi</option>
+            <option value="Yemek Sipariş Sistemi">Yemek Sipariş Sistemi</option>
+            <option value="Özel Web Yazılımı">Özel Web Yazılımı</option>
+            <option value="Tanıtım Sitesi">Tanıtım Sitesi</option>
+          </select>
+          <button onclick="wpGonder()" class="btn btn-wa" type="button">
+            <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
+            WhatsApp ile Gönder
+          </button>
+          <p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:.75rem;">
+            Mesajınız doğrudan WhatsApp'ta açılır · Ücretsiz
+          </p>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<footer>
+  <div class="ft">
+    <a href="#" class="ft-logo">bt<span>dev</span></a>
+    <ul class="ft-links">
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#paketler">Fiyatlar</a></li>
+      <li><a href="#sss">SSS</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+    <div class="ft-soc">
+      <a href="https://wa.me/905340188445" target="_blank" class="soc"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://instagram.com/berkayt.dev" target="_blank" class="soc"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="ft-copy">© 2026 Berkay Taşkan · BT.Dev Digital — Web Tasarım & Yazılım</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

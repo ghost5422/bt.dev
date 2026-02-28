@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilitbahir Motor Kiralama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --orange: #E8703A;
+            --dark-orange: #C45A28;
+            --amber: #D4973B;
+            --red-brown: #A63C2A;
+            --cream: #F5EDD8;
+            --navy: #1A2A4A;
+            --dark-navy: #0F1A2E;
+            --blue: #3A7FC1;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--dark-navy);
+            color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(160deg, var(--dark-navy) 0%, #1a2a4a 50%, #0f1a2e 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 60% 40%, rgba(232,112,58,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(58,127,193,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-stripe {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--red-brown), var(--orange), var(--amber), var(--orange), var(--red-brown));
+        }
+
+        .logo-wrap {
+            animation: floatUp 0.8s ease both;
+        }
+
+        .logo-wrap img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(232,112,58,0.4), 0 0 80px rgba(232,112,58,0.15);
+            border: 3px solid rgba(232,112,58,0.4);
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 10vw, 5rem);
+            letter-spacing: 0.05em;
+            color: var(--white);
+            line-height: 1;
+            margin-top: 1.2rem;
+            animation: floatUp 0.8s 0.1s ease both;
+        }
+
+        .hero h1 span { color: var(--orange); }
+
+        .hero-sub {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            color: var(--cream);
+            opacity: 0.8;
+            max-width: 380px;
+            margin-top: 0.6rem;
+            animation: floatUp 0.8s 0.2s ease both;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+            animation: floatUp 0.8s 0.3s ease both;
+        }
+
+        .badge {
+            background: rgba(232,112,58,0.15);
+            border: 1px solid rgba(232,112,58,0.35);
+            color: var(--cream);
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .badge i { color: var(--orange); font-size: 0.85rem; }
+
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 320px;
+            animation: floatUp 0.8s 0.4s ease both;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.95rem 1.5rem;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--dark-orange));
+            color: var(--white);
+            box-shadow: 0 6px 24px rgba(232,112,58,0.4);
+        }
+
+        .btn-primary:hover { box-shadow: 0 8px 30px rgba(232,112,58,0.55); transform: translateY(-2px); }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: var(--white);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+        }
+
+        .btn-whatsapp:hover { box-shadow: 0 8px 28px rgba(37,211,102,0.45); transform: translateY(-2px); }
+
+        .btn-instagram {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: var(--white);
+            box-shadow: 0 6px 20px rgba(131,58,180,0.3);
+        }
+
+        /* SECTION COMMON */
+        section { padding: 3.5rem 1.2rem; }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            letter-spacing: 0.05em;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .section-title span { color: var(--orange); }
+
+        .section-line {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--amber));
+            border-radius: 4px;
+            margin: 0.6rem auto 2rem;
+        }
+
+        /* FEATURES */
+        .features {
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(232,112,58,0.2);
+            border-radius: 16px;
+            padding: 1.3rem 1rem;
+            text-align: center;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--orange);
+        }
+
+        .feature-icon {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--orange), var(--dark-orange));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+            font-size: 1.3rem;
+            color: white;
+            box-shadow: 0 4px 14px rgba(232,112,58,0.35);
+        }
+
+        .feature-card h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-card p {
+            font-size: 0.78rem;
+            color: rgba(245,237,216,0.65);
+            line-height: 1.4;
+        }
+
+        /* FLEET */
+        .fleet { background: var(--dark-navy); }
+
+        .vehicle-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid rgba(232,112,58,0.2);
+            border-radius: 18px;
+            padding: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .vehicle-card:hover { transform: translateX(4px); border-color: var(--orange); }
+
+        .vehicle-icon-wrap {
+            width: 64px; height: 64px;
+            min-width: 64px;
+            background: linear-gradient(135deg, var(--navy), var(--dark-navy));
+            border: 2px solid rgba(232,112,58,0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--orange);
+        }
+
+        .vehicle-info h3 { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 0.2rem; }
+        .vehicle-info p { font-size: 0.82rem; color: rgba(245,237,216,0.65); }
+
+        .vehicle-price {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .vehicle-price .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .vehicle-price .per {
+            font-size: 0.72rem;
+            color: rgba(245,237,216,0.5);
+        }
+
+        /* TOURS */
+        .tours { background: rgba(26,42,74,0.6); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+        .tour-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(58,127,193,0.25);
+            border-radius: 16px;
+            padding: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tour-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: rgba(232,112,58,0.25);
+            line-height: 1;
+            min-width: 40px;
+        }
+
+        .tour-info h3 { font-size: 0.95rem; font-weight: 800; color: var(--white); }
+        .tour-info p { font-size: 0.8rem; color: rgba(245,237,216,0.6); margin-top: 0.2rem; }
+
+        /* HOW IT WORKS */
+        .how { background: var(--dark-navy); }
+
+        .steps { max-width: 500px; margin: 0 auto; position: relative; }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            left: 26px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--orange), transparent);
+        }
+
+        .step {
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .step-num {
+            width: 52px; height: 52px; min-width: 52px;
+            background: linear-gradient(135deg, var(--orange), var(--dark-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: white;
+            box-shadow: 0 0 20px rgba(232,112,58,0.4);
+            z-index: 1;
+        }
+
+        .step-text h3 { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 0.2rem; }
+        .step-text p { font-size: 0.82rem; color: rgba(245,237,216,0.6); line-height: 1.5; }
+
+        /* CONTACT */
+        .contact {
+            background: linear-gradient(135deg, rgba(232,112,58,0.08), rgba(26,42,74,0.8));
+            border-top: 1px solid rgba(232,112,58,0.2);
+        }
+
+        .contact-box {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--cream);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .contact-item:hover { border-color: var(--orange); background: rgba(232,112,58,0.08); }
+
+        .contact-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            min-width: 44px;
+        }
+
+        .ci-phone { background: linear-gradient(135deg, var(--orange), var(--dark-orange)); }
+        .ci-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .ci-instagram { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+        .ci-map { background: linear-gradient(135deg, var(--blue), #1a4a8a); }
+
+        .contact-item-text { flex: 1; }
+        .contact-item-text small { font-size: 0.72rem; opacity: 0.6; display: block; }
+        .contact-item-text strong { font-size: 0.95rem; font-weight: 700; }
+
+        .contact-item .fa-chevron-right { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+
+        /* FOOTER */
+        footer {
+            background: #060e1c;
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        footer img { width: 60px; height: 60px; border-radius: 50%; opacity: 0.85; margin-bottom: 0.8rem; }
+        footer p { font-size: 0.78rem; color: rgba(245,237,216,0.4); }
+        footer strong { color: var(--orange); }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SCROLL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="logo-wrap">
+            <img src="https://i.hizliresim.com/8n2yezi.png" alt="Kilitbahir Motor Kiralama Logo">
+        </div>
+        <h1>KİLİTBAHİR<br><span>MOTOR</span> KİRALAMA</h1>
+        <p class="hero-sub">Motorsiklet & bisiklet kiralama — saatlik ve günlük seçeneklerle</p>
+
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-ship"></i> Feribota 1 dakika</span>
+            <span class="badge"><i class="fas fa-clock"></i> Saatlik kiralama</span>
+            <span class="badge"><i class="fas fa-calendar-check"></i> Rezervasyonlu</span>
+        </div>
+
+        <div class="cta-group">
+            <a href="tel:05468547805" class="btn btn-primary">
+                <i class="fas fa-phone"></i> Hemen Ara: 0546 854 78 05
+            </a>
+            <a href="https://wa.me/905468547805?text=Merhaba%2C%20rezervasyon%20yapmak%20istiyorum." class="btn btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp ile Rezervasyon
+            </a>
+            <a href="https://www.instagram.com/kilitbahir_motor_kiralama" class="btn btn-instagram" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram'da Takip Et
+            </a>
+        </div>
+        <div class="hero-stripe"></div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title reveal">NEDEN <span>BİZ?</span></h2>
+        <div class="section-line reveal"></div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Merkezi Konum</h3>
+                <p>Feribota yalnızca 1 dakika yürüme mesafesi</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Güvenilir Hizmet</h3>
+                <p>2020'den beri profesyonel kiralama deneyimi</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                <h3>Uygun Fiyat</h3>
+                <p>Saatlik & günlük esnek fiyatlama seçenekleri</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <h3>7/24 Destek</h3>
+                <p>WhatsApp ile kolayca iletişim kurabilirsiniz</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="fleet">
+        <h2 class="section-title reveal">ARAÇ <span>FİLOMUZ</span></h2>
+        <div class="section-line reveal"></div>
+
+        <div class="vehicle-card reveal">
+            <div class="vehicle-icon-wrap"><i class="fas fa-motorcycle"></i></div>
+            <div class="vehicle-info">
+                <h3>Scooter / Motosiklet</h3>
+                <p>Şehir içi keşfetmek için ideal</p>
+            </div>
+            <div class="vehicle-price">
+                <div class="price">Sor</div>
+                <div class="per">fiyat için</div>
+            </div>
+        </div>
+
+        <div class="vehicle-card reveal">
+            <div class="vehicle-icon-wrap"><i class="fas fa-bicycle"></i></div>
+            <div class="vehicle-info">
+                <h3>Bisiklet</h3>
+                <p>Sahil boyunca keyifli gezinti</p>
+            </div>
+            <div class="vehicle-price">
+                <div class="price">Sor</div>
+                <div class="per">fiyat için</div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:1rem;">
+            <a href="tel:05468547805" class="btn btn-primary" style="max-width:300px; margin:0 auto;">
+                <i class="fas fa-tag"></i> Güncel Fiyatlar İçin Ara
+            </a>
+        </div>
+    </section>
+
+    <section class="tours">
+        <h2 class="section-title reveal">TURLAR & <span>GEZİNTİLER</span></h2>
+        <div class="section-line reveal"></div>
+
+        <div class="tour-card reveal">
+            <div class="tour-num">01</div>
+            <div class="tour-info">
+                <h3>Şehitlik Turu</h3>
+                <p>Tarihi Gelibolu yarımadasını keşfedin, şehitlikleri ziyaret edin</p>
+            </div>
+        </div>
+
+        <div class="tour-card reveal">
+            <div class="tour-num">02</div>
+            <div class="tour-info">
+                <h3>Sahil Gezintisi</h3>
+                <p>Çanakkale boğazı boyunca eşsiz sahil manzarası eşliğinde tur</p>
+            </div>
+        </div>
+
+        <div class="tour-card reveal">
+            <div class="tour-num">03</div>
+            <div class="tour-info">
+                <h3>Serbest Keşif</h3>
+                <p>Kendi rotanızı belirleyin, saatlik kiralamak ile özgür olun</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how">
+        <h2 class="section-title reveal">NASIL <span>ÇALIŞIR?</span></h2>
+        <div class="section-line reveal"></div>
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h3>Rezervasyon Yap</h3>
+                    <p>Telefon veya WhatsApp üzerinden bize ulaşın. Ziyaretinizden önce rezervasyon yaptırmanızı öneririz.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h3>Feribota Gel</h3>
+                    <p>Çanakkale'den feribota binin, Kilitbahir iskelesine inin. Biz feribota 1 dakika yürüme mesafesindeyiz.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h3>Aracını Teslim Al</h3>
+                    <p>Aracını teslim al, kaskını tak ve tarihi yarımadayı özgürce keşfet!</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h3>Teslim Et & Feribot</h3>
+                    <p>Süren dolunca aracını teslim et, feribota yetişmek çok kolay!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2 class="section-title reveal">İLETİŞİM & <span>KONUM</span></h2>
+        <div class="section-line reveal"></div>
+        <div class="contact-box">
+            <a href="tel:05468547805" class="contact-item reveal">
+                <div class="contact-icon ci-phone"><i class="fas fa-phone"></i></div>
+                <div class="contact-item-text">
+                    <small>Telefon ile ara</small>
+                    <strong>0546 854 78 05</strong>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="https://wa.me/905468547805?text=Merhaba%2C%20rezervasyon%20yapmak%20istiyorum." target="_blank" class="contact-item reveal">
+                <div class="contact-icon ci-whatsapp"><i class="fab fa-whatsapp"></i></div>
+                <div class="contact-item-text">
+                    <small>WhatsApp ile yaz</small>
+                    <strong>Hızlı Rezervasyon</strong>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="https://www.instagram.com/kilitbahir_motor_kiralama" target="_blank" class="contact-item reveal">
+                <div class="contact-icon ci-instagram"><i class="fab fa-instagram"></i></div>
+                <div class="contact-item-text">
+                    <small>Instagram</small>
+                    <strong>@kilitbahir_motor_kiralama</strong>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="https://maps.google.com/?q=Kilitbahir,Çanakkale" target="_blank" class="contact-item reveal">
+                <div class="contact-icon ci-map"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="contact-item-text">
+                    <small>Konum</small>
+                    <strong>Kilitbahir, Çanakkale — Feribota 1 dk</strong>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <img src="https://i.hizliresim.com/8n2yezi.png" alt="Logo">
+        <p><strong>Kilitbahir Motor Kiralama</strong> © 2024</p>
+        <p style="margin-top:0.4rem;">Motorsiklet & bisiklet kiralama hizmetleri</p>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => obs.observe(el));
+    </script>
+
+</body>
+</html>

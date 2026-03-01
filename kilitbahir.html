@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kilitbahir Motor Kiralama</title>
+    <title>Kilitbahir Motor Kiralama | Demo</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -71,6 +71,7 @@
             border-radius: 50%;
             box-shadow: 0 0 40px rgba(232,112,58,0.4), 0 0 80px rgba(232,112,58,0.15);
             border: 3px solid rgba(232,112,58,0.4);
+            cursor: pointer;
         }
 
         .hero h1 {
@@ -415,13 +416,31 @@
         footer {
             background: #060e1c;
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             border-top: 1px solid rgba(255,255,255,0.06);
         }
 
         footer img { width: 60px; height: 60px; border-radius: 50%; opacity: 0.85; margin-bottom: 0.8rem; }
-        footer p { font-size: 0.78rem; color: rgba(245,237,216,0.4); }
+        footer p { font-size: 0.78rem; color: rgba(245,237,216,0.4); margin-bottom: 0.4rem; }
         footer strong { color: var(--orange); }
+
+        .creator-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            color: var(--cream);
+            transition: all 0.3s;
+        }
+        .creator-badge i { color: var(--orange); }
+        .creator-badge span { color: var(--orange); font-weight: bold; }
+        .creator-badge:hover { background: rgba(255,255,255,0.1); border-color: var(--orange); }
 
         @keyframes floatUp {
             from { opacity: 0; transform: translateY(24px); }
@@ -439,12 +458,96 @@
             opacity: 1;
             transform: none;
         }
+
+        /* DEMO MODAL CSS (Dark Tema Uyumlu) */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 26, 46, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--navy);
+            border: 2px solid var(--orange);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            box-shadow: 0 10px 40px rgba(232,112,58,0.25);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none; border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.5rem; cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--white); }
+        .modal-icon {
+            width: 70px; height: 70px;
+            background: rgba(232,112,58,0.15);
+            color: var(--orange);
+            font-size: 2.2rem;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.2rem;
+            box-shadow: inset 0 0 20px rgba(232,112,58,0.2);
+        }
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem; color: var(--white);
+            margin-bottom: 0.5rem; letter-spacing: 1px;
+        }
+        .modal-desc {
+            font-size: 0.9rem; color: rgba(245,237,216,0.7);
+            margin-bottom: 1.8rem; line-height: 1.6;
+        }
+        .modal-btn-dev {
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: white; text-decoration: none;
+            padding: 1rem; border-radius: 12px;
+            font-weight: 800; margin-bottom: 0.8rem;
+            box-shadow: 0 4px 15px rgba(253,29,29,0.3);
+            transition: transform 0.2s;
+            font-family: 'Nunito', sans-serif;
+        }
+        .modal-btn-dev:hover { transform: translateY(-3px); }
+        .modal-btn-continue {
+            display: block; width: 100%;
+            background: rgba(255,255,255,0.08); color: var(--cream);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem; border-radius: 12px;
+            font-weight: bold; cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Nunito', sans-serif;
+        }
+        .modal-btn-continue:hover { background: rgba(255,255,255,0.15); }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <div class="logo-wrap">
+        <div class="logo-wrap" onclick="showDemoModal(event, 'Ana Ekran Logo')">
             <img src="https://i.hizliresim.com/8n2yezi.png" alt="Kilitbahir Motor Kiralama Logo">
         </div>
         <h1>KİLİTBAHİR<br><span>MOTOR</span> KİRALAMA</h1>
@@ -457,13 +560,13 @@
         </div>
 
         <div class="cta-group">
-            <a href="tel:05468547805" class="btn btn-primary">
+            <a href="#" onclick="showDemoModal(event, 'Ana Ekran Telefon')" class="btn btn-primary">
                 <i class="fas fa-phone"></i> Hemen Ara: 0546 854 78 05
             </a>
-            <a href="https://wa.me/905468547805?text=Merhaba%2C%20rezervasyon%20yapmak%20istiyorum." class="btn btn-whatsapp" target="_blank">
+            <a href="#" onclick="showDemoModal(event, 'Ana Ekran WhatsApp')" class="btn btn-whatsapp">
                 <i class="fab fa-whatsapp"></i> WhatsApp ile Rezervasyon
             </a>
-            <a href="https://www.instagram.com/kilitbahir_motor_kiralama" class="btn btn-instagram" target="_blank">
+            <a href="#" onclick="showDemoModal(event, 'Ana Ekran Instagram')" class="btn btn-instagram">
                 <i class="fab fa-instagram"></i> Instagram'da Takip Et
             </a>
         </div>
@@ -526,7 +629,7 @@
         </div>
 
         <div style="text-align:center; margin-top:1rem;">
-            <a href="tel:05468547805" class="btn btn-primary" style="max-width:300px; margin:0 auto;">
+            <a href="#" onclick="showDemoModal(event, 'Filo Fiyat Sor Butonu')" class="btn btn-primary" style="max-width:300px; margin:0 auto;">
                 <i class="fas fa-tag"></i> Güncel Fiyatlar İçin Ara
             </a>
         </div>
@@ -600,7 +703,7 @@
         <h2 class="section-title reveal">İLETİŞİM & <span>KONUM</span></h2>
         <div class="section-line reveal"></div>
         <div class="contact-box">
-            <a href="tel:05468547805" class="contact-item reveal">
+            <a href="#" onclick="showDemoModal(event, 'İletişim Telefon')" class="contact-item reveal">
                 <div class="contact-icon ci-phone"><i class="fas fa-phone"></i></div>
                 <div class="contact-item-text">
                     <small>Telefon ile ara</small>
@@ -608,7 +711,7 @@
                 </div>
                 <i class="fas fa-chevron-right"></i>
             </a>
-            <a href="https://wa.me/905468547805?text=Merhaba%2C%20rezervasyon%20yapmak%20istiyorum." target="_blank" class="contact-item reveal">
+            <a href="#" onclick="showDemoModal(event, 'İletişim WhatsApp')" class="contact-item reveal">
                 <div class="contact-icon ci-whatsapp"><i class="fab fa-whatsapp"></i></div>
                 <div class="contact-item-text">
                     <small>WhatsApp ile yaz</small>
@@ -616,7 +719,7 @@
                 </div>
                 <i class="fas fa-chevron-right"></i>
             </a>
-            <a href="https://www.instagram.com/kilitbahir_motor_kiralama" target="_blank" class="contact-item reveal">
+            <a href="#" onclick="showDemoModal(event, 'İletişim Instagram')" class="contact-item reveal">
                 <div class="contact-icon ci-instagram"><i class="fab fa-instagram"></i></div>
                 <div class="contact-item-text">
                     <small>Instagram</small>
@@ -624,7 +727,7 @@
                 </div>
                 <i class="fas fa-chevron-right"></i>
             </a>
-            <a href="https://maps.google.com/?q=Kilitbahir,Çanakkale" target="_blank" class="contact-item reveal">
+            <a href="#" onclick="showDemoModal(event, 'İletişim Konum')" class="contact-item reveal">
                 <div class="contact-icon ci-map"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="contact-item-text">
                     <small>Konum</small>
@@ -636,13 +739,45 @@
     </section>
 
     <footer>
-        <img src="https://i.hizliresim.com/8n2yezi.png" alt="Logo">
-        <p><strong>Kilitbahir Motor Kiralama</strong> © 2024</p>
-        <p style="margin-top:0.4rem;">Motorsiklet & bisiklet kiralama hizmetleri</p>
+        <img src="https://i.hizliresim.com/8n2yezi.png" alt="Logo" onclick="showDemoModal(event, 'Footer Logo')">
+        <p><strong>Kilitbahir Motor Kiralama</strong> © 2026</p>
+        <p>Motorsiklet & bisiklet kiralama hizmetleri</p>
+        
+        <a href="https://instagram.com/berkayt.dev" target="_blank" class="creator-badge">
+            <i class="fa-solid fa-code"></i> Created by <span>bt.dev</span>
+        </a>
     </footer>
 
-    <script>
-        // Scroll reveal
+    <div id="demoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeModal()" class="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="modal-icon">
+                <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            
+            <h3 class="modal-title">Bu Bir Demo Sitedir</h3>
+            <p class="modal-desc">
+                Şu anda sistemin test sürümünü inceliyorsunuz. İşletmenize özel gerçek bir web sitesi ve yönetim paneli yaptırmak için geliştirici ile iletişime geçin.
+            </p>
+            
+            <a href="https://instagram.com/berkayt.dev" target="_blank" class="modal-btn-dev">
+                <i class="fa-brands fa-instagram text-xl"></i> @berkayt.dev'e Yazın
+            </a>
+            
+            <button onclick="closeModal()" class="modal-btn-continue">
+                İncelemeye Devam Et
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        // Scroll Animasyonları
         const reveals = document.querySelectorAll('.reveal');
         const obs = new IntersectionObserver((entries) => {
             entries.forEach((e, i) => {
@@ -653,6 +788,54 @@
             });
         }, { threshold: 0.1 });
         reveals.forEach(el => obs.observe(el));
+
+        // Firebase Ayarları
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDoT5pdRXSwDKahudI7uBR14ojcASK3r8A", 
+            databaseURL: "https://eticaret-af401-default-rtdb.firebaseio.com" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const DEMO_ADI = "Kilitbahir Motor";
+
+        // 1. Ziyaret Sayacı (Admin Panel İçin)
+        try {
+            const visitsRef = ref(db, `demo_analytics/${DEMO_ADI}/visits`);
+            const cihazTipi = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "Mobil Cihaz" : "Masaüstü/PC";
+            
+            push(visitsRef, {
+                device: cihazTipi,
+                time: new Date().toLocaleString("tr-TR")
+            });
+        } catch (error) {
+            console.error("Ziyaret logu hatası:", error);
+        }
+
+        // 2. Tıklama Sayacı (Admin Panel İçin)
+        window.trackClick = function(buttonName) {
+            try {
+                const clicksRef = ref(db, `demo_analytics/${DEMO_ADI}/clicks`);
+                push(clicksRef, {
+                    action: buttonName,
+                    time: new Date().toLocaleString("tr-TR")
+                });
+            } catch (error) {
+                console.error("Firebase tıklama hatası:", error);
+            }
+        };
+
+        // Modal Gösterimi
+        window.showDemoModal = function(event, buttonName) {
+            event.preventDefault(); 
+            trackClick(buttonName); 
+            document.getElementById('demoModal').classList.add('active'); 
+        };
+
+        // Modal Kapatma
+        window.closeModal = function() {
+            document.getElementById('demoModal').classList.remove('active');
+        };
     </script>
 
 </body>

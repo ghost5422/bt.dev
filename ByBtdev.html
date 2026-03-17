@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Berkay Dev | Ultimate Program</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass { background: rgba(28, 28, 30, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input { background: #2c2c2e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; border-radius: 14px !important; padding: 12px !important; outline: none !important; }
+        .color-picker { padding: 0 !important; width: 45px; height: 45px; overflow: hidden; border-radius: 50% !important; border: 2px solid #fff !important; cursor: pointer; flex-shrink: 0; }
+        .color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+        .color-picker::-webkit-color-swatch { border: none; }
+        .icon-grid-scroll { max-height: 220px; overflow-y: auto; scrollbar-width: none; }
+        .icon-grid-scroll::-webkit-scrollbar { display: none; }
+        .icon-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+        .icon-item.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen select-none overflow-x-hidden">
+
+    <div id="page-home" class="page active">
+        <div class="px-6 pt-12 pb-6 flex justify-between items-end sticky top-0 z-30 bg-black/80 backdrop-blur-md">
+            <div>
+                <h2 class="text-xs font-bold text-blue-500 uppercase tracking-widest mb-1">Berkay'ın Planı</h2>
+                <h1 class="text-4xl font-black tracking-tighter">Programım</h1>
+            </div>
+            <button onclick="openEditor()" class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-xl shadow-lg active:scale-90 transition-all">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <div class="px-6 mb-6">
+            <div class="glass flex items-center p-4 rounded-2xl">
+                <i class="fa-solid fa-magnifying-glass text-gray-500 mr-3"></i>
+                <input type="text" id="searchInput" onkeyup="filterList()" placeholder="Etkinlik ara..." class="bg-transparent !p-0 !border-none w-full text-sm">
+            </div>
+        </div>
+
+        <div id="events-list" class="px-6 space-y-4 pb-32"></div>
+    </div>
+
+    <div id="page-settings" class="page">
+        <div class="p-8 pt-16 text-center">
+            <h1 class="text-4xl font-black mb-10 tracking-tighter text-left">Ayarlar</h1>
+            <div class="glass rounded-[28px] overflow-hidden text-left">
+                <div class="p-6 border-b border-white/5 flex items-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-2xl font-black mr-4">B</div>
+                    <div><p class="font-extrabold text-xl">Berkay Dev</p><p class="text-sm text-gray-500 font-medium">Anadolu Üniversitesi</p></div>
+                </div>
+                <button onclick="askClearAll()" class="w-full p-6 text-left text-red-500 flex justify-between items-center active:bg-red-500/10 transition-all">
+                    <span class="font-bold">Veritabanını Sıfırla</span><i class="fa-solid fa-trash-can opacity-50"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 w-full bg-[#0a0a0a]/90 backdrop-blur-3xl border-t border-white/5 pb-10 pt-4 z-40 px-10">
+        <div class="flex justify-around items-center text-[10px] text-gray-500 font-black uppercase tracking-widest">
+            <button onclick="switchPage('home')" id="nav-home" class="flex flex-col items-center text-blue-500"><i class="fa-solid fa-calendar-list text-2xl mb-1.5"></i><span>Liste</span></button>
+            <button onclick="switchPage('settings')" id="nav-settings" class="flex flex-col items-center"><i class="fa-solid fa-sliders text-2xl mb-1.5"></i><span>Ayarlar</span></button>
+        </div>
+    </div>
+
+    <div id="editorModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-center justify-center p-4">
+        <div class="glass w-full max-w-sm rounded-[40px] p-6 shadow-2xl border-white/10 overflow-hidden flex flex-col max-h-[90vh]">
+            <h2 id="modalTitle" class="text-xl font-black mb-6 text-center tracking-tighter uppercase">Etkinlik Düzenle</h2>
+            <input type="hidden" id="editId">
+            
+            <div class="space-y-4 overflow-y-auto pr-1">
+                <div id="previewCard" class="p-4 rounded-2xl flex items-center border border-white/10">
+                    <div id="previewIconBox" class="w-10 h-10 rounded-xl flex items-center justify-center mr-3 text-lg"><i id="previewIcon" class="fa-solid fa-book-bookmark"></i></div>
+                    <span id="previewName" class="font-bold text-sm tracking-tight truncate">Yeni Etkinlik</span>
+                </div>
+
+                <input type="text" id="evtName" oninput="updatePreview()" placeholder="Etkinlik Adı" class="w-full text-center font-bold">
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex flex-col"><label class="text-[8px] font-black text-gray-500 mb-1 ml-1 uppercase">Başlangıç</label><input type="datetime-local" id="evtStart" class="text-[10px]"></div>
+                    <div class="flex flex-col"><label class="text-[8px] font-black text-gray-500 mb-1 ml-1 uppercase">Bitiş (Günü)</label><input type="date" id="evtEnd" class="text-[10px]"></div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[8px] font-black text-gray-500 uppercase tracking-widest">İkon Seç (50 Adet)</label>
+                        <div class="flex items-center gap-2">
+                             <label class="text-[8px] font-black text-gray-500 uppercase">Renk:</label>
+                             <input type="color" id="evtColorInput" oninput="updatePreview()" class="color-picker" value="#3b82f6">
+                        </div>
+                    </div>
+                    
+                    <div id="iconGrid" class="icon-grid-scroll grid grid-cols-4 gap-2 pb-4">
+                        </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 pt-6 border-t border-white/5 mt-4">
+                <button onclick="closeModal('editorModal')" class="flex-1 text-gray-500 font-black text-xs uppercase">Vazgeç</button>
+                <button onclick="handleSave()" class="flex-2 bg-white text-black py-4 px-8 rounded-2xl font-black active:scale-95 transition-all">KAYDET</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="fixed inset-0 z-[60] bg-black/95 hidden items-center justify-center p-8">
+        <div class="glass w-full max-w-xs rounded-[40px] p-10 text-center shadow-2xl">
+            <div id="confirmIcon" class="text-5xl text-red-500 mb-6"></div>
+            <h3 id="confirmTitle" class="text-2xl font-black mb-2 tracking-tighter">Emin misin?</h3>
+            <p id="confirmMsg" class="text-gray-500 text-sm mb-10 font-medium"></p>
+            <div class="flex flex-col gap-3">
+                <button id="confirmBtn" class="w-full bg-red-600 py-4 rounded-2xl font-black text-xs uppercase shadow-lg">EVET, SİL</button>
+                <button onclick="closeModal('confirmModal')" class="w-full py-3 text-gray-500 font-bold text-xs uppercase">İPTAL</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDoT5pdRXSwDKahudI7uBR14ojcASK3r8A", 
+            databaseURL: "https://eticaret-af401-default-rtdb.firebaseio.com" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const evtsRef = ref(db, 'berkay_program_v5');
+
+        // --- 50 ADET TÜRKÇE İSİMLİ İKON ---
+        const iconLibrary = [
+            {id: 'fa-book-bookmark', n: 'Ders'}, {id: 'fa-graduation-cap', n: 'Sınav'}, {id: 'fa-laptop-code', n: 'Kodlama'},
+            {id: 'fa-dumbbell', n: 'Spor'}, {id: 'fa-futbol', n: 'Fener/Futbol'}, {id: 'fa-mug-hot', n: 'Kahve'},
+            {id: 'fa-utensils', n: 'Yemek'}, {id: 'fa-gamepad', n: 'Oyun'}, {id: 'fa-car-side', n: 'Yolculuk'},
+            {id: 'fa-plane', n: 'Uçuş'}, {id: 'fa-heart', n: 'Aşk'}, {id: 'fa-star', n: 'Önemli'},
+            {id: 'fa-fire', n: 'Acil'}, {id: 'fa-briefcase', n: 'İş'}, {id: 'fa-calendar-check', n: 'Randevu'},
+            {id: 'fa-music', n: 'Müzik'}, {id: 'fa-basketball', n: 'Basketbol'}, {id: 'fa-bicycle', n: 'Bisiklet'},
+            {id: 'fa-film', n: 'Sinema'}, {id: 'fa-camera', n: 'Fotoğraf'}, {id: 'fa-brush', n: 'Tasarım'},
+            {id: 'fa-shopping-cart', n: 'Market'}, {id: 'fa-hospital', n: 'Sağlık'}, {id: 'fa-pills', n: 'İlaç'},
+            {id: 'fa-wallet', n: 'Ödeme'}, {id: 'fa-lightbulb', n: 'Fikir'}, {id: 'fa-mobile-screen', n: 'Telefon'},
+            {id: 'fa-headphones', n: 'Podcast'}, {id: 'fa-bed', n: 'Uyku'}, {id: 'fa-tree', n: 'Doğa'},
+            {id: 'fa-umbrella-beach', n: 'Tatil'}, {id: 'fa-birthday-cake', n: 'D.Günü'}, {id: 'fa-wine-glass', n: 'Eğlence'},
+            {id: 'fa-users', n: 'Arkadaş'}, {id: 'fa-cloud', n: 'Dışarı'}, {id: 'fa-earth-americas', n: 'Dil'},
+            {id: 'fa-microchip', n: 'Teknoloji'}, {id: 'fa-wrench', n: 'Tamir'}, {id: 'fa-trash-can', n: 'Temizlik'},
+            {id: 'fa-lock', n: 'Güvenlik'}, {id: 'fa-trophy', n: 'Başarı'}, {id: 'fa-hourglass-half', n: 'Bekleme'},
+            {id: 'fa-map-location-dot', n: 'Konum'}, {id: 'fa-money-bill-wave', n: 'Gelir'}, {id: 'fa-rocket', n: 'Lansman'},
+            {id: 'fa-comments', n: 'Sohbet'}, {id: 'fa-shield-halved', n: 'Koruma'}, {id: 'fa-anchor', n: 'Deniz'},
+            {id: 'fa-mountain', n: 'Kamp'}, {id: 'fa-battery-full', n: 'Enerji'}
+        ];
+
+        let selIcon = 'fa-book-bookmark';
+
+        window.switchPage = (page) => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.add('active');
+            document.getElementById('nav-home').classList.toggle('text-blue-500', page === 'home');
+            document.getElementById('nav-settings').classList.toggle('text-blue-500', page === 'settings');
+        };
+
+        window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+
+        window.updatePreview = () => {
+            const name = document.getElementById('evtName').value || "Yeni Etkinlik";
+            const color = document.getElementById('evtColorInput').value;
+            document.getElementById('previewName').innerText = name;
+            const iconEl = document.getElementById('previewIcon');
+            iconEl.className = `fa-solid ${selIcon}`;
+            const iconBox = document.getElementById('previewIconBox');
+            iconBox.style.backgroundColor = color + '20';
+            iconBox.style.color = color;
+            document.getElementById('previewCard').style.borderColor = color + '40';
+        };
+
+        window.selectIcon = (iconId) => {
+            selIcon = iconId;
+            document.querySelectorAll('.icon-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`icon-${iconId}`).classList.add('selected');
+            updatePreview();
+        };
+
+        window.openEditor = (id = null, data = null) => {
+            const m = document.getElementById('editorModal');
+            document.getElementById('editId').value = id || "";
+            document.getElementById('modalTitle').innerText = id ? "DÜZENLE" : "YENİ HEDEF";
+            
+            const grid = document.getElementById('iconGrid');
+            grid.innerHTML = iconLibrary.map(i => `
+                <div id="icon-${i.id}" onclick="window.selectIcon('${i.id}')" class="icon-item p-3 rounded-2xl flex flex-col items-center justify-center gap-1 cursor-pointer transition-all ${selIcon === i.id ? 'selected' : ''}">
+                    <i class="fa-solid ${i.id} text-lg"></i>
+                    <span class="text-[7px] font-bold uppercase truncate w-full text-center">${i.n}</span>
+                </div>
+            `).join('');
+
+            if(data) {
+                document.getElementById('evtName').value = data.name;
+                document.getElementById('evtStart').value = data.start;
+                document.getElementById('evtEnd').value = data.end || "";
+                document.getElementById('evtColorInput').value = data.color;
+                selIcon = data.icon;
+            } else {
+                document.getElementById('evtName').value = "";
+                document.getElementById('evtStart').value = "";
+                document.getElementById('evtEnd').value = "";
+                document.getElementById('evtColorInput').value = "#3b82f6";
+                selIcon = 'fa-book-bookmark';
+            }
+            selectIcon(selIcon);
+            m.style.display = 'flex';
+        };
+
+        window.handleSave = () => {
+            const id = document.getElementById('editId').value, 
+                  name = document.getElementById('evtName').value, 
+                  start = document.getElementById('evtStart').value, 
+                  end = document.getElementById('evtEnd').value,
+                  color = document.getElementById('evtColorInput').value;
+
+            if(!name || !start) return;
+            const p = { name, start, end, icon: selIcon, color };
+            id ? update(ref(db, `berkay_program_v5/${id}`), p) : push(evtsRef, p);
+            closeModal('editorModal');
+        };
+
+        onValue(evtsRef, (snap) => {
+            const list = document.getElementById('events-list');
+            list.innerHTML = "";
+            const data = snap.val();
+            if(!data) return list.innerHTML = `<div class="text-center text-gray-700 mt-24 text-[10px] font-black uppercase tracking-[0.3em]">Program Boş Berkay!</div>`;
+            
+            Object.keys(data).sort((a,b) => new Date(data[a].start) - new Date(data[b].start)).forEach(id => {
+                const item = data[id];
+                const card = document.createElement('div');
+                card.className = "glass rounded-[32px] p-6 relative overflow-hidden active:scale-95 transition-all duration-300";
+                card.onclick = (e) => { if(!e.target.closest('.del-btn')) openEditor(id, item); };
+                
+                card.innerHTML = `
+                    <div class="absolute left-0 top-0 w-2 h-full" style="background:${item.color}; box-shadow: 10px 0 20px ${item.color}20"></div>
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mr-5 text-2xl shadow-inner" style="background:${item.color}15; color:${item.color}"><i class="fa-solid ${item.icon}"></i></div>
+                            <div>
+                                <h3 class="font-extrabold text-xl leading-none mb-2 tracking-tight">${item.name}</h3>
+                                <p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">${new Date(item.start).toLocaleDateString('tr-TR', {day:'2-digit', month:'long'})}${item.end ? ' - ' + new Date(item.end).toLocaleDateString('tr-TR', {day:'2-digit', month:'long'}) : ''}</p>
+                            </div>
+                        </div>
+                        <button onclick="window.askDel('${id}')" class="del-btn w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:text-red-500 transition-colors bg-white/5"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+                        <div id="cnt-${id}" class="text-sm font-semibold tracking-tight text-white italic">Yükleniyor...</div>
+                        <div class="text-[8px] font-black text-gray-500 uppercase tracking-[0.2em]">Kalan</div>
+                    </div>
+                `;
+                list.appendChild(card);
+                startCounter(id, item.start);
+            });
+        });
+
+        function startCounter(id, target) {
+            const timer = () => {
+                const el = document.getElementById(`cnt-${id}`);
+                if(!el) return;
+                const diff = new Date(target).getTime() - new Date().getTime();
+                if(diff < 0) return el.innerHTML = `<span class="text-green-500 font-black">BAŞLADI!</span>`;
+                const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                el.innerHTML = `<span class="font-black text-base">${d}</span> gün <span class="font-black text-base">${h}</span> saat <span class="font-black text-base">${m}</span> dk <span class="font-black text-base">${s}</span> sn`;
+            };
+            setInterval(timer, 1000); timer();
+        }
+
+        window.askDel = (id) => {
+            const m = document.getElementById('confirmModal');
+            document.getElementById('confirmTitle').innerText = "Silinsin mi?";
+            document.getElementById('confirmMsg').innerText = "Bu etkinliği siliyoruz Berkay. Emin misin?";
+            document.getElementById('confirmIcon').innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+            document.getElementById('confirmBtn').onclick = () => { remove(ref(db, `berkay_program_v5/${id}`)); closeModal('confirmModal'); };
+            m.style.display = 'flex';
+        };
+
+        window.askClearAll = () => {
+            const m = document.getElementById('confirmModal');
+            document.getElementById('confirmTitle').innerText = "Tümünü Sil?";
+            document.getElementById('confirmMsg').innerText = "Kökten temizlik yapıyoruz, tüm program gidecek!";
+            document.getElementById('confirmIcon').innerHTML = '<i class="fa-solid fa-radiation text-red-600"></i>';
+            document.getElementById('confirmBtn').onclick = () => { remove(evtsRef); closeModal('confirmModal'); };
+            m.style.display = 'flex';
+        };
+
+        window.filterList = () => {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('#events-list > div').forEach(c => {
+                c.style.display = c.querySelector('h3').innerText.toLowerCase().includes(q) ? 'block' : 'none';
+            });
+        };
+    </script>
+</body>
+</html>

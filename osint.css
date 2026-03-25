@@ -2,7 +2,7 @@
 
 body { font-family: 'Share Tech Mono', monospace; }
 
-/* 🎯 TAKTİKSEL FARE İMLECİ (Nişangah) */
+/* 🎯 TAKTİKSEL FARE İMLECİ */
 #map {
     z-index: 1;
     background: #050505 !important;
@@ -11,14 +11,34 @@ body { font-family: 'Share Tech Mono', monospace; }
 
 button, input, .glass-panel { cursor: auto !important; pointer-events: auto; }
 
-.glass-panel { background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 0, 0, 0.15); box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); }
+.glass-panel { background: rgba(5, 5, 10, 0.98); backdrop-filter: blur(10px); border: 1px solid rgba(255, 0, 0, 0.15); box-shadow: 0 0 20px rgba(0, 0, 0, 0.9); }
 
-.scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.15; }
+.scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.1; }
 
-.ctrl-btn { display: block; width: 100%; text-align: left; padding: 6px 10px; font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: #444; transition: 0.3s; }
+.ctrl-btn { display: block; width: 100%; text-align: left; padding: 7px 12px; font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: #555; transition: 0.3s; }
 
-.ctrl-btn.active { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.15); }
+.ctrl-btn.active { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.15); font-bold: bold; }
 
-.leaflet-popup-content-wrapper { background: rgba(10, 10, 15, 0.98) !important; color: white !important; border: 1px solid #dc2626; border-radius: 0; }
+.leaflet-popup-content-wrapper { background: rgba(5, 5, 10, 0.98) !important; color: white !important; border: 1px solid #dc2626; border-radius: 0; font-family: 'Share Tech Mono', monospace; font-size: 10px; }
+.leaflet-popup-tip { background: #dc2626 !important; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* 🚗 YOLLAR İÇİN TRAFİK AKIŞ ANİMASYONU (YENİ) */
+@keyframes flowPulse {
+    0% { filter: brightness(1); opacity: 0.8; }
+    50% { filter: brightness(1.5); opacity: 1; }
+    100% { filter: brightness(1); opacity: 0.8; }
+}
+
+/* Trafik katmanına animasyonu uygula */
+.road-flow-layer {
+    animation: flowPulse 2s ease-in-out infinite;
+}
+
+/* Modal Buton Stilleri */
+.modal-btn { padding: 6px 15px; text-xs: true; border: 1px solid; transition: 0.3s; font-bold: bold; }
+.modal-btn-ok { background: rgba(220, 38, 38, 0.2); border-color: #ef4444; color: #ef4444; }
+.modal-btn-ok:hover { background: #ef4444; color: black; }
+.modal-btn-cancel { background: rgba(255, 255, 255, 0.05); border-color: #555; color: #aaa; }
+.modal-btn-cancel:hover { background: #555; color: white; }

@@ -2,23 +2,43 @@
 
 body { font-family: 'Share Tech Mono', monospace; }
 
-/* Taktiksel Nişangah İmleci */
+/* 1. TAKTİKSEL FARE İMLECİ (Targeting Reticle) */
 #map {
     z-index: 1;
     background: #050505 !important;
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2300ff00' stroke-width='1.5' d='M12 2v20m10-10H2M12 6c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%2300ff00'/%3E%3C/svg%3E") 12 12, crosshair;
 }
 
-button, input { cursor: pointer !important; pointer-events: auto; }
+/* UI Elemanları İçin İmleci Koru */
+button, input, .glass-panel { cursor: auto !important; pointer-events: auto; }
 
-.glass-panel { background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 0, 0, 0.15); }
+.glass-panel { 
+    background: rgba(5, 5, 10, 0.95); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 0, 0, 0.15); 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
 
-.scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.15; }
+.scanlines { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%); 
+    background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.15; 
+}
 
-.ctrl-btn { display: block; width: 100%; text-align: left; padding: 6px 10px; font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: #555; transition: 0.3s; }
+.ctrl-btn { 
+    display: block; width: 100%; text-align: left; padding: 6px 10px; 
+    font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); 
+    background: rgba(255, 255, 255, 0.05); color: #444; transition: 0.3s; 
+}
 
 .ctrl-btn.active { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.15); }
 
-.leaflet-popup-content-wrapper { background: rgba(10, 10, 15, 0.98) !important; color: white !important; border: 1px solid #dc2626; border-radius: 0; font-family: 'Share Tech Mono', monospace; }
+.ctrl-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Leaflet Popup & Scrollbar Customize */
+.leaflet-popup-content-wrapper { 
+    background: rgba(10, 10, 15, 0.98) !important; 
+    color: white !important; border: 1px solid #dc2626; border-radius: 0; 
+}
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }

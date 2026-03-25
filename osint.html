@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEO-INT v8.0 Operasyonel | SHADOW_TRACK</title>
+    <title>GEO-INT v8.5 | STRATEGIC INTEL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="osint.css">
@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
 </head>
-<body class="bg-[#050505] text-white overflow-hidden font-mono text-xs">
+<body class="bg-[#050505] text-white overflow-hidden font-mono text-[11px]">
 
     <div class="scanlines"></div>
     <div id="map" class="w-full h-screen z-0"></div>
@@ -21,65 +21,59 @@
         
         <div class="flex justify-between items-start pointer-events-auto gap-4">
             <div class="glass-panel p-4 border-l-4 border-red-600 min-w-[320px]">
-                <h1 class="text-2xl font-black tracking-widest text-red-600">GEO-INT v8.0</h1>
-                <p class="text-[10px] text-gray-400">OPERATÖR: BERKAY_DEV // SHADOW_TRACK</p>
+                <h1 class="text-2xl font-black tracking-widest text-red-600 italic">GEO-INT v8.5</h1>
+                <p class="text-[9px] text-gray-500 uppercase">System Station: BerkayDev_Node_Alpha</p>
             </div>
 
             <div class="flex-1 max-w-xl">
                 <div class="glass-panel p-2 flex gap-2 border-b-2 border-cyan-500">
-                    <input type="text" id="searchInput" placeholder="HEDEF ADRES VEYA KOORDİNAT SORGULA..." class="bg-black/50 border-none text-cyan-400 text-xs p-2.5 w-full focus:outline-none">
-                    <button onclick="searchLocation()" class="bg-cyan-900/30 px-5 text-cyan-400 hover:bg-cyan-500 transition-all">SORGULA</button>
+                    <input type="text" id="searchInput" placeholder="HEDEF/KOORDİNAT ARA..." class="bg-black/40 border-none text-cyan-400 text-xs p-2.5 w-full focus:outline-none">
+                    <button onclick="searchLocation()" class="bg-cyan-900/30 px-5 text-cyan-400 hover:bg-cyan-500 transition-all font-bold">ARA</button>
                 </div>
             </div>
             
             <div class="glass-panel p-3 text-right">
-                <div id="sysTime" class="text-2xl font-bold italic text-white">00:00:00</div>
-                <div class="text-[10px] text-cyan-500 tracking-widest">SYSTEM_STATUS: OK</div>
+                <div id="sysTime" class="text-2xl font-bold text-white tracking-tighter">00:00:00</div>
+                <div class="text-[9px] text-cyan-500">SATELLITE_LOCK: OK</div>
             </div>
         </div>
 
         <div class="absolute top-32 left-4 pointer-events-auto space-y-4 w-80">
             <div class="glass-panel p-4 border-t-2 border-green-500">
-                <h3 class="text-[11px] font-bold text-green-500 mb-3 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-microchip"></i> Kayıtlı Hedefler</h3>
-                <div id="deviceList" class="space-y-2.5 max-h-[350px] overflow-y-auto pr-2 scrollbar-hide">
-                    <div class="text-gray-600 italic text-center py-4">Hedef taranıyor...</div>
+                <h3 class="text-[10px] font-bold text-green-500 mb-3 tracking-[3px] uppercase italic"><i class="fas fa-satellite-dish mr-2"></i>Aktif Hedefler</h3>
+                <div id="deviceList" class="space-y-2.5 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
+                    <div class="text-gray-600 italic text-center py-4">Sinyal bekleniyor...</div>
                 </div>
-                <button onclick="generateTrackingLink()" class="mt-4 w-full bg-green-900/20 border border-green-500 p-2 text-[10px] hover:bg-green-500 hover:text-black transition-all font-bold">YENİ TAKİP LİNKİ OLUŞTUR</button>
-            </div>
-
-            <div class="glass-panel p-3 border-t-2 border-cyan-500">
-                <button onclick="getMyLocation()" class="w-full bg-cyan-900/20 border border-cyan-500 p-2 text-[10px] hover:bg-cyan-500 transition-all font-bold">OPERATÖR KONUMUNU TESPİT ET</button>
+                <button onclick="generateTrackingLink()" class="mt-4 w-full bg-green-900/10 border border-green-500 p-2.5 text-[10px] hover:bg-green-500 hover:text-black transition-all font-black uppercase">Yeni Takip Linki</button>
             </div>
         </div>
 
         <div class="flex justify-between items-end pointer-events-auto gap-4">
             <div class="glass-panel w-full md:w-1/3 p-3">
-                <div id="dataFeed" class="text-[10px] h-28 overflow-y-auto space-y-1.5 scrollbar-hide font-mono"></div>
+                <div id="dataFeed" class="text-[9px] h-28 overflow-y-auto space-y-1.5 scrollbar-hide font-mono"></div>
             </div>
 
             <div class="glass-panel p-3 grid grid-cols-2 gap-2.5">
                 <button onclick="toggleLayer('traffic')" id="btn-traffic" class="ctrl-btn active">TRAFİK AKIŞI</button>
-                <button onclick="toggleLayer('iss')" id="btn-iss" class="ctrl-btn active">ISS UYDU</button>
                 <button onclick="location.reload()" class="ctrl-btn text-red-500 border-red-900">ACİL SIFIRLAMA</button>
             </div>
         </div>
     </div>
 
     <div id="linkModal" class="absolute inset-0 z-[2000] bg-black/90 hidden flex items-center justify-center pointer-events-auto">
-        <div class="glass-panel p-7 max-w-lg w-full border-2 border-green-500 text-center space-y-4">
-            <h2 class="text-green-500 font-bold mb-4 italic text-sm underline tracking-widest">SHADOW_TRACKING_URL</h2>
-            <input type="text" id="generatedLink" readonly class="w-full bg-black p-3.5 text-[11px] text-green-400 border border-green-900 mb-4 text-center">
-            <button onclick="document.getElementById('linkModal').classList.add('hidden')" class="w-full border border-green-500 p-2 text-xs hover:bg-green-500 hover:text-black transition-all font-bold">TERMİNALİ KAPAT</button>
+        <div class="glass-panel p-8 max-w-lg w-full border-2 border-green-500 text-center">
+            <h2 class="text-green-500 font-bold mb-5 italic text-sm underline tracking-[4px]">SHADOW_URL_GENERATED</h2>
+            <input type="text" id="generatedLink" readonly class="w-full bg-black p-4 text-[11px] text-green-400 border border-green-900 mb-6 text-center focus:outline-none">
+            <button onclick="document.getElementById('linkModal').classList.add('hidden')" class="w-full border border-green-500 p-3 text-xs hover:bg-green-500 hover:text-black transition-all font-bold uppercase">Sistemi Kapat</button>
         </div>
     </div>
 
-    <div id="tacticModal" class="absolute inset-0 z-[3000] bg-black/90 hidden flex items-center justify-center pointer-events-auto">
-        <div class="glass-panel p-6 max-w-sm w-full border-2 border-red-600 text-center space-y-4">
-            <div class="text-red-600 text-3xl"><i id="modalIcon" class="fas fa-exclamation-triangle"></i></div>
-            <h2 id="modalTitle" class="text-red-500 font-bold italic text-xs uppercase tracking-widest">Sistem Uyarısı</h2>
-            <p id="modalMsg" class="text-[11px] text-white font-mono"></p>
-            <div id="modalButtons" class="flex gap-3 justify-center pt-2">
-                </div>
+    <div id="tacticModal" class="absolute inset-0 z-[3000] bg-black/95 hidden flex items-center justify-center pointer-events-auto">
+        <div class="glass-panel p-8 max-w-sm w-full border-2 border-red-600 text-center space-y-5">
+            <div class="text-red-600 text-4xl"><i id="modalIcon" class="fas fa-exclamation-triangle"></i></div>
+            <h2 id="modalTitle" class="text-red-500 font-bold italic text-xs uppercase tracking-[3px]">Sistem Uyarısı</h2>
+            <p id="modalMsg" class="text-[12px] text-white font-mono leading-relaxed"></p>
+            <div id="modalButtons" class="flex gap-4 justify-center pt-3"></div>
         </div>
     </div>
 

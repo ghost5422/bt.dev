@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
 body { font-family: 'Share Tech Mono', monospace; }
 
-/* 🎯 TAKTİKSEL NİŞANGAH */
+/* NİŞANGAH İMLECİ */
 #map {
     z-index: 1;
     background: #050505 !important;
@@ -11,35 +10,21 @@ body { font-family: 'Share Tech Mono', monospace; }
 
 button, input, .glass-panel { cursor: auto !important; pointer-events: auto; }
 
-.glass-panel { 
-    background: rgba(5, 5, 10, 0.98); 
-    backdrop-filter: blur(12px); 
-    border: 1px solid rgba(255, 0, 0, 0.15); 
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.95);
-}
+.glass-panel { background: rgba(5, 5, 10, 0.98); backdrop-filter: blur(12px); border: 1px solid rgba(255, 0, 0, 0.15); box-shadow: 0 0 30px rgba(0, 0, 0, 0.95); }
 
-.scanlines { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.08) 50%); 
-    background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.1; 
-}
+.scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.08) 50%); background-size: 100% 4px; z-index: 50; pointer-events: none; opacity: 0.1; }
 
-.ctrl-btn { 
-    display: block; width: 100%; text-align: left; padding: 8px 12px; 
-    font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); 
-    background: rgba(255, 255, 255, 0.03); color: #444; transition: 0.3s; 
-}
-.ctrl-btn.active { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.15); }
+.ctrl-btn { display: block; width: 100%; text-align: left; padding: 8px 12px; font-size: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); color: #444; transition: 0.3s; }
+.ctrl-btn.active { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.15); font-weight: bold; }
 
-/* 🚗 YOL ANİMASYONU */
+/* YOL ANİMASYONU */
 @keyframes flowPulse {
-    0% { filter: brightness(1) saturate(1); opacity: 0.7; }
-    50% { filter: brightness(1.6) saturate(1.2); opacity: 1; }
-    100% { filter: brightness(1) saturate(1); opacity: 0.7; }
+    0% { filter: brightness(1); opacity: 0.7; }
+    50% { filter: brightness(1.6); opacity: 1; }
+    100% { filter: brightness(1); opacity: 0.7; }
 }
 .road-flow-layer { animation: flowPulse 2.5s ease-in-out infinite; }
 
-/* MODAL BUTONLARI */
 .modal-btn { padding: 8px 18px; font-size: 10px; border: 1px solid; transition: 0.3s; font-weight: bold; text-transform: uppercase; }
 .modal-btn-red { background: rgba(220, 38, 38, 0.15); border-color: #ef4444; color: #ef4444; }
 .modal-btn-red:hover { background: #ef4444; color: black; }

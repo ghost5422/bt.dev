@@ -1,180 +1,59 @@
-// --- CONFIG ---
-const TOMTOM_KEY = '3xX5NwSGmW2O8MyQ9fwOPqHA8chsMdY1'; 
-const firebaseConfig = {
-    apiKey: "AIzaSyCDNbgKzJdBKEZUnWH09Az6ZCwUefWJXhY",
-    authDomain: "onlinesiparis-2cf91.firebaseapp.com",
-    projectId: "onlinesiparis-2cf91",
-    databaseURL: "https://onlinesiparis-2cf91-default-rtdb.europe-west1.firebasedatabase.app",
-    storageBucket: "onlinesiparis-2cf91.appspot.com",
-    messagingSenderId: "366801664755",
-    appId: "1:366801664755:web:57b577f1943ebdf1ab8c85"
-};
+// --- [HİBRİT ARAMA MOTORU: ADRES + UÇUŞ KODU] ---
+async function searchLocation() {
+    const query = document.getElementById('searchInput').value.trim().toUpperCase();
+    if (!query) return;
 
-let map, trafficLayer, deviceMarkers = {}, flightMarkers = [], issMarker;
-let flightInterval; // Uçak döngüsünü kontrol etmek için
-
-// SİSTEM BAŞLATMA
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-document.addEventListener('DOMContentLoaded', () => {
-    initMap();
-    setInterval(updateClock, 1000);
-    setInterval(updateISS, 5000); 
-    addLog("GEO-INT v10.5 AKTİF. HAVA SAHASI TARANIYOR...");
-});
-
-function initMap() {
-    // İstanbul merkezli başlat
-    map = L.map('map', { center: [41.0082, 28.9784], zoom: 10, zoomControl: false });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    
-    trafficLayer = L.tileLayer(`https://{s}.api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key=${TOMTOM_KEY}`, { opacity: 0.8 }).addTo(map);
-    
-    map.on('click', onMapAnalysis);
-}
-
-// --- ✈️ UÇAK TAKİP MOTORU (GÜNCELLENDİ) ---
-async function fetchFlights() {
-    // Sadece buton aktifse ve harita yeterince yakınsa çalıştır (Zoom > 6)
-    if (map.getZoom() < 7) {
-        addLog("Uçak takibi için haritaya biraz daha yaklaşın.", true);
-        return;
-    }
+    addLog(`Sorgulanıyor: ${query}...`);
 
     try {
-        const bounds = map.getBounds();
-        // OpenSky Bounding Box: lamin, lomin, lamax, lomax
-        const url = `https://opensky-network.org/api/states/all?lamin=${bounds.getSouth()}&lomin=${bounds.getWest()}&lamax=${bounds.getNorth()}&lomax=${bounds.getEast()}`;
+        // 1. ADIM: Önce Uçuş Kodu mu diye kontrol et (OpenSky Global Tarama)
+        // Not: Uçuş kodları genelde harf ve rakam kombinasyonudur (Örn: TK1903)
+        const flightRes = await fetch(`https://opensky-network.org/api/states/all`);
+        const flightData = await flightRes.json();
         
-        const res = await fetch(url);
-        const data = await res.json();
+        let foundFlight = null;
+        if (flightData.states) {
+            // Çağrı kodu (s[1]) ile eşleşen uçağı ara
+            foundFlight = flightData.states.find(s => s[1].trim().toUpperCase() === query);
+        }
 
-        // Önceki uçakları temizle
-        flightMarkers.forEach(m => map.removeLayer(m));
-        flightMarkers = [];
-
-        if (data.states) {
-            data.states.forEach(s => {
-                const lat = s[6], lng = s[5], callsign = s[1], country = s[2], angle = s[10] || 0;
+        if (foundFlight) {
+            const lat = foundFlight[6], lng = foundFlight[5];
+            if (lat && lng) {
+                map.flyTo([lat, lng], 14, { animate: true, duration: 2 });
                 
-                if (lat && lng) {
-                    const fIcon = L.divIcon({
-                        className: 'f-icon',
-                        html: `<i class="fas fa-plane text-yellow-400 text-lg" style="transform: rotate(${angle-45}deg); text-shadow: 0 0 5px orange;"></i>`
-                    });
+                // Uçağa özel taktiksel marker ekle
+                const targetMarker = L.marker([lat, lng], {
+                    icon: L.divIcon({ 
+                        className: 'target-lock', 
+                        html: '<i class="fas fa-crosshairs text-red-600 fa-3x animate-ping"></i>' 
+                    })
+                }).addTo(map);
 
-                    const m = L.marker([lat, lng], { icon: fIcon })
-                        .addTo(map)
-                        .bindPopup(`
-                            <div class="text-[10px] font-mono">
-                                <b class="text-yellow-500 underline">UÇUŞ VERİSİ</b><br>
-                                <b>KOD:</b> ${callsign}<br>
-                                <b>ÜLKE:</b> ${country}<br>
-                                <b>İRTİFA:</b> ${Math.round(s[7] || 0)} m<br>
-                                <b>HIZ:</b> ${Math.round(s[9] * 3.6)} km/h
-                            </div>
-                        `);
-                    flightMarkers.push(m);
-                }
-            });
-            addLog(`Hava Sahası: ${data.states.length} uçak takipte.`);
-        }
-    } catch (e) {
-        addLog("Uçak API limitine takıldı, bekleniyor...", true);
-    }
-}
+                setTimeout(() => map.removeLayer(targetMarker), 5000); // 5 saniye sonra nişangahı kaldır
 
-// --- 🚦 TRAFİK ANALİZİ (DÜZELTİLDİ) ---
-async function onMapAnalysis(e) {
-    const { lat, lng } = e.latlng;
-    const popup = L.popup().setLatLng(e.latlng).setContent('<div class="text-[9px] animate-pulse">DERİN ANALİZ...</div>').openOn(map);
-
-    try {
-        const addrP = fetch(`https://api.tomtom.com/search/2/reverseGeocode/${lat},${lng}.json?key=${TOMTOM_KEY}&language=tr-TR`).then(r => r.json());
-        const flowP = fetch(`https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json?key=${TOMTOM_KEY}&point=${lat},${lng}`).then(r => r.json());
-        const weatherP = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`).then(r => r.json());
-
-        const [addr, flow, weather] = await Promise.all([addrP, flowP, weatherP]);
-
-        // ✅ Doğru Trafik Mantığı: Ratio ne kadar yüksekse yol o kadar açık
-        let status = "AKICI", color = "text-green-500", desc = "Yol trafiğe tamamen açık.";
-        if (flow.flowSegmentData) {
-            const ratio = flow.flowSegmentData.currentSpeed / flow.flowSegmentData.freeFlowSpeed;
-            if (ratio < 0.35) { status = "KAPALI / YOĞUN"; color = "text-red-500"; desc = "Yol çalışması veya ağır kaza riski."; }
-            else if (ratio < 0.75) { status = "ORTA YOĞUN"; color = "text-yellow-500"; desc = "Sıkışıklık mevcut."; }
+                showModal("HEDEF KİLİTLENDİ", 
+                    `Uçuş: ${foundFlight[1]}\nÜlke: ${foundFlight[2]}\nİrtifa: ${Math.round(foundFlight[7])}m\nHız: ${Math.round(foundFlight[9] * 3.6)}km/h`, 
+                    "fa-plane-arrival", false);
+                
+                addLog(`Uçuş Bulundu: ${query} - Konuma uçuluyor.`);
+                return; // Uçak bulunduysa adres aramasına geçme
+            }
         }
 
-        popup.setContent(`
-            <div class="text-[10px] space-y-2 font-mono">
-                <b class="text-red-600 border-b border-white/10 block pb-1 underline">BÖLGESEL İSTİHBARAT</b>
-                <div><b>ADRES:</b> <span class="text-white">${addr.addresses[0].address.freeformAddress}</span></div>
-                <div class="flex justify-between border-y border-white/5 py-1">
-                    <span><b>HAVA:</b> ${weather.current_weather.temperature}°C</span>
-                    <span><b>RÜZGAR:</b> ${weather.current_weather.windspeed} km/h</span>
-                </div>
-                <div><b>TRAFİK:</b> <span class="${color} font-bold">${status}</span></div>
-                <div class="bg-red-900/10 p-1 italic text-[8px] border-l-2 border-red-600">${desc}</div>
-            </div>
-        `);
-    } catch (err) { popup.setContent("Analiz hatası."); }
-}
+        // 2. ADIM: Uçak bulunamadıysa TomTom Adres Aramasına geç (Fallback)
+        const addrRes = await fetch(`https://api.tomtom.com/search/2/geocode/${encodeURIComponent(query)}.json?key=${TOMTOM_KEY}&limit=1&language=tr-TR`);
+        const addrData = await addrRes.json();
 
-// --- MODÜL KONTROL ---
-function toggleLayer(t) {
-    const btn = document.getElementById('btn-' + t);
-    btn.classList.toggle('active');
-
-    if (t === 'traffic') {
-        map.hasLayer(trafficLayer) ? map.removeLayer(trafficLayer) : trafficLayer.addTo(map);
-    }
-    
-    if (t === 'flights') {
-        if (btn.classList.contains('active')) {
-            fetchFlights(); // Hemen çalıştır
-            flightInterval = setInterval(fetchFlights, 20000); // 20 saniyede bir güncelle
-            addLog("Hava Sahası Taraması Başlatıldı.");
+        if (addrData.results && addrData.results.length > 0) {
+            const pos = addrData.results[0].position;
+            map.flyTo([pos.lat, pos.lon], 15);
+            addLog(`Adres Bulundu: ${addrData.results[0].address.freeformAddress}`);
         } else {
-            clearInterval(flightInterval);
-            flightMarkers.forEach(m => map.removeLayer(m));
-            addLog("Hava Sahası Taraması Durduruldu.");
+            showModal("HATA", "Girilen kod veya adres sistemde bulunamadı.", "fa-search-minus", false);
         }
+
+    } catch (e) {
+        showModal("SİSTEM HATASI", "Veri çekme işlemi başarısız oldu.", "fa-wifi", false);
     }
 }
-
-// Diğer standart fonksiyonlar (ISS, Clock, Firebase) v10.0 ile aynı kalabilir...
-function updateISS() {
-    fetch('https://api.wheretheiss.at/v1/satellites/25544')
-        .then(r => r.json()).then(data => {
-            const pos = [data.latitude, data.longitude];
-            if (!issMarker) issMarker = L.marker(pos, { icon: L.divIcon({ className: 'iss', html: '<i class="fas fa-satellite text-cyan-400 fa-2x animate-pulse"></i>' }) }).addTo(map);
-            else issMarker.setLatLng(pos);
-        }).catch(() => {});
-}
-
-function updateClock() { document.getElementById('sysTime').innerText = new Date().toLocaleTimeString('tr-TR'); }
-function addLog(m, isErr = false) {
-    const f = document.getElementById('dataFeed');
-    const d = document.createElement('div');
-    d.innerHTML = `<span class="${isErr ? 'text-red-500' : 'text-red-900'}">[${new Date().toLocaleTimeString()}]</span> ${m}`;
-    f.prepend(d);
-}
-
-// Cihaz Takip (Firebase)
-database.ref('locations').on('value', (snapshot) => {
-    const data = snapshot.val();
-    const list = document.getElementById('deviceList');
-    list.innerHTML = '';
-    if (!data) return;
-    for (let id in data) {
-        const info = data[id];
-        const div = document.createElement('div');
-        div.className = "glass-panel p-3 border-l-2 border-green-500 text-[10px] group pointer-events-auto hover:border-cyan-500 transition-all cursor-pointer mb-2";
-        div.onclick = () => map.flyTo([info.lat, info.lng], 17);
-        div.innerHTML = `<div class="flex justify-between"><b>${id}</b> <i class="text-green-500">LIVE</i></div><div class="text-gray-500 mt-1">IP: ${info.ip || '...'}</div>`;
-        list.appendChild(div);
-        
-        if (deviceMarkers[id]) deviceMarkers[id].setLatLng([info.lat, info.lng]);
-        else deviceMarkers[id] = L.marker([info.lat, info.lng], { icon: L.divIcon({ className: 'd-icon', html: `<i class="fas fa-crosshairs text-green-500 fa-2x animate-pulse"></i>` }) }).addTo(map);
-    }
-});

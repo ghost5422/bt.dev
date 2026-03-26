@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BistroFlow | Gurme Menü (Referans)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8F9FA;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ürün Kartı Stili */
+        .product-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: #FB923C;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        .active-selected {
+            border-color: #F97316 !important;
+            background-color: #FFF7ED;
+        }
+
+        .prod-img-box {
+            width: 100%;
+            height: 180px;
+            background: #F3F4F6;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .prod-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .prod-img-box img {
+            transform: scale(1.1);
+        }
+
+        .prod-details {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .prod-title { 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            margin-bottom: 5px; 
+            color: #111827; 
+        }
+
+        .prod-desc { 
+            color: #6B7280; 
+            font-size: 0.85rem; 
+            margin-bottom: 12px; 
+            line-height: 1.5; 
+        }
+
+        .prod-footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-top: auto; 
+            padding-top: 15px; 
+            border-top: 1px solid #F3F4F6; 
+        }
+
+        .prod-price { 
+            color: #F97316; 
+            font-weight: 800; 
+            font-size: 1.25rem; 
+        }
+
+        .prod-add-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: #111827;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border: 2px solid white;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card:hover .prod-add-btn { background-color: #FB923C; }
+        .active-selected .prod-add-btn { background-color: #F97316; }
+
+        .swal2-popup { border-radius: 25px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay" class="fixed inset-0 bg-white z-[100] flex items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
+    </div>
+
+    <div id="site-kapali" class="fixed inset-0 bg-white z-[90] flex-col items-center justify-center text-center p-6" style="display:none;">
+        <div class="text-9xl mb-6">😴</div>
+        <h1 class="text-4xl font-800 mb-3">Şu An Kapalıyız</h1>
+        <p class="text-lg text-gray-500 max-w-md">Size daha iyi hizmet verebilmek için mola verdik. Lütfen çalışma saatlerimizde tekrar gelin.</p>
+    </div>
+
+    <div id="main-content">
+        <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+            <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-800 tracking-tight">BISTRO<span class="text-orange-500">FLOW</span></span>
+                </div>
+                <div class="relative">
+                    <button onclick="showCart()" class="p-3 text-gray-700 text-2xl"><i class="fa-solid fa-shopping-bag"></i></button>
+                    <span id="cart-count" class="absolute -top-1 -right-1 w-6 h-6 bg-orange-500 text-white text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-white" style="display:none;">0</span>
+                </div>
+            </div>
+        </nav>
+
+        <header class="max-w-6xl mx-auto px-6 py-12">
+            <h2 class="text-4xl font-800 mb-8 leading-tight">Gurme Menümüzü Keşfedin</h2>
+            <div class="relative group">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" id="search-input" placeholder="Lezzetlerde ara..." class="w-full p-5 pl-14 bg-white border border-gray-100 rounded-full shadow-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all">
+            </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-6 pb-40">
+            <div id="menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </main>
+
+        <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-6 z-40 shadow-2xl">
+            <div class="max-w-6xl mx-auto flex gap-6 items-center">
+                <div class="flex-1 space-y-3">
+                    <input type="text" id="name" placeholder="Ad Soyad" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-orange-500">
+                    <input type="tel" id="phone" placeholder="Telefon Numarası (Opsiyonel)" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+                <div class="flex-1 space-y-3">
+                    <input type="text" id="note" placeholder="Sipariş Notunuz..." class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-orange-500">
+                    <button onclick="submitOrder()" class="w-full bg-orange-500 text-white p-4 rounded-xl font-bold shadow-lg shadow-orange-200 flex justify-between items-center px-6 text-lg transition-transform hover:scale-[1.02]">
+                        <span>Siparişi Onayla</span>
+                        <span id="sticky-total" class="font-800">₺0.00</span>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="order-overlay" class="fixed inset-0 bg-white/95 z-[100] flex-col items-center justify-center p-6 text-center" style="display:none;">
+        <i id="modal-icon" class="fas fa-utensils text-7xl text-orange-500 mb-8"></i>
+        <h2 id="modal-title" class="text-4xl font-800 mb-3 text-gray-900">Sipariş Alındı</h2>
+        <p id="modal-desc" class="text-lg text-gray-500 mb-10 max-w-sm">Şefimiz yemeğinizi hazırlamaya başladı!</p>
+        <div class="flex gap-4">
+            <button id="btn-cancel" onclick="cancelMyOrder()" class="px-8 py-4 bg-red-50 text-red-500 rounded-xl font-bold text-lg">İptal Et</button>
+            <button id="btn-ok" onclick="finishOrder()" class="px-8 py-4 bg-gray-900 text-white rounded-xl font-bold text-lg" style="display:none;">Kapat</button>
+        </div>
+    </div>
+
+    <script>
+        let allMenuItems = [
+            { key: "m1", name: "Klasik Burger Menü", price: 210, active: true, desc: "Özel dana köftesi, karamelize soğan ve cheddar peyniri.", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" },
+            { key: "m2", name: "Texas Smokehouse", price: 260, active: true, desc: "Tütsülenmiş et, çıtır soğan halkaları ve barbekü sos.", image: "https://images.unsplash.com/photo-1594179047519-f347310d3322?auto=format&fit=crop&w=500&q=80" },
+            { key: "m3", name: "Margarita Pizza", price: 240, active: true, desc: "Taze mozzarella, San Marzano domates sosu ve fesleğen.", image: "https://cdn.loveandlemons.com/wp-content/uploads/2023/07/margherita-pizza.jpg? auto=format&fit=crop&w=500&q=80" },
+            { key: "m4", name: "Pepperoni Pizza", price: 280, active: true, desc: "Bol pepperoni, mozarella ve acı pul biber dokunuşu.", image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80" },
+            { key: "m5", name: "Ev Yapımı Limonata", price: 60, active: true, desc: "Taze sıkılmış limon, nane ve ballı özel tarif.", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+            { key: "m6", name: "Karamelli Iced Coffee", price: 55, active: true, desc: "Soğuk demlenmiş Arabica çekirdekleri ve krema.", image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=500&q=80" }
+        ];
+        
+        let myCart = {};
+
+        window.onload = () => { 
+            document.getElementById("loading-overlay").style.display = "none"; 
+            renderMenu(allMenuItems);
+            checkStatus();
+        }
+
+        document.getElementById("search-input").addEventListener("input", e => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allMenuItems.filter(item => item.name.toLowerCase().includes(term));
+            renderMenu(filtered);
+        });
+
+        function renderMenu(items) {
+            const list = document.getElementById("menu-list");
+            list.innerHTML = "";
+            items.forEach(item => {
+                const inCart = myCart[item.key];
+                const card = document.createElement("div");
+                card.className = `product-card ${inCart ? 'active-selected' : ''}`;
+                card.innerHTML = `
+                    <div class="prod-img-box">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="prod-add-btn"><i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i></div>
+                    </div>
+                    <div class="prod-details">
+                        <div>
+                            <div class="prod-title">${item.name}</div>
+                            <div class="prod-desc">${item.desc}</div>
+                        </div>
+                        <div class="prod-footer">
+                            <div class="prod-price">₺${item.price.toFixed(2)}</div>
+                        </div>
+                    </div>`;
+                card.onclick = () => {
+                    if(myCart[item.key]) delete myCart[item.key];
+                    else myCart[item.key] = { name: item.name, price: item.price };
+                    updateCartUI();
+                    renderMenu(allMenuItems);
+                };
+                list.appendChild(card);
+            });
+        }
+
+        function updateCartUI() {
+            let total = 0, count = 0;
+            for(let k in myCart) { total += myCart[k].price; count++; }
+            document.getElementById("sticky-total").innerText = "₺" + total.toFixed(2);
+            const badge = document.getElementById("cart-count");
+            badge.style.display = count > 0 ? "flex" : "none";
+            badge.innerText = count;
+        }
+
+        window.submitOrder = function() {
+            const name = document.getElementById("name").value.trim();
+            if(!name || Object.keys(myCart).length === 0) { 
+                Swal.fire({ icon: 'warning', title: 'Hata', text: 'Lütfen isminizi girin ve en az bir ürün seçin.', confirmButtonColor: '#F97316' });
+                return;
+            }
+            Swal.fire({ title: 'Onaylıyor musunuz?', text: 'Siparişiniz hazırlanmaya başlayacak.', showCancelButton: true, confirmButtonText: 'Evet, Gönder', confirmButtonColor: '#F97316' }).then(res => {
+                if(res.isConfirmed) {
+                    localStorage.setItem("activeOrderKey", "demo_" + Date.now());
+                    checkStatus();
+                }
+            });
+        }
+
+        function checkStatus() {
+            const key = localStorage.getItem("activeOrderKey");
+            if(!key) return;
+            const overlay = document.getElementById("order-overlay");
+            overlay.style.display = "flex";
+            setTimeout(() => {
+                if (localStorage.getItem("activeOrderKey")) {
+                    document.getElementById("modal-title").innerText = "Sipariş Hazır!";
+                    document.getElementById("modal-desc").innerText = "Yemeğiniz paketlendi, afiyet olsun!";
+                    document.getElementById("modal-icon").className = "fas fa-box-open text-7xl text-blue-500";
+                    document.getElementById("btn-cancel").style.display = "none";
+                    document.getElementById("btn-ok").style.display = "block";
+                    myCart = {}; 
+                }
+            }, 3000);
+        }
+
+        window.cancelMyOrder = () => { localStorage.removeItem("activeOrderKey"); location.reload(); }
+        window.finishOrder = () => { localStorage.removeItem("activeOrderKey"); location.reload(); }
+        window.showCart = () => {
+            let items = Object.values(myCart).map(i => `<b>${i.name}</b> - ₺${i.price.toFixed(2)}`);
+            Swal.fire({ title: 'Sepetim', html: items.length ? items.join('<br>') : 'Sepetiniz boş.' });
+        }
+    </script>
+</body>
+</html>

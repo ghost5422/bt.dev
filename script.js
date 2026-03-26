@@ -49,23 +49,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal-up, .reveal-fade').forEach(el => scrollObserver.observe(el));
 
-    // --- 4. Dinamik Spotlight & 3D Tilt Efekti (Optimize Edildi) ---
+    // --- 4. Dinamik Spotlight & 3D Tilt (LAYOUT THRASHING ÇÖZÜLDÜ - CACHE EKLENDİ) ---
     document.querySelectorAll('.premium-card').forEach(card => {
         let cardTicking = false;
-        
+        let rectCache = null; // Cihazı kasan hesaplamayı hafızada tutacağız
+
+        // Fare karta ilk girdiğinde ölçümü SADECE BİR KERE yap!
+        card.addEventListener('mouseenter', () => {
+            rectCache = card.getBoundingClientRect();
+        });
+
         card.addEventListener('mousemove', e => {
+            // Emniyet sübabı: Girdiğinde ölçemediyse anlık ölç
+            if (!rectCache) rectCache = card.getBoundingClientRect(); 
+            
             if (!cardTicking) {
                 window.requestAnimationFrame(() => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                    const x = e.clientX - rectCache.left;
+                    const y = e.clientY - rectCache.top;
                     
                     card.style.setProperty("--mouse-x", `${x}px`);
                     card.style.setProperty("--mouse-y", `${y}px`);
 
                     if(window.innerWidth > 1024) {
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
+                        const centerX = rectCache.width / 2;
+                        const centerY = rectCache.height / 2;
                         const rotateX = ((y - centerY) / centerY) * -5; 
                         const rotateY = ((x - centerX) / centerX) * 5;
                         
@@ -79,21 +87,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         card.addEventListener('mouseleave', () => {
+            rectCache = null; // Çıkarken hafızayı temizle
             card.classList.add('tilt-reset');
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
         });
+
+        // Sayfa kaydırılırsa hafızadaki ölçü bozulur, temizleyelim
+        window.addEventListener('scroll', () => { rectCache = null; }, { passive: true });
     });
 
-    // --- 5. Manyetik Butonlar (Optimize Edildi) ---
+    // --- 5. Manyetik Butonlar (LAYOUT THRASHING ÇÖZÜLDÜ) ---
     document.querySelectorAll('.magnetic-btn').forEach(btn => {
         let btnTicking = false;
+        let btnRect = null;
         
+        btn.addEventListener('mouseenter', () => {
+            btnRect = btn.getBoundingClientRect();
+        });
+
         btn.addEventListener('mousemove', e => {
+            if (!btnRect) btnRect = btn.getBoundingClientRect();
+
             if (!btnTicking) {
                 window.requestAnimationFrame(() => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
+                    const x = e.clientX - btnRect.left - btnRect.width / 2;
+                    const y = e.clientY - btnRect.top - btnRect.height / 2;
                     btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
                     btn.classList.remove('reset');
                     btnTicking = false;
@@ -103,9 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         btn.addEventListener('mouseleave', () => {
+            btnRect = null;
             btn.classList.add('reset');
             btn.style.transform = `translate(0px, 0px)`;
         });
+
+        window.addEventListener('scroll', () => { btnRect = null; }, { passive: true });
     });
 
     // --- 6. SSS Akordeon ---
@@ -129,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 7. Kriptografik Yazı Yazma (Scramble Typewriter) Efekti ---
+    // --- 7. Kriptografik Yazı Yazma (GPU'yu Rahatlatan Hız Ayarı) ---
     class TextScramble {
         constructor(el) {
             this.el = el;
@@ -176,7 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.resolve();
             } else {
                 this.frameRequest = requestAnimationFrame(this.update);
-                this.frame++;
+                // Frame artışını 1.5 yaptık ki animasyon bir tık hızlı bitsin, tarayıcı nefes alsın
+                this.frame += 1.5; 
             }
         }
         randomChar() {

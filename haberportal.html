@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Son Dakika Gelişmeleri | HaberVakti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .no-select { -webkit-tap-highlight-color: transparent; user-select: none; touch-action: manipulation; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+        #msg-container::-webkit-scrollbar { width: 4px; }
+        #msg-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+    <div id="cover-page" class="min-h-screen">
+        <nav class="bg-red-600 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-10">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bars text-xl cursor-pointer"></i>
+                <h1 class="text-2xl font-black tracking-tight">HaberVakti</h1>
+            </div>
+            <i class="fa-solid fa-magnifying-glass text-xl cursor-pointer"></i>
+        </nav>
+        
+        <div class="bg-gray-100 border-b overflow-x-auto whitespace-nowrap px-4 py-2 text-sm font-semibold text-gray-700 flex gap-5">
+            <span class="text-red-600 border-b-2 border-red-600 pb-1 cursor-pointer">Gündem</span>
+            <span class="cursor-pointer hover:text-red-600">Sağlık</span>
+            <span class="cursor-pointer hover:text-red-600">Ekonomi</span>
+            <span class="cursor-pointer hover:text-red-600">Spor</span>
+            <span class="cursor-pointer hover:text-red-600">Dünya</span>
+            <span class="cursor-pointer hover:text-red-600">Magazin</span>
+        </div>
+
+        <main class="max-w-3xl mx-auto mt-4 p-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-3 text-gray-900 leading-tight">Uzmanlardan Kritik Uyarı: Bahar Yorgunluğuna Karşı Alınması Gereken Önlemler</h2>
+            
+            <div id="secret-trigger" class="mb-4 inline-flex items-center gap-2 p-2 -ml-2 rounded-lg no-select cursor-default text-gray-500 text-xs">
+                <i class="fa-regular fa-clock"></i>
+                <p>Güncellenme: 24 Nisan 2026 • 10:30</p>
+            </div>
+
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000&auto=format&fit=crop" class="w-full h-56 md:h-80 object-cover rounded-md mb-6 shadow-sm" alt="Sağlıklı Beslenme">
+            
+            <article class="space-y-5 text-gray-800 leading-relaxed text-base md:text-lg">
+                <p>Havaların ısınmasıyla birlikte doğa uyanırken, insan vücudu bu değişime her zaman aynı hızda tepki veremeyebiliyor. Uzmanlar, bahar aylarında sıklıkla görülen ve günlük yaşantıyı zorlaştıran 'bahar yorgunluğu'na karşı vatandaşları uyarıyor.</p>
+                <p>Özellikle mevsim geçişlerinde yaşanan ani sıcaklık değişimleri, bağışıklık sistemini doğrudan etkileyerek halsizlik, sürekli uyku hali, eklem ve kas ağrılarına yol açabiliyor. Beslenme uzmanlarına göre, bu dönemi rahat ve enerjik atlatmanın en önemli kuralı su tüketimini artırmak ve vitamin açısından zengin, doğal besinlere yönelmek.</p>
+                <h3 class="text-xl font-bold text-gray-900 mt-6 mb-2">"Sabahları Yorgun Uyanıyorsanız Dikkat!"</h3>
+                <p>Konuyla ilgili açıklama yapan iç hastalıkları uzmanları, "Sabahları güne yorgun uyanmak sadece fiziksel değil, psikolojik olarak da günlük yaşantıyı, iş verimliliğini ve ikili ilişkileri olumsuz etkiliyor. Bu dönemde sindirimi zor olan ağır ve yağlı yiyeceklerden uzak durulmalı, antioksidan deposu mevsim yeşillikleri bolca tüketilmelidir" diyerek önemli tavsiyelerde bulunuyor.</p>
+                <p>Düzenli egzersiz ve kesintisiz uyku düzeninin korunmasının, vücudun biyolojik saatini dengelemede büyük rol oynadığı belirtiliyor. Ayrıca gün içinde yapılacak yarım saatlik kısa tempolu yürüyüşlerin de metabolizmayı hızlandırarak enerji seviyesini belirgin ölçüde artırdığı ifade ediliyor.</p>
+            </article>
+
+            <div class="mt-10 border-t pt-6">
+                <h3 class="text-lg font-bold mb-4 text-gray-900 border-l-4 border-red-600 pl-2">İlginizi Çekebilecek Diğer Haberler</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=500&auto=format&fit=crop" class="w-full h-24 object-cover rounded mb-2 shadow-sm">
+                        <p class="text-sm font-bold leading-tight hover:text-red-600">Meteoroloji'den sağanak yağış uyarısı! O illere dikkat...</p>
+                    </div>
+                    <div class="cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=500&auto=format&fit=crop" class="w-full h-24 object-cover rounded mb-2 shadow-sm">
+                        <p class="text-sm font-bold leading-tight hover:text-red-600">Uzmanlar son noktayı koydu: Günde tam olarak kaç litre su içmeliyiz?</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="bg-gray-800 text-gray-400 text-center p-6 mt-6 text-xs">
+            <p class="mb-2">&copy; 2026 HaberVakti Yayın Grubu. Tüm hakları saklıdır.</p>
+            <div class="flex justify-center gap-4 text-gray-500">
+                <span>Gizlilik Politikası</span>
+                <span>Kullanım Şartları</span>
+                <span>Künye</span>
+            </div>
+        </footer>
+    </div>
+
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 p-6">
+        <div id="auth-box" class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-xs transform transition-all scale-90 opacity-0">
+            <h3 class="text-lg font-bold text-center mb-6">Sistem Doğrulaması</h3>
+            <input type="password" id="password-input" class="w-full px-4 py-3 border rounded-xl mb-4 text-center tracking-widest text-xl outline-none focus:ring-2 focus:ring-red-600" placeholder="••••">
+            <button id="login-btn" class="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700">Giriş Yap</button>
+            <p id="error-msg" class="text-red-500 text-xs text-center mt-3 hidden">Hatalı Parola!</p>
+        </div>
+    </div>
+
+    <div id="chat-interface" class="hidden fixed inset-0 bg-[#e5ddd5] flex flex-col z-[60]">
+        <header class="bg-[#075e54] text-white p-4 flex items-center gap-3 shadow-lg">
+            <div class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"><img src="https://ui-avatars.com/api/?name=Berkay&background=random" alt="Berkay"></div>
+            <div class="flex-1">
+                <h4 class="font-bold">Berkay</h4>
+                <div class="text-[11px]"><span id="typing-status" class="hidden font-medium italic">yazıyor...</span><span id="online-status">çevrimiçi</span></div>
+            </div>
+            <button id="close-chat" class="p-2 opacity-70 hover:opacity-100"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </header>
+        
+        <div id="msg-container" class="flex-1 overflow-y-auto p-4 space-y-3 bg-[#e5ddd5] bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat bg-blend-multiply opacity-90 scroll-smooth"></div>
+        
+        <div id="upload-status" class="hidden bg-yellow-100 text-yellow-800 text-[10px] px-4 py-1 text-center font-bold">Fotoğraf gönderiliyor...</div>
+
+        <div class="bg-[#f0f0f0] p-3 flex items-center gap-2 border-t">
+            <input type="file" id="image-input" accept="image/*" class="hidden">
+            <button id="attach-btn" class="text-gray-500 hover:text-gray-700 p-2 active:scale-90 transition-transform"><i class="fa-solid fa-paperclip text-xl"></i></button>
+            
+            <input type="text" id="msg-input" autocomplete="off" class="flex-1 bg-white rounded-full px-4 py-2.5 outline-none text-sm shadow-sm" placeholder="Mesaj yazın...">
+            <button id="send-btn" class="bg-[#128c7e] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md active:scale-90 transition-transform"><i class="fa-solid fa-paper-plane pointer-events-none"></i></button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set, serverTimestamp, onChildAdded, onChildChanged, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCDNbgKzJdBKEZUnWH09Az6ZCwUefWJXhY",
+            authDomain: "onlinesiparis-2cf91.firebaseapp.com",
+            projectId: "onlinesiparis-2cf91",
+            storageBucket: "onlinesiparis-2cf91.appspot.com",
+            messagingSenderId: "366801664755",
+            appId: "1:366801664755:web:57b577f1943ebdf1ab8c85",
+            databaseURL: "https://onlinesiparis-2cf91-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+        const IMGBB_API_KEY = "23a3c743efa3fcad629115419ec69bc1";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let currentPassword = "";
+        let unreadFromAdmin = []; 
+
+        const trigger = document.getElementById('secret-trigger');
+        const authModal = document.getElementById('auth-modal');
+        const authBox = document.getElementById('auth-box');
+        const chatUI = document.getElementById('chat-interface');
+        const passwordInput = document.getElementById('password-input');
+        const msgContainer = document.getElementById('msg-container');
+        const msgInput = document.getElementById('msg-input');
+
+        // Şifre Yönetimi
+        onValue(ref(db, 'settings/chatPassword'), (snapshot) => { currentPassword = snapshot.val() || "1907"; });
+
+        // Tetikleyici
+        let count = 0; let timer;
+        const handleTrigger = (e) => {
+            e.preventDefault(); count++; clearTimeout(timer);
+            if (count === 3) { 
+                authModal.classList.remove('hidden'); 
+                setTimeout(() => { authBox.classList.remove('scale-90', 'opacity-0'); passwordInput.focus(); }, 50);
+                count = 0; 
+            } else { timer = setTimeout(() => { count = 0; }, 1000); }
+        };
+        trigger.addEventListener('click', handleTrigger);
+        trigger.addEventListener('touchstart', handleTrigger);
+
+        // Giriş Kontrolü
+        const checkAuth = () => {
+            if (passwordInput.value === currentPassword) {
+                authModal.classList.add('hidden'); 
+                chatUI.classList.remove('hidden');
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+                unreadFromAdmin.forEach(key => update(ref(db, 'messages/' + key), { status: 'read' }));
+                unreadFromAdmin = [];
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+                passwordInput.value = '';
+                authBox.classList.add('animate-bounce');
+                setTimeout(() => authBox.classList.remove('animate-bounce'), 500);
+            }
+        };
+        document.getElementById('login-btn').addEventListener('click', checkAuth);
+        passwordInput.addEventListener('keypress', (e) => e.key === 'Enter' && checkAuth());
+
+        document.getElementById('close-chat').addEventListener('click', () => {
+            chatUI.classList.add('hidden'); passwordInput.value = ''; document.getElementById('error-msg').classList.add('hidden');
+        });
+
+        // Metin Gönderme
+        const sendMsg = () => {
+            if (!msgInput.value.trim()) return;
+            push(ref(db, 'messages'), {
+                sender: 'girl', text: msgInput.value, type: 'text', timestamp: serverTimestamp(), status: 'sent' 
+            });
+            msgInput.value = "";
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        };
+        document.getElementById('send-btn').addEventListener('click', sendMsg);
+        msgInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMsg());
+
+        // Fotoğraf Gönderme
+        const imageInput = document.getElementById('image-input');
+        document.getElementById('attach-btn').onclick = () => imageInput.click();
+        imageInput.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('upload-status').classList.remove('hidden');
+            const formData = new FormData(); formData.append("image", file);
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
+                const result = await res.json();
+                if (result.success) {
+                    push(ref(db, 'messages'), { sender: 'girl', text: result.data.url, type: 'image', timestamp: serverTimestamp(), status: 'sent' });
+                }
+            } catch (err) { alert("Fotoğraf gönderilemedi."); }
+            document.getElementById('upload-status').classList.add('hidden');
+            imageInput.value = "";
+        };
+
+        // Mesajları Ekrana Basma
+        onChildAdded(ref(db, 'messages'), (snapshot) => {
+            const data = snapshot.val();
+            const key = snapshot.key;
+            const isMe = data.sender === 'girl';
+            const isImage = data.type === 'image';
+            const time = data.timestamp ? new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+            
+            if (!isMe) {
+                if (chatUI.classList.contains('hidden') || document.hidden) {
+                    if (data.status !== 'read') { update(ref(db, 'messages/' + key), { status: 'delivered' }); unreadFromAdmin.push(key); }
+                } else {
+                    if (data.status !== 'read') update(ref(db, 'messages/' + key), { status: 'read' });
+                }
+            }
+
+            let contentHtml = isImage 
+                ? `<img src="${data.text}" class="rounded-lg max-w-full h-auto mt-1 mb-2 cursor-pointer border shadow-sm" onclick="window.open('${data.text}')">` 
+                : `<p class="text-sm">${data.text}</p>`;
+
+            let tickHtml = '';
+            if (isMe) {
+                let tClass = 'fa-check text-gray-400'; 
+                if (data.status === 'delivered') tClass = 'fa-check-double text-gray-400';
+                if (data.status === 'read') tClass = 'fa-check-double text-blue-500';
+                tickHtml = `<i id="tick-${key}" class="fa-solid ${tClass} text-[10px] ml-1 transition-colors"></i>`;
+            }
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.id = `msg-${key}`;
+            msgDiv.className = `flex ${isMe ? 'justify-end' : 'justify-start'} animate-fade-in mt-3`;
+            msgDiv.innerHTML = `
+                <div class="${isMe ? 'bg-[#dcf8c6]' : 'bg-white'} p-2 rounded-lg shadow-sm max-w-[85%] relative pb-5 pr-14">
+                    ${contentHtml}
+                    <div class="absolute bottom-1 right-2 flex items-center">
+                        <span class="text-[9px] text-gray-400">${time}</span>
+                        ${tickHtml}
+                    </div>
+                </div>
+            `;
+            msgContainer.appendChild(msgDiv);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        });
+
+        // Tiklerin Değişimi
+        onChildChanged(ref(db, 'messages'), (snapshot) => {
+            const data = snapshot.val(); const key = snapshot.key;
+            if (data.sender === 'girl') {
+                const tickEl = document.getElementById(`tick-${key}`);
+                if (tickEl) {
+                    if (data.status === 'read') tickEl.className = 'fa-solid fa-check-double text-blue-500 text-[10px] ml-1 transition-colors';
+                    else if (data.status === 'delivered') tickEl.className = 'fa-solid fa-check-double text-gray-400 text-[10px] ml-1 transition-colors';
+                }
+            }
+        });
+
+        // Sekme Değişimi
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !chatUI.classList.contains('hidden')) {
+                unreadFromAdmin.forEach(key => update(ref(db, 'messages/' + key), { status: 'read' }));
+                unreadFromAdmin = [];
+            }
+        });
+
+        // Yazıyor Bilgisi
+        msgInput.addEventListener('input', () => {
+            set(ref(db, 'status/girlTyping'), true);
+            clearTimeout(window.typeTimer);
+            window.typeTimer = setTimeout(() => set(ref(db, 'status/girlTyping'), false), 1500);
+        });
+        onValue(ref(db, 'status/adminTyping'), (snap) => {
+            document.getElementById('typing-status').classList.toggle('hidden', !snap.val());
+        });
+
+        window.addEventListener('resize', () => { msgContainer.scrollTop = msgContainer.scrollHeight; });
+    </script>
+</body>
+</html>

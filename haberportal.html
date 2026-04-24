@@ -111,7 +111,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, push, set, serverTimestamp, onChildAdded, onChildChanged, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        // onChildRemoved eklendi
+        import { getDatabase, ref, onValue, push, set, serverTimestamp, onChildAdded, onChildChanged, update, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCDNbgKzJdBKEZUnWH09Az6ZCwUefWJXhY",
@@ -138,10 +139,8 @@
         const msgContainer = document.getElementById('msg-container');
         const msgInput = document.getElementById('msg-input');
 
-        // Şifre Yönetimi
         onValue(ref(db, 'settings/chatPassword'), (snapshot) => { currentPassword = snapshot.val() || "1907"; });
 
-        // Tetikleyici
         let count = 0; let timer;
         const handleTrigger = (e) => {
             e.preventDefault(); count++; clearTimeout(timer);
@@ -154,7 +153,6 @@
         trigger.addEventListener('click', handleTrigger);
         trigger.addEventListener('touchstart', handleTrigger);
 
-        // Giriş Kontrolü
         const checkAuth = () => {
             if (passwordInput.value === currentPassword) {
                 authModal.classList.add('hidden'); 
@@ -176,19 +174,15 @@
             chatUI.classList.add('hidden'); passwordInput.value = ''; document.getElementById('error-msg').classList.add('hidden');
         });
 
-        // Metin Gönderme
         const sendMsg = () => {
             if (!msgInput.value.trim()) return;
-            push(ref(db, 'messages'), {
-                sender: 'girl', text: msgInput.value, type: 'text', timestamp: serverTimestamp(), status: 'sent' 
-            });
+            push(ref(db, 'messages'), { sender: 'girl', text: msgInput.value, type: 'text', timestamp: serverTimestamp(), status: 'sent' });
             msgInput.value = "";
             msgContainer.scrollTop = msgContainer.scrollHeight;
         };
         document.getElementById('send-btn').addEventListener('click', sendMsg);
         msgInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMsg());
 
-        // Fotoğraf Gönderme
         const imageInput = document.getElementById('image-input');
         document.getElementById('attach-btn').onclick = () => imageInput.click();
         imageInput.onchange = async (e) => {
@@ -207,10 +201,8 @@
             imageInput.value = "";
         };
 
-        // Mesajları Ekrana Basma
         onChildAdded(ref(db, 'messages'), (snapshot) => {
-            const data = snapshot.val();
-            const key = snapshot.key;
+            const data = snapshot.val(); const key = snapshot.key;
             const isMe = data.sender === 'girl';
             const isImage = data.type === 'image';
             const time = data.timestamp ? new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
@@ -251,7 +243,6 @@
             msgContainer.scrollTop = msgContainer.scrollHeight;
         });
 
-        // Tiklerin Değişimi
         onChildChanged(ref(db, 'messages'), (snapshot) => {
             const data = snapshot.val(); const key = snapshot.key;
             if (data.sender === 'girl') {
@@ -263,7 +254,12 @@
             }
         });
 
-        // Sekme Değişimi
+        // EKRANDAN ANINDA SİLME İŞLEMİ (Veritabanından silindiğinde çalışır)
+        onChildRemoved(ref(db, 'messages'), (snapshot) => {
+            const msgDiv = document.getElementById(`msg-${snapshot.key}`);
+            if (msgDiv) msgDiv.remove();
+        });
+
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && !chatUI.classList.contains('hidden')) {
                 unreadFromAdmin.forEach(key => update(ref(db, 'messages/' + key), { status: 'read' }));
@@ -271,7 +267,6 @@
             }
         });
 
-        // Yazıyor Bilgisi
         msgInput.addEventListener('input', () => {
             set(ref(db, 'status/girlTyping'), true);
             clearTimeout(window.typeTimer);
@@ -280,7 +275,6 @@
         onValue(ref(db, 'status/adminTyping'), (snap) => {
             document.getElementById('typing-status').classList.toggle('hidden', !snap.val());
         });
-
         window.addEventListener('resize', () => { msgContainer.scrollTop = msgContainer.scrollHeight; });
     </script>
 </body>

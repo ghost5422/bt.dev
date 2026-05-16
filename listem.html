@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ev Alışveriş & Muhasebe Sistemi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen pb-28 font-sans">
+
+  <header class="bg-white border-b border-slate-100 sticky top-0 z-40 px-4 py-4 shadow-sm">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-md shadow-emerald-200">
+          <i class="fas fa-wallet text-base"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-900 tracking-tight text-base leading-none">Hane Muhasebe</h1>
+          <span class="text-[11px] text-slate-400 font-medium">Alışveriş & Bütçe Takibi</span>
+        </div>
+      </div>
+      <div id="activeTabBadge" class="text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full">
+        Alışveriş Listesi
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 mt-6">
+    
+    <div id="homePage" class="page active space-y-6">
+      <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-xl shadow-slate-200 relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 text-white/5 text-8xl pointer-events-none">
+          <i class="fas fa-shopping-bag"></i>
+        </div>
+        <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase">Mevcut Liste Toplamı</p>
+        <span id="displayTotalList" class="text-3xl font-bold block mt-1 tracking-tight text-emerald-400">0.00 ₺</span>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase tracking-wider pl-1 block mb-2">Alışveriş Listesi Girişi</label>
+          <textarea id="itemName" rows="4" placeholder="Mesajı yapıştırın ve aralara Enter basarak alt satıra indirin..." class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-base focus:outline-none focus:border-emerald-500 focus:bg-white transition-all font-medium resize-none shadow-inner"></textarea>
+          <p class="text-[11px] text-slate-400 mt-2 pl-1"><i class="fas fa-info-circle text-emerald-500 mr-1"></i>Listeyi düzenlemeyi bitirince aşağıdaki yeşil <b>"+"</b> butonuna basarak tüm satırları tek seferde ekle.</p>
+        </div>
+        
+        <div class="flex gap-2.5 border-t border-slate-50 pt-3.5">
+          <div class="w-24">
+            <span class="text-[11px] text-slate-400 block mb-1.5 pl-1">Adet</span>
+            <input type="number" id="itemQty" value="1" min="1" class="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-base font-semibold text-center focus:outline-none focus:border-emerald-500 focus:bg-white transition-all">
+          </div>
+          <div class="flex-1">
+            <span class="text-[11px] text-slate-400 block mb-1.5 pl-1">Fiyat (İsteğe Bağlı)</span>
+            <input type="number" step="0.01" id="itemPrice" placeholder="0.00 ₺" class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-base focus:outline-none focus:border-emerald-500 focus:bg-white transition-all">
+          </div>
+          <div class="flex items-end">
+            <button onclick="addItem()" class="w-14 h-[58px] bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg flex items-center justify-center active:scale-95 transition-all shadow-md shadow-emerald-100">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="px-4 py-3 bg-slate-50/70 border-b border-slate-100 flex justify-between items-center">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sepetteki Ürünler</span>
+          <span id="itemCountBadge" class="text-[11px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-semibold">0 Kalem</span>
+        </div>
+        <div class="divide-y divide-slate-100" id="shoppingListBody">
+          </div>
+      </div>
+
+      <button onclick="finishShopping()" class="w-full py-5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white rounded-2xl font-bold shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2 text-base">
+        <i class="fas fa-check-double text-sm"></i> Alışverişi Bitir & Muhasebeye İşle
+      </button>
+    </div>
+
+    <div id="productsPage" class="page space-y-6">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
+        <div class="border-b border-slate-100 pb-2">
+          <h3 class="font-bold text-slate-800 text-sm"><i class="fas fa-tag text-amber-500 mr-1"></i> Yeni Sabit Ürün Tanımla</h3>
+          <p class="text-[11px] text-slate-400">Sık aldığın ürünleri fiyatıyla buraya kaydedip listeye hızlıca ekleyebilirsin.</p>
+        </div>
+        <div class="grid grid-cols-12 gap-2.5">
+          <input type="text" id="newFavName" placeholder="Ürün Kartı Adı" class="col-span-6 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
+          <input type="number" step="0.01" id="newFavPrice" placeholder="Fiyat" class="col-span-4 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
+          <button onclick="saveNewFavorite()" class="col-span-2 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-bold text-base flex items-center justify-center active:scale-95 transition-all">
+            <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="px-4 py-3 bg-slate-50/70 border-b border-slate-100">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Kayıtlı Ürün Kataloğu</span>
+        </div>
+        <div class="divide-y divide-slate-100 max-h-[60vh] overflow-y-auto" id="favListBody">
+          </div>
+      </div>
+    </div>
+
+    <div id="historyPage" class="page space-y-6">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-slate-800 text-sm uppercase tracking-wider text-slate-500"><i class="fas fa-history text-indigo-500 mr-1"></i> Harcama Dönemleri</h3>
+        <button onclick="clearAllHistory()" class="px-3 py-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold rounded-lg transition-all flex items-center gap-1">
+          <i class="fas fa-trash-can text-[10px]"></i> Temizle
+        </button>
+      </div>
+      
+      <div id="historyListContainer" class="space-y-4">
+        </div>
+    </div>
+
+  </main>
+
+  <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-100 shadow-xl z-50 px-4 py-2.5">
+    <div class="max-w-md mx-auto flex justify-around items-center">
+      <button onclick="switchPage('home')" class="nav-btn flex flex-col items-center gap-1.5 py-1 px-4 text-emerald-600 font-semibold text-xs transition-all">
+        <i class="fas fa-shopping-basket text-xl block"></i>
+        <span>Liste</span>
+      </button>
+      <button onclick="switchPage('products')" class="nav-btn flex flex-col items-center gap-1.5 py-1 px-4 text-slate-400 font-medium text-xs transition-all">
+        <i class="fas fa-tags text-xl block"></i>
+        <span>Ürünler</span>
+      </button>
+      <button onclick="switchPage('history')" class="nav-btn flex flex-col items-center gap-1.5 py-1 px-4 text-slate-400 font-medium text-xs transition-all">
+        <i class="fas fa-chart-pie text-xl block"></i>
+        <span>Geçmiş</span>
+      </button>
+    </div>
+  </nav>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove, update, set } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+      authDomain: "urunrakip.firebaseapp.com",
+      databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "urunrakip",
+      storageBucket: "urunrakip.appspot.com",
+      messagingSenderId: "893193039416",
+      appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    let globalListTotal = 0;
+    let localList = [];
+
+    const itemNameInput = document.getElementById("itemName");
+    const itemQtyInput = document.getElementById("itemQty");
+    const itemPriceInput = document.getElementById("itemPrice");
+
+    // MULTI-LINE BULK ADD PARSER
+    window.addItem = () => {
+      const fullText = itemNameInput.value.trim();
+      if (!fullText) return;
+
+      const lines = fullText.split('\n');
+      let addedLinesCount = 0;
+
+      const p = parseFloat(itemPriceInput.value.replace(',', '.')) || 0;
+      const q = parseFloat(itemQtyInput.value) || 1;
+
+      lines.forEach(line => {
+        const cleanLine = line.trim();
+        if (cleanLine.length > 0) {
+          addItemDirect(cleanLine, p, q);
+          addedLinesCount++;
+        }
+      });
+
+      itemNameInput.value = ""; 
+      itemPriceInput.value = "";
+      itemQtyInput.value = "1";
+      itemNameInput.focus();
+
+      if (addedLinesCount > 0) {
+        Swal.mixin({ toast: true, position: 'top', showConfirmButton: false, timer: 1200 })
+            .fire({ icon: 'success', title: `${addedLinesCount} adet satır listeye eklendi!` });
+      }
+    };
+    
+    function addItemDirect(name, price, qty) {
+      push(ref(db, "alisveris_listesi"), { 
+        name: name, price: price, quantity: qty, isBought: false, 
+        order: Date.now()
+      });
+    }
+
+    // TABS MANAGEMENT SYSTEM
+    window.switchPage = function(pageId) {
+      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-emerald-600', 'text-amber-500', 'text-indigo-600', 'font-semibold');
+        btn.classList.add('text-slate-400', 'font-medium');
+      });
+
+      const activeBtn = event.currentTarget;
+      const badge = document.getElementById('activeTabBadge');
+
+      if (pageId === 'home') {
+        document.getElementById('homePage').classList.add('active');
+        activeBtn.classList.replace('text-slate-400', 'text-emerald-600');
+        activeBtn.classList.replace('font-medium', 'font-semibold');
+        badge.innerText = "Alışveriş Listesi";
+        badge.className = "text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full";
+      } else if (pageId === 'products') {
+        document.getElementById('productsPage').classList.add('active');
+        activeBtn.classList.replace('text-slate-400', 'text-amber-500');
+        activeBtn.classList.replace('font-medium', 'font-semibold');
+        badge.innerText = "Katalog Yönetimi";
+        badge.className = "text-xs font-semibold px-3 py-1 bg-amber-50 text-amber-700 rounded-full";
+      } else {
+        document.getElementById('historyPage').classList.add('active');
+        activeBtn.classList.replace('text-slate-400', 'text-indigo-600');
+        activeBtn.classList.replace('font-medium', 'font-semibold');
+        badge.innerText = "Ev Muhasebe";
+        badge.className = "text-xs font-semibold px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full";
+      }
+    };
+
+    // PRODUCT CATALOGUE MANAGEMENT
+    window.saveNewFavorite = function() {
+      const name = document.getElementById("newFavName").value.trim();
+      const price = parseFloat(document.getElementById("newFavPrice").value);
+      if(!name) { Swal.fire("Hata", "Ürün ismi boş bırakılamaz.", "warning"); return; }
+      
+      push(ref(db, "kayitli_urunler"), { name: name, defaultPrice: isNaN(price) ? 0 : price });
+      document.getElementById("newFavName").value = ""; 
+      document.getElementById("newFavPrice").value = "";
+      Swal.mixin({ toast: true, position: 'top', showConfirmButton: false, timer: 1200 }).fire({ icon: 'success', title: 'Kataloğa Kaydedildi' });
+    };
+
+    onValue(ref(db, "kayitli_urunler"), (snap) => {
+      const el = document.getElementById("favListBody"); el.innerHTML = "";
+      if(!snap.exists()) { 
+        el.innerHTML="<div class='p-6 text-center text-xs text-slate-400'>Kataloğunuz boş. Sık aldığınız ürünleri yukarıdan ekleyin.</div>"; 
+        return; 
+      }
+      snap.forEach(c => {
+        const item = c.val();
+        const d = document.createElement("div"); 
+        d.className = "flex items-center justify-between p-4 hover:bg-slate-50 transition-colors";
+        const inputId = `fav-qty-${c.key}`;
+        d.innerHTML = `
+          <div>
+            <div class="font-semibold text-slate-800 text-sm">${item.name}</div>
+            <div class="text-xs text-slate-400">${item.defaultPrice.toFixed(2)} ₺</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="number" id="${inputId}" class="w-12 text-center py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white" value="1" min="1">
+            <button class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors flex items-center justify-center text-sm" onclick="addFromFav('${c.key}', '${item.name}', ${item.defaultPrice})"><i class="fas fa-plus"></i></button>
+            <button class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors flex items-center justify-center text-sm" onclick="deleteFav('${c.key}')"><i class="fas fa-trash-can"></i></button>
+          </div>`;
+        el.appendChild(d);
+      });
+    });
+
+    window.addFromFav = function(key, name, price) {
+      const qty = parseFloat(document.getElementById(`fav-qty-${key}`).value) || 1;
+      addItemDirect(name, price, qty);
+      Swal.mixin({ toast: true, position: 'top', showConfirmButton: false, timer: 1000 }).fire({ icon: 'success', title: `${qty}x ${name} listeye eklendi` });
+    };
+    window.deleteFav = (k) => { remove(ref(db, "kayitli_urunler/"+k)); };
+
+    onValue(ref(db, "alisveris_listesi"), (snap) => {
+      localList = []; globalListTotal = 0;
+      if(snap.exists()){
+        snap.forEach(c => { 
+          const val = c.val();
+          val.quantity = val.quantity || 1; 
+          val.order = val.order || 0;
+          localList.push({key:c.key, ...val}); 
+          globalListTotal += (parseFloat(val.price) * parseFloat(val.quantity)); 
+        });
+      }
+      localList.sort((a,b) => a.order - b.order);
+      renderTable(); 
+      document.getElementById("displayTotalList").innerText = globalListTotal.toFixed(2)+" ₺";
+      document.getElementById("itemCountBadge").innerText = localList.length + " Kalem";
+    });
+
+    // RENDER TABLE: ADET ROZETİ (QUANTITY BADGE) %30 DAHA BÜYÜK VE BELİRGİN HALE GETİRİLDİ
+    function renderTable() {
+      const el = document.getElementById("shoppingListBody"); el.innerHTML = "";
+      if(localList.length===0) { 
+        el.innerHTML="<div class='p-8 text-center text-sm text-slate-400'><i class='fas fa-basket-shopping block text-lg mb-2 text-slate-300'></i>Listeniz boş.</div>"; 
+        return; 
+      }
+      
+      localList.forEach((i, index) => {
+        const itemRow = document.createElement("div"); 
+        itemRow.className = `flex items-center justify-between p-4 transition-all ${i.isBought ? 'bg-slate-50/70 text-slate-400' : 'bg-white'}`;
+        const lineTotal = i.price * i.quantity;
+
+        const upBtn = index > 0 ? `<button class="text-slate-300 hover:text-slate-500 p-1" onclick="moveItem(${index}, -1)"><i class="fas fa-chevron-up text-[11px]"></i></button>` : `<div class="w-4"></div>`;
+        const downBtn = index < localList.length - 1 ? `<button class="text-slate-300 hover:text-slate-500 p-1" onclick="moveItem(${index}, 1)"><i class="fas fa-chevron-down text-[11px]"></i></button>` : `<div class="w-4"></div>`;
+
+        // ROZET DEĞİŞİMİ: bg-slate-800 text-white font-extrabold text-xs px-2.5 py-1 shadow-sm olarak revize edildi.
+        itemRow.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="flex flex-col items-center justify-center border-r border-slate-100 pr-2">
+              ${upBtn}${downBtn}
+            </div>
+            <div>
+              <div class="text-base font-semibold flex items-center gap-1.5 ${i.isBought ? 'line-through text-slate-400' : 'text-slate-800'}">
+                <span>${i.name}</span> 
+                ${i.quantity > 1 ? `<span class="text-xs bg-slate-800 text-white px-2.5 py-0.5 rounded-lg font-extrabold shadow-sm tracking-wide">x${i.quantity}</span>` : ''}
+              </div>
+              <div class="text-xs font-medium text-slate-400 mt-0.5">${lineTotal.toFixed(2)} ₺</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button class="w-10 h-10 rounded-xl flex items-center justify-center text-sm transition-colors ${i.isBought ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}" onclick="tog('${i.key}',${i.isBought})">
+              <i class="fas fa-check"></i>
+            </button>
+            <button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center text-sm transition-colors" onclick="edt('${i.key}','${i.name}',${i.price},${i.quantity})">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center text-sm transition-colors" onclick="del('${i.key}')">
+              <i class="fas fa-trash-can"></i>
+            </button>
+          </div>`;
+        el.appendChild(itemRow);
+      });
+    }
+    
+    window.moveItem = function(index, direction) {
+      if (direction === -1 && index === 0) return; 
+      if (direction === 1 && index === localList.length - 1) return;
+
+      const currentItem = localList[index];
+      const targetItem = localList[index + direction];
+
+      const updates = {};
+      updates[`alisveris_listesi/${currentItem.key}/order`] = targetItem.order;
+      updates[`alisveris_listesi/${targetItem.key}/order`] = currentItem.order;
+      update(ref(db), updates);
+    };
+    
+    window.tog = (k,s) => update(ref(db,"alisveris_listesi/"+k),{isBought:!s});
+    window.del = (k) => remove(ref(db,"alisveris_listesi/"+k));
+
+    window.edt = (k, n, p, q) => {
+      Swal.fire({
+        title: 'Ürünü Düzenle',
+        html: `
+          <div class="text-left space-y-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-500 block mb-1">Ürün Adı</label>
+              <input id="sw-name" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm" value="${n}">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-xs font-semibold text-slate-500 block mb-1">Adet</label>
+                <input id="sw-qty" type="number" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm" value="${q}">
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-500 block mb-1">Fiyat (₺)</label>
+                <input id="sw-price" type="number" step="0.01" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm" value="${p}">
+              </div>
+            </div>
+          </div>`,
+        showCancelButton: true,
+        confirmButtonText: 'Güncelle',
+        cancelButtonText: 'İptal',
+        customClass: { confirmButton: 'bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm', cancelButton: 'bg-slate-100 text-slate-600 px-5 py-2.5 rounded-xl text-sm' },
+        buttonsStyling: false,
+        preConfirm: () => [document.getElementById('sw-name').value, document.getElementById('sw-qty').value, document.getElementById('sw-price').value]
+      }).then((r) => {
+        if (r.isConfirmed) {
+          update(ref(db, "alisveris_listesi/" + k), { name: r.value[0], quantity: parseFloat(r.value[1]) || 1, price: parseFloat(r.value[2]) || 0 });
+        }
+      });
+    };
+
+    // CLOSE ACCOUNTING & CLOSE LIST
+    window.finishShopping = function() {
+      if (globalListTotal === 0 && localList.length === 0) { Swal.fire("Liste Boş", "Muhasebeleştirilecek veri yok.", "info"); return; }
+      const itemsToSave = JSON.parse(JSON.stringify(localList));
+
+      Swal.fire({
+        title: 'Dönem Harcaması Kapatılsın mı?',
+        text: `Toplam Tutar: ${globalListTotal.toFixed(2)} ₺ tutarındaki bu alışveriş geçmişe kaydedilecek.`,
+        icon: 'question',
+        showDenyButton: true, showCancelButton: true,
+        confirmButtonText: 'Evet, Muhasebeye İşle', denyButtonText: 'Sadece Listeyi Temizle', cancelButtonText: 'İptal',
+        customClass: { confirmButton: 'bg-emerald-600 text-white text-xs px-5 py-2.5 rounded-xl mr-2', denyButton: 'bg-amber-500 text-white text-xs px-5 py-2.5 rounded-xl mr-2', cancelButton: 'bg-slate-100 text-slate-600 text-xs px-5 py-2.5 rounded-xl' },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const today = new Date();
+          const dateStr = today.toISOString().split('T')[0];
+          const monthStr = `${today.getFullYear()}-${today.getMonth() + 1}`;
+          
+          push(ref(db, "gecmis_harcamalar"), {
+            amount: globalListTotal, 
+            date: dateStr, 
+            timestamp: Date.now(), 
+            monthKey: monthStr,
+            fullDate: today.toLocaleString('tr-TR', { day: 'numeric', month: 'long', year:'numeric', hour:'2-digit', minute:'2-digit' }),
+            items: itemsToSave
+          }).then(() => { 
+            remove(ref(db, "alisveris_listesi")); 
+            Swal.fire('Başarılı', 'Harcama ev muhasebe geçmişine işlendi.', 'success'); 
+          });
+        } else if (result.isDenied) { 
+          remove(ref(db, "alisveris_listesi")); 
+          Swal.fire('Silindi', 'Alışveriş listesi sıfırlandı.', 'info'); 
+        }
+      });
+    };
+
+    window.clearAllHistory = function() {
+      Swal.fire({
+        title: 'Emin misiniz?', text: "Tüm bütçe bakiye ve harcama geçmişi kalıcı olarak silinecektir!", icon: 'warning',
+        showCancelButton: true, confirmButtonColor: '#e11d48', confirmButtonText: 'Evet, Tamamen Sil'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          set(ref(db, "gecmis_harcamalar"), null).then(() => Swal.fire('Temizlendi', 'Geçmiş sıfırlandı.', 'success'));
+        }
+      });
+    };
+
+    // HARCAMA GEÇMİŞİ VERİ TABANI OKUMA
+    onValue(ref(db, "gecmis_harcamalar"), (snapshot) => {
+      const container = document.getElementById("historyListContainer"); container.innerHTML = "";
+      if (!snapshot.exists()) { 
+        container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Veri yok. Tamamlanan alışverişleriniz burada aylık listelenir.</div>'; 
+        return; 
+      }
+      
+      let historyData = [];
+      snapshot.forEach(c => {
+        const val = c.val();
+        let safeTimestamp = val.timestamp || (val.date ? new Date(val.date).getTime() : 0);
+        let safeMonthKey = val.monthKey || "Diğer";
+        historyData.push({ key: c.key, ...val, timestamp: safeTimestamp, monthKey: safeMonthKey });
+      });
+      
+      historyData.sort((a, b) => b.timestamp - a.timestamp);
+
+      let grouped = {};
+      historyData.forEach(item => {
+        if (!grouped[item.monthKey]) grouped[item.monthKey] = { total: 0, entries: [] };
+        grouped[item.monthKey].entries.push(item);
+        grouped[item.monthKey].total += parseFloat(item.amount || 0);
+      });
+
+      Object.keys(grouped).sort().reverse().forEach(monthKey => {
+        const group = grouped[monthKey];
+        let monthName = "Bilinmeyen Dönem";
+        if(monthKey.includes('-')) {
+          const [year, month] = monthKey.split('-');
+          monthName = new Date(year, month - 1).toLocaleString('tr-TR', { month: 'long', year: 'numeric' });
+        }
+        
+        const monthSection = document.createElement("div"); 
+        monthSection.className = "bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-4";
+        
+        let headerDiv = document.createElement("div");
+        headerDiv.className = "bg-slate-900 text-white px-4 py-3.5 flex justify-between items-center text-xs font-bold tracking-wide uppercase";
+        headerDiv.innerHTML = `<span>${monthName}</span><span class="text-emerald-400">${group.total.toFixed(2)} ₺</span>`;
+        monthSection.appendChild(headerDiv);
+
+        const itemsDiv = document.createElement("div");
+        itemsDiv.className = "divide-y divide-slate-100";
+
+        group.entries.forEach(entry => {
+          const entryCard = document.createElement("div"); 
+          entryCard.className = "p-4 hover:bg-slate-50/50 transition-colors";
+          
+          let subDetails = '';
+          if (entry.items && Array.isArray(entry.items)) {
+            entry.items.forEach(prod => {
+              const q = prod.quantity || 1;
+              subDetails += `<div class="flex justify-between items-center text-xs text-slate-500 py-1.5 bg-slate-50/80 px-3 rounded-lg mb-1">
+                <span>${q > 1 ? `<b class="text-slate-700">${q}x</b> ` : ''}${prod.name}</span>
+                <span class="font-medium">${(prod.price * q).toFixed(2)} ₺</span>
+              </div>`;
+            });
+          }
+
+          entryCard.innerHTML = `
+            <div class="flex items-center justify-between cursor-pointer py-1" onclick="toggleDetails(this)">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-chevron-right text-[10px] text-slate-400 transition-transform h-icon"></i>
+                <div class="flex flex-col">
+                  <span class="text-xs font-semibold text-slate-700">${entry.fullDate || entry.date}</span>
+                  <span class="text-[10px] text-slate-400">${entry.items ? entry.items.length : 0} Kalem Ürün</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-rose-600">-${parseFloat(entry.amount || 0).toFixed(2)} ₺</span>
+            </div>
+            <div class="hidden mt-3 space-y-1 h-details">${subDetails}</div>`;
+          itemsDiv.appendChild(entryCard);
+        });
+        
+        monthSection.appendChild(itemsDiv);
+        container.appendChild(monthSection);
+      });
+    });
+
+    window.toggleDetails = function(element) {
+      const detailsDiv = element.nextElementSibling;
+      const icon = element.querySelector('.h-icon');
+      if (detailsDiv.classList.contains('hidden')) { 
+        detailsDiv.classList.remove('hidden'); 
+        icon.style.transform = "rotate(90deg)"; 
+      } else { 
+        detailsDiv.classList.add('hidden'); 
+        icon.style.transform = "rotate(0deg)"; 
+      }
+    };
+  </script>
+</body>
+</html>

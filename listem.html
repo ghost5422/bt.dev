@@ -103,7 +103,7 @@
         </div>
         <div class="grid grid-cols-12 gap-2.5">
           <input type="text" id="newFavName" placeholder="Ürün Kartı Adı" class="col-span-6 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
-          <input type="number" step="0.01" id="newFavPrice" placeholder="Fiyat" class="col-span-4 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
+          <input type="number" step="0.01" id="newFavPrice" placeholder="Fiyat" class="col-span-4 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
           <button onclick="saveNewFavorite()" class="col-span-2 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-bold text-base flex items-center justify-center active:scale-95 transition-all">
             <i class="fas fa-save"></i>
           </button>
@@ -243,7 +243,7 @@
       }
     };
 
-    // PRODUCT CATALOGUE MANAGEMENT
+    // PRODUCT CATALOGUE MANAGEMENT (SABİT ÜRÜN EKLEME)
     window.saveNewFavorite = function() {
       const name = document.getElementById("newFavName").value.trim();
       const price = parseFloat(document.getElementById("newFavPrice").value);
@@ -253,6 +253,41 @@
       document.getElementById("newFavName").value = ""; 
       document.getElementById("newFavPrice").value = "";
       Swal.mixin({ toast: true, position: 'top', showConfirmButton: false, timer: 1200 }).fire({ icon: 'success', title: 'Kataloğa Kaydedildi' });
+    };
+
+    // 2. GÜNCELLEME: KATALOG ÜRÜNLERİNİ DÜZENLEME (EDIT) FONKSİYONU
+    window.editFav = (k, n, p) => {
+      Swal.fire({
+        title: 'Sabit Ürünü Düzenle',
+        html: `
+          <div class="text-left space-y-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-500 block mb-1">Ürün Adı</label>
+              <input id="sw-fav-name" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm font-medium" value="${n}">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-500 block mb-1">Varsayılan Fiyat (₺)</label>
+              <input id="sw-fav-price" type="number" step="0.01" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm font-medium" value="${p}">
+            </div>
+          </div>`,
+        showCancelButton: true,
+        confirmButtonText: 'Güncelle',
+        cancelButtonText: 'İptal',
+        customClass: { 
+          confirmButton: 'bg-amber-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold mr-2', 
+          cancelButton: 'bg-slate-100 text-slate-600 px-5 py-2.5 rounded-xl text-sm font-medium' 
+        },
+        buttonsStyling: false,
+        preConfirm: () => [document.getElementById('sw-fav-name').value, document.getElementById('sw-fav-price').value]
+      }).then((r) => {
+        if (r.isConfirmed) {
+          update(ref(db, "kayitli_urunler/" + k), { 
+            name: r.value[0], 
+            defaultPrice: parseFloat(r.value[1]) || 0 
+          });
+          Swal.mixin({ toast: true, position: 'top', showConfirmButton: false, timer: 1000 }).fire({ icon: 'success', title: 'Katalog Güncellendi' });
+        }
+      });
     };
 
     onValue(ref(db, "kayitli_urunler"), (snap) => {
@@ -266,6 +301,7 @@
         const d = document.createElement("div"); 
         d.className = "flex items-center justify-between p-4 hover:bg-slate-50 transition-colors";
         const inputId = `fav-qty-${c.key}`;
+        // Kataloğa Mavi Kalem (Düzenle) Butonu Entegre Edildi
         d.innerHTML = `
           <div>
             <div class="font-semibold text-slate-800 text-sm">${item.name}</div>
@@ -274,6 +310,7 @@
           <div class="flex items-center gap-2">
             <input type="number" id="${inputId}" class="w-12 text-center py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white" value="1" min="1">
             <button class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors flex items-center justify-center text-sm" onclick="addFromFav('${c.key}', '${item.name}', ${item.defaultPrice})"><i class="fas fa-plus"></i></button>
+            <button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors flex items-center justify-center text-sm" onclick="editFav('${c.key}', '${item.name}', ${item.defaultPrice})"><i class="fas fa-pen"></i></button>
             <button class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors flex items-center justify-center text-sm" onclick="deleteFav('${c.key}')"><i class="fas fa-trash-can"></i></button>
           </div>`;
         el.appendChild(d);
@@ -298,13 +335,21 @@
           globalListTotal += (parseFloat(val.price) * parseFloat(val.quantity)); 
         });
       }
-      localList.sort((a,b) => a.order - b.order);
+
+      // 1. GÜNCELLEME: ALINAN ÜRÜNLERİ OTOMATİK OLARAK EN ALTA ATAN AKILLI SIRALAMA MOTORU
+      localList.sort((a, b) => {
+        if (a.isBought !== b.isBought) {
+          return a.isBought ? 1 : -1; // Üstü çizilenler (isBought: true) her zaman sona (1) kayar
+        }
+        return a.order - b.order; // Kendi grupları içinde eklenme sırasını korur
+      });
+
       renderTable(); 
       document.getElementById("displayTotalList").innerText = globalListTotal.toFixed(2)+" ₺";
       document.getElementById("itemCountBadge").innerText = localList.length + " Kalem";
     });
 
-    // RENDER TABLE: ADET ROZETİ (QUANTITY BADGE) %30 DAHA BÜYÜK VE BELİRGİN HALE GETİRİLDİ
+    // RENDER TABLE
     function renderTable() {
       const el = document.getElementById("shoppingListBody"); el.innerHTML = "";
       if(localList.length===0) { 
@@ -320,14 +365,13 @@
         const upBtn = index > 0 ? `<button class="text-slate-300 hover:text-slate-500 p-1" onclick="moveItem(${index}, -1)"><i class="fas fa-chevron-up text-[11px]"></i></button>` : `<div class="w-4"></div>`;
         const downBtn = index < localList.length - 1 ? `<button class="text-slate-300 hover:text-slate-500 p-1" onclick="moveItem(${index}, 1)"><i class="fas fa-chevron-down text-[11px]"></i></button>` : `<div class="w-4"></div>`;
 
-        // ROZET DEĞİŞİMİ: bg-slate-800 text-white font-extrabold text-xs px-2.5 py-1 shadow-sm olarak revize edildi.
         itemRow.innerHTML = `
           <div class="flex items-center gap-3">
             <div class="flex flex-col items-center justify-center border-r border-slate-100 pr-2">
               ${upBtn}${downBtn}
             </div>
             <div>
-              <div class="text-base font-semibold flex items-center gap-1.5 ${i.isBought ? 'line-through text-slate-400' : 'text-slate-800'}">
+              <div class="text-base font-semibold flex items-center gap-1.5 ${i.isBought ? 'line-through text-slate-400/80' : 'text-slate-800'}">
                 <span>${i.name}</span> 
                 ${i.quantity > 1 ? `<span class="text-xs bg-slate-800 text-white px-2.5 py-0.5 rounded-lg font-extrabold shadow-sm tracking-wide">x${i.quantity}</span>` : ''}
               </div>

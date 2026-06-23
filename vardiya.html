@@ -3,162 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vardiya Tablosu PRO v3</title>
-    <!-- Tailwind CSS (CDN) -->
+    <title>Vardiya Tablosu - Minimal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #111827; }
         
-        /* Tıklanabilir Vardiya Butonları */
+        /* Minimalist Vardiya Renkleri (Siyah Yazı) */
         .shift-pill {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 28px;
+            display: inline-block;
+            width: 100%;
+            max-width: 75px;
+            padding: 6px 0;
             border-radius: 6px;
             font-weight: 700;
+            color: #000000; /* Yazılar simsiyah */
+            text-align: center;
             cursor: pointer;
             user-select: none;
-            transition: all 0.15s ease;
+            transition: all 0.1s ease-in-out;
             font-size: 13px;
         }
-        .shift-pill:active { transform: scale(0.92); }
+        .shift-pill:active { transform: scale(0.95); }
         
-        .GECE { background-color: #1f2937; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .SABAH { background-color: #6b7280; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .İZİN { color: #9ca3af; background-color: transparent; }
-        .İZİN:hover { background-color: #f3f4f6; }
+        /* Renk Paleti */
+        .GECE { background-color: #fecaca; } /* Açık Kırmızı */
+        .SABAH { background-color: #bfdbfe; } /* Açık Mavi */
+        .İZİN { background-color: #bbf7d0; } /* Açık Yeşil */
 
-        /* KESİN TEK SAYFA - iOS SAFARI & YAZICI İÇİN AGRESİF SIKIŞTIRMA */
+        /* Çıktıda Kesin 1 Sayfa - Ölçek Derdine Son */
         @media print {
             @page { 
                 size: A4 portrait; 
-                margin: 4mm !important; /* Kağıt kenarı boşluğunu iyice kıstık */
+                margin: 5mm !important; 
             }
             body { 
                 background: white !important; 
                 padding: 0 !important; 
                 margin: 0 !important; 
-                -webkit-print-color-adjust: exact !important; 
+                -webkit-print-color-adjust: exact !important; /* Arka plan renklerini zorla bastırır */
                 print-color-adjust: exact !important;
             }
             .no-print { display: none !important; }
             .print-container { 
                 box-shadow: none !important; 
                 padding: 0 !important; 
-                max-width: 100% !important; 
-                width: 100% !important;
                 margin: 0 !important; 
-            }
-            
-            /* Başlık kısmını yer kaplamaması için daralttık */
-            .title-container { 
-                border-bottom-width: 1px !important; 
-                border-color: #000 !important; 
-                margin-bottom: 3px !important; 
-                padding-bottom: 2px !important; 
-            }
-            h1 { font-size: 13pt !important; margin: 0 !important; line-height: 1 !important; }
-            .subtitle { font-size: 8pt !important; margin: 0 !important; line-height: 1 !important; }
-            
-            /* Tabloyu iPhone için milimetrik sıkıştırdık */
-            table { 
-                margin-top: 0 !important; 
                 width: 100% !important; 
-                border-collapse: collapse !important; 
             }
-            th { 
-                padding: 2px !important; 
-                font-size: 8pt !important; 
-                line-height: 1 !important;
-            }
-            /* İşte o 2 sayfaya taşıran yüksekliği engelleyen kod */
+            
+            /* Başlığı iyice daralttık ki yer açsın */
+            .header-area { padding-bottom: 4px !important; margin-bottom: 4px !important; border-bottom: 1px solid #e5e7eb !important; }
+            h1 { font-size: 14pt !important; margin: 0 !important; }
+            p.subtitle { font-size: 8pt !important; margin: 0 !important; }
+            
+            /* Tablo hücrelerini milimetrik sıfırladık */
+            table { width: 100% !important; border-collapse: collapse !important; }
+            th { font-size: 9pt !important; padding: 2px !important; border-bottom: 2px solid #000 !important; color: #000 !important; }
             td { 
-                padding: 1px 2px !important; /* Tailwind'in mobil padding'ini ezdik */
-                height: 22px !important; /* Satır yüksekliğini sabitledik */
-                font-size: 8pt !important;
-                line-height: 1 !important;
-            }
-            td.date-col { 
-                font-size: 8pt !important; 
-                white-space: nowrap !important; 
+                padding: 2px !important; /* Hücre boşluklarını yok ettik */
+                height: 24px !important; /* Yüksekliği sabitledik (31 gün banko sığar) */
+                border-bottom: 1px solid #f3f4f6 !important; 
             }
             
-            /* Hapları baskıda gereksiz şişmemesi için ufaltıyoruz */
+            .date-col { font-size: 9pt !important; color: #000 !important; }
+            .day-name { font-size: 7.5pt !important; color: #4b5563 !important; }
+            
             .shift-pill { 
-                box-shadow: none !important; 
-                width: 60px !important; 
-                height: 16px !important; 
-                font-size: 7.5pt !important; 
-                border-radius: 3px !important;
+                padding: 2px 0 !important; 
+                font-size: 8.5pt !important; 
+                height: auto !important;
+                border-radius: 4px !important;
             }
-            
-            tr:nth-child(even) { background-color: #f9fafb !important; }
         }
     </style>
 </head>
-<body class="text-gray-800 p-2 md:p-6">
+<body class="p-2 md:p-6">
 
-    <!-- Kontrol Paneli -->
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-5 mb-6 no-print">
-        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            Vardiya Oluşturucu
-        </h2>
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6 no-print">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Vardiya Ayarları</h2>
         
-        <div class="flex flex-wrap gap-4 items-end">
-            <div class="flex-1 min-w-[120px]">
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Ay</label>
-                <select id="monthSelect" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
-                    <option value="0">Ocak</option><option value="1">Şubat</option><option value="2">Mart</option>
-                    <option value="3">Nisan</option><option value="4">Mayıs</option><option value="5">Haziran</option>
-                    <option value="6">Temmuz</option><option value="7">Ağustos</option><option value="8">Eylül</option>
-                    <option value="9">Ekim</option><option value="10">Kasım</option><option value="11">Aralık</option>
-                </select>
-            </div>
-            <div class="flex-1 min-w-[100px]">
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Yıl</label>
-                <select id="yearSelect" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none"></select>
-            </div>
-            <button onclick="generateTable()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors w-full sm:w-auto">
-                Yenile
+        <div class="flex flex-col sm:flex-row gap-3">
+            <select id="monthSelect" class="flex-1 border border-gray-200 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-400 outline-none font-semibold">
+                <option value="0">Ocak</option><option value="1">Şubat</option><option value="2">Mart</option>
+                <option value="3">Nisan</option><option value="4">Mayıs</option><option value="5">Haziran</option>
+                <option value="6">Temmuz</option><option value="7">Ağustos</option><option value="8">Eylül</option>
+                <option value="9">Ekim</option><option value="10">Kasım</option><option value="11">Aralık</option>
+            </select>
+            
+            <select id="yearSelect" class="flex-1 border border-gray-200 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-400 outline-none font-semibold"></select>
+            
+            <button onclick="generateTable()" class="bg-gray-800 hover:bg-black text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                Uygula
             </button>
-            <button onclick="window.print()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 px-6 rounded-lg transition-colors w-full sm:w-auto flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
                 PDF / Yazdır
             </button>
         </div>
-        
-        <div class="mt-4 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200">
-            <strong>💡 Düzenleme Modu:</strong> İstediğin vardiyanın <b>üzerine tıklayarak</b> değiştirebilirsin.
-        </div>
+        <p class="text-xs text-gray-500 mt-3 text-center">Değiştirmek istediğiniz vardiyanın üzerine dokunun.</p>
     </div>
 
-    <!-- Yazdırılacak Tablo Alanı -->
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-8 print-container">
-        <div class="text-center border-b-2 border-gray-800 pb-3 mb-4 title-container">
-            <h1 id="tableTitle" class="text-2xl font-bold uppercase tracking-wide text-gray-900">AY YIL VARDİYA TABLOSU</h1>
-            <p class="text-sm text-gray-500 italic mt-1 subtitle">« Berkay, Kenan ve Ali - Kesintisiz Çalışma Planı »</p>
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-8 print-container">
+        
+        <div class="text-center header-area pb-4 mb-6 border-b border-gray-200">
+            <h1 id="tableTitle" class="text-2xl font-bold text-gray-900 tracking-tight uppercase">AY YIL VARDİYASI</h1>
+            <p class="subtitle text-sm text-gray-500 mt-1">Berkay, Kenan ve Ali</p>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-center border-collapse">
-                <thead>
-                    <tr class="bg-gray-900 text-white">
-                        <th class="py-2 px-2 text-left border border-gray-900 w-1/4">TARİH</th>
-                        <th class="py-2 px-1 border border-gray-900 w-1/4">BERKAY</th>
-                        <th class="py-2 px-1 border border-gray-900 w-1/4">KENAN</th>
-                        <th class="py-2 px-1 border border-gray-900 w-1/4">ALİ</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- JS ile dolacak -->
+        <table class="w-full text-center">
+            <thead>
+                <tr>
+                    <th class="py-3 px-2 text-left text-gray-600 font-bold border-b-2 border-gray-800 w-1/4">Tarih</th>
+                    <th class="py-3 px-2 text-gray-600 font-bold border-b-2 border-gray-800 w-1/4">Berkay</th>
+                    <th class="py-3 px-2 text-gray-600 font-bold border-b-2 border-gray-800 w-1/4">Kenan</th>
+                    <th class="py-3 px-2 text-gray-600 font-bold border-b-2 border-gray-800 w-1/4">Ali</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
                 </tbody>
-            </table>
-        </div>
+        </table>
     </div>
 
     <script>
@@ -171,7 +135,7 @@
         const anchorAli = new Date(Date.UTC(2026, 5, 2));   
 
         const ayIsimleri = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        const gunIsimleri = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+        const gunIsimleri = ["Pazar", "Pzt", "Salı", "Çarş", "Perş", "Cuma", "Cmt"];
 
         window.onload = () => {
             const currentYear = new Date().getFullYear();
@@ -182,7 +146,6 @@
                 if(i === currentYear) opt.selected = true;
                 yearSelect.appendChild(opt);
             }
-            
             document.getElementById('monthSelect').value = new Date().getMonth();
             generateTable();
         };
@@ -191,7 +154,6 @@
             const msPerDay = 1000 * 60 * 60 * 24;
             const tDate = Date.UTC(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
             const diffDays = Math.floor((tDate - anchorDate) / msPerDay);
-            
             let index = diffDays % 6;
             if (index < 0) index += 6; 
             return cycleArray[index];
@@ -199,11 +161,7 @@
 
         function toggleShift(element) {
             let currentShift = element.getAttribute('data-shift');
-            let nextShift = '';
-            
-            if(currentShift === 'GECE') nextShift = 'SABAH';
-            else if(currentShift === 'SABAH') nextShift = 'İZİN';
-            else nextShift = 'GECE';
+            let nextShift = currentShift === 'GECE' ? 'SABAH' : currentShift === 'SABAH' ? 'İZİN' : 'GECE';
             
             element.setAttribute('data-shift', nextShift);
             element.className = `shift-pill ${nextShift}`;
@@ -214,7 +172,7 @@
             const month = parseInt(document.getElementById('monthSelect').value);
             const year = parseInt(document.getElementById('yearSelect').value);
             
-            document.getElementById('tableTitle').innerText = `${ayIsimleri[month].toUpperCase()} ${year} VARDİYA TABLOSU`;
+            document.getElementById('tableTitle').innerText = `${ayIsimleri[month]} ${year}`;
             
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = ''; 
@@ -230,19 +188,19 @@
                 const aShift = getShift(currentDate, anchorAli, aliCycle);
 
                 const tr = document.createElement('tr');
-                tr.className = day % 2 === 0 ? "bg-gray-50" : "bg-white";
+                tr.className = "border-b border-gray-100 hover:bg-gray-50";
                 
                 tr.innerHTML = `
-                    <td class="py-2 px-2 border border-gray-200 text-left font-bold text-gray-800 date-col">
-                        ${day} ${ayIsimleri[month]} <span class="text-xs font-normal text-gray-500 ml-1">(${dayName})</span>
+                    <td class="py-2.5 px-2 text-left date-col font-bold">
+                        ${day} <span class="day-name font-normal ml-1">${dayName}</span>
                     </td>
-                    <td class="py-1 px-1 border border-gray-200">
+                    <td class="py-2 px-1">
                         <span class="shift-pill ${bShift}" data-shift="${bShift}" onclick="toggleShift(this)">${bShift}</span>
                     </td>
-                    <td class="py-1 px-1 border border-gray-200">
+                    <td class="py-2 px-1">
                         <span class="shift-pill ${kShift}" data-shift="${kShift}" onclick="toggleShift(this)">${kShift}</span>
                     </td>
-                    <td class="py-1 px-1 border border-gray-200">
+                    <td class="py-2 px-1">
                         <span class="shift-pill ${aShift}" data-shift="${aShift}" onclick="toggleShift(this)">${aShift}</span>
                     </td>
                 `;

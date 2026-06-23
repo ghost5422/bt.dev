@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vardiya Tablosu PRO</title>
+    <title>Vardiya Tablosu PRO v2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -31,13 +31,35 @@
         .İZİN { color: #9ca3af; background-color: transparent; }
         .İZİN:hover { background-color: #f3f4f6; }
 
-        /* Çıktı (PDF) Ayarları */
+        /* TEK SAYFAYA SIĞDIRMA AYARI (Yazıcı ve PDF için) */
         @media print {
-            body { background: white; }
+            @page { 
+                size: A4; 
+                margin: 6mm 10mm !important; /* Üstten ve alttan boşluğu kıstık */
+            }
+            body { background: white; color: #000; padding: 0 !important; }
             .no-print { display: none !important; }
             .print-container { box-shadow: none !important; padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
-            .shift-pill { box-shadow: none !important; } /* Çıktıda gölge olmasın temiz çıksın */
-            @page { size: A4; margin: 12mm; }
+            
+            /* Başlığı küçültüyoruz yer açsın */
+            .title-container { border-bottom-width: 2px !important; border-color: #111827 !important; margin-bottom: 8px !important; padding-bottom: 4px !important; }
+            h1 { font-size: 16pt !important; margin: 0 !important; }
+            .subtitle { font-size: 9pt !important; margin: 0 !important; }
+            
+            /* Tabloyu ve satırları daraltıyoruz */
+            table { font-size: 9pt !important; margin-top: 5px !important; }
+            th { padding: 4px 6px !important; font-size: 9pt !important; }
+            td { padding: 3px 4px !important; }
+            td.date-col { font-size: 9pt !important; }
+            
+            /* Butonları çıktı için küçültüyoruz */
+            .shift-pill { 
+                box-shadow: none !important; 
+                padding: 2px 0 !important; 
+                font-size: 8.5pt !important; 
+                width: 70px !important; 
+                border-radius: 4px !important;
+            }
         }
     </style>
 </head>
@@ -73,14 +95,14 @@
         </div>
         
         <div class="mt-4 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200">
-            <strong>💡 İpucu:</strong> PDF almadan önce değiştirmek istediğiniz vardiyanın <b>üzerine tıklayarak</b> Gece, Sabah veya İzin olarak ayarlayabilirsiniz.
+            <strong>💡 Düzenleme Modu:</strong> İstediğin vardiyanın <b>üzerine tıklayarak</b> değiştirebilirsin. PDF çıktısında her şey otomatik olarak tek sayfaya sığacaktır.
         </div>
     </div>
 
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 print-container">
-        <div class="text-center border-b-2 border-gray-800 pb-4 mb-6">
+        <div class="text-center border-b-2 border-gray-800 pb-4 mb-6 title-container">
             <h1 id="tableTitle" class="text-2xl font-bold uppercase tracking-wide text-gray-900">AY YIL VARDİYA TABLOSU</h1>
-            <p class="text-sm text-gray-500 italic mt-1">« Berkay, Kenan ve Ali - Kesintisiz Çalışma Planı »</p>
+            <p class="text-sm text-gray-500 italic mt-1 subtitle">« Berkay, Kenan ve Ali - Kesintisiz Çalışma Planı »</p>
         </div>
 
         <div class="overflow-x-auto">
@@ -100,12 +122,10 @@
     </div>
 
     <script>
-        // Senin döngülerin
         const berkayCycle = ['SABAH', 'SABAH', 'GECE', 'GECE', 'İZİN', 'İZİN'];
         const kenanCycle = ['SABAH', 'SABAH', 'SABAH', 'SABAH', 'İZİN', 'İZİN'];
         const aliCycle = ['GECE', 'GECE', 'GECE', 'GECE', 'İZİN', 'İZİN'];
 
-        // Başlangıç çapaları (Haziran 2026 baz alındı)
         const anchorBerkay = new Date(Date.UTC(2026, 5, 4));
         const anchorKenan = new Date(Date.UTC(2026, 5, 6)); 
         const anchorAli = new Date(Date.UTC(2026, 5, 2));   
@@ -137,7 +157,6 @@
             return cycleArray[index];
         }
 
-        // Tıklama ile vardiya değiştirme fonksiyonu
         function toggleShift(element) {
             let currentShift = element.getAttribute('data-shift');
             let nextShift = '';
@@ -155,7 +174,7 @@
             const month = parseInt(document.getElementById('monthSelect').value);
             const year = parseInt(document.getElementById('yearSelect').value);
             
-            document.getElementById('tableTitle').innerText = `${ayIsimleri[month]} ${year} VARDİYA TABLOSU`;
+            document.getElementById('tableTitle').innerText = `${ayIsimleri[month].toUpperCase()} ${year} VARDİYA TABLOSU`;
             
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = ''; 
@@ -174,7 +193,7 @@
                 tr.className = day % 2 === 0 ? "bg-gray-50" : "bg-white";
                 
                 tr.innerHTML = `
-                    <td class="py-2 px-4 border border-gray-200 text-left font-bold text-gray-800">
+                    <td class="py-2 px-4 border border-gray-200 text-left font-bold text-gray-800 date-col">
                         ${day} ${ayIsimleri[month]} <span class="text-xs font-normal text-gray-500 ml-1">(${dayName})</span>
                     </td>
                     <td class="py-2 px-2 border border-gray-200">

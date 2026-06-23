@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vardiya Tablosu PRO v2</title>
+    <title>Vardiya Tablosu PRO v3</title>
+    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -12,12 +13,13 @@
         
         /* Tıklanabilir Vardiya Butonları */
         .shift-pill {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 80px;
-            padding: 6px 0;
+            height: 28px;
             border-radius: 6px;
             font-weight: 700;
-            text-align: center;
             cursor: pointer;
             user-select: none;
             transition: all 0.15s ease;
@@ -25,46 +27,82 @@
         }
         .shift-pill:active { transform: scale(0.92); }
         
-        /* Renkler */
         .GECE { background-color: #1f2937; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .SABAH { background-color: #6b7280; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .İZİN { color: #9ca3af; background-color: transparent; }
         .İZİN:hover { background-color: #f3f4f6; }
 
-        /* TEK SAYFAYA SIĞDIRMA AYARI (Yazıcı ve PDF için) */
+        /* KESİN TEK SAYFA - iOS SAFARI & YAZICI İÇİN AGRESİF SIKIŞTIRMA */
         @media print {
             @page { 
-                size: A4; 
-                margin: 6mm 10mm !important; /* Üstten ve alttan boşluğu kıstık */
+                size: A4 portrait; 
+                margin: 4mm !important; /* Kağıt kenarı boşluğunu iyice kıstık */
             }
-            body { background: white; color: #000; padding: 0 !important; }
+            body { 
+                background: white !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important;
+            }
             .no-print { display: none !important; }
-            .print-container { box-shadow: none !important; padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+            .print-container { 
+                box-shadow: none !important; 
+                padding: 0 !important; 
+                max-width: 100% !important; 
+                width: 100% !important;
+                margin: 0 !important; 
+            }
             
-            /* Başlığı küçültüyoruz yer açsın */
-            .title-container { border-bottom-width: 2px !important; border-color: #111827 !important; margin-bottom: 8px !important; padding-bottom: 4px !important; }
-            h1 { font-size: 16pt !important; margin: 0 !important; }
-            .subtitle { font-size: 9pt !important; margin: 0 !important; }
+            /* Başlık kısmını yer kaplamaması için daralttık */
+            .title-container { 
+                border-bottom-width: 1px !important; 
+                border-color: #000 !important; 
+                margin-bottom: 3px !important; 
+                padding-bottom: 2px !important; 
+            }
+            h1 { font-size: 13pt !important; margin: 0 !important; line-height: 1 !important; }
+            .subtitle { font-size: 8pt !important; margin: 0 !important; line-height: 1 !important; }
             
-            /* Tabloyu ve satırları daraltıyoruz */
-            table { font-size: 9pt !important; margin-top: 5px !important; }
-            th { padding: 4px 6px !important; font-size: 9pt !important; }
-            td { padding: 3px 4px !important; }
-            td.date-col { font-size: 9pt !important; }
+            /* Tabloyu iPhone için milimetrik sıkıştırdık */
+            table { 
+                margin-top: 0 !important; 
+                width: 100% !important; 
+                border-collapse: collapse !important; 
+            }
+            th { 
+                padding: 2px !important; 
+                font-size: 8pt !important; 
+                line-height: 1 !important;
+            }
+            /* İşte o 2 sayfaya taşıran yüksekliği engelleyen kod */
+            td { 
+                padding: 1px 2px !important; /* Tailwind'in mobil padding'ini ezdik */
+                height: 22px !important; /* Satır yüksekliğini sabitledik */
+                font-size: 8pt !important;
+                line-height: 1 !important;
+            }
+            td.date-col { 
+                font-size: 8pt !important; 
+                white-space: nowrap !important; 
+            }
             
-            /* Butonları çıktı için küçültüyoruz */
+            /* Hapları baskıda gereksiz şişmemesi için ufaltıyoruz */
             .shift-pill { 
                 box-shadow: none !important; 
-                padding: 2px 0 !important; 
-                font-size: 8.5pt !important; 
-                width: 70px !important; 
-                border-radius: 4px !important;
+                width: 60px !important; 
+                height: 16px !important; 
+                font-size: 7.5pt !important; 
+                border-radius: 3px !important;
             }
+            
+            tr:nth-child(even) { background-color: #f9fafb !important; }
         }
     </style>
 </head>
 <body class="text-gray-800 p-2 md:p-6">
 
+    <!-- Kontrol Paneli -->
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-5 mb-6 no-print">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -95,12 +133,13 @@
         </div>
         
         <div class="mt-4 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200">
-            <strong>💡 Düzenleme Modu:</strong> İstediğin vardiyanın <b>üzerine tıklayarak</b> değiştirebilirsin. PDF çıktısında her şey otomatik olarak tek sayfaya sığacaktır.
+            <strong>💡 Düzenleme Modu:</strong> İstediğin vardiyanın <b>üzerine tıklayarak</b> değiştirebilirsin.
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 print-container">
-        <div class="text-center border-b-2 border-gray-800 pb-4 mb-6 title-container">
+    <!-- Yazdırılacak Tablo Alanı -->
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-8 print-container">
+        <div class="text-center border-b-2 border-gray-800 pb-3 mb-4 title-container">
             <h1 id="tableTitle" class="text-2xl font-bold uppercase tracking-wide text-gray-900">AY YIL VARDİYA TABLOSU</h1>
             <p class="text-sm text-gray-500 italic mt-1 subtitle">« Berkay, Kenan ve Ali - Kesintisiz Çalışma Planı »</p>
         </div>
@@ -109,14 +148,15 @@
             <table class="w-full text-sm text-center border-collapse">
                 <thead>
                     <tr class="bg-gray-900 text-white">
-                        <th class="py-3 px-4 text-left border border-gray-900 w-1/4">TARİH</th>
-                        <th class="py-3 px-2 border border-gray-900 w-1/4">BERKAY</th>
-                        <th class="py-3 px-2 border border-gray-900 w-1/4">KENAN</th>
-                        <th class="py-3 px-2 border border-gray-900 w-1/4">ALİ</th>
+                        <th class="py-2 px-2 text-left border border-gray-900 w-1/4">TARİH</th>
+                        <th class="py-2 px-1 border border-gray-900 w-1/4">BERKAY</th>
+                        <th class="py-2 px-1 border border-gray-900 w-1/4">KENAN</th>
+                        <th class="py-2 px-1 border border-gray-900 w-1/4">ALİ</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    </tbody>
+                    <!-- JS ile dolacak -->
+                </tbody>
             </table>
         </div>
     </div>
@@ -193,16 +233,16 @@
                 tr.className = day % 2 === 0 ? "bg-gray-50" : "bg-white";
                 
                 tr.innerHTML = `
-                    <td class="py-2 px-4 border border-gray-200 text-left font-bold text-gray-800 date-col">
+                    <td class="py-2 px-2 border border-gray-200 text-left font-bold text-gray-800 date-col">
                         ${day} ${ayIsimleri[month]} <span class="text-xs font-normal text-gray-500 ml-1">(${dayName})</span>
                     </td>
-                    <td class="py-2 px-2 border border-gray-200">
+                    <td class="py-1 px-1 border border-gray-200">
                         <span class="shift-pill ${bShift}" data-shift="${bShift}" onclick="toggleShift(this)">${bShift}</span>
                     </td>
-                    <td class="py-2 px-2 border border-gray-200">
+                    <td class="py-1 px-1 border border-gray-200">
                         <span class="shift-pill ${kShift}" data-shift="${kShift}" onclick="toggleShift(this)">${kShift}</span>
                     </td>
-                    <td class="py-2 px-2 border border-gray-200">
+                    <td class="py-1 px-1 border border-gray-200">
                         <span class="shift-pill ${aShift}" data-shift="${aShift}" onclick="toggleShift(this)">${aShift}</span>
                     </td>
                 `;

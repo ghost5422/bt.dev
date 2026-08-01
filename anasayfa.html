@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Anadolu Üniversitesi AÖF Halkla İlişkiler ve Reklamcılık okuyan bir öğrenciden, bölümdaşlarına özel çalışma programları.">
+    <meta name="keywords" content="AÖF, Halkla İlişkiler, Reklamcılık, Çalışma Programı, Kişiye Özel Eğitim, B.T, Sınavlara Hazırlık">
+    <meta name="author" content="Berkay Taşkan">
+    <title>B.T | Kişiye Özel Çalışma Programları - AÖF</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            900: '#0a192f',
+                            800: '#112240',
+                            700: '#233554',
+                        },
+                        brand: {
+                            blue: '#2563eb',
+                            light: '#60a5fa',
+                            gray: '#f8fafc',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px 0 rgba(31, 38, 135, 0.06);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+        .reveal-zoom { transform: scale(0.8); }
+
+        /* Hover Effects */
+        .hover-scale {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hover-scale:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.15);
+        }
+
+        /* Ripple Effect for Buttons */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e2e8f0;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Blob positioning */
+        .blob-1 { top: -10%; left: -10%; }
+        .blob-2 { top: 20%; right: -10%; animation-delay: 2s; }
+        .blob-3 { bottom: -20%; left: 20%; animation-delay: 4s; }
+
+        /* Accordion */
+        .accordion-content {
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .open .accordion-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased relative selection:bg-brand-blue selection:text-white">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="flex flex-col items-center">
+            <div class="spinner mb-4"></div>
+            <div class="font-bold text-navy-900 tracking-widest text-sm">Yükleniyor...</div>
+        </div>
+    </div>
+
+    <!-- Background Blobs -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute w-[500px] h-[500px] bg-blue-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-1"></div>
+        <div class="absolute w-[500px] h-[500px] bg-indigo-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-2"></div>
+        <div class="absolute w-[400px] h-[400px] bg-purple-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-3"></div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            
+            <a href="#" class="flex flex-col items-center group">
+                <div class="border-2 border-brand-blue rounded-xl px-3.5 py-1.5 text-2xl font-extrabold tracking-widest text-navy-900 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
+                    B.T
+                </div>
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 mt-1">
+                    Kişiye Özel Çalışma Programları
+                </span>
+            </a>
+
+            <nav class="hidden md:flex space-x-8 items-center font-medium text-sm text-slate-600">
+                <a href="#hero" class="hover:text-brand-blue transition-colors">Ana Sayfa</a>
+                <a href="#packages" class="hover:text-brand-blue transition-colors">Paketler</a>
+                <a href="#why-me" class="hover:text-brand-blue transition-colors">Neden Ben?</a>
+                <a href="#faq" class="hover:text-brand-blue transition-colors">SSS</a>
+            </nav>
+
+            <div class="hidden md:block">
+                <a href="form.html?paket=Standart" class="btn-ripple bg-navy-900 text-white px-6 py-2.5 rounded-full font-medium hover:bg-brand-blue transition-colors shadow-lg hover:shadow-brand-blue/30 text-sm">
+                    Form Doldur
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-navy-900 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-xl flex flex-col items-center py-6 space-y-4 font-medium text-navy-900 border-t border-slate-100">
+            <a href="#hero" class="mobile-link hover:text-brand-blue">Ana Sayfa</a>
+            <a href="#packages" class="mobile-link hover:text-brand-blue">Paketler</a>
+            <a href="#why-me" class="mobile-link hover:text-brand-blue">Neden Ben?</a>
+            <a href="#faq" class="mobile-link hover:text-brand-blue">SSS</a>
+            <a href="form.html?paket=Standart" class="mobile-link bg-brand-blue text-white px-6 py-2 rounded-full shadow-lg text-sm">Form Doldur</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-36 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <div class="w-full lg:w-1/2 text-center lg:text-left reveal reveal-left">
+                    <div class="inline-flex items-center gap-2 bg-blue-100 text-brand-blue px-4 py-1.5 rounded-full text-xs font-bold mb-6 shadow-sm border border-blue-200">
+                        <i class="fa-solid fa-graduation-cap"></i> Öğrenciden Öğrenciye Destek
+                    </div>
+                    <h1 class="text-4xl lg:text-6xl font-extrabold text-navy-900 leading-[1.15] mb-6 tracking-tight">
+                        Aynı Bölümü Okuyoruz, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-indigo-600">Birlikte Başaralım.</span>
+                    </h1>
+                    <p class="text-slate-600 text-base lg:text-lg mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        Merhaba, ben Berkay! Ben de AÖF Halkla İlişkiler ve Reklamcılık okuyorum. Kurumsal, herkese aynı kopyalanan listeler yerine; aynı sınavlara giren biri olarak derslerine ve boş vakitlerine tamamen uygun programlar hazırlıyorum.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#packages" class="btn-ripple w-full sm:w-auto bg-brand-blue text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/30 text-center">
+                            Paketleri İncele
+                        </a>
+                        <a href="form.html?paket=Standart" class="btn-ripple w-full sm:w-auto bg-white text-navy-900 border border-slate-200 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all shadow-sm text-center">
+                            Hemen Formu Doldur <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 reveal reveal-right relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-200 to-indigo-100 rounded-full blur-3xl opacity-60"></div>
+                    <svg viewBox="0 0 500 500" class="w-full h-auto drop-shadow-2xl relative z-10" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000" flood-opacity="0.1"/>
+                            </filter>
+                        </defs>
+                        <circle cx="400" cy="100" r="20" fill="#cbd5e1" opacity="0.5" />
+                        <rect x="50" y="400" width="30" height="30" rx="5" fill="#93c5fd" opacity="0.6" transform="rotate(45 65 415)" />
+                        
+                        <rect x="100" y="80" width="300" height="350" rx="20" fill="#ffffff" filter="url(#shadow)" />
+                        <rect x="100" y="80" width="300" height="60" rx="20" fill="url(#grad1)" />
+                        <rect x="100" y="120" width="300" height="20" fill="url(#grad1)" />
+                        <circle cx="140" cy="110" r="6" fill="#fff" />
+                        <circle cx="160" cy="110" r="6" fill="#fff" />
+                        <circle cx="180" cy="110" r="6" fill="#fff" />
+                        
+                        <rect x="130" y="170" width="160" height="15" rx="7.5" fill="#e2e8f0" />
+                        <rect x="130" y="200" width="240" height="15" rx="7.5" fill="#f1f5f9" />
+                        <rect x="130" y="225" width="200" height="15" rx="7.5" fill="#f1f5f9" />
+                        
+                        <circle cx="140" cy="280" r="12" fill="#10b981" />
+                        <path d="M135 280 L139 284 L145 276" stroke="#fff" stroke-width="2.5" fill="none" />
+                        <rect x="165" y="275" width="120" height="10" rx="5" fill="#cbd5e1" />
+
+                        <circle cx="140" cy="320" r="12" fill="#10b981" />
+                        <path d="M135 320 L139 324 L145 316" stroke="#fff" stroke-width="2.5" fill="none" />
+                        <rect x="165" y="315" width="150" height="10" rx="5" fill="#cbd5e1" />
+
+                        <circle cx="140" cy="360" r="12" fill="#10b981" />
+                        <path d="M135 360 L139 364 L145 356" stroke="#fff" stroke-width="2.5" fill="none" />
+                        <rect x="165" y="355" width="90" height="10" rx="5" fill="#cbd5e1" />
+
+                        <g transform="translate(320, 150)">
+                            <rect x="0" y="0" width="120" height="50" rx="10" fill="#ffffff" filter="url(#shadow)" />
+                            <circle cx="20" cy="25" r="10" fill="#f59e0b" />
+                            <path d="M17 25 L23 25 M20 22 L20 28" stroke="#fff" stroke-width="2" fill="none" transform="rotate(45 20 25)" />
+                            <rect x="40" y="17" width="60" height="6" rx="3" fill="#94a3b8" />
+                            <rect x="40" y="27" width="40" height="6" rx="3" fill="#cbd5e1" />
+                        </g>
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Neden Ben -->
+    <section id="why-me" class="py-24 relative bg-white border-t border-slate-100">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Neden Benimle Çalışmalısın?</h2>
+                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 text-sm sm:text-base">Dışarıdan bir ajans değil, o dersleri bizzat veren bir bölümdaşın olarak halden anlıyor ve programı buna göre hazırlıyorum.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-100 text-brand-blue flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900 mb-3">Sana Özel Planlama</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Senin boş günlerini ve çalışma alışkanlıklarını baz alarak, doğrudan sana hitap eden bir akış kuruyorum.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.1s;">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900 mb-3">Çalışan Dostu</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Eğer bir işte çalışıyorsan, kısıtlı vaktini en verimli şekilde kullanabilmen için "minimum sürede maksimum verim" planı uyguluyorum.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.2s;">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900 mb-3">Sınav Öncesi Kamp</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Vize ve finallere son 2 hafta kala programını yoğunlaştırıp otomatik tekrar takvimi haline getiriyorum.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.3s;">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900 mb-3">Net ve Anlaşılır</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Çıktı alıp masana asabileceğin, göz yormayan, estetik ve seni motive edecek PDF formatında tasarımlar hazırlıyorum.</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.4s;">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900 mb-3">Komisyonsuz IBAN</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Araya kurumsal ödeme sistemleri ve komisyonlar sokmadan, doğrudan havale/EFT mantığıyla, öğrenci işi ilerliyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages (Pricing) -->
+    <section id="packages" class="py-24 relative bg-slate-50 border-t border-slate-200">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Sana Uygun Paketi Seç</h2>
+                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 text-sm sm:text-base">AÖF Halkla İlişkiler ve Reklamcılık bölümü müfredatına özel, öğrenci işi planlar.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6 xl:gap-8">
+                
+                <!-- Basic Plan -->
+                <div class="glass-card w-full lg:w-1/3 p-8 rounded-3xl reveal reveal-left border-slate-200 bg-white shadow-lg">
+                    <h3 class="text-2xl font-bold text-navy-900 mb-2">Temel</h3>
+                    <div class="text-slate-500 text-sm mb-6">Kendi planını yapmak isteyenlere</div>
+                    <div class="text-4xl font-extrabold text-navy-900 mb-8">Ücretsiz</div>
+                    
+                    <ul class="space-y-4 mb-8 text-slate-600 text-sm font-medium">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Genel çalışma planı taslağı</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Haftalık ders önerileri</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Başlangıç çalışma rehberi</li>
+                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Kişiye özel saat ayarı</li>
+                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Birebir analiz ve PDF</li>
+                    </ul>
+                    <a href="form.html?paket=Temel" class="btn-ripple inline-block text-center w-full py-3.5 rounded-2xl border-2 border-brand-blue text-brand-blue font-bold hover:bg-brand-blue hover:text-white transition-colors">
+                        Ücretsiz Başla
+                    </a>
+                </div>
+
+                <!-- Standard Plan (Featured) -->
+                <div class="w-full lg:w-1/3 p-1 rounded-[2rem] bg-gradient-to-b from-brand-blue to-indigo-600 shadow-2xl lg:scale-105 relative reveal reveal-zoom transform z-10">
+                    <div class="absolute -top-3.5 right-8 bg-orange-500 text-white text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        Öne Çıkan
+                    </div>
+                    <div class="bg-white rounded-[1.8rem] p-8 h-full flex flex-col">
+                        <h3 class="text-2xl font-bold text-brand-blue mb-2">Standart</h3>
+                        <div class="text-slate-500 text-sm mb-6">En çok tercih edilen sistem</div>
+                        
+                        <div class="flex items-end mb-8">
+                            <span class="text-5xl font-extrabold text-navy-900 tracking-tight" id="dynamic-price-standart">₺349</span>
+                            <span class="text-slate-500 font-medium ml-1.5 mb-1">/tek sefer</span>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8 text-slate-700 text-sm font-medium flex-grow">
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Tamamen kişiye özel program</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Kredi ve ders zorluğu önceliği</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Günlük detaylı saat planı</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Haftalık hedef belirleme</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Profesyonel PDF teslimi</li>
+                        </ul>
+                        <a href="form.html?paket=Standart" class="btn-ripple inline-block text-center w-full py-4 rounded-2xl bg-brand-blue text-white font-bold hover:bg-blue-700 shadow-xl shadow-blue-500/30 transition-all mt-auto">
+                            Standart Paketi Seç
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="glass-card w-full lg:w-1/3 p-8 rounded-3xl reveal reveal-right border-slate-200 bg-white shadow-lg">
+                    <h3 class="text-2xl font-bold text-navy-900 mb-2">Detaylı</h3>
+                    <div class="text-slate-500 text-sm mb-6">Maksimum analiz, kusursuz takip</div>
+                    <div class="flex items-end mb-8">
+                        <span class="text-4xl font-extrabold text-navy-900 tracking-tight" id="dynamic-price-premium">₺499</span>
+                        <span class="text-slate-500 font-medium ml-1.5 mb-1">/tek sefer</span>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 text-slate-600 text-sm font-medium">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-brand-blue mr-3 mt-1"></i> <strong>Standart pakettekilerin tamamı</strong></li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Ücretsiz revize hakkı (1 Kez)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Öncelikli hazırlama (24 Saat)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Vize & Final detay analizleri</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Ekstra PDF tasarımları</li>
+                    </ul>
+                    <a href="form.html?paket=Detaylı" class="btn-ripple inline-block text-center w-full py-3.5 rounded-2xl bg-navy-900 text-white font-bold hover:bg-slate-800 transition-colors">
+                        Detaylı Seç
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ (Sık Sorulan Sorular) -->
+    <section id="faq" class="py-24 relative bg-white">
+        <div class="container mx-auto px-6 lg:px-12 max-w-4xl">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Aklına Takılanlar (SSS)</h2>
+                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
+            </div>
+
+            <div class="space-y-4 reveal">
+                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
+                        <span class="font-bold text-navy-900">Program ne kadar sürede hazırlanıyor?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
+                        Standart paketlerde programını analiz formunu doldurmanın ardından 48 saat içerisinde hazırlıyorum. Detaylı (Premium) paketi tercih edersen bu süre 24 saate düşmektedir.
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
+                        <span class="font-bold text-navy-900">Ödeme işlemleri nasıl yapılıyor?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
+                        Şirket prosedürleri veya kredi kartı kullanmıyorum. Ödemeleri tamamen güvenli ve doğrudan bir şekilde <strong>sadece IBAN (Havale/EFT)</strong> hesabıma alıyorum. Formu doldurduğunda IBAN bilgilerim görüntülenir.
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
+                        <span class="font-bold text-navy-900">Program elime fiziksel olarak mı ulaşıyor?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
+                        Hayır. Çevreci politikamız ve hız prensibimiz gereği programın yüksek çözünürlüklü ve baskıya uygun profesyonel PDF formatında e-posta veya WhatsApp adresine dijital olarak teslim edilir.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="py-24 relative overflow-hidden bg-navy-900 text-white text-center">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <div class="absolute w-96 h-96 bg-brand-blue rounded-full blur-3xl -top-20 -left-20"></div>
+            <div class="absolute w-96 h-96 bg-indigo-500 rounded-full blur-3xl -bottom-20 -right-20"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 reveal reveal-zoom">
+            <h2 class="text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">Kendi Programını Hemen Oluştur.</h2>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                "Doğru plan ile çalışmak, daha çok çalışmaktan daha değerlidir."<br>Sistematik eğitime adım atarak AÖF başarını şansa bırakma.
+            </p>
+            <a href="form.html?paket=Standart" class="btn-ripple inline-block bg-white text-navy-900 px-10 py-4 rounded-full font-bold text-lg hover:bg-brand-light hover:text-white transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                Formu Doldur <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-50 pt-16 pb-8 border-t border-slate-200">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                
+                <div class="col-span-1">
+                    <a href="#" class="flex flex-col items-start mb-4 group">
+                        <div class="border-2 border-brand-blue rounded-xl px-3 py-1 text-2xl font-bold tracking-widest text-navy-900 bg-white shadow-sm">
+                            B.T
+                        </div>
+                        <span class="text-[0.65rem] font-semibold uppercase tracking-wider text-slate-500 mt-2">
+                            Kişiye Özel Çalışma Programları
+                        </span>
+                    </a>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        AÖF Halkla İlişkiler ve Reklamcılık öğrencisinden, bölümdaşlarına özel modern ve nokta atışı çalışma programları.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-navy-900 mb-4 uppercase text-sm tracking-wider">Hızlı Menü</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="#hero" class="hover:text-brand-blue transition-colors">Ana Sayfa</a></li>
+                        <li><a href="#packages" class="hover:text-brand-blue transition-colors">Paketler</a></li>
+                        <li><a href="#why-me" class="hover:text-brand-blue transition-colors">Neden Ben?</a></li>
+                        <li><a href="form.html?paket=Standart" class="hover:text-brand-blue transition-colors font-semibold">Analiz Formu</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; <span id="year"></span> Berkay Taşkan. Tüm hakları saklıdır.</p>
+                <p class="mt-2 md:mt-0">Design & Code by Professional Standards</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Preloader Logic
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500);
+                }, 500);
+            });
+
+            // Sticky Navbar & Mobile Menu
+            const header = document.getElementById('header');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('glass-nav', 'py-2', 'shadow-sm');
+                    header.classList.remove('py-4');
+                } else {
+                    header.classList.remove('glass-nav', 'py-2', 'shadow-sm');
+                    header.classList.add('py-4');
+                }
+            });
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Scroll Reveal (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // Accordion (FAQ)
+            const accordionBtns = document.querySelectorAll('.accordion-btn');
+            accordionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isOpen = content.classList.contains('open');
+
+                    document.querySelectorAll('.accordion-content').forEach(c => {
+                        c.classList.remove('open');
+                    });
+
+                    if (!isOpen) {
+                        content.classList.add('open');
+                    }
+                });
+            });
+
+            // Ripple Effect for Buttons
+            const buttons = document.querySelectorAll('.btn-ripple');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    let x = e.clientX - e.target.getBoundingClientRect().left;
+                    let y = e.clientY - e.target.getBoundingClientRect().top;
+
+                    let ripples = document.createElement('span');
+                    ripples.classList.add('ripple');
+                    ripples.style.left = x + 'px';
+                    ripples.style.top = y + 'px';
+                    this.appendChild(ripples);
+
+                    setTimeout(() => {
+                        ripples.remove();
+                    }, 600);
+                });
+            });
+        });
+    </script>
+
+    <!-- Firebase Canlı Fiyat Entegrasyonu -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            authDomain: "urunrakip.firebaseapp.com",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            storageBucket: "urunrakip.appspot.com",
+            messagingSenderId: "893193039416",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const pricesRef = ref(db, 'settings/prices');
+        onValue(pricesRef, (snapshot) => {
+            const prices = snapshot.val();
+            if (prices) {
+                const stEl = document.getElementById('dynamic-price-standart');
+                const dtEl = document.getElementById('dynamic-price-premium');
+
+                if (stEl && prices.standart) {
+                    stEl.textContent = `₺${prices.standart}`;
+                }
+                if (dtEl && prices.detayli) {
+                    dtEl.textContent = `₺${prices.detayli}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

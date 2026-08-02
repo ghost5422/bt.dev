@@ -420,7 +420,7 @@
             document.getElementById('stat-bu-ay-gelir').innerText = `₺${buAyGelir}`;
         }
 
-        // MÜŞTERİLER LİSTESİ FONKSİYONLARI (Form Detay Butonu Entegre Edildi)
+        // MÜŞTERİLER LİSTESİ FONKSİYONLARI (Sil Butonu Eklendi)
         window.araMusteriler = function(kelime) {
             aramaMetni = kelime.toLowerCase();
             renderMusterilerListesi();
@@ -480,13 +480,24 @@
                         <span class="px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest ${durumRenk}">${durumMetin}</span>
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <button type="button" class="tablo-detay-btn bg-brand-blue/10 hover:bg-brand-blue hover:text-white text-brand-blue font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 ml-auto">
-                            <i class="fa-solid fa-file-lines"></i> Form Detayı
-                        </button>
+                        <div class="flex items-center justify-end gap-2">
+                            <button type="button" class="tablo-detay-btn bg-brand-blue/10 hover:bg-brand-blue hover:text-white text-brand-blue font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-lines"></i> Form Detayı
+                            </button>
+                            <button type="button" class="tablo-sil-btn bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-trash"></i> Sil
+                            </button>
+                        </div>
                     </td>
                 `;
 
                 tr.querySelector('.tablo-detay-btn').addEventListener('click', () => showDetails(item));
+                tr.querySelector('.tablo-sil-btn').addEventListener('click', async () => {
+                    if(confirm(`${item.adSoyad || 'Bu müşteriyi'} kalıcı olarak silmek istediğinize emin misiniz?`)) {
+                        await remove(ref(db, `submissions/${key}`));
+                    }
+                });
+
                 tbody.appendChild(tr);
             });
         }
@@ -511,12 +522,10 @@
             const data = globalTaleplerData;
             const keys = Object.keys(data).reverse();
 
-            // ÖNEMLİ DEĞİŞİKLİK: 'tamamlandi' veya 'iptal' olan siparişler artık Gelen Talepler kart listesinden otomatik düşer!
             let aktifKeys = keys.filter(key => {
                 const item = data[key];
                 const durum = item.odemeDurumu || 'bekliyor';
                 
-                // İşi bitmiş (tamamlanmış veya iptal edilmiş) olanları buradan çıkarıyoruz
                 const isiBitmedi = durum !== 'tamamlandi' && durum !== 'iptal';
 
                 if(aktifFiltre === 'bekliyor') return isiBitmedi && durum === 'bekliyor';

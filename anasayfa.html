@@ -47,6 +47,14 @@
             overflow-x: hidden;
             position: relative;
         }
+        
+        /* Safari ve iOS Render Optimizasyonu */
+        .mix-blend-multiply {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
+        }
+
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
             -webkit-backdrop-filter: blur(16px);
@@ -609,12 +617,20 @@
             document.getElementById('year').textContent = new Date().getFullYear();
 
             const preloader = document.getElementById('preloader');
-            window.addEventListener('load', () => {
-                setTimeout(() => {
+            
+            // Yükleme ekranını gizleyen fonksiyon
+            const hidePreloader = () => {
+                if (preloader.style.display !== 'none') {
                     preloader.style.opacity = '0';
                     setTimeout(() => preloader.style.display = 'none', 300);
-                }, 100);
-            });
+                }
+            };
+
+            // 1. İhtimal: Sayfa tam yüklendiğinde kapat
+            window.addEventListener('load', hidePreloader);
+
+            // 2. İhtimal (Safari Fix): CDN veya Firebase yavaşlarsa kullanıcıyı bekletme (Max 1.5 sn)
+            setTimeout(hidePreloader, 1500);
 
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');

@@ -759,6 +759,13 @@
                 submitBtn.disabled = false;
             }
         };
+        const newRef = await push(ref(db, 'submissions'), formData);
+console.log("Kayıt başarılı! ID:", newRef.key);
+
+localStorage.clear();
+
+const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
+
     </script>
 </body>
 </html>

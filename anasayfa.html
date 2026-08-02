@@ -22,200 +22,118 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
                     colors: {
-                        navy: {
-                            900: '#0a192f',
-                            800: '#112240',
-                            700: '#233554',
-                        },
-                        brand: {
-                            blue: '#2563eb',
-                            light: '#60a5fa',
-                            gray: '#f8fafc',
-                        }
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+                        navy: { 900: '#0F172A', 800: '#1E293B', 700: '#334155' },
+                        brand: { blue: '#2563EB', dark: '#1D4ED8', light: '#60A5FA', gray: '#F8FAFC', slate: '#64748B' }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Custom CSS -->
+    <!-- Premium V2 Özel CSS -->
     <style>
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-            position: relative;
-        }
+        html, body { max-width: 100%; overflow-x: hidden; position: relative; }
+        body { font-family: 'Poppins', sans-serif; background-color: #F8FAFC; color: #0F172A; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc;
-        }
-
-        /* Glassmorphism */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 10px 30px 0 rgba(31, 38, 135, 0.06);
-        }
-
+        /* Apple/Stripe Tarzı Glassmorphism ve Efektler */
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04);
         }
-
-        /* Scroll Reveal Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .reveal-left { transform: translateX(-50px); }
-        .reveal-right { transform: translateX(50px); }
-        .reveal-zoom { transform: scale(0.8); }
-
-        /* Hover Effects */
-        .hover-scale {
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hover-scale:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.15);
-        }
-
-        /* Ripple Effect for Buttons */
-        .btn-ripple {
+        .gradient-border {
             position: relative;
-            overflow: hidden;
+            border-radius: 1.75rem;
+            background: linear-gradient(to bottom right, #2563EB, #60A5FA, #4F46E5);
+            padding: 2px;
         }
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            transform: scale(0);
-            animation: ripple-animation 0.6s linear;
-            background-color: rgba(255, 255, 255, 0.4);
+        .gradient-border-inner {
+            background: #ffffff;
+            border-radius: calc(1.75rem - 2px);
         }
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(37, 99, 235, 0.25);
         }
-
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.15);
+        }
+        
         /* Preloader */
         #preloader {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
+            position: fixed; inset: 0; background: #ffffff; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; transition: opacity 0.4s ease;
         }
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #e2e8f0;
-            border-top-color: #2563eb;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            width: 45px; height: 45px; border: 4px solid #E2E8F0; border-top-color: #2563EB;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Blob positioning */
-        .blob-1 { top: -10%; left: -10%; }
-        .blob-2 { top: 20%; right: -10%; animation-delay: 2s; }
-        .blob-3 { bottom: -20%; left: 20%; animation-delay: 4s; }
-
         /* Accordion */
         .accordion-content {
-            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, opacity 0.4s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.35s ease;
+            max-height: 0; opacity: 0; overflow: hidden;
         }
-        .accordion-content.open {
-            max-height: 500px;
-            opacity: 1;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        .accordion-icon {
-            transition: transform 0.3s ease;
-        }
-        .open .accordion-icon {
-            transform: rotate(180deg);
-        }
+        .accordion-content.open { max-height: 300px; opacity: 1; padding-top: 1rem; padding-bottom: 1rem; }
+        .accordion-icon { transition: transform 0.3s ease; }
+        .open .accordion-icon { transform: rotate(180deg); }
     </style>
 </head>
-<body class="text-slate-800 antialiased relative selection:bg-brand-blue selection:text-white">
+<body class="antialiased relative selection:bg-brand-blue selection:text-white">
 
     <!-- Preloader -->
     <div id="preloader">
         <div class="flex flex-col items-center">
-            <div class="spinner mb-4"></div>
-            <div class="font-bold text-navy-900 tracking-widest text-sm">Yükleniyor...</div>
+            <div class="spinner mb-3"></div>
+            <div class="font-bold text-navy-900 text-xs tracking-widest uppercase">Yükleniyor...</div>
         </div>
     </div>
 
-    <!-- Background Blobs -->
+    <!-- Ferah Arka Plan Geçişleri -->
     <div class="fixed inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div class="absolute w-[500px] h-[500px] bg-blue-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-1"></div>
-        <div class="absolute w-[500px] h-[500px] bg-indigo-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-2"></div>
-        <div class="absolute w-[400px] h-[400px] bg-purple-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob blob-3"></div>
+        <div class="absolute w-[600px] h-[600px] bg-blue-100/60 rounded-full mix-blend-multiply filter blur-[120px] top-[-10%] left-[-10%]"></div>
+        <div class="absolute w-[600px] h-[600px] bg-indigo-100/50 rounded-full mix-blend-multiply filter blur-[120px] bottom-[-10%] right-[-10%]"></div>
     </div>
 
-    <!-- Header / Navbar -->
-    <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-4">
-        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+    <!-- Navbar / Header -->
+    <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-4 glass-nav">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center max-w-7xl">
             
-            <a href="#" class="flex flex-col items-center group">
-                <div class="border-2 border-brand-blue rounded-xl px-3.5 py-1.5 text-2xl font-extrabold tracking-widest text-navy-900 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="border-2 border-brand-blue rounded-xl px-3.5 py-1.5 text-xl font-extrabold tracking-widest text-navy-900 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
                     B.T
                 </div>
-                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-slate-500 mt-1">
-                    Kişiye Özel Çalışma Programları
-                </span>
+                <div class="flex flex-col">
+                    <span class="text-[0.65rem] font-bold uppercase tracking-wider text-brand-slate leading-tight">Çalışma Programları</span>
+                    <span class="text-[0.6rem] font-medium text-brand-blue">AÖF Özel</span>
+                </div>
             </a>
 
-            <nav class="hidden md:flex space-x-8 items-center font-medium text-sm text-slate-600">
+            <nav class="hidden md:flex space-x-8 items-center font-medium text-sm text-brand-slate">
                 <a href="#hero" class="hover:text-brand-blue transition-colors">Ana Sayfa</a>
+                <a href="#how-it-works" class="hover:text-brand-blue transition-colors">Nasıl Çalışır?</a>
+                <a href="#features" class="hover:text-brand-blue transition-colors">İçerik</a>
                 <a href="#packages" class="hover:text-brand-blue transition-colors">Paketler</a>
                 <a href="#why-me" class="hover:text-brand-blue transition-colors">Neden Ben?</a>
                 <a href="#faq" class="hover:text-brand-blue transition-colors">SSS</a>
             </nav>
 
             <div class="hidden md:block">
-                <a href="form.html?paket=Standart" class="btn-ripple bg-navy-900 text-white px-6 py-2.5 rounded-full font-medium hover:bg-brand-blue transition-colors shadow-lg hover:shadow-brand-blue/30 text-sm">
-                    Form Doldur
+                <a href="form.html?paket=Standart" class="bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-brand-blue transition-all duration-200 shadow-lg shadow-navy-900/10 hover:shadow-brand-blue/20 flex items-center gap-2">
+                    <span>Program Oluştur</span> <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
 
@@ -224,355 +142,504 @@
             </button>
         </div>
 
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-xl flex flex-col items-center py-6 space-y-4 font-medium text-navy-900 border-t border-slate-100">
             <a href="#hero" class="mobile-link hover:text-brand-blue">Ana Sayfa</a>
+            <a href="#how-it-works" class="mobile-link hover:text-brand-blue">Nasıl Çalışır?</a>
+            <a href="#features" class="mobile-link hover:text-brand-blue">İçerik</a>
             <a href="#packages" class="mobile-link hover:text-brand-blue">Paketler</a>
             <a href="#why-me" class="mobile-link hover:text-brand-blue">Neden Ben?</a>
             <a href="#faq" class="mobile-link hover:text-brand-blue">SSS</a>
-            <a href="form.html?paket=Standart" class="mobile-link bg-brand-blue text-white px-6 py-2 rounded-full shadow-lg text-sm">Form Doldur</a>
+            <a href="form.html?paket=Standart" class="mobile-link bg-brand-blue text-white px-8 py-3 rounded-xl shadow-lg shadow-blue-500/20 text-sm font-semibold">Program Oluştur</a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative pt-36 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div class="container mx-auto px-6 lg:px-12">
-            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+    <!-- Hero Bölümü -->
+    <section id="hero" class="relative pt-36 pb-20 lg:pt-48 lg:pb-28 overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
                 
-                <div class="w-full lg:w-1/2 text-center lg:text-left reveal reveal-left">
-                    <div class="inline-flex items-center gap-2 bg-blue-100 text-brand-blue px-4 py-1.5 rounded-full text-xs font-bold mb-6 shadow-sm border border-blue-200">
-                        <i class="fa-solid fa-graduation-cap"></i> Öğrenciden Öğrenciye Destek
+                <!-- Sol Başlık ve CTA -->
+                <div class="w-full lg:w-1/2 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-blue px-4 py-2 rounded-full text-xs font-bold mb-6 border border-blue-100 shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i> AÖF Halkla İlişkiler ve Reklamcılık
                     </div>
-                    <h1 class="text-4xl lg:text-6xl font-extrabold text-navy-900 leading-[1.15] mb-6 tracking-tight">
-                        Aynı Bölümü Okuyoruz, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-indigo-600">Birlikte Başaralım.</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-navy-900 leading-[1.12] mb-6 tracking-tight">
+                        Aynı Sınavlardan Geçiyoruz, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-indigo-600">Başarını Şansa Bırakma.</span>
                     </h1>
-                    <p class="text-slate-600 text-base lg:text-lg mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                        Merhaba, ben Berkay! Ben de AÖF Halkla İlişkiler ve Reklamcılık okuyorum. Kurumsal, herkese aynı kopyalanan listeler yerine; aynı sınavlara giren biri olarak derslerine ve boş vakitlerine tamamen uygun programlar hazırlıyorum.
+                    <p class="text-brand-slate text-base lg:text-lg mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        Sıradan ve kopyala-yapıştır listeler yerine; aynı müfredatı okuyan bir öğrenci olarak derslerine, kredilerine ve boş vakitlerine tam uyan nokta atışı çalışma sistemleri kuruyorum.
                     </p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                        <a href="#packages" class="btn-ripple w-full sm:w-auto bg-brand-blue text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/30 text-center">
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                        <a href="form.html?paket=Standart" class="w-full sm:w-auto bg-brand-blue hover:bg-brand-dark text-white px-8.5 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-blue-500/25 text-center flex items-center justify-center gap-2.5 text-base">
+                            <span>Hemen Program Oluştur</span> <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#packages" class="w-full sm:w-auto bg-white hover:bg-slate-50 text-navy-900 border border-slate-200 px-8 py-4 rounded-2xl font-bold transition-all shadow-sm text-center">
                             Paketleri İncele
                         </a>
-                        <a href="form.html?paket=Standart" class="btn-ripple w-full sm:w-auto bg-white text-navy-900 border border-slate-200 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all shadow-sm text-center">
-                            Hemen Formu Doldur <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-                        </a>
+                    </div>
+
+                    <!-- Güven Rozetleri -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> Tamamen Kişiye Özel
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> 24-48 Saat Teslim
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> Fotoğraf / Görsel Teslim
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> AÖF Bölüm Özel
+                        </div>
                     </div>
                 </div>
 
-                <div class="w-full lg:w-1/2 reveal reveal-right relative">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-200 to-indigo-100 rounded-full blur-3xl opacity-60"></div>
-                    <svg viewBox="0 0 500 500" class="w-full h-auto drop-shadow-2xl relative z-10" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-                                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000" flood-opacity="0.1"/>
-                            </filter>
-                        </defs>
-                        <circle cx="400" cy="100" r="20" fill="#cbd5e1" opacity="0.5" />
-                        <rect x="50" y="400" width="30" height="30" rx="5" fill="#93c5fd" opacity="0.6" transform="rotate(45 65 415)" />
-                        
-                        <rect x="100" y="80" width="300" height="350" rx="20" fill="#ffffff" filter="url(#shadow)" />
-                        <rect x="100" y="80" width="300" height="60" rx="20" fill="url(#grad1)" />
-                        <rect x="100" y="120" width="300" height="20" fill="url(#grad1)" />
-                        <circle cx="140" cy="110" r="6" fill="#fff" />
-                        <circle cx="160" cy="110" r="6" fill="#fff" />
-                        <circle cx="180" cy="110" r="6" fill="#fff" />
-                        
-                        <rect x="130" y="170" width="160" height="15" rx="7.5" fill="#e2e8f0" />
-                        <rect x="130" y="200" width="240" height="15" rx="7.5" fill="#f1f5f9" />
-                        <rect x="130" y="225" width="200" height="15" rx="7.5" fill="#f1f5f9" />
-                        
-                        <circle cx="140" cy="280" r="12" fill="#10b981" />
-                        <path d="M135 280 L139 284 L145 276" stroke="#fff" stroke-width="2.5" fill="none" />
-                        <rect x="165" y="275" width="120" height="10" rx="5" fill="#cbd5e1" />
-
-                        <circle cx="140" cy="320" r="12" fill="#10b981" />
-                        <path d="M135 320 L139 324 L145 316" stroke="#fff" stroke-width="2.5" fill="none" />
-                        <rect x="165" y="315" width="150" height="10" rx="5" fill="#cbd5e1" />
-
-                        <circle cx="140" cy="360" r="12" fill="#10b981" />
-                        <path d="M135 360 L139 364 L145 356" stroke="#fff" stroke-width="2.5" fill="none" />
-                        <rect x="165" y="355" width="90" height="10" rx="5" fill="#cbd5e1" />
-
-                        <g transform="translate(320, 150)">
-                            <rect x="0" y="0" width="120" height="50" rx="10" fill="#ffffff" filter="url(#shadow)" />
-                            <circle cx="20" cy="25" r="10" fill="#f59e0b" />
-                            <path d="M17 25 L23 25 M20 22 L20 28" stroke="#fff" stroke-width="2" fill="none" transform="rotate(45 20 25)" />
-                            <rect x="40" y="17" width="60" height="6" rx="3" fill="#94a3b8" />
-                            <rect x="40" y="27" width="40" height="6" rx="3" fill="#cbd5e1" />
-                        </g>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Neden Ben -->
-    <section id="why-me" class="py-24 relative bg-white border-t border-slate-100">
-        <div class="container mx-auto px-6 lg:px-12">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Neden Benimle Çalışmalısın?</h2>
-                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
-                <p class="text-slate-600 text-sm sm:text-base">Dışarıdan bir ajans değil, o dersleri bizzat veren bir bölümdaşın olarak halden anlıyor ve programı buna göre hazırlıyorum.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-100 text-brand-blue flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-fingerprint"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Sana Özel Planlama</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Senin boş günlerini ve çalışma alışkanlıklarını baz alarak, doğrudan sana hitap eden bir akış kuruyorum.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.1s;">
-                    <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Çalışan Dostu</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Eğer bir işte çalışıyorsan, kısıtlı vaktini en verimli şekilde kullanabilmen için "minimum sürede maksimum verim" planı uyguluyorum.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.2s;">
-                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Sınav Öncesi Kamp</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Vize ve finallere son 2 hafta kala programını yoğunlaştırıp otomatik tekrar takvimi haline getiriyorum.</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.3s;">
-                    <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Net ve Anlaşılır</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Çıktı alıp masana asabileceğin, göz yormayan, estetik ve seni motive edecek PDF formatında tasarımlar hazırlıyorum.</p>
-                </div>
-                <!-- Feature 5 -->
-                <div class="glass-card p-8 rounded-3xl hover-scale reveal border border-slate-100" style="transition-delay: 0.4s;">
-                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Komisyonsuz IBAN</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Araya kurumsal ödeme sistemleri ve komisyonlar sokmadan, doğrudan havale/EFT mantığıyla, öğrenci işi ilerliyoruz.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Packages (Pricing) -->
-    <section id="packages" class="py-24 relative bg-slate-50 border-t border-slate-200">
-        <div class="container mx-auto px-6 lg:px-12">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Sana Uygun Paketi Seç</h2>
-                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
-                <p class="text-slate-600 text-sm sm:text-base">AÖF Halkla İlişkiler ve Reklamcılık bölümü müfredatına özel, öğrenci işi planlar.</p>
-            </div>
-
-            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6 xl:gap-8">
-                
-                <!-- Basic Plan -->
-                <div class="glass-card w-full lg:w-1/3 p-8 rounded-3xl reveal reveal-left border-slate-200 bg-white shadow-lg">
-                    <h3 class="text-2xl font-bold text-navy-900 mb-2">Temel</h3>
-                    <div class="text-slate-500 text-sm mb-6">Kendi planını yapmak isteyenlere</div>
-                    <div class="text-4xl font-extrabold text-navy-900 mb-8">Ücretsiz</div>
-                    
-                    <ul class="space-y-4 mb-8 text-slate-600 text-sm font-medium">
-                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Genel çalışma planı taslağı</li>
-                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Haftalık ders önerileri</li>
-                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Başlangıç çalışma rehberi</li>
-                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Kişiye özel saat ayarı</li>
-                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Birebir analiz ve PDF</li>
-                    </ul>
-                    <a href="form.html?paket=Temel" class="btn-ripple inline-block text-center w-full py-3.5 rounded-2xl border-2 border-brand-blue text-brand-blue font-bold hover:bg-brand-blue hover:text-white transition-colors">
-                        Ücretsiz Başla
-                    </a>
-                </div>
-
-                <!-- Standard Plan (Featured) -->
-                <div class="w-full lg:w-1/3 p-1 rounded-[2rem] bg-gradient-to-b from-brand-blue to-indigo-600 shadow-2xl lg:scale-105 relative reveal reveal-zoom transform z-10">
-                    <div class="absolute -top-3.5 right-8 bg-orange-500 text-white text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md">
-                        Öne Çıkan
-                    </div>
-                    <div class="bg-white rounded-[1.8rem] p-8 h-full flex flex-col">
-                        <h3 class="text-2xl font-bold text-brand-blue mb-2">Standart</h3>
-                        <div class="text-slate-500 text-sm mb-6">En çok tercih edilen sistem</div>
-                        
-                        <div class="flex items-end mb-8">
-                            <span class="text-5xl font-extrabold text-navy-900 tracking-tight" id="dynamic-price-standart">₺349</span>
-                            <span class="text-slate-500 font-medium ml-1.5 mb-1">/tek sefer</span>
+                <!-- Sağ Taraf: Modern Çalışma Programı Mockup Görseli -->
+                <div class="w-full lg:w-1/2 relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-300/40 to-indigo-200/40 rounded-[3rem] blur-2xl -rotate-3"></div>
+                    <div class="glass-card p-6 sm:p-8 rounded-[2.5xl] relative z-10 border border-white shadow-2xl glow-effect">
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-rose-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                            </div>
+                            <!-- Örnek Tasarım Etiketi -->
+                            <span class="text-[11px] font-bold text-brand-blue bg-blue-50 border border-blue-100 px-3 py-1 rounded-full flex items-center gap-1.5">
+                                <i class="fa-solid fa-eye text-xs"></i> Örnek Tasarım Görünümü
+                            </span>
                         </div>
                         
-                        <ul class="space-y-4 mb-8 text-slate-700 text-sm font-medium flex-grow">
-                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Tamamen kişiye özel program</li>
-                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Kredi ve ders zorluğu önceliği</li>
-                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Günlük detaylı saat planı</li>
-                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Haftalık hedef belirleme</li>
-                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-lg"></i> Profesyonel PDF teslimi</li>
-                        </ul>
-                        <a href="form.html?paket=Standart" class="btn-ripple inline-block text-center w-full py-4 rounded-2xl bg-brand-blue text-white font-bold hover:bg-blue-700 shadow-xl shadow-blue-500/30 transition-all mt-auto">
-                            Standart Paketi Seç
-                        </a>
+                        <!-- Mockup İçeriği -->
+                        <div class="space-y-4">
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5 rounded-2xl shadow-md flex justify-between items-center">
+                                <div>
+                                    <span class="text-[10px] uppercase font-bold tracking-wider opacity-80 block">Öğrenci Özel Planı</span>
+                                    <h4 class="font-extrabold text-base">Halkla İlişkiler 3. Sınıf</h4>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-image text-2xl opacity-90" title="Fotoğraf/Görsel Formatı"></i>
+                                    <i class="fa-solid fa-file-pdf text-2xl opacity-90" title="PDF Formatı"></i>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center shrink-0 font-bold text-sm">
+                                    09
+                                </div>
+                                <div class="flex-grow">
+                                    <h5 class="font-bold text-navy-900 text-sm">İletişim Kuramları Çalışması</h5>
+                                    <p class="text-xs text-slate-400">Modül 2 Tekrarı & Özet Çıkarma</p>
+                                </div>
+                                <span class="text-xs font-bold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-lg">45 Dk</span>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-sm">
+                                    11
+                                </div>
+                                <div class="flex-grow">
+                                    <h5 class="font-bold text-navy-900 text-sm">Reklamcılıkta Strateji</h5>
+                                    <p class="text-xs text-slate-400">Ünite Soruları Çözümü</p>
+                                </div>
+                                <span class="text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg">60 Dk</span>
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-dashed border-slate-200 text-center">
+                                <span class="text-xs font-semibold text-slate-500"><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Vize Kampı Otomatik Entegre Edildi</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Premium Plan -->
-                <div class="glass-card w-full lg:w-1/3 p-8 rounded-3xl reveal reveal-right border-slate-200 bg-white shadow-lg">
-                    <h3 class="text-2xl font-bold text-navy-900 mb-2">Detaylı</h3>
-                    <div class="text-slate-500 text-sm mb-6">Maksimum analiz, kusursuz takip</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Canlı ve İkonlu Avantajlar / Güven Şeridi -->
+    <section class="py-16 bg-white border-y border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                
+                <!-- Kart 1 -->
+                <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-extrabold text-navy-900 tracking-tight">%100 Kişiye Özel</div>
+                        <div class="text-xs font-medium text-brand-slate mt-0.5">Sana ait boş günler ve saatler baz alınır.</div>
+                    </div>
+                </div>
+
+                <!-- Kart 2 -->
+                <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-extrabold text-navy-900 tracking-tight">24-48 Saat Teslim</div>
+                        <div class="text-xs font-medium text-brand-slate mt-0.5">Hızlı analiz ile vakit kaybetmeden başla.</div>
+                    </div>
+                </div>
+
+                <!-- Kart 3 -->
+                <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-extrabold text-navy-900 tracking-tight">Bölüme Özel Müfredat</div>
+                        <div class="text-xs font-medium text-brand-slate mt-0.5">AÖF derslerinin zorluk derecelerine uyumlu.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Nasıl Hazırlanıyor (4 Adımlı Timeline) -->
+    <section id="how-it-works" class="py-24 relative bg-slate-50">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Program Nasıl Hazırlanıyor?</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+                <p class="text-brand-slate text-sm sm:text-base">Sistemli ve şeffaf 4 adımda sana özel çalışma rehberine kavuş.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <div class="glass-card p-8 rounded-3xl text-center relative hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-blue text-white font-extrabold text-lg flex items-center justify-center mx-auto mb-6 shadow-md shadow-blue-500/20">1</div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Formu Doldur</h3>
+                    <p class="text-brand-slate text-xs sm:text-sm leading-relaxed">Boş günlerini, derslerini ve hedeflerini detaylı analiz formuna kaydet.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl text-center relative hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-blue text-white font-extrabold text-lg flex items-center justify-center mx-auto mb-6 shadow-md shadow-blue-500/20">2</div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Analiz Ediyorum</h3>
+                    <p class="text-brand-slate text-xs sm:text-sm leading-relaxed">Verdiğin yanıtları AÖF müfredatına ve günlük rutinene göre inceliyorum.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl text-center relative hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-blue text-white font-extrabold text-lg flex items-center justify-center mx-auto mb-6 shadow-md shadow-blue-500/20">3</div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Program Hazırlanıyor</h3>
+                    <p class="text-brand-slate text-xs sm:text-sm leading-relaxed">Sana en uygun saat aralıkları ve kamp döngüleriyle sistemi inşa ediyorum.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl text-center relative hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-extrabold text-lg flex items-center justify-center mx-auto mb-6 shadow-md shadow-emerald-600/20">4</div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Görsel / PDF Teslim</h3>
+                    <p class="text-brand-slate text-xs sm:text-sm leading-relaxed">Yüksek çözünürlüklü Fotoğraf Görseli (JPEG/PNG) veya PDF dosyanı teslim al ve başla.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program İçeriğinde Neler Var? -->
+    <section id="features" class="py-24 bg-white border-t border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Program İçeriğinde Neler Var?</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+                <p class="text-brand-slate text-sm sm:text-base">Başarıya giden yolda ihtiyacın olan her detay eksiksiz düşünüldü.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-clock"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Günlük çalışma saatleri</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-bullseye"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Haftalık hedef belirleme</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-rotate-right"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Tekrar planı ve kamplar</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-list-ol"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Ders öncelik sıralaması</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-calendar-check"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Vize sınav planı</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-award"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Final sınav planı</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-mug-hot"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Boş gün analizi</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-fire"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Motivasyon önerileri</span>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-slate-100 flex items-center gap-4 hover-lift">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-user-check"></i></div>
+                    <span class="font-bold text-navy-900 text-sm">Kişisel tavsiyeler</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Örnek Program (Slider / Mockup Vitrini) -->
+    <section class="py-24 bg-slate-50 border-t border-slate-200/60 overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Örnek Program Tasarımları</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+                <p class="text-brand-slate text-sm sm:text-base">Telefonunuza kaydedebileceğiniz yüksek çözünürlüklü Görsel (Fotoğraf) veya PDF çıktıları.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-5 rounded-3xl border border-slate-200/80 hover-lift">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl mb-4 border border-blue-100 h-48 flex flex-col justify-between">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-brand-blue uppercase"><span>Haftalık Akış</span><i class="fa-solid fa-image"></i></div>
+                        <div class="space-y-2"><div class="h-3 bg-blue-200 rounded w-3/4"></div><div class="h-2 bg-blue-100 rounded w-1/2"></div><div class="h-2 bg-blue-100 rounded w-5/6"></div></div>
+                        <span class="text-[10px] text-slate-400 font-mono">Layout_V1.png</span>
+                    </div>
+                    <h4 class="font-bold text-navy-900 text-sm mb-1">Standart Haftalık Şablon</h4>
+                    <p class="text-xs text-brand-slate">Saat bazlı dengeli dağılım.</p>
+                </div>
+                <div class="glass-card p-5 rounded-3xl border border-slate-200/80 hover-lift">
+                    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-2xl mb-4 border border-indigo-100 h-48 flex flex-col justify-between">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-indigo-600 uppercase"><span>Vize Kampı</span><i class="fa-solid fa-image"></i></div>
+                        <div class="space-y-2"><div class="h-3 bg-indigo-200 rounded w-2/3"></div><div class="h-2 bg-indigo-100 rounded w-4/5"></div><div class="h-2 bg-indigo-100 rounded w-1/2"></div></div>
+                        <span class="text-[10px] text-slate-400 font-mono">Camp_V2.png</span>
+                    </div>
+                    <h4 class="font-bold text-navy-900 text-sm mb-1">Yoğun Vize Kampı</h4>
+                    <p class="text-xs text-brand-slate">Son 2 hafta sıkı tekrar planı.</p>
+                </div>
+                <div class="glass-card p-5 rounded-3xl border border-slate-200/80 hover-lift">
+                    <div class="bg-gradient-to-br from-teal-50 to-emerald-50 p-4 rounded-2xl mb-4 border border-teal-100 h-48 flex flex-col justify-between">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-teal-600 uppercase"><span>Çalışan Dostu</span><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="space-y-2"><div class="h-3 bg-teal-200 rounded w-4/5"></div><div class="h-2 bg-teal-100 rounded w-3/4"></div><div class="h-2 bg-teal-100 rounded w-2/3"></div></div>
+                        <span class="text-[10px] text-slate-400 font-mono">Work_V3.pdf</span>
+                    </div>
+                    <h4 class="font-bold text-navy-900 text-sm mb-1">Akşam Odaklı Program</h4>
+                    <p class="text-xs text-brand-slate">Çalışanlar için optimize edilmiş.</p>
+                </div>
+                <div class="glass-card p-5 rounded-3xl border border-slate-200/80 hover-lift">
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-2xl mb-4 border border-amber-100 h-48 flex flex-col justify-between">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-amber-600 uppercase"><span>Final Serisi</span><i class="fa-solid fa-image"></i></div>
+                        <div class="space-y-2"><div class="h-3 bg-amber-200 rounded w-1/2"></div><div class="h-2 bg-amber-100 rounded w-5/6"></div><div class="h-2 bg-amber-100 rounded w-3/4"></div></div>
+                        <span class="text-[10px] text-slate-400 font-mono">Final_V4.png</span>
+                    </div>
+                    <h4 class="font-bold text-navy-900 text-sm mb-1">Final Öncesi Soru Kampı</h4>
+                    <p class="text-xs text-brand-slate">Soru çözümü ve deneme ağırlıklı.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paketler / Fiyatlandırma -->
+    <section id="packages" class="py-24 bg-white border-t border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Sana Uygun Paketi Seç</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+                <p class="text-brand-slate text-sm sm:text-base">AÖF müfredatına özel, öğrenci bütçesine uygun profesyonel planlar.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6 xl:gap-8 max-w-5xl mx-auto">
+                <div class="glass-card w-full lg:w-1/3 p-8 rounded-[2.5xl] border-slate-200 shadow-sm flex flex-col h-full hover-lift">
+                    <h3 class="text-xl font-bold text-navy-900 mb-1">Temel</h3>
+                    <div class="text-slate-400 text-xs mb-6 font-medium">Kendi planını yapmak isteyenlere</div>
+                    <div class="text-4xl font-extrabold text-navy-900 mb-8">Ücretsiz</div>
+                    <ul class="space-y-3.5 mb-8 text-slate-600 text-xs font-medium flex-grow">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Genel çalışma planı taslağı</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Haftalık ders önerileri</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Başlangıç rehberi</li>
+                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Kişiye özel saat ayarı</li>
+                        <li class="flex items-center text-slate-300"><i class="fa-solid fa-xmark mr-3"></i> Birebir analiz ve Görsel/PDF</li>
+                    </ul>
+                    <a href="form.html?paket=Temel" class="inline-block text-center w-full py-3.5 rounded-xl border-2 border-brand-blue/30 text-brand-blue text-sm font-bold hover:bg-brand-blue hover:text-white hover:border-brand-blue transition-all">Ücretsiz Başla</a>
+                </div>
+
+                <div class="w-full lg:w-1/3 gradient-border glow-effect lg:scale-105 relative transform z-10 hover-lift">
+                    <div class="absolute -top-3.5 right-8 bg-orange-500 text-white text-[10px] font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-md">Tavsiye Edilen</div>
+                    <div class="gradient-border-inner p-8 h-full flex flex-col">
+                        <h3 class="text-xl font-bold text-brand-blue mb-1">Standart</h3>
+                        <div class="text-slate-400 text-xs mb-6 font-medium">Nokta atışı başarı sistemi</div>
+                        <div class="flex items-end mb-8">
+                            <span class="text-5xl font-extrabold text-navy-900 tracking-tight" id="dynamic-price-standart">₺349</span>
+                            <span class="text-slate-400 font-semibold text-xs ml-1.5 mb-1.5">/tek sefer</span>
+                        </div>
+                        <ul class="space-y-3.5 mb-8 text-slate-700 text-xs font-semibold flex-grow">
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-base"></i> Tamamen kişiye özel program</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-base"></i> Kredi ve ders zorluğu önceliği</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-base"></i> Günlük detaylı saat planı</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-base"></i> Haftalık hedef belirleme</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-brand-blue mr-3 text-base"></i> Yüksek Çözünürlüklü Görsel & PDF</li>
+                        </ul>
+                        <a href="form.html?paket=Standart" class="inline-block text-center w-full py-4 rounded-xl bg-brand-blue hover:bg-brand-dark text-white text-sm font-bold shadow-lg shadow-blue-500/30 transition-all mt-auto">Standart Paketi Seç</a>
+                    </div>
+                </div>
+
+                <div class="glass-card w-full lg:w-1/3 p-8 rounded-[2.5xl] border-slate-200 shadow-sm flex flex-col h-full hover-lift">
+                    <h3 class="text-xl font-bold text-navy-900 mb-1">Detaylı</h3>
+                    <div class="text-slate-400 text-xs mb-6 font-medium">Maksimum analiz, kusursuz takip</div>
                     <div class="flex items-end mb-8">
                         <span class="text-4xl font-extrabold text-navy-900 tracking-tight" id="dynamic-price-premium">₺499</span>
-                        <span class="text-slate-500 font-medium ml-1.5 mb-1">/tek sefer</span>
+                        <span class="text-slate-400 font-semibold text-xs ml-1.5 mb-1.5">/tek sefer</span>
                     </div>
-                    
-                    <ul class="space-y-4 mb-8 text-slate-600 text-sm font-medium">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-brand-blue mr-3 mt-1"></i> <strong>Standart pakettekilerin tamamı</strong></li>
+                    <ul class="space-y-3.5 mb-8 text-slate-600 text-xs font-medium flex-grow">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-brand-blue mr-3 mt-0.5"></i> <strong>Standart pakettekilerin tamamı</strong></li>
                         <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Ücretsiz revize hakkı (1 Kez)</li>
                         <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Öncelikli hazırlama (24 Saat)</li>
                         <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Vize & Final detay analizleri</li>
-                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Ekstra PDF tasarımları</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Özel Görsel & PDF formatı</li>
                     </ul>
-                    <a href="form.html?paket=Detaylı" class="btn-ripple inline-block text-center w-full py-3.5 rounded-2xl bg-navy-900 text-white font-bold hover:bg-slate-800 transition-colors">
-                        Detaylı Seç
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ (Sık Sorulan Sorular) -->
-    <section id="faq" class="py-24 relative bg-white">
-        <div class="container mx-auto px-6 lg:px-12 max-w-4xl">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Aklına Takılanlar (SSS)</h2>
-                <div class="h-1 w-20 bg-brand-blue mx-auto rounded-full mb-6"></div>
-            </div>
-
-            <div class="space-y-4 reveal">
-                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
-                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
-                        <span class="font-bold text-navy-900">Program ne kadar sürede hazırlanıyor?</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
-                    </button>
-                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
-                        Standart paketlerde programını analiz formunu doldurmanın ardından 48 saat içerisinde hazırlıyorum. Detaylı (Premium) paketi tercih edersen bu süre 24 saate düşmektedir.
-                    </div>
-                </div>
-                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
-                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
-                        <span class="font-bold text-navy-900">Ödeme işlemleri nasıl yapılıyor?</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
-                    </button>
-                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
-                        Şirket prosedürleri veya kredi kartı kullanmıyorum. Ödemeleri tamamen güvenli ve doğrudan bir şekilde <strong>sadece IBAN (Havale/EFT)</strong> hesabıma alıyorum. Formu doldurduğunda IBAN bilgilerim görüntülenir.
-                    </div>
-                </div>
-                <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
-                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
-                        <span class="font-bold text-navy-900">Program elime fiziksel olarak mı ulaşıyor?</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue"></i>
-                    </button>
-                    <div class="accordion-content px-6 bg-white text-slate-600 text-sm">
-                        Hayır. Çevreci politikamız ve hız prensibimiz gereği programın yüksek çözünürlüklü ve baskıya uygun profesyonel PDF formatında e-posta veya WhatsApp adresine dijital olarak teslim edilir.
-                    </div>
+                    <a href="form.html?paket=Detaylı" class="inline-block text-center w-full py-3.5 rounded-xl bg-navy-900 hover:bg-slate-800 text-white text-sm font-bold transition-all mt-auto">Detaylı Paketi Seç</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bottom CTA -->
-    <section class="py-24 relative overflow-hidden bg-navy-900 text-white text-center">
-        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
-            <div class="absolute w-96 h-96 bg-brand-blue rounded-full blur-3xl -top-20 -left-20"></div>
-            <div class="absolute w-96 h-96 bg-indigo-500 rounded-full blur-3xl -bottom-20 -right-20"></div>
-        </div>
+    <!-- Neden Ben? -->
+    <section id="why-me" class="py-24 bg-slate-50 border-t border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Neden Benimle Çalışmalısın?</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+                <p class="text-brand-slate text-sm sm:text-base">Dışarıdan bir ajans değil, o dersleri bizzat veren bir bölümdaşın olarak halden anlıyorum.</p>
+            </div>
 
-        <div class="container mx-auto px-6 relative z-10 reveal reveal-zoom">
-            <h2 class="text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">Kendi Programını Hemen Oluştur.</h2>
-            <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-                "Doğru plan ile çalışmak, daha çok çalışmaktan daha değerlidir."<br>Sistematik eğitime adım atarak AÖF başarını şansa bırakma.
-            </p>
-            <a href="form.html?paket=Standart" class="btn-ripple inline-block bg-white text-navy-900 px-10 py-4 rounded-full font-bold text-lg hover:bg-brand-light hover:text-white transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                Formu Doldur <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-            </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-fingerprint"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Tamamen Sana Özel</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Rastgele taslaklar değil; boş günlerin, çalışma alışkanlıkların baz alınarak kurulan bir sistem.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-clock"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Çalışan Dostu Plan</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Eğer bir işte çalışıyorsan, kısıtlı vaktini en yüksek verimle değerlendireceğin akışlar hazırlıyorum.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-rotate-right"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Otomatik Tekrar Kampı</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Sınavlara son 2 hafta kala otomatik devreye giren özel yoğun tekrar takvimleri.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-image"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Fotoğraf / PDF Teslimi</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Telefonunuzdan rahatça erişebileceğiniz yüksek çözünürlüklü Görsel (JPEG/PNG) ve PDF tasarımı.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Komisyonsuz IBAN</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Araya aracı sistemler koymadan, doğrudan havale/EFT ile öğrenci bütçesine uygun fiyatlandırma.</p>
+                </div>
+                <div class="glass-card p-8 rounded-3xl hover-lift border border-slate-100">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900 mb-2">Güvenilir Destek</h3>
+                    <p class="text-brand-slate text-sm leading-relaxed">Süreç boyunca aklına takılan soruları doğrudan WhatsApp üzerinden sorabilme imkanı.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SSS -->
+    <section id="faq" class="py-24 bg-white border-t border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-3xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Sık Sorulan Sorular</h2>
+                <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border border-slate-200/80 rounded-2xl bg-slate-50/50 overflow-hidden transition-all">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none hover:bg-slate-100/60 transition-colors">
+                        <span class="font-bold text-navy-900 text-sm sm:text-base">Program ne kadar sürede hazırlanıyor?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue text-sm"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-brand-slate text-sm bg-white border-t border-slate-100">
+                        Standart paketlerde programını analiz formunu doldurmanın ardından 48 saat içerisinde hazırlıyorum. Detaylı (Premium) pakette ise bu süre 24 saate düşmektedir.
+                    </div>
+                </div>
+                <div class="border border-slate-200/80 rounded-2xl bg-slate-50/50 overflow-hidden transition-all">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none hover:bg-slate-100/60 transition-colors">
+                        <span class="font-bold text-navy-900 text-sm sm:text-base">Ödemeyi nasıl yapacağım?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue text-sm"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-brand-slate text-sm bg-white border-t border-slate-100">
+                        Aracı firmalar veya komisyonlar olmadan, tamamen güvenli bir şekilde <strong>sadece IBAN (Havale/EFT)</strong> yoluyla alıyorum. Formu gönderdiğin an karşına IBAN ve sipariş kodun çıkacaktır.
+                    </div>
+                </div>
+                <div class="border border-slate-200/80 rounded-2xl bg-slate-50/50 overflow-hidden transition-all">
+                    <button class="accordion-btn w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none hover:bg-slate-100/60 transition-colors">
+                        <span class="font-bold text-navy-900 text-sm sm:text-base">Program bana kargoyla mı gelecek?</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon text-brand-blue text-sm"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-brand-slate text-sm bg-white border-t border-slate-100">
+                        Hayır. Çevreci politikamız ve hız prensibimiz gereği programın yüksek çözünürlüklü dijital <strong>Fotoğraf / Görsel (JPEG/PNG)</strong> veya <strong>PDF formatında</strong> e-posta veya WhatsApp adresine teslim edilir.
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-slate-50 pt-16 pb-8 border-t border-slate-200">
-        <div class="container mx-auto px-6 lg:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                
-                <div class="col-span-1">
-                    <a href="#" class="flex flex-col items-start mb-4 group">
-                        <div class="border-2 border-brand-blue rounded-xl px-3 py-1 text-2xl font-bold tracking-widest text-navy-900 bg-white shadow-sm">
-                            B.T
-                        </div>
-                        <span class="text-[0.65rem] font-semibold uppercase tracking-wider text-slate-500 mt-2">
-                            Kişiye Özel Çalışma Programları
-                        </span>
-                    </a>
-                    <p class="text-sm text-slate-500 leading-relaxed">
+    <footer id="contact" class="bg-navy-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
+        <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="border-2 border-brand-blue rounded-xl px-3 py-1 text-xl font-extrabold tracking-widest text-white bg-brand-blue/20 inline-block mb-3">
+                        B.T
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-xs">
                         AÖF Halkla İlişkiler ve Reklamcılık öğrencisinden, bölümdaşlarına özel modern ve nokta atışı çalışma programları.
                     </p>
                 </div>
-
                 <div>
-                    <h4 class="font-bold text-navy-900 mb-4 uppercase text-sm tracking-wider">Hızlı Menü</h4>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li><a href="#hero" class="hover:text-brand-blue transition-colors">Ana Sayfa</a></li>
-                        <li><a href="#packages" class="hover:text-brand-blue transition-colors">Paketler</a></li>
-                        <li><a href="#why-me" class="hover:text-brand-blue transition-colors">Neden Ben?</a></li>
-                        <li><a href="form.html?paket=Standart" class="hover:text-brand-blue transition-colors font-semibold">Analiz Formu</a></li>
+                    <h4 class="font-bold text-white mb-4 uppercase text-xs tracking-wider">Hızlı Bağlantılar</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#hero" class="hover:text-brand-light transition-colors">Ana Sayfa</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand-light transition-colors">Nasıl Çalışır?</a></li>
+                        <li><a href="#packages" class="hover:text-brand-light transition-colors">Paketler</a></li>
+                        <li><a href="form.html?paket=Standart" class="hover:text-brand-light transition-colors font-semibold text-brand-light">Program Oluştur</a></li>
                     </ul>
                 </div>
-
+                <div>
+                    <h4 class="font-bold text-white mb-4 uppercase text-xs tracking-wider">İletişim & Destek</h4>
+                    <p class="text-xs text-slate-400 mb-3">Sorularınız için doğrudan iletişime geçebilirsiniz.</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#E1306C] hover:text-white hover:border-transparent transition-all">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
                 <p>&copy; <span id="year"></span> Berkay Taşkan. Tüm hakları saklıdır.</p>
-                <p class="mt-2 md:mt-0">Design & Code by Professional Standards</p>
+                <p class="mt-2 md:mt-0">Professional Digital Study System</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript Interactions -->
+    <!-- JavaScript Etkileşimleri -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
             document.getElementById('year').textContent = new Date().getFullYear();
 
-            // Preloader Logic
             const preloader = document.getElementById('preloader');
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 500);
-                }, 500);
+                    setTimeout(() => preloader.style.display = 'none', 400);
+                }, 200);
             });
 
-            // Sticky Navbar & Mobile Menu
-            const header = document.getElementById('header');
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileLinks = document.querySelectorAll('.mobile-link');
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('glass-nav', 'py-2', 'shadow-sm');
-                    header.classList.remove('py-4');
-                } else {
-                    header.classList.remove('glass-nav', 'py-2', 'shadow-sm');
-                    header.classList.add('py-4');
-                }
-            });
 
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
@@ -584,52 +651,13 @@
                 });
             });
 
-            // Scroll Reveal (Intersection Observer)
-            const revealElements = document.querySelectorAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-            revealElements.forEach(el => revealObserver.observe(el));
-
-            // Accordion (FAQ)
-            const accordionBtns = document.querySelectorAll('.accordion-btn');
-            accordionBtns.forEach(btn => {
+            document.querySelectorAll('.accordion-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const content = this.nextElementSibling;
                     const isOpen = content.classList.contains('open');
 
-                    document.querySelectorAll('.accordion-content').forEach(c => {
-                        c.classList.remove('open');
-                    });
-
-                    if (!isOpen) {
-                        content.classList.add('open');
-                    }
-                });
-            });
-
-            // Ripple Effect for Buttons
-            const buttons = document.querySelectorAll('.btn-ripple');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    let x = e.clientX - e.target.getBoundingClientRect().left;
-                    let y = e.clientY - e.target.getBoundingClientRect().top;
-
-                    let ripples = document.createElement('span');
-                    ripples.classList.add('ripple');
-                    ripples.style.left = x + 'px';
-                    ripples.style.top = y + 'px';
-                    this.appendChild(ripples);
-
-                    setTimeout(() => {
-                        ripples.remove();
-                    }, 600);
+                    document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                    if (!isOpen) content.classList.add('open');
                 });
             });
         });
@@ -649,23 +677,14 @@
             messagingSenderId: "893193039416",
             appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const pricesRef = ref(db, 'settings/prices');
-        onValue(pricesRef, (snapshot) => {
+        onValue(ref(db, 'settings/prices'), (snapshot) => {
             const prices = snapshot.val();
             if (prices) {
-                const stEl = document.getElementById('dynamic-price-standart');
-                const dtEl = document.getElementById('dynamic-price-premium');
-
-                if (stEl && prices.standart) {
-                    stEl.textContent = `₺${prices.standart}`;
-                }
-                if (dtEl && prices.detayli) {
-                    dtEl.textContent = `₺${prices.detayli}`;
-                }
+                if (prices.standart) document.getElementById('dynamic-price-standart').textContent = `₺${prices.standart}`;
+                if (prices.detayli) document.getElementById('dynamic-price-premium').textContent = `₺${prices.detayli}`;
             }
         });
     </script>

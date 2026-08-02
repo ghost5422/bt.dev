@@ -34,6 +34,29 @@
 
     <!-- Premium V2 Özel CSS -->
     <style>
+        /* Safari ve Mobil WebKit Optimizasyonları */
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Safari'de cam efektlerinin donmadan yüklenmesi için */
+.glass-panel, .glass-nav {
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+/* Safari sayfa yükleme takılmalarını önleyen GPU tetikleyici */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
         html, body { max-width: 100%; overflow-x: hidden; position: relative; }
         body { font-family: 'Poppins', sans-serif; background-color: #F8FAFC; color: #0F172A; }
 

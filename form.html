@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <form action="#" method="POST" id="analysisForm" class="space-y-6">
+            <form id="analysisForm" onsubmit="return false;" class="space-y-6">
                 
                 <input type="hidden" id="secilenPaketInput" value="Standart">
 
@@ -519,7 +519,7 @@
                         <button type="button" id="nextBtn" onclick="nextPrev(1)" class="px-8 py-3.5 rounded-2xl bg-brand-blue hover:bg-brand-dark text-white font-extrabold shadow-lg shadow-blue-500/25 transition-all text-xs sm:text-sm flex items-center gap-2">
                             <span>İleri</span> <i class="fa-solid fa-arrow-right"></i>
                         </button>
-                        <button type="submit" id="submitBtn" class="hidden px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold shadow-xl shadow-emerald-600/30 transition-all text-sm sm:text-base flex items-center gap-2.5">
+                        <button type="button" id="submitBtn" onclick="triggerFormSubmission()" class="hidden px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold shadow-xl shadow-emerald-600/30 transition-all text-sm sm:text-base flex items-center gap-2.5 cursor-pointer">
                             <i class="fa-solid fa-paper-plane"></i> <span>Bilgilerimi Gönder</span>
                         </button>
                     </div>
@@ -673,15 +673,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const formElement = document.getElementById('analysisForm');
-        
-        formElement.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Global fonksiyon olarak dışarı açıldı, mobil tarayıcılar buton tıklamasını bu sayede direkt yakalayacak
+        window.triggerFormSubmission = async function() {
             const submitBtn = document.getElementById('submitBtn');
             const orgHTML = submitBtn.innerHTML;
 
             try {
-                console.log("Form gönderimi başlatıldı, Firebase'e bağlanılıyor...");
+                console.log("Form verileri toplanıyor ve Firebase'e gönderiliyor...");
                 submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Gönderiliyor...</span>`;
                 submitBtn.disabled = true;
 
@@ -734,7 +732,7 @@
                 };
 
                 const newRef = await push(ref(db, 'submissions'), formData);
-                console.log("Firebase kayıt başarılı! Kayıt ID:", newRef.key);
+                console.log("Kayıt başarılı! ID:", newRef.key);
                 
                 localStorage.clear();
 
@@ -743,12 +741,12 @@
                 window.location.assign(targetUrl);
 
             } catch (error) {
-                console.error("Kritik Yönlendirme veya Firebase Hatası:", error);
+                console.error("Firebase Hatası:", error);
                 alert("Kayıt sırasında hata oluştu: " + error.message);
                 submitBtn.innerHTML = orgHTML;
                 submitBtn.disabled = false;
             }
-        });
+        };
     </script>
 </body>
 </html>

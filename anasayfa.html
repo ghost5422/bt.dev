@@ -8,15 +8,14 @@
     <meta name="author" content="Berkay Taşkan">
     <title>B.T | Kişiye Özel Çalışma Programları - AÖF</title>
 
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -32,44 +31,36 @@
         }
     </script>
 
-    <!-- Premium V2 Özel CSS -->
     <style>
-        /* Safari ve Mobil WebKit Optimizasyonları */
-html {
-    -webkit-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-}
-
-body {
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Safari'de cam efektlerinin donmadan yüklenmesi için */
-.glass-panel, .glass-nav {
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
-
-/* Safari sayfa yükleme takılmalarını önleyen GPU tetikleyici */
-* {
-    -webkit-tap-highlight-color: transparent;
-}
-
-        html, body { max-width: 100%; overflow-x: hidden; position: relative; }
-        body { font-family: 'Poppins', sans-serif; background-color: #F8FAFC; color: #0F172A; }
-
-        /* Apple/Stripe Tarzı Glassmorphism ve Efektler */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
             border: 1px solid rgba(226, 232, 240, 0.9);
             box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04);
         }
@@ -88,36 +79,33 @@ body {
         }
         .hover-lift {
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, box-shadow;
         }
         .hover-lift:hover {
             transform: translateY(-6px);
             box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.15);
         }
-        
-        /* Preloader */
         #preloader {
             position: fixed; inset: 0; background: #ffffff; z-index: 9999;
-            display: flex; justify-content: center; align-items: center; transition: opacity 0.4s ease;
+            display: flex; justify-content: center; align-items: center; transition: opacity 0.3s ease;
         }
         .spinner {
-            width: 45px; height: 45px; border: 4px solid #E2E8F0; border-top-color: #2563EB;
-            border-radius: 50%; animation: spin 0.8s linear infinite;
+            width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top-color: #2563EB;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Accordion */
         .accordion-content {
-            transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.35s ease;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
             max-height: 0; opacity: 0; overflow: hidden;
         }
         .accordion-content.open { max-height: 300px; opacity: 1; padding-top: 1rem; padding-bottom: 1rem; }
         .accordion-icon { transition: transform 0.3s ease; }
         .open .accordion-icon { transform: rotate(180deg); }
+        * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body class="antialiased relative selection:bg-brand-blue selection:text-white">
 
-    <!-- Preloader -->
     <div id="preloader">
         <div class="flex flex-col items-center">
             <div class="spinner mb-3"></div>
@@ -125,16 +113,13 @@ body {
         </div>
     </div>
 
-    <!-- Ferah Arka Plan Geçişleri -->
     <div class="fixed inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div class="absolute w-[600px] h-[600px] bg-blue-100/60 rounded-full mix-blend-multiply filter blur-[120px] top-[-10%] left-[-10%]"></div>
         <div class="absolute w-[600px] h-[600px] bg-indigo-100/50 rounded-full mix-blend-multiply filter blur-[120px] bottom-[-10%] right-[-10%]"></div>
     </div>
 
-    <!-- Navbar / Header -->
     <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-4 glass-nav">
         <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center max-w-7xl">
-            
             <a href="#" class="flex items-center gap-3 group">
                 <div class="border-2 border-brand-blue rounded-xl px-3.5 py-1.5 text-xl font-extrabold tracking-widest text-navy-900 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
                     B.T
@@ -160,12 +145,11 @@ body {
                 </a>
             </div>
 
-            <button id="mobile-menu-btn" class="md:hidden text-navy-900 text-2xl focus:outline-none">
+            <button id="mobile-menu-btn" class="md:hidden text-navy-900 text-2xl focus:outline-none" aria-label="Menüyü Aç">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-xl flex flex-col items-center py-6 space-y-4 font-medium text-navy-900 border-t border-slate-100">
             <a href="#hero" class="mobile-link hover:text-brand-blue">Ana Sayfa</a>
             <a href="#how-it-works" class="mobile-link hover:text-brand-blue">Nasıl Çalışır?</a>
@@ -177,12 +161,10 @@ body {
         </div>
     </header>
 
-    <!-- Hero Bölümü -->
     <section id="hero" class="relative pt-36 pb-20 lg:pt-48 lg:pb-28 overflow-hidden">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
                 
-                <!-- Sol Başlık ve CTA -->
                 <div class="w-full lg:w-1/2 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-blue px-4 py-2 rounded-full text-xs font-bold mb-6 border border-blue-100 shadow-sm">
                         <i class="fa-solid fa-graduation-cap"></i> AÖF Halkla İlişkiler ve Reklamcılık
@@ -202,7 +184,6 @@ body {
                         </a>
                     </div>
 
-                    <!-- Güven Rozetleri -->
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200/80">
                         <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
                             <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> Tamamen Kişiye Özel
@@ -219,7 +200,6 @@ body {
                     </div>
                 </div>
 
-                <!-- Sağ Taraf: Modern Çalışma Programı Mockup Görseli -->
                 <div class="w-full lg:w-1/2 relative">
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-300/40 to-indigo-200/40 rounded-[3rem] blur-2xl -rotate-3"></div>
                     <div class="glass-card p-6 sm:p-8 rounded-[2.5xl] relative z-10 border border-white shadow-2xl glow-effect">
@@ -229,13 +209,11 @@ body {
                                 <div class="w-3 h-3 rounded-full bg-amber-400"></div>
                                 <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
                             </div>
-                            <!-- Örnek Tasarım Etiketi -->
                             <span class="text-[11px] font-bold text-brand-blue bg-blue-50 border border-blue-100 px-3 py-1 rounded-full flex items-center gap-1.5">
                                 <i class="fa-solid fa-eye text-xs"></i> Örnek Tasarım Görünümü
                             </span>
                         </div>
                         
-                        <!-- Mockup İçeriği -->
                         <div class="space-y-4">
                             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5 rounded-2xl shadow-md flex justify-between items-center">
                                 <div>
@@ -243,15 +221,13 @@ body {
                                     <h4 class="font-extrabold text-base">Halkla İlişkiler 3. Sınıf</h4>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-image text-2xl opacity-90" title="Fotoğraf/Görsel Formatı"></i>
-                                    <i class="fa-solid fa-file-pdf text-2xl opacity-90" title="PDF Formatı"></i>
+                                    <i class="fa-solid fa-image text-2xl opacity-90"></i>
+                                    <i class="fa-solid fa-file-pdf text-2xl opacity-90"></i>
                                 </div>
                             </div>
 
                             <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm">
-                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center shrink-0 font-bold text-sm">
-                                    09
-                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center shrink-0 font-bold text-sm">09</div>
                                 <div class="flex-grow">
                                     <h5 class="font-bold text-navy-900 text-sm">İletişim Kuramları Çalışması</h5>
                                     <p class="text-xs text-slate-400">Modül 2 Tekrarı & Özet Çıkarma</p>
@@ -260,9 +236,7 @@ body {
                             </div>
 
                             <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-sm">
-                                    11
-                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-sm">11</div>
                                 <div class="flex-grow">
                                     <h5 class="font-bold text-navy-900 text-sm">Reklamcılıkta Strateji</h5>
                                     <p class="text-xs text-slate-400">Ünite Soruları Çözümü</p>
@@ -281,12 +255,9 @@ body {
         </div>
     </section>
 
-    <!-- Canlı ve İkonlu Avantajlar / Güven Şeridi -->
     <section class="py-16 bg-white border-y border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                
-                <!-- Kart 1 -->
                 <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
                     <div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-fingerprint"></i>
@@ -297,7 +268,6 @@ body {
                     </div>
                 </div>
 
-                <!-- Kart 2 -->
                 <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
                     <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-bolt-lightning"></i>
@@ -308,7 +278,6 @@ body {
                     </div>
                 </div>
 
-                <!-- Kart 3 -->
                 <div class="glass-card p-6 rounded-3xl border border-slate-100 flex items-center gap-5 hover-lift shadow-sm">
                     <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shrink-0 shadow-inner">
                         <i class="fa-solid fa-graduation-cap"></i>
@@ -318,12 +287,10 @@ body {
                         <div class="text-xs font-medium text-brand-slate mt-0.5">AÖF derslerinin zorluk derecelerine uyumlu.</div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Program Nasıl Hazırlanıyor (4 Adımlı Timeline) -->
     <section id="how-it-works" class="py-24 relative bg-slate-50">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -357,7 +324,6 @@ body {
         </div>
     </section>
 
-    <!-- Program İçeriğinde Neler Var? -->
     <section id="features" class="py-24 bg-white border-t border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -407,7 +373,6 @@ body {
         </div>
     </section>
 
-    <!-- Örnek Program (Slider / Mockup Vitrini) -->
     <section class="py-24 bg-slate-50 border-t border-slate-200/60 overflow-hidden">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -457,7 +422,6 @@ body {
         </div>
     </section>
 
-    <!-- Paketler / Fiyatlandırma -->
     <section id="packages" class="py-24 bg-white border-t border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -515,13 +479,12 @@ body {
                         <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Vize & Final detay analizleri</li>
                         <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-3"></i> Özel Görsel & PDF formatı</li>
                     </ul>
-                    <a href="form.html?paket=Detaylı" class="inline-block text-center w-full py-3.5 rounded-xl bg-navy-900 hover:bg-slate-800 text-white text-sm font-bold transition-all mt-auto">Detaylı Paketi Seç</a>
+                    <a href="form.html?paket=Detayli" class="inline-block text-center w-full py-3.5 rounded-xl bg-navy-900 hover:bg-slate-800 text-white text-sm font-bold transition-all mt-auto">Detaylı Paketi Seç</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Neden Ben? -->
     <section id="why-me" class="py-24 bg-slate-50 border-t border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -565,7 +528,6 @@ body {
         </div>
     </section>
 
-    <!-- SSS -->
     <section id="faq" class="py-24 bg-white border-t border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-3xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -605,7 +567,6 @@ body {
         </div>
     </section>
 
-    <!-- Footer -->
     <footer id="contact" class="bg-navy-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -630,12 +591,8 @@ body {
                     <h4 class="font-bold text-white mb-4 uppercase text-xs tracking-wider">İletişim & Destek</h4>
                     <p class="text-xs text-slate-400 mb-3">Sorularınız için doğrudan iletişime geçebilirsiniz.</p>
                     <div class="flex space-x-3">
-                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#E1306C] hover:text-white hover:border-transparent transition-all">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
+                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#E1306C] hover:text-white hover:border-transparent transition-all"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -647,7 +604,6 @@ body {
         </div>
     </footer>
 
-    <!-- JavaScript Etkileşimleri -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('year').textContent = new Date().getFullYear();
@@ -656,8 +612,8 @@ body {
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    setTimeout(() => preloader.style.display = 'none', 400);
-                }, 200);
+                    setTimeout(() => preloader.style.display = 'none', 300);
+                }, 100);
             });
 
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -686,7 +642,6 @@ body {
         });
     </script>
 
-    <!-- Firebase Canlı Fiyat Entegrasyonu -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";

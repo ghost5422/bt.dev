@@ -217,6 +217,20 @@
 
     <!-- Firebase ve Bildirim Scriptleri -->
     <script type="module">
+        // SAYFA YÜKLENDİĞİNDE İLK BU KOD ÇALIŞACAK
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlId = urlParams.get('id');
+    const cihazdakiSiparisId = localStorage.getItem('gecerli_siparis_id');
+
+    // Eğer linkte ID yoksa, cihazda kayıtlı ID yoksa veya cihazdaki ID ile linkteki ID uyuşmuyorsa
+    if (!urlId || !cihazdakiSiparisId || urlId !== cihazdakiSiparisId) {
+        alert("Güvenlik İhlali: Bu ödeme sayfasına sadece siparişi oluşturduğunuz cihazdan erişebilirsiniz.");
+        window.location.replace("anasayfa.html"); // Kullanıcıyı hemen ana sayfaya postala
+        return; // Sayfanın geri kalanını çalıştırma
+    }
+});
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 

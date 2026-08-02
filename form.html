@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>B.T | Detaylı Çalışma Analiz Formu</title>
     
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -72,13 +69,11 @@
 </head>
 <body class="text-slate-800 antialiased relative min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
 
-    <!-- Dinamik Arka Plan Efekti -->
     <div class="fixed inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div class="absolute w-[600px] h-[600px] bg-blue-200/40 rounded-full mix-blend-multiply filter blur-[120px] top-0 left-[-10%] animate-pulse"></div>
         <div class="absolute w-[600px] h-[600px] bg-indigo-200/40 rounded-full mix-blend-multiply filter blur-[120px] bottom-0 right-[-10%] animate-pulse" style="animation-delay: 2s;"></div>
     </div>
 
-    <!-- Header & Logo -->
     <header class="w-full py-6">
         <div class="container mx-auto px-6 flex justify-between items-center max-w-4xl">
             <a href="index.html" class="flex items-center gap-3 group">
@@ -92,16 +87,13 @@
         </div>
     </header>
 
-    <!-- Main Wizard Form Container -->
     <main class="flex-grow flex items-center justify-center py-6 px-4 sm:px-6">
         <div class="glass-panel w-full max-w-2xl rounded-[2.5xl] p-6 sm:p-10 relative">
             
-            <!-- Logo Altı Karşılama Metni ve İlerleme Çubuğu -->
             <div class="text-center mb-8">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-navy-900 tracking-tight mb-2">Çalışma Programı Analizi</h1>
                 <p class="text-slate-500 text-xs sm:text-sm max-w-md mx-auto mb-6">"Kişiye özel hazırlanan profesyonel çalışma sisteminiz için birkaç dakikanızı ayırın."</p>
                 
-                <!-- Progress Bar & Adım Göstergesi -->
                 <div class="flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
                     <span id="stepIndicator">Adım 1 / 7</span>
                     <span id="stepTitleName" class="text-brand-blue">Paket Bilgisi</span>
@@ -111,12 +103,10 @@
                 </div>
             </div>
 
-            <!-- FORM WIZARD BAŞLANGICI (35 Soruya Göre 7 Adım) -->
             <form action="#" method="POST" id="analysisForm" class="space-y-6">
                 
                 <input type="hidden" id="secilenPaketInput" value="Standart">
 
-                <!-- 1. ADIM: Paket Bilgisi -->
                 <div class="wizard-step active-step" data-step="1">
                     <div class="text-center space-y-4 py-6">
                         <div class="w-20 h-20 bg-blue-50 text-brand-blue rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner border border-blue-100">
@@ -130,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- 2. ADIM: Kişisel Bilgiler (Sorular: 1, 2, 3) -->
                 <div class="wizard-step" data-step="2">
                     <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
                         <i class="fa-solid fa-user-pen text-brand-blue"></i> Kişisel Bilgileriniz
@@ -162,7 +151,6 @@
                     </div>
                 </div>
 
-                <!-- 3. ADIM: Eğitim Bilgileri (Sorular: 4, 5, 6, 7) -->
                 <div class="wizard-step" data-step="3">
                     <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
                         <i class="fa-solid fa-graduation-cap text-brand-blue"></i> Eğitim ve Ders Durumu
@@ -195,7 +183,6 @@
                     </div>
                 </div>
 
-                <!-- 4. ADIM: Hedef ve Süreç Analizi (Sorular: 8, 9, 27, 30) -->
                 <div class="wizard-step" data-step="4">
                     <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
                         <i class="fa-solid fa-bullseye text-brand-blue"></i> Hedef ve Süreç Analizi
@@ -242,7 +229,6 @@
                     </div>
                 </div>
 
-                <!-- 5. ADIM: Günlük Yaşam & Zaman (Sorular: 10, 11, 12, 13, 14, 15, 16, 17, 18) -->
                 <div class="wizard-step" data-step="5">
                     <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
                         <i class="fa-solid fa-clock text-brand-blue"></i> Günlük Yaşam & Zaman Planı
@@ -329,7 +315,6 @@
                     </div>
                 </div>
 
-                <!-- 6. ADIM: Çalışma Alışkanlıkları ve Tercihler (Sorular: 19 - 26, 28, 29, 31 - 35) -->
                 <div class="wizard-step" data-step="6">
                     <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
                         <i class="fa-solid fa-brain text-brand-blue"></i> Çalışma Tercihleri ve Alışkanlıklar
@@ -496,7 +481,6 @@
                     </div>
                 </div>
 
-                <!-- 7. ADIM: Sipariş Özeti -->
                 <div class="wizard-step" data-step="7">
                     <h2 class="text-lg font-bold text-navy-900 mb-4 flex items-center gap-2.5">
                         <i class="fa-solid fa-circle-check text-emerald-500"></i> Sipariş ve Bilgi Özeti
@@ -527,7 +511,6 @@
                     </div>
                 </div>
 
-                <!-- Wizard Navigasyon Butonları -->
                 <div class="flex justify-between items-center pt-6 border-t border-slate-200/60 mt-8">
                     <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="hidden px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-100 transition-colors text-xs sm:text-sm flex items-center gap-2">
                         <i class="fa-solid fa-arrow-left"></i> Geri
@@ -546,12 +529,10 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200/60 bg-white/50 backdrop-blur-sm">
         <p>&copy; 2026 Berkay Taşkan. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- WIZARD NAVIGASYON VE FORM JS KODLARI -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         let secilenPaket = urlParams.get('paket') || 'Standart';
@@ -675,7 +656,6 @@
         });
     </script>
 
-    <!-- Firebase Kayıt Sistemi ve Hata Ayıklama -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
@@ -701,6 +681,7 @@
             const orgHTML = submitBtn.innerHTML;
 
             try {
+                console.log("Form gönderimi başlatıldı, Firebase'e bağlanılıyor...");
                 submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Gönderiliyor...</span>`;
                 submitBtn.disabled = true;
 
@@ -753,12 +734,16 @@
                 };
 
                 const newRef = await push(ref(db, 'submissions'), formData);
+                console.log("Firebase kayıt başarılı! Kayıt ID:", newRef.key);
                 
                 localStorage.clear();
-                window.location.href = `odeme.html?id=${newRef.key}&kod=${randomCode}`;
+
+                const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
+                console.log("Yönlendiriliyor:", targetUrl);
+                window.location.assign(targetUrl);
 
             } catch (error) {
-                console.error("Firebase Kayıt Hatası:", error);
+                console.error("Kritik Yönlendirme veya Firebase Hatası:", error);
                 alert("Kayıt sırasında hata oluştu: " + error.message);
                 submitBtn.innerHTML = orgHTML;
                 submitBtn.disabled = false;

@@ -30,7 +30,7 @@
         html, body { max-width: 100%; overflow-x: hidden; position: relative; }
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
         
-        /* Performanslı Arka Plan (Safari'yi donduran Blur ve Animasyon silindi) */
+        /* Safari Dostu Arka Plan (Donmaları engeller) */
         .bg-blobs {
             position: fixed;
             inset: 0;
@@ -43,7 +43,6 @@
             transform: translateZ(0);
         }
         
-        /* Form Kutusu Optimizasyonu (Backdrop-filter silindi, GPU hızlandırma eklendi) */
         .glass-panel {
             background: rgba(255, 255, 255, 0.98);
             -webkit-transform: translateZ(0);
@@ -67,11 +66,9 @@
         }
         .form-input:focus ~ .input-icon { color: #2563eb; }
 
-        /* Wizard Adım Geçişleri */
         .wizard-step { display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
         .wizard-step.active-step { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Modern Seçim Kutuları (Radio & Checkbox) */
         .option-card {
             border: 2px solid #e2e8f0; border-radius: 0.85rem; padding: 0.75rem 1rem; cursor: pointer;
             transition: all 0.2s ease; background-color: #f8fafc; display: flex; align-items: center; gap: 0.75rem;
@@ -83,7 +80,6 @@
 </head>
 <body class="text-slate-800 antialiased relative min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
 
-    <!-- Safari Dostu Arka Plan Katmanı -->
     <div class="bg-blobs"></div>
 
     <header class="w-full py-6">
@@ -685,7 +681,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Global fonksiyon olarak dışarı açıldı, mobil tarayıcılar buton tıklamasını bu sayede direkt yakalayacak
         window.triggerFormSubmission = async function() {
             const submitBtn = document.getElementById('submitBtn');
             const orgHTML = submitBtn.innerHTML;
@@ -744,12 +739,15 @@
                 };
 
                 const newRef = await push(ref(db, 'submissions'), formData);
-                console.log("Kayıt başarılı! ID:", newRef.key);
                 
+                // 1. ESKİ VERİLERİ SİL
                 localStorage.clear();
+                
+                // 2. GÜVENLİK DAMGASINI OTURUMA KAYDET (Sıra çok önemli)
+                sessionStorage.setItem('gecerli_siparis_id', newRef.key);
 
+                // 3. YÖNLENDİR
                 const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
-                console.log("Yönlendiriliyor:", targetUrl);
                 window.location.assign(targetUrl);
 
             } catch (error) {
@@ -759,13 +757,6 @@
                 submitBtn.disabled = false;
             }
         };
-        const newRef = await push(ref(db, 'submissions'), formData);
-console.log("Kayıt başarılı! ID:", newRef.key);
-
-localStorage.clear();
-
-const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
-
     </script>
 </body>
 </html>

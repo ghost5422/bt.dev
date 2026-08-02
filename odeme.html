@@ -68,18 +68,18 @@
     <!-- Header -->
     <header class="w-full py-6">
         <div class="container mx-auto px-6 flex justify-between items-center max-w-4xl">
-            <a href="index.html" class="flex items-center gap-3 group">
+            <a href="anasayfa.html" class="flex items-center gap-3 group">
                 <div class="border-2 border-brand-blue rounded-xl px-3.5 py-1.5 text-xl font-bold tracking-widest text-navy-900 bg-white shadow-sm group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
                     B.T
                 </div>
             </a>
-            <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200/60 flex items-center gap-2">
+            <a href="anasayfa.html" class="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200/60 flex items-center gap-2">
                 <i class="fa-solid fa-house text-xs"></i> Ana Sayfa
             </a>
         </div>
     </header>
 
-    <!-- Ödeme İçerik -->
+    <!-- Ödeme / Durum İçerik -->
     <main class="flex-grow flex items-center justify-center py-8 px-4 sm:px-6">
         <div class="glass-panel w-full max-w-xl rounded-[2.5xl] p-8 sm:p-10">
             
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <!-- YENİ: Paket ve Tutar Özet Kutusu -->
+            <!-- Paket ve Tutar Özet Kutusu -->
             <div id="paketOzetBox" class="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-3xl border border-blue-100 shadow-sm mb-6 flex justify-between items-center hidden">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-2xl bg-brand-blue text-white flex items-center justify-center text-lg shadow-md shadow-blue-500/20">
@@ -160,12 +160,22 @@
                 </button>
             </div>
 
+            <!-- Tamamlandığında Gösterilecek Arşiv/Yeni Sipariş Alanı -->
+            <div id="completedActionSection" class="space-y-3 text-center hidden pt-2">
+                <a href="form.html" class="w-full bg-brand-blue hover:bg-brand-dark text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-plus-circle"></i> Yeni Bir Program Oluştur
+                </a>
+                <button onclick="clearActiveOrder()" class="text-xs text-slate-400 hover:text-slate-600 transition-colors underline">
+                    Bu siparişi ekrandan kaldır
+                </button>
+            </div>
+
             <!-- Yeni Sipariş / Ana Sayfa Linkleri -->
-            <div class="pt-6 border-t border-slate-200/60 mt-6 flex justify-between items-center text-xs">
+            <div id="defaultLinksSection" class="pt-6 border-t border-slate-200/60 mt-6 flex justify-between items-center text-xs">
                 <a href="form.html" class="text-brand-blue font-semibold hover:underline flex items-center gap-1">
                     <i class="fa-solid fa-plus-circle"></i> Yeni Form Doldur
                 </a>
-                <a href="index.html" class="text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1">
+                <a href="anasayfa.html" class="text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1">
                     <i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön
                 </a>
             </div>
@@ -244,6 +254,11 @@
             document.getElementById('wpModal').classList.add('hidden');
         }
 
+        window.clearActiveOrder = function() {
+            localStorage.removeItem('bt_aktif_siparis_id');
+            window.location.href = 'form.html';
+        }
+
         window.sendWpNotification = function() {
             const gonderen = document.getElementById('gonderenAdiInput').value.trim();
             if(!gonderen) {
@@ -251,9 +266,7 @@
                 return;
             }
 
-            // Kendi WhatsApp numaranı buraya yaz (Örn: 905321234567)
             const benimTelefonum = "905340188445"; 
-            
             const mesaj = `Merhaba Berkay! ${globalTalepKodu} kodlu, ${globalPaketAdi} paketli (Ödenecek: ₺${globalTutar}) analiz formu ödemesini gerçekleştirdim. Onay bekliyorum.\n\nGönderen Ad Soyad: ${gonderen}`;
             
             const encodedMesaj = encodeURIComponent(mesaj);
@@ -275,7 +288,6 @@
             setTimeout(() => notif.classList.remove('show'), 4000);
         }
 
-        // Fiyat Ayarlarını Canlı Dinle
         onValue(ref(db, 'settings/prices'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
@@ -285,7 +297,6 @@
             }
         });
 
-        // Banka Bilgilerini Dinle
         onValue(ref(db, 'settings/banka'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
@@ -320,9 +331,6 @@
             onValue(subRef, (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    document.getElementById('ibanCardSection').classList.remove('hidden');
-                    document.getElementById('actionButtonsSection').classList.remove('hidden');
-
                     if (data.talepKodu) {
                         globalTalepKodu = data.talepKodu;
                         globalPaketAdi = data.paket || 'Standart';
@@ -336,6 +344,10 @@
                     if (!ilkYukleme) {
                         if (mevcutDurum === 'onaylandi') {
                             showNotification("Ödemeniz onaylandı! Programınız hazırlanıyor.", "success");
+                        } else if (mevcutDurum === 'hazirlaniyor') {
+                            showNotification("Programınız şu an hazırlanıyor!", "info");
+                        } else if (mevcutDurum === 'tamamlandi') {
+                            showNotification("Programınız tamamlandı ve teslim edildi!", "success");
                         } else if (mevcutDurum === 'iptal') {
                             showNotification("Ödemeniz iptal edildi veya doğrulanamadı.", "error");
                         } else {
@@ -370,6 +382,8 @@
             document.getElementById('ibanCardSection').classList.add('hidden');
             document.getElementById('actionButtonsSection').classList.add('hidden');
             document.getElementById('paketOzetBox').classList.add('hidden');
+            document.getElementById('completedActionSection').classList.add('hidden');
+            document.getElementById('defaultLinksSection').classList.remove('hidden');
         }
 
         function updateStatusUI(status) {
@@ -379,13 +393,51 @@
             const title = document.getElementById('statusTitle');
             const desc = document.getElementById('statusDesc');
 
+            const ibanSec = document.getElementById('ibanCardSection');
+            const actSec = document.getElementById('actionButtonsSection');
+            const compSec = document.getElementById('completedActionSection');
+            const defLinks = document.getElementById('defaultLinksSection');
+
             if (status === 'onaylandi') {
                 container.className = "w-20 h-20 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-emerald-100";
                 icon.className = "fa-solid fa-circle-check";
                 badge.className = "inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full border border-emerald-200/60 mb-3 uppercase shadow-sm";
                 badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Ödeme Onaylandı`;
                 title.innerText = "Ödemeniz Alındı!";
-                desc.innerText = "Ödemeniz başarıyla onaylandı. Çalışma programınız titizlikle hazırlanmaya başlandı.";
+                desc.innerText = "Ödemeniz başarıyla onaylandı. Çalışma programınız sıraya alındı ve hazırlanıyor.";
+                
+                ibanSec.classList.add('hidden');
+                actSec.classList.add('hidden');
+                compSec.classList.add('hidden');
+                defLinks.classList.remove('hidden');
+
+            } else if (status === 'hazirlaniyor') {
+                container.className = "w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-indigo-100";
+                icon.className = "fa-solid fa-spinner fa-spin";
+                badge.className = "inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-1.5 rounded-full border border-indigo-200/60 mb-3 uppercase shadow-sm";
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span> Program Hazırlanıyor`;
+                title.innerText = "Programınız Hazırlanıyor!";
+                desc.innerText = "Size özel çalışma programınız şu anda titizlikle hazırlanıyor. Çok yakında teslim edilecektir.";
+                
+                ibanSec.classList.add('hidden');
+                actSec.classList.add('hidden');
+                compSec.classList.add('hidden');
+                defLinks.classList.remove('hidden');
+
+            } else if (status === 'tamamlandi') {
+                // TAMAMLANDIĞINDA ÖDEME ALANLARI GİZLENİR, BAŞARI VE YENİ SİPARİŞ EKRANI ÇIKAR
+                container.className = "w-20 h-20 bg-teal-50 text-teal-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-teal-100";
+                icon.className = "fa-solid fa-clipboard-check";
+                badge.className = "inline-flex items-center gap-1.5 bg-teal-50 text-teal-700 text-xs font-bold px-4 py-1.5 rounded-full border border-teal-200/60 mb-3 uppercase shadow-sm";
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-teal-500"></span> Program Teslim Edildi`;
+                title.innerText = "Çalışma Programınız Hazır!";
+                desc.innerText = "Sana özel hazırlanan programın başarıyla tamamlandı ve iletildi. Başarılar dileriz!";
+                
+                ibanSec.classList.add('hidden');
+                actSec.classList.add('hidden');
+                compSec.classList.remove('hidden'); // Yeni sipariş butonu görünür
+                defLinks.classList.add('hidden');
+
             } else if (status === 'iptal') {
                 container.className = "w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-red-100";
                 icon.className = "fa-solid fa-circle-xmark";
@@ -393,6 +445,12 @@
                 badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> İptal Edildi`;
                 title.innerText = "Ödeme Doğrulanamadı";
                 desc.innerText = "Ödemeniz onaylanamadı veya iptal edildi. Destek için WhatsApp üzerinden iletişime geçebilirsiniz.";
+                
+                ibanSec.classList.add('hidden');
+                actSec.classList.add('hidden');
+                compSec.classList.add('hidden');
+                defLinks.classList.remove('hidden');
+
             } else {
                 container.className = "w-20 h-20 bg-amber-50 text-amber-500 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-amber-100";
                 icon.className = "fa-solid fa-clock-rotate-left";
@@ -400,6 +458,11 @@
                 badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span> Ödeme Bekleniyor`;
                 title.innerText = "Formunuz Başarıyla Alındı!";
                 desc.innerText = "Programınızın hazırlanmaya başlanması için lütfen ödemeyi aşağıdaki hesap bilgilerine gerçekleştirin.";
+                
+                ibanSec.classList.remove('hidden');
+                actSec.classList.remove('hidden');
+                compSec.classList.add('hidden');
+                defLinks.classList.remove('hidden');
             }
         }
 

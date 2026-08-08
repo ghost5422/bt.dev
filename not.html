@@ -745,6 +745,16 @@
 </head>
 <body>
 
+    <!-- Kullanıcı Adı Sorma Modalı (YENİ EKLENDİ) -->
+    <div id="btUserModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(5px); z-index:99999; align-items:center; justify-content:center;">
+        <div style="background:white; padding:2rem; border-radius:1.5rem; max-width:350px; width:90%; text-align:center; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+            <h3 style="font-size:1.1rem; font-weight:700; color:#0f172a; margin-bottom:0.5rem;">Hoş Geldin!</h3>
+            <p style="font-size:0.8rem; color:#64748b; margin-bottom:1.2rem;">Sana daha iyi yardımcı olabilmemiz için adını yazar mısın?</p>
+            <input type="text" id="btUserNameInput" placeholder="Örn: Ahmet" style="width:100%; padding:0.75rem; border:1px solid #cbd5e1; border-radius:0.75rem; margin-bottom:1rem; font-size:0.9rem; text-align:center; outline:none; color:#0f172a;">
+            <button onclick="saveVisitorName()" style="width:100%; background:#0071e3; color:white; border:none; padding:0.75rem; border-radius:0.75rem; font-weight:700; cursor:pointer; font-size:0.9rem;">Devam Et</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <header>
@@ -1099,6 +1109,23 @@
             updateUI(avg, vizeCont, finalCont, gradeInfo);
             els.resultSection.classList.add('active');
             
+            // --- NOT HESAPLAMA EYLEMİNİ ADMIN PANELİNE GÖNDERME ---
+            try {
+                const visitorId = localStorage.getItem('bt_visitor_id');
+                import("https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js").then(({ getDatabase, ref, push, serverTimestamp }) => {
+                    const db = getDatabase();
+                    if(visitorId) {
+                        push(ref(db, `userActions/${visitorId}`), {
+                            eylem: "Not Hesapladı",
+                            detay: `Vize: ${vDisplay}, Final: ${fDisplay} => Ortalama: ${avg.toFixed(2)} (${gradeInfo.letter})`,
+                            sayfa: window.location.pathname,
+                            zaman: serverTimestamp()
+                        });
+                    }
+                });
+            } catch(err) { console.error(err); }
+            // -----------------------------------------------------
+
             if (avg >= 35 && avg !== lastConfettiScore) {
                 fireConfetti();
                 lastConfettiScore = avg;
@@ -1254,56 +1281,106 @@
         init();
     </script>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getDatabase, ref, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        <!-- Ziyaretçi, WhatsApp, Buton Tıklama ve Sıfırlama Takip Scripti (GÜNCELLENDİ) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, update, push, serverTimestamp, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
-        authDomain: "urunrakip.firebaseapp.com",
-        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "urunrakip",
-        storageBucket: "urunrakip.appspot.com",
-        messagingSenderId: "893193039416",
-        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            authDomain: "urunrakip.firebaseapp.com",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            storageBucket: "urunrakip.appspot.com",
+            messagingSenderId: "893193039416",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    // Ziyaretçi ID'sini tarayıcıda (localStorage) saklıyoruz ki aynı kişi sayfaları gezerken yeni ziyaretçi sayılmasın
-    let visitorId = localStorage.getItem('bt_visitor_id');
-    if (!visitorId) {
-        visitorId = 'vis_' + Math.random().toString(36.substring(2, 15)) + Date.now().toString(36);
-        localStorage.setItem('bt_visitor_id', visitorId);
-    }
+        // Admin panelinden tüm geçmiş silindiğinde kullanıcıların hafızasını sıfırlayan kontrol
+        onValue(ref(db, 'settings/resetTime'), (snapshot) => {
+            const serverResetTime = snapshot.val();
+            if (serverResetTime) {
+                const localResetCleaned = localStorage.getItem('bt_last_reset');
+                if (localResetCleaned != serverResetTime) {
+                    localStorage.removeItem('bt_visitor_id');
+                    localStorage.removeItem('bt_visitor_name');
+                    localStorage.setItem('bt_last_reset', serverResetTime);
+                    window.location.reload();
+                }
+            }
+        });
 
-    // URL'den ?ref=whatsapp parametresini kontrol et
-    const urlParams = new URLSearchParams(window.location.search);
-    const refSource = urlParams.get('ref') || sessionStorage.getItem('bt_ref_source') || 'direkt';
-    if (urlParams.get('ref')) {
-        sessionStorage.setItem('bt_ref_source', refSource);
-    }
+        let visitorId = localStorage.getItem('bt_visitor_id');
+        if (!visitorId) {
+            visitorId = 'vis_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+            localStorage.setItem('bt_visitor_id', visitorId);
+        }
 
-    // Ziyaretçi ilk defa geldiyse veya bilgilerini güncelleyeceğiz
-    const visitorRef = ref(db, `visitors/${visitorId}`);
-    set(visitorRef, {
-        visitorId: visitorId,
-        source: refSource, // WhatsApp veya direkt
-        ilkZiyaret: serverTimestamp(),
-        sonSayfa: window.location.pathname,
-        tarayici: navigator.userAgent
-    });
+        let visitorName = localStorage.getItem('bt_visitor_name') || 'Misafir (İsimsiz)';
 
-    // Her sayfa değişiminde / açılışında pageViews altına gezilen sayfayı kaydet
-    const pageViewsRef = ref(db, 'pageViews');
-    push(pageViewsRef, {
-        visitorId: visitorId,
-        sayfa: window.location.pathname + window.location.search,
-        zaman: serverTimestamp(),
-        kaynak: refSource
-    });
-</script>
+        window.saveVisitorName = function() {
+            const inputVal = document.getElementById('btUserNameInput').value.trim();
+            if(inputVal) {
+                visitorName = inputVal;
+                localStorage.setItem('bt_visitor_name', visitorName);
+                const modal = document.getElementById('btUserModal');
+                if(modal) modal.style.display = 'none';
+                kaydiGonder();
+            }
+        };
+
+        if (!localStorage.getItem('bt_visitor_name')) {
+            const modal = document.getElementById('btUserModal');
+            if(modal) modal.style.display = 'flex';
+        }
+
+        function kaydiGonder() {
+            let refSource = localStorage.getItem('bt_ref_source') || 'Direkt';
+            const fullUrl = window.location.href;
+            if (fullUrl.includes('ref=whatsapp') || fullUrl.includes('whatsapp')) {
+                refSource = 'WhatsApp';
+                localStorage.setItem('bt_ref_source', 'WhatsApp');
+            }
+
+            // set yerine update kullanarak her sayfa gezisinde verinin ezilmesini ve şişmesini önlüyoruz
+            update(ref(db, `visitors/${visitorId}`), {
+                visitorId: visitorId,
+                adSoyad: localStorage.getItem('bt_visitor_name') || visitorName,
+                source: refSource,
+                sonSayfa: window.location.pathname,
+                tarayici: navigator.userAgent
+            });
+
+            push(ref(db, 'pageViews'), {
+                visitorId: visitorId,
+                adSoyad: localStorage.getItem('bt_visitor_name') || visitorName,
+                sayfa: window.location.pathname + window.location.search,
+                zaman: serverTimestamp(),
+                kaynak: refSource
+            });
+        }
+
+        if (localStorage.getItem('bt_visitor_name')) {
+            kaydiGonder();
+        }
+
+        // Buton ve Link Tıklama Takibi
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a, button');
+            if (target) {
+                const btnText = target.innerText.trim() || target.getAttribute('aria-label') || target.id || 'İsimsiz Buton';
+                push(ref(db, `userActions/${visitorId}`), {
+                    eylem: "Butona Tıkladı",
+                    detay: `${btnText} (${target.tagName})`,
+                    sayfa: window.location.pathname,
+                    zaman: serverTimestamp()
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

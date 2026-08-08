@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>B.T | Detaylı Çalışma Analiz Formu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], },
+                    colors: {
+                        navy: { 900: '#0a192f', 800: '#112240', 700: '#233554', },
+                        brand: { blue: '#2563eb', light: '#60a5fa', dark: '#1d4ed8', gray: '#f8fafc', }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html, body { max-width: 100%; overflow-x: hidden; position: relative; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        
+        .bg-blobs {
+            position: fixed; inset: 0; z-index: -10; pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 10%, rgba(191, 219, 254, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 80% 90%, rgba(199, 210, 254, 0.4) 0%, transparent 40%);
+            -webkit-transform: translateZ(0); transform: translateZ(0);
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.98);
+            -webkit-transform: translateZ(0); transform: translateZ(0);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.08);
+        }
+
+        .form-input {
+            width: 100%; padding: 0.85rem 1rem 0.85rem 2.8rem; border-radius: 0.85rem; border: 1px solid #e2e8f0;
+            background-color: #f8fafc; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); font-size: 0.9rem;
+        }
+        .form-input:focus {
+            outline: none; border-color: #2563eb; background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+        }
+        .input-group { position: relative; }
+        .input-icon {
+            position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%);
+            color: #94a3b8; transition: color 0.3s; pointer-events: none; font-size: 0.95rem;
+        }
+        .form-input:focus ~ .input-icon { color: #2563eb; }
+
+        .wizard-step { display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
+        .wizard-step.active-step { display: block; opacity: 1; transform: translateY(0); }
+
+        .option-card {
+            border: 2px solid #e2e8f0; border-radius: 0.85rem; padding: 0.75rem 1rem; cursor: pointer;
+            transition: all 0.2s ease; background-color: #f8fafc; display: flex; align-items: center; gap: 0.75rem;
+        }
+        .option-card:hover { border-color: #93c5fd; background-color: #eff6ff; }
+        .option-card input:checked ~ .option-text, .option-card input:checked + .option-text { color: #1e40af; font-weight: 600; }
+        .option-card:has(input:checked) { border-color: #2563eb; background-color: #eff6ff; }
+
+        /* Modal Stilleri */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(10, 25, 47, 0.6); backdrop-filter: blur(5px);
+            z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            background: white; width: 100%; max-width: 420px; border-radius: 1.75rem; padding: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .modal-overlay.open .modal-box { transform: scale(1); }
+
+        .select-option-item {
+            padding: 0.85rem 1rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; cursor: pointer;
+            font-size: 0.875rem; font-weight: 500; color: #334155; transition: all 0.2s; background: #f8fafc;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .select-option-item:hover { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; }
+        .select-option-item.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+        .time-chip {
+            padding: 0.7rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; background: #f8fafc;
+            font-size: 0.875rem; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.2s; color: #334155;
+        }
+        .time-chip:hover { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; }
+        .time-chip.selected { background: #2563eb; color: #white; border-color: #2563eb; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased relative min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
+
+    <div class="bg-blobs"></div>
+
+    <header class="w-full py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center max-w-4xl">
+            <a href="anasayfa.html" class="flex items-center gap-3 group">
+                <div class="border-2 border-brand-blue rounded-2xl px-4 py-2 text-2xl font-extrabold tracking-widest text-navy-900 bg-white shadow-sm group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
+                    B.T
+                </div>
+            </a>
+            <a href="anasayfa.html" class="text-xs font-semibold text-slate-600 hover:text-brand-blue transition-colors bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200/60 flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left text-xs"></i> Ana Sayfa
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-6 px-4 sm:px-6">
+        <div class="glass-panel w-full max-w-2xl rounded-[2.5xl] p-6 sm:p-10 relative">
+            
+            <div class="text-center mb-8">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-navy-900 tracking-tight mb-2">Çalışma Programı Analizi</h1>
+                <p class="text-slate-500 text-xs sm:text-sm max-w-md mx-auto mb-6">"Sana en uygun çalışma takvimini çıkarmak için bilgileri eksiksiz doldur."</p>
+                
+                <div class="flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    <span id="stepIndicator">Adım 1 / 7</span>
+                    <span id="stepTitleName" class="text-brand-blue">Paket Bilgisi</span>
+                </div>
+                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-brand-blue to-indigo-600 h-full w-[14.2%] transition-all duration-500 rounded-full"></div>
+                </div>
+            </div>
+
+            <form id="analysisForm" onsubmit="return false;" class="space-y-6">
+                
+                <input type="hidden" id="secilenPaketInput" value="Standart">
+
+                <!-- ADIM 1 -->
+                <div class="wizard-step active-step" data-step="1">
+                    <div class="text-center space-y-4 py-6">
+                        <div class="w-20 h-20 bg-blue-50 text-brand-blue rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner border border-blue-100">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-navy-900">Seçtiğin Paket</h2>
+                        <div class="inline-block bg-gradient-to-r from-brand-blue to-indigo-600 text-white font-extrabold text-lg px-8 py-3 rounded-2xl shadow-lg shadow-blue-500/25 uppercase tracking-wide" id="secilenPaketBanner">
+                            Yükleniyor...
+                        </div>
+                        <p class="text-xs text-slate-400">Paketin sabitlendi. 'İleri' butonuna basarak devam edebilirsin.</p>
+                    </div>
+                </div>
+
+                <!-- ADIM 2 -->
+                <div class="wizard-step" data-step="2">
+                    <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
+                        <i class="fa-solid fa-user-pen text-brand-blue"></i> Kişisel Bilgilerin
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Adın ve Soyadın *</label>
+                            <div class="input-group">
+                                <input type="text" id="q_ad" class="form-input" placeholder="Örn: Ahmet Yılmaz" required data-save="ad">
+                                <i class="fa-solid fa-signature input-icon"></i>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Yaşın *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_yas" class="form-input" placeholder="Örn: 22" required data-save="yas">
+                                    <i class="fa-solid fa-cake-candles input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">WhatsApp Numaran *</label>
+                                <div class="input-group">
+                                    <input type="tel" id="q_telefon" class="form-input" placeholder="05XX XXX XX XX" required data-save="telefon">
+                                    <i class="fa-solid fa-phone input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 3 -->
+                <div class="wizard-step" data-step="3">
+                    <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
+                        <i class="fa-solid fa-graduation-cap text-brand-blue"></i> Üniversite ve Ders Durumun
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Kaçıncı Sınıftasın? *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_sinif" class="form-input" placeholder="Örn: 3" required data-save="sinif">
+                                    <i class="fa-solid fa-school input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Kaçıncı Yarıyıldasın? *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_yariyil" class="form-input" placeholder="Örn: 5" required data-save="yariyil">
+                                    <i class="fa-solid fa-calendar-days input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Bu Dönem Alacağın Dersler *</label>
+                            <textarea id="q_dersler" class="form-input h-24 resize-none !pl-4 pt-3" placeholder="Örn: İletişim Kuramları, Türk Dili, İstatistik..." required data-save="dersler"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Alttan Kalan / FF / Yükseltme Derslerin</label>
+                            <textarea id="q_ffdersler" class="form-input h-20 resize-none !pl-4 pt-3" placeholder="Alttan dersin yoksa 'Yok' yazabilirsin..." data-save="ffdersler"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 4 -->
+                <div class="wizard-step" data-step="4">
+                    <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
+                        <i class="fa-solid fa-bullseye text-brand-blue"></i> Hedef ve Beklentilerin
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Bu Dönemki Asıl Hedefin Nedir? *</label>
+                            <button type="button" onclick="openCustomSelect('val-hedef', 'Hedefini Seçiniz', [
+                                {val: 'Sadece derslerden geçmek', text: 'Sadece derslerden geçmek (Koşullular dahil)'},
+                                {val: 'GNO ortalamasını yükseltmek', text: 'GNO ortalamasını yükseltmek'},
+                                {val: 'Bu dönem mezun olmak', text: 'Bu dönem mezun olmak'},
+                                {val: 'Onur / Yüksek Onur belgesi almak', text: 'Onur / Yüksek Onur belgesi almak'}
+                            ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                <span id="text_val-hedef">Hedefini Seç...</span>
+                                <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                            </button>
+                            <input type="hidden" id="val-hedef" required data-save="hedef">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Hedeflediğin Dönem GNO'su</label>
+                                <div class="input-group">
+                                    <input type="text" id="q_gno" class="form-input" placeholder="Örn: 3.00 veya 'Geçeyim yeter'" data-save="gno">
+                                    <i class="fa-solid fa-chart-line input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Programın Kapsayacağı Süre *</label>
+                                <button type="button" onclick="openCustomSelect('val-program_suresi', 'Program Süresi Seçiniz', [
+                                    {val: '1 Haftalık Hızlı Plan', text: '1 Haftalık Hızlı Plan'},
+                                    {val: '2 Haftalık Çalışma Takvimi', text: '2 Haftalık Çalışma Takvimi'},
+                                    {val: '1 Aylık Program', text: '1 Aylık Program'},
+                                    {val: 'Vize Sınavlarına Kadar', text: 'Vize Sınavlarına Kadar'},
+                                    {val: 'Final Sınavlarına Kadar', text: 'Final Sınavlarına Kadar'}
+                                ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_val-program_suresi">Süre Seç...</span>
+                                    <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="val-program_suresi" required data-save="program_suresi">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Özellikle Üzerine Düşmemi İstediğin Dersler</label>
+                            <textarea id="q_agirlik_dersler" class="form-input h-20 resize-none !pl-4 pt-3" placeholder="Zorlandığın veya yüksek not hedeflediğin dersler..." data-save="agirlik_dersler"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 5 -->
+                <div class="wizard-step" data-step="5">
+                    <h2 class="text-lg font-bold text-navy-900 mb-2 flex items-center gap-2.5">
+                        <i class="fa-solid fa-clock text-brand-blue"></i> Günlük Rutin ve Müsaitlik Durumun
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-5">Günlük saatlerini, çalışmak istediğin günleri ve saat aralıklarını aşağıdaki interaktif alanlardan kolayca seçebilirsin.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/60">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Şu an bir işte çalışıyor musun? *</label>
+                            <div class="flex space-x-6">
+                                <label class="flex items-center cursor-pointer text-sm font-semibold"><input type="radio" name="calisma_durumu" value="Evet" class="w-4 h-4 text-brand-blue mr-2" required data-save-radio="calisma_durumu">Evet, çalışıyorum</label>
+                                <label class="flex items-center cursor-pointer text-sm font-semibold"><input type="radio" name="calisma_durumu" value="Hayır" class="w-4 h-4 text-brand-blue mr-2" data-save-radio="calisma_durumu">Hayır, çalışmıyorum</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">İş / Mesai Saatlerin (Varsa)</label>
+                            <div class="input-group">
+                                <input type="text" id="q_calisma_saati" class="form-input" placeholder="Örn: 09:00 - 18:00" data-save="calisma_saati">
+                                <i class="fa-solid fa-briefcase input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Günlük Yol / Ulaşım</label>
+                                <div class="input-group">
+                                    <input type="text" id="q_yol_suresi" class="form-input" placeholder="Örn: 1 Saat" data-save="yol_suresi">
+                                    <i class="fa-solid fa-bus input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Uyanış Saatin *</label>
+                                <button type="button" onclick="openTimeModal('q_uyanma', 'Uyanış Saatinizi Seçin')" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_q_uyanma">07:00</span>
+                                    <i class="fa-solid fa-sun text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="q_uyanma" value="07:00" required data-save="uyanma">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Yatış Saatin *</label>
+                                <button type="button" onclick="openTimeModal('q_uyuma', 'Yatış Saatinizi Seçin')" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_q_uyuma">23:00</span>
+                                    <i class="fa-solid fa-moon text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="q_uyuma" value="23:00" required data-save="uyuma">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Günde Kaç Saat Çalışabilirsin? *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_gunluk_ders_saati" class="form-input" placeholder="Örn: 3" required data-save="gunluk_ders_saati">
+                                    <i class="fa-solid fa-hourglass-half input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Haftada Kaç Gün Ayırabilirsin? *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_haftalik_calisma_gunu" class="form-input" placeholder="Örn: 5" required data-save="haftalik_calisma_gunu">
+                                    <i class="fa-solid fa-calendar-week input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GÜN VE SAAT ARALIĞI SEÇİMLERİ -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Çalışılacak Günler *</label>
+                                <button type="button" onclick="openModal('gunModal')" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="secilenGunlerText">Günleri Seçmek İçin Tıkla</span>
+                                    <i class="fa-solid fa-calendar-days text-brand-blue"></i>
+                                </button>
+                                <input type="hidden" id="hidden_calisma_gunleri" required data-save="calisma_gunleri">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Müsait Saat Aralıkları *</label>
+                                <button type="button" onclick="openModal('saatModal')" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="secilenSaatlerText">Saatleri Seçmek İçin Tıkla</span>
+                                    <i class="fa-solid fa-clock text-brand-blue"></i>
+                                </button>
+                                <input type="hidden" id="hidden_saat_araliklari" required data-save="saat_araliklari">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 6 -->
+                <div class="wizard-step" data-step="6">
+                    <h2 class="text-lg font-bold text-navy-900 mb-5 flex items-center gap-2.5">
+                        <i class="fa-solid fa-brain text-brand-blue"></i> Çalışma Tarzı ve Alışkanlıklar
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Zihninin En Dinç Olduğu Zaman *</label>
+                                <button type="button" onclick="openCustomSelect('val-verimli_zaman', 'Zihninin En Dinç Olduğu Zaman', [
+                                    {val: 'Sabah Erken', text: 'Sabah Erken'},
+                                    {val: 'Öğle Saatleri', text: 'Öğle Saatleri'},
+                                    {val: 'Akşam Saatleri', text: 'Akşam Saatleri'},
+                                    {val: 'Gece Geç Saatler', text: 'Gece Geç Saatler'}
+                                ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_val-verimli_zaman">Zaman Seç...</span>
+                                    <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="val-verimli_zaman" required data-save="verimli_zaman">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tek Seferde Odaklanma Süren *</label>
+                                <button type="button" onclick="openCustomSelect('val-odaklanma_suresi', 'Tek Seferde Odaklanma Süren', [
+                                    {val: '25 Dakika (Pomodoro)', text: '25 Dakika (Pomodoro)'},
+                                    {val: '45 Dakika (Standart Blok)', text: '45 Dakika (Standart Blok)'},
+                                    {val: '60 Dakika (Uzun Odak)', text: '60 Dakika (Kesintisiz)'},
+                                    {val: '90 Dakika ve Üzeri', text: '90 Dakika ve üzeri'}
+                                ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_val-odaklanma_suresi">Süre Seç...</span>
+                                    <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="val-odaklanma_suresi" required data-save="odaklanma_suresi">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Programın Formatı Nasıl Olsun? *</label>
+                                <button type="button" onclick="openCustomSelect('val-program_tipi', 'Programın Formatı', [
+                                    {val: 'Saat Saat Çizelge', text: 'Saat Saat Çizelge'},
+                                    {val: 'Günlük Görev Listesi', text: 'Günlük Görev Listesi'},
+                                    {val: 'Haftalık Genel Plan', text: 'Haftalık Plan'},
+                                    {val: 'Karma Sistem', text: 'Karma Sistem'}
+                                ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_val-program_tipi">Format Seç...</span>
+                                    <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="val-program_tipi" required data-save="program_tipi">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Programın Temposu Nasıl Olsun? *</label>
+                                <button type="button" onclick="openCustomSelect('val-program_yogunlugu', 'Programın Temposu', [
+                                    {val: 'Hafif Tempo', text: 'Hafif (Rahat tempo)'},
+                                    {val: 'Orta Tempo', text: 'Orta (Dengeli)'},
+                                    {val: 'Yoğun Tempo', text: 'Yoğun (Sıkı disiplin)'},
+                                    {val: 'Çok Yoğun (Sınav Kampı)', text: 'Çok Yoğun (Sınav Kampı)'}
+                                ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                    <span id="text_val-program_yogunlugu">Tempo Seç...</span>
+                                    <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                                </button>
+                                <input type="hidden" id="val-program_yogunlugu" required data-save="program_yogunlugu">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tercih Ettiğin Mola Düzeni *</label>
+                            <button type="button" onclick="openCustomSelect('val-mola_tipi', 'Mola Düzeni Seçiniz', [
+                                {val: '25 Dk Ders / 5 Dk Mola', text: '25 Dk Ders / 5 Dk Mola'},
+                                {val: '50 Dk Ders / 10 Dk Mola', text: '50 Dk Ders / 10 Dk Mola'},
+                                {val: '60 Dk Ders / 15 Dk Mola', text: '60 Dk Ders / 15 Dk Mola'},
+                                {val: 'Fark Etmez', text: 'Fark Etmez'}
+                            ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                <span id="text_val-mola_tipi">Mola Tipi Seç...</span>
+                                <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                            </button>
+                            <input type="hidden" id="val-mola_tipi" required data-save="mola_tipi">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">En Çok Zorlandığın AÖF Dersi</label>
+                                <div class="input-group">
+                                    <input type="text" id="q_zor_ders" class="form-input" placeholder="Örn: İstatistik, Hukuk..." data-save="zor_ders">
+                                    <i class="fa-solid fa-triangle-exclamation input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">En Kolay Yaptığın Ders</label>
+                                <div class="input-group">
+                                    <input type="text" id="q_kolay_ders" class="form-input" placeholder="Örn: İletişim..." data-save="kolay_ders">
+                                    <i class="fa-solid fa-face-smile input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Ders Çalışırken Seni En Çok Zorlayan Şey *</label>
+                            <button type="button" onclick="openCustomSelect('val-zorlanilan_konu', 'En Çok Zorlayan Durum', [
+                                {val: 'Motivasyon eksikliği', text: 'Motivasyon eksikliği'},
+                                {val: 'Odaklanamama / Dikkat dağınıklığı', text: 'Odaklanamama / Dikkat dağınıklığı'},
+                                {val: 'Telefon / Sosyal Medya bağımlılığı', text: 'Telefon / Sosyal Medya bağımlılığı'},
+                                {val: 'Zamanı yönetememek', text: 'Zamanı yönetememek'},
+                                {val: 'Sürekli ertelemek', text: 'Sürekli ertelemek'},
+                                {val: 'Nereden başlayacağımı bilememek', text: 'Nereden başlayacağımı bilememek'}
+                            ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                <span id="text_val-zorlanilan_konu">Sorunu Seç...</span>
+                                <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                            </button>
+                            <input type="hidden" id="val-zorlanilan_konu" required data-save="zorlanilan_konu">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Genel Tekrar Günleri Olsun mu? *</label>
+                                <div class="flex space-x-6">
+                                    <label class="flex items-center cursor-pointer text-xs font-semibold"><input type="radio" name="tekrar_gunleri" value="Evet" class="w-4 h-4 text-brand-blue mr-1.5" required data-save-radio="tekrar_gunleri">Evet</label>
+                                    <label class="flex items-center cursor-pointer text-xs font-semibold"><input type="radio" name="tekrar_gunleri" value="Hayır" class="w-4 h-4 text-brand-blue mr-1.5" data-save-radio="tekrar_gunleri">Gerek yok</label>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/60">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Çıkmış Soru Çözümleri Olsun mu? *</label>
+                                <div class="flex space-x-6">
+                                    <label class="flex items-center cursor-pointer text-xs font-semibold"><input type="radio" name="soru_cozum" value="Evet" class="w-4 h-4 text-brand-blue mr-1.5" required data-save-radio="soru_cozum">Evet</label>
+                                    <label class="flex items-center cursor-pointer text-xs font-semibold"><input type="radio" name="soru_cozum" value="Hayır" class="w-4 h-4 text-brand-blue mr-1.5" data-save-radio="soru_cozum">Hayır</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Programa Ne Kadar Sadık Kalabilirsin? *</label>
+                            <button type="button" onclick="openCustomSelect('val-uyum_derecesi', 'Program Uyum Derecesi', [
+                                {val: '%100 Birebir Uyarım', text: '%100 Birebir uyarım'},
+                                {val: 'Büyük Ölçüde Uyarım', text: 'Büyük ölçüde uyarım'},
+                                {val: 'Elimden Geleni Yaparım', text: 'Elimden geleni yaparım'}
+                            ])" class="w-full form-input text-left flex justify-between items-center text-slate-700 font-semibold cursor-pointer bg-white">
+                                <span id="text_val-uyum_derecesi">Seçiniz...</span>
+                                <i class="fa-solid fa-chevron-down text-brand-blue text-xs"></i>
+                            </button>
+                            <input type="hidden" id="val-uyum_derecesi" required data-save="uyum_derecesi">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Motivasyonun (1-10) *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_motivasyon" class="form-input" min="1" max="10" placeholder="1-10" required data-save="motivasyon">
+                                    <i class="fa-solid fa-fire input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Telefon Dikkat Dağınıklığı (1-10) *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_telefon_dikkat" class="form-input" min="1" max="10" placeholder="1-10" required data-save="telefon_dikkat">
+                                    <i class="fa-solid fa-mobile-screen input-icon"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Son 30 Gün Çalışılan Gün *</label>
+                                <div class="input-group">
+                                    <input type="number" id="q_son_30_gun" class="form-input" min="0" max="30" placeholder="0-30" required data-save="son_30_gun">
+                                    <i class="fa-solid fa-calendar-check input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Eklemek İstediğin Özel Bir Not Var mı?</label>
+                            <textarea id="q_notlar" class="form-input h-20 resize-none !pl-4 pt-3" placeholder="Özel durumların varsa belirtebilirsin..." data-save="notlar"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 7 -->
+                <div class="wizard-step" data-step="7">
+                    <h2 class="text-lg font-bold text-navy-900 mb-4 flex items-center gap-2.5">
+                        <i class="fa-solid fa-circle-check text-emerald-500"></i> Sipariş ve Bilgi Özeti
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-5">Lütfen verdiğin bilgileri kontrol edip onaylayabilirsin:</p>
+                    
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80 space-y-3 text-xs sm:text-sm">
+                        <div class="flex justify-between border-b border-slate-200/60 pb-2">
+                            <span class="font-bold text-slate-400">Seçilen Paket:</span>
+                            <span id="sum_paket" class="font-bold text-brand-blue">Standart</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-200/60 pb-2">
+                            <span class="font-bold text-slate-400">Ad Soyad:</span>
+                            <span id="sum_ad" class="font-semibold text-slate-800">-</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-200/60 pb-2">
+                            <span class="font-bold text-slate-400">Sınıf / Yarıyıl:</span>
+                            <span id="sum_sinif" class="font-semibold text-slate-800">-</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-200/60 pb-2">
+                            <span class="font-bold text-slate-400">Hedef:</span>
+                            <span id="sum_hedef" class="font-semibold text-slate-800">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-bold text-slate-400">Günlük Çalışma Süresi:</span>
+                            <span id="sum_sure" class="font-semibold text-slate-800">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-6 border-t border-slate-200/60 mt-8">
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="hidden px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-100 transition-colors text-xs sm:text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Geri
+                    </button>
+                    <div class="ml-auto">
+                        <button type="button" id="nextBtn" onclick="nextPrev(1)" class="px-8 py-3.5 rounded-2xl bg-brand-blue hover:bg-brand-dark text-white font-extrabold shadow-lg shadow-blue-500/25 transition-all text-xs sm:text-sm flex items-center gap-2">
+                            <span>İleri</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="button" id="submitBtn" onclick="triggerFormSubmission()" class="hidden px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold shadow-xl shadow-emerald-600/30 transition-all text-sm sm:text-base flex items-center gap-2.5 cursor-pointer">
+                            <i class="fa-solid fa-paper-plane"></i> <span>Bilgilerimi Gönder</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- GENEL SELECT MODALI -->
+    <div id="customSelectModal" class="modal-overlay">
+        <div class="modal-box space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 id="customSelectTitle" class="font-bold text-navy-900 text-base">Seçim Yapın</h3>
+                <button onclick="closeModal('customSelectModal')" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="customSelectOptionsList" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
+        </div>
+    </div>
+
+    <!-- ÖZEL ESTETİK SAAT / DAKİKA SEÇİM MODALI -->
+    <div id="timeModal" class="modal-overlay">
+        <div class="modal-box space-y-5 text-center">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 id="timeModalTitle" class="font-bold text-navy-900 text-base">Saat Seçimi</h3>
+                <button onclick="closeModal('timeModal')" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Saat Seçin</label>
+                    <div id="modalHourGrid" class="grid grid-cols-6 gap-1.5 max-h-36 overflow-y-auto p-1 bg-slate-50 rounded-xl border"></div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Dakika Seçin</label>
+                    <div id="modalMinuteGrid" class="grid grid-cols-4 gap-2 bg-slate-50 p-1 rounded-xl border"></div>
+                </div>
+            </div>
+
+            <button onclick="saveTimeModal()" class="w-full bg-brand-blue text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-blue-500/20">Saati Onayla</button>
+        </div>
+    </div>
+
+    <!-- GÜN SEÇİM MODALI -->
+    <div id="gunModal" class="modal-overlay">
+        <div class="modal-box space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-navy-900 text-base"><i class="fa-solid fa-calendar-days text-brand-blue mr-2"></i> Çalışılacak Günleri Seç</h3>
+                <button onclick="closeModal('gunModal')" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Pazartesi" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Pazartesi</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Salı" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Salı</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Çarşamba" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Çarşamba</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Perşembe" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Perşembe</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Cuma" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Cuma</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_gun" value="Cumartesi" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Cumartesi</span></label>
+                <label class="option-card col-span-2"><input type="checkbox" name="modal_gun" value="Pazar" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">Pazar</span></label>
+            </div>
+            <button onclick="saveGunler()" class="w-full bg-brand-blue text-white font-bold py-3 rounded-xl text-sm shadow-md shadow-blue-500/20">Seçimi Onayla</button>
+        </div>
+    </div>
+
+    <!-- SAAT ARALIĞI SEÇİM MODALI -->
+    <div id="saatModal" class="modal-overlay">
+        <div class="modal-box space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-navy-900 text-base"><i class="fa-solid fa-clock text-brand-blue mr-2"></i> Müsait Saat Aralıkları</h3>
+                <button onclick="closeModal('saatModal')" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="08:00 - 10:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">08:00 - 10:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="10:00 - 12:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">10:00 - 12:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="12:00 - 14:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">12:00 - 14:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="14:00 - 16:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">14:00 - 16:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="16:00 - 18:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">16:00 - 18:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="18:00 - 20:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">18:00 - 20:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="20:00 - 22:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">20:00 - 22:00</span></label>
+                <label class="option-card"><input type="checkbox" name="modal_saat" value="22:00 - 00:00" class="w-4 h-4 text-brand-blue rounded"><span class="text-xs font-medium option-text">22:00 - 00:00</span></label>
+            </div>
+            <button onclick="saveSaatler()" class="w-full bg-brand-blue text-white font-bold py-3 rounded-xl text-sm shadow-md shadow-blue-500/20">Seçimi Onayla</button>
+        </div>
+    </div>
+
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200/60 bg-white/50 backdrop-blur-sm">
+        <p>&copy; 2026 Berkay Taşkan. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let secilenPaket = urlParams.get('paket') || 'Standart';
+        secilenPaket = secilenPaket.charAt(0).toUpperCase() + secilenPaket.slice(1);
+        
+        document.getElementById('secilenPaketBanner').innerText = secilenPaket + " Paket";
+        document.getElementById('secilenPaketInput').value = secilenPaket;
+
+        let currentStep = 1;
+        const totalSteps = 7;
+        const stepTitles = [
+            "Paket Bilgisi",
+            "Kişisel Bilgiler",
+            "Eğitim Bilgileri",
+            "Hedef Analizi",
+            "Günlük Yaşam",
+            "Çalışma Alışkanlıkları",
+            "Sipariş Özeti"
+        ];
+
+        function showStep(step) {
+            const steps = document.querySelectorAll('.wizard-step');
+            steps.forEach(el => el.classList.remove('active-step'));
+            
+            const targetStep = document.querySelector(`.wizard-step[data-step="${step}"]`);
+            if(targetStep) targetStep.classList.add('active-step');
+
+            document.getElementById('stepIndicator').innerText = `Adım ${step} / ${totalSteps}`;
+            document.getElementById('stepTitleName').innerText = stepTitles[step - 1];
+            
+            const progressPercent = (step / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (step === 1) prevBtn.classList.add('hidden');
+            else prevBtn.classList.remove('hidden');
+
+            if (step === totalSteps) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+                populateSummary();
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        function nextPrev(n) {
+            if (n === 1 && !validateCurrentStep()) return;
+
+            currentStep += n;
+            if (currentStep < 1) currentStep = 1;
+            if (currentStep > totalSteps) currentStep = totalSteps;
+
+            showStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function validateCurrentStep() {
+            const currentEl = document.querySelector(`.wizard-step[data-step="${currentStep}"]`);
+            const inputs = currentEl.querySelectorAll('input[required], select[required], textarea[required], input[type="hidden"][required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    const triggerBtn = input.previousElementSibling;
+                    if(triggerBtn && triggerBtn.tagName === 'BUTTON') {
+                        triggerBtn.classList.add('border-red-500');
+                    } else {
+                        input.classList.add('border-red-500');
+                    }
+                    input.focus();
+                } else {
+                    const triggerBtn = input.previousElementSibling;
+                    if(triggerBtn && triggerBtn.tagName === 'BUTTON') {
+                        triggerBtn.classList.remove('border-red-500');
+                    } else {
+                        input.classList.remove('border-red-500');
+                    }
+                }
+            });
+
+            if (!valid) {
+                alert("Lütfen bu adımdaki zorunlu alanları eksiksiz doldurunuz.");
+            }
+            return valid;
+        }
+
+        function populateSummary() {
+            document.getElementById('sum_paket').innerText = secilenPaket + " Paket";
+            document.getElementById('sum_ad').innerText = document.getElementById('q_ad').value || '-';
+            document.getElementById('sum_sinif').innerText = (document.getElementById('q_sinif').value || '-') + '. Sınıf / ' + (document.getElementById('q_yariyil').value || '-') + '. Yarıyıl';
+            document.getElementById('sum_hedef').innerText = document.getElementById('val-hedef').value || '-';
+            document.getElementById('sum_sure').innerText = (document.getElementById('q_gunluk_ders_saati').value || '-') + ' Saat/Gün';
+        }
+
+        // Modal Yönetimi
+        function openModal(modalId) { document.getElementById(modalId).classList.add('open'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('open'); }
+
+        // Özel Select Modali Mantığı
+        let activeSelectFieldId = null;
+        function openCustomSelect(fieldId, titleText, optionsArray) {
+            activeSelectFieldId = fieldId;
+            document.getElementById('customSelectTitle').innerText = titleText;
+            const listContainer = document.getElementById('customSelectOptionsList');
+            listContainer.innerHTML = '';
+
+            const currentVal = document.getElementById(fieldId).value;
+
+            optionsArray.forEach(opt => {
+                const item = document.createElement('div');
+                item.className = `select-option-item ${currentVal === opt.val ? 'selected' : ''}`;
+                item.innerHTML = `<span>${opt.text}</span> ${currentVal === opt.val ? '<i class="fa-solid fa-check text-brand-blue"></i>' : ''}`;
+                item.onclick = () => {
+                    document.getElementById(fieldId).value = opt.val;
+                    document.getElementById(`text_${fieldId}`).innerText = opt.text;
+                    document.getElementById(`text_${fieldId}`).classList.add('text-navy-900', 'font-bold');
+                    localStorage.setItem(`bt_form_${fieldId}`, opt.val);
+                    closeModal('customSelectModal');
+                };
+                listContainer.appendChild(item);
+            });
+
+            openModal('customSelectModal');
+        }
+
+        // Estetik Saat Seçim Modali Mantığı
+        let activeTimeFieldId = null;
+        let selectedHour = "07";
+        let selectedMinute = "00";
+
+        function openTimeModal(fieldId, titleText) {
+            activeTimeFieldId = fieldId;
+            document.getElementById('timeModalTitle').innerText = titleText;
+            const currentVal = document.getElementById(fieldId).value || "07:00";
+            const parts = currentVal.split(':');
+            if(parts.length === 2) {
+                selectedHour = parts[0];
+                selectedMinute = parts[1];
+            }
+            renderTimeGrids();
+            openModal('timeModal');
+        }
+
+        function renderTimeGrids() {
+            const hourGrid = document.getElementById('modalHourGrid');
+            const minuteGrid = document.getElementById('modalMinuteGrid');
+            hourGrid.innerHTML = '';
+            minuteGrid.innerHTML = '';
+
+            for(let i=0; i<24; i++) {
+                let h = i < 10 ? '0' + i : '' + i;
+                const btn = document.createElement('div');
+                btn.className = `time-chip ${selectedHour === h ? 'selected' : ''}`;
+                btn.innerText = h;
+                btn.onclick = () => {
+                    selectedHour = h;
+                    renderTimeGrids();
+                };
+                hourGrid.appendChild(btn);
+            }
+
+            ['00', '15', '30', '45'].forEach(m => {
+                const btn = document.createElement('div');
+                btn.className = `time-chip ${selectedMinute === m ? 'selected' : ''}`;
+                btn.innerText = m;
+                btn.onclick = () => {
+                    selectedMinute = m;
+                    renderTimeGrids();
+                };
+                minuteGrid.appendChild(btn);
+            });
+        }
+
+        function saveTimeModal() {
+            if(activeTimeFieldId) {
+                const timeStr = `${selectedHour}:${selectedMinute}`;
+                document.getElementById(activeTimeFieldId).value = timeStr;
+                document.getElementById(`text_${activeTimeFieldId}`).innerText = timeStr;
+                document.getElementById(`text_${activeTimeFieldId}`).classList.add('text-navy-900', 'font-bold');
+                localStorage.setItem(`bt_form_${activeTimeFieldId}`, timeStr);
+            }
+            closeModal('timeModal');
+        }
+
+        function saveGunler() {
+            const selected = Array.from(document.querySelectorAll('input[name="modal_gun"]:checked')).map(cb => cb.value);
+            if (selected.length === 0) { alert("Lütfen en az bir gün seçiniz."); return; }
+            document.getElementById('hidden_calisma_gunleri').value = selected.join(', ');
+            document.getElementById('secilenGunlerText').innerText = selected.join(', ');
+            document.getElementById('secilenGunlerText').classList.add('text-navy-900', 'font-bold');
+            closeModal('gunModal');
+        }
+
+        function saveSaatler() {
+            const selected = Array.from(document.querySelectorAll('input[name="modal_saat"]:checked')).map(cb => cb.value);
+            if (selected.length === 0) { alert("Lütfen en az bir saat aralığı seçiniz."); return; }
+            document.getElementById('hidden_saat_araliklari').value = selected.join(', ');
+            document.getElementById('secilenSaatlerText').innerText = selected.join(', ');
+            document.getElementById('secilenSaatlerText').classList.add('text-navy-900', 'font-bold');
+            closeModal('saatModal');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            showStep(currentStep);
+
+            const saveInputs = document.querySelectorAll('[data-save]');
+            saveInputs.forEach(input => {
+                const key = input.getAttribute('data-save');
+                const savedVal = localStorage.getItem(`bt_form_${key}`);
+                if (savedVal !== null && input.id !== 'hidden_calisma_gunleri' && input.id !== 'hidden_saat_araliklari') {
+                    input.value = savedVal;
+                    const textSpan = document.getElementById(`text_${input.id}`);
+                    if(textSpan) {
+                        textSpan.innerText = savedVal;
+                        textSpan.classList.add('text-navy-900', 'font-bold');
+                    }
+                }
+
+                input.addEventListener('input', () => { localStorage.setItem(`bt_form_${key}`, input.value); });
+                input.addEventListener('change', () => { localStorage.setItem(`bt_form_${key}`, input.value); });
+            });
+
+            const saveRadios = document.querySelectorAll('[data-save-radio]');
+            saveRadios.forEach(radio => {
+                const groupName = radio.getAttribute('data-save-radio');
+                const savedVal = localStorage.getItem(`bt_form_radio_${groupName}`);
+                if (savedVal && radio.value === savedVal) radio.checked = true;
+
+                radio.addEventListener('change', () => {
+                    if (radio.checked) localStorage.setItem(`bt_form_radio_${groupName}`, radio.value);
+                });
+            });
+        });
+    </script>
+
+    <!-- Güvenli Firebase Veri Gönderim Scripti -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, push, get } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            authDomain: "urunrakip.firebaseapp.com",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            storageBucket: "urunrakip.appspot.com",
+            messagingSenderId: "893193039416",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.triggerFormSubmission = async function() {
+            const submitBtn = document.getElementById('submitBtn');
+            const orgHTML = submitBtn.innerHTML;
+
+            try {
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Gönderiliyor...</span>`;
+                submitBtn.disabled = true;
+
+                const randomCode = 'BT-' + Math.floor(100000 + Math.random() * 900000);
+                const paketAdi = document.getElementById('secilenPaketInput').value;
+
+                // Sipariş oluşturulduğu anda Firebase'deki güncel fiyatı sabitle.
+                // Böylece ödeme sayfası ve admin paneli aynı sipariş fiyatını kullanır.
+                const fiyatSnapshot = await get(ref(db, 'settings/prices'));
+                const fiyatlar = fiyatSnapshot.exists() ? (fiyatSnapshot.val() || {}) : {};
+                let satisFiyati = String(fiyatlar.standart ?? '0');
+                const paketKucuk = String(paketAdi || '').toLocaleLowerCase('tr-TR');
+
+                if (paketKucuk.includes('detay') || paketKucuk.includes('premium')) {
+                    satisFiyati = String(fiyatlar.detayli ?? '0');
+                } else if (paketKucuk.includes('temel')) {
+                    satisFiyati = '0';
+                }
+
+                let formData = {
+                    tarih: new Date().toISOString(),
+                    odemeDurumu: "bekliyor",
+                    talepKodu: randomCode,
+                    paket: paketAdi,
+                    satisFiyati: satisFiyati,
+                    adSoyad: document.getElementById('q_ad').value || "İsimsiz",
+                    yas: document.getElementById('q_yas').value || "-",
+                    telefon: document.getElementById('q_telefon').value || "-",
+                    sinif: document.getElementById('q_sinif').value || "-",
+                    yariyil: document.getElementById('q_yariyil').value || "-",
+                    dersler: document.getElementById('q_dersler').value || "-",
+                    ffdersler: document.getElementById('q_ffdersler').value || "Yok",
+                    hedef: document.getElementById('val-hedef').value || "-",
+                    gno: document.getElementById('q_gno').value || "-",
+                    calisma_durumu: document.querySelector('input[name="calisma_durumu"]:checked') ? document.querySelector('input[name="calisma_durumu"]:checked').value : 'Belirtilmedi',
+                    calisma_saati: document.getElementById('q_calisma_saati').value || "-",
+                    yol_suresi: document.getElementById('q_yol_suresi').value || "-",
+                    uyanma: document.getElementById('q_uyanma').value || "-",
+                    uyuma: document.getElementById('q_uyuma').value || "-",
+                    gunluk_ders_saati: document.getElementById('q_gunluk_ders_saati').value || "-",
+                    haftalik_calisma_gunu: document.getElementById('q_haftalik_calisma_gunu').value || "-",
+                    calisma_gunleri: document.getElementById('hidden_calisma_gunleri').value || "-",
+                    saat_araliklari: document.getElementById('hidden_saat_araliklari').value || "-",
+                    verimli_zaman: document.getElementById('val-verimli_zaman').value || "-",
+                    odaklanma_suresi: document.getElementById('val-odaklanma_suresi').value || "-",
+                    program_tipi: document.getElementById('val-program_tipi').value || "-",
+                    program_yogunlugu: document.getElementById('val-program_yogunlugu').value || "-",
+                    mola_tipi: document.getElementById('val-mola_tipi').value || "-",
+                    zor_ders: document.getElementById('q_zor_ders').value || "-",
+                    kolay_ders: document.getElementById('q_kolay_ders').value || "-",
+                    zorlanilan_konu: document.getElementById('val-zorlanilan_konu').value || "-",
+                    program_suresi: document.getElementById('val-program_suresi').value || "-",
+                    tekrar_gunleri: document.querySelector('input[name="tekrar_gunleri"]:checked') ? document.querySelector('input[name="tekrar_gunleri"]:checked').value : 'Belirtilmedi',
+                    soru_cozum: document.querySelector('input[name="soru_cozum"]:checked') ? document.querySelector('input[name="soru_cozum"]:checked').value : 'Belirtilmedi',
+                    agirlik_dersler: document.getElementById('q_agirlik_dersler').value || "-",
+                    uyum_derecesi: document.getElementById('val-uyum_derecesi').value || "-",
+                    motivasyon: document.getElementById('q_motivasyon').value || "-",
+                    telefon_dikkat: document.getElementById('q_telefon_dikkat').value || "-",
+                    son_30_gun: document.getElementById('q_son_30_gun').value || "-",
+                    notlar: document.getElementById('q_notlar').value || "-"
+                };
+
+                const newRef = await push(ref(db, 'submissions'), formData);
+
+                const telegramBotToken = "8441524444:AAHpwZgx3s5dly2P3N6ZmFamqrrJH1Y4RkA"; 
+                const telegramChatId = "1642514642";
+                
+                const telegramMesaj = `🔔 <b>YENİ BİR FORM DOLDURULDU!</b>\n\n👤 <b>Kişi:</b> ${formData.adSoyad}\n📦 <b>Paket:</b> ${formData.paket}\n🔑 <b>Kod:</b> ${formData.talepKodu}\n\n⚠️ Müşteri yeni bir form doldurdu. Detaylar ve ödeme takibi için yönetim paneline bakabilirsin!`;
+
+                try {
+                    await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: telegramChatId,
+                            text: telegramMesaj,
+                            parse_mode: 'HTML'
+                        })
+                    });
+                } catch(err) {
+                    console.error("Telegram bildirimi gönderilemedi:", err);
+                }
+
+                localStorage.clear();
+                
+                localStorage.setItem('gecerli_siparis_id', newRef.key);
+                localStorage.setItem('lastSubmissionId', newRef.key);
+
+                const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
+                window.location.assign(targetUrl);
+
+            } catch (error) {
+                console.error("Firebase Hatası:", error);
+                alert("Kayıt sırasında bir hata oluştu: " + error.message);
+                submitBtn.innerHTML = orgHTML;
+                submitBtn.disabled = false;
+            }
+        };
+    </script>
+
+    <!-- Ziyaretçi ve Cihaz Takip Scripti -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, update, push, serverTimestamp, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        onValue(ref(db, 'settings/resetTime'), (snapshot) => {
+            const serverResetTime = snapshot.val();
+            if (serverResetTime) {
+                const localResetCleaned = localStorage.getItem('bt_last_reset');
+                if (localResetCleaned != serverResetTime) {
+                    localStorage.removeItem('bt_visitor_id');
+                    localStorage.removeItem('bt_visitor_name');
+                    localStorage.setItem('bt_last_reset', serverResetTime);
+                    window.location.reload();
+                }
+            }
+        });
+
+        let visitorId = localStorage.getItem('bt_visitor_id');
+        if (!visitorId) {
+            visitorId = 'vis_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+            localStorage.setItem('bt_visitor_id', visitorId);
+        }
+
+        let refSource = localStorage.getItem('bt_ref_source') || 'Direkt';
+        const fullUrl = window.location.href;
+        if (fullUrl.includes('ref=whatsapp') || fullUrl.includes('whatsapp')) {
+            refSource = 'WhatsApp';
+            localStorage.setItem('bt_ref_source', 'WhatsApp');
+        }
+
+        const adSoyadInput = document.getElementById('q_ad');
+        if (adSoyadInput) {
+            const savedName = localStorage.getItem('bt_visitor_name');
+            if (savedName && !adSoyadInput.value) adSoyadInput.value = savedName;
+
+            adSoyadInput.addEventListener('change', (e) => {
+                const val = e.target.value.trim();
+                if (val.length > 1) {
+                    localStorage.setItem('bt_visitor_name', val);
+                    update(ref(db, `visitors/${visitorId}`), {
+                        visitorId: visitorId,
+                        adSoyad: val,
+                        source: refSource,
+                        sonSayfa: window.location.pathname,
+                        tarayici: navigator.userAgent
+                    });
+                }
+            });
+        }
+
+        push(ref(db, 'pageViews'), {
+            visitorId: visitorId,
+            sayfa: window.location.pathname + window.location.search,
+            zaman: serverTimestamp(),
+            kaynak: refSource
+        });
+
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a, button');
+            if (target) {
+                const btnText = target.innerText.trim() || target.getAttribute('aria-label') || target.id || 'İsimsiz Buton';
+                push(ref(db, `userActions/${visitorId}`), {
+                    eylem: "Butona Tıkladı",
+                    detay: `${btnText} (${target.tagName})`,
+                    sayfa: window.location.pathname,
+                    zaman: serverTimestamp()
+                });
+            }
+        });
+    </script>
+</body>
+</html>

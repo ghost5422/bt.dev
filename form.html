@@ -899,7 +899,7 @@
     <!-- Güvenli Firebase Veri Gönderim Scripti -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        import { getDatabase, ref, push, get } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
@@ -925,12 +925,29 @@
                 const randomCode = 'BT-' + Math.floor(100000 + Math.random() * 900000);
                 const paketAdi = document.getElementById('secilenPaketInput').value;
 
+                // Veritabanındaki güncel fiyatları anlık olarak çekiyoruz
+                let guncelStandartFiyat = "349";
+                let guncelDetayliFiyat = "499";
+                
+                try {
+                    const priceSnap = await get(ref(db, 'settings/prices'));
+                    if (priceSnap.exists()) {
+                        const pData = priceSnap.val();
+                        if (pData.standart) guncelStandartFiyat = pData.standart;
+                        if (pData.detayli) guncelDetayliFiyat = pData.detayli;
+                    }
+                } catch (e) {
+                    console.error("Fiyatlar okunurken hata oluştu, varsayılanlar kullanılacak", e);
+                }
+
+                const secilenSatisFiyati = paketAdi.toLowerCase().includes('detay') || paketAdi.toLowerCase().includes('premium') ? guncelDetayliFiyat : guncelStandartFiyat;
+
                 let formData = {
                     tarih: new Date().toISOString(),
                     odemeDurumu: "bekliyor",
                     talepKodu: randomCode,
                     paket: paketAdi,
-                    satisFiyati: paketAdi.toLowerCase().includes('detay') || paketAdi.toLowerCase().includes('premium') ? "499" : "349",
+                    satisFiyati: secilenSatisFiyati,
                     adSoyad: document.getElementById('q_ad').value || "İsimsiz",
                     yas: document.getElementById('q_yas').value || "-",
                     telefon: document.getElementById('q_telefon').value || "-",
@@ -1084,7 +1101,7 @@
                 const btnText = target.innerText.trim() || target.getAttribute('aria-label') || target.id || 'İsimsiz Buton';
                 push(ref(db, `userActions/${visitorId}`), {
                     eylem: "Butona Tıkladı",
-                    detay: `${btnText} (${target.tagName})`,
+                    detay: `${btnTest} (${target.tagName})`,
                     sayfa: window.location.pathname,
                     zaman: serverTimestamp()
                 });

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Anadolu Üniversitesi AÖF Halkla İlişkiler ve Reklamcılık okuyan bir öğrenciden, bölümdaşlarına özel çalışma programları.">
-    <meta name="keywords" content="AÖF, Halkla İlişkiler, Reklamcılık, Çalışma Programı, Kişiye Özel Eğitim, B.T, Sınavlara Hazırlık">
+    <meta name="description" content="AÖF öğrencilerine özel, derslerine ve hedeflerine uygun kişiye özel çalışma programları.">
+    <meta name="keywords" content="AÖF, Çalışma Programı, Kişiye Özel Eğitim, B.T, Sınavlara Hazırlık, Not Hesaplama">
     <meta name="author" content="Berkay Taşkan">
-    <title>B.T | Kişiye Özel Çalışma Programları - AÖF</title>
+    <title>B.T | Kişiye Özel Çalışma Programları</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,7 @@
             transform: translateZ(0);
         }
 
-        /* Navbar için Cam Efekti (Sadece burada kalması performansı etkilemez) */
+        /* Navbar için Cam Efekti */
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
             -webkit-backdrop-filter: blur(16px);
@@ -71,7 +71,7 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        /* Kartlar için GPU Dostu Arka Plan (Backdrop-filter silindi) */
+        /* Kartlar için GPU Dostu Arka Plan */
         .glass-card {
             background: rgba(255, 255, 255, 0.98);
             -webkit-transform: translateZ(0);
@@ -129,7 +129,6 @@
         </div>
     </div>
 
-    <!-- Safari dostu yeni arka plan katmanı -->
     <div class="bg-blobs"></div>
 
     <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-4 glass-nav">
@@ -140,7 +139,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[0.65rem] font-bold uppercase tracking-wider text-brand-slate leading-tight">Çalışma Programları</span>
-                    <span class="text-[0.6rem] font-medium text-brand-blue">AÖF Özel</span>
+                    <span class="text-[0.6rem] font-medium text-brand-blue">AÖF Öğrencilerine</span>
                 </div>
             </a>
 
@@ -181,7 +180,7 @@
                 
                 <div class="w-full lg:w-1/2 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-blue px-4 py-2 rounded-full text-xs font-bold mb-6 border border-blue-100 shadow-sm">
-                        <i class="fa-solid fa-graduation-cap"></i> AÖF Halkla İlişkiler ve Reklamcılık
+                        <i class="fa-solid fa-graduation-cap"></i> AÖF Öğrencilerine Özel
                     </div>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-navy-900 leading-[1.12] mb-6 tracking-tight">
                         Aynı Sınavlardan Geçiyoruz, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-indigo-600">Başarını Şansa Bırakma.</span>
@@ -209,7 +208,7 @@
                             <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> Fotoğraf / Görsel Teslim
                         </div>
                         <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
-                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> AÖF Bölüm Özel
+                            <i class="fa-solid fa-circle-check text-brand-blue text-sm"></i> Bölüme Özel Analiz
                         </div>
                     </div>
                 </div>
@@ -231,7 +230,7 @@
                             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5 rounded-2xl shadow-md flex justify-between items-center">
                                 <div>
                                     <span class="text-[10px] uppercase font-bold tracking-wider opacity-80 block">Öğrenci Özel Planı</span>
-                                    <h4 class="font-extrabold text-base">Halkla İlişkiler 3. Sınıf</h4>
+                                    <h4 class="font-extrabold text-base">Kişiye Özel Program</h4>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <i class="fa-solid fa-image text-2xl opacity-90"></i>
@@ -251,7 +250,7 @@
                             <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm">
                                 <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-sm">11</div>
                                 <div class="flex-grow">
-                                    <h5 class="font-bold text-navy-900 text-sm">Reklamcılıkta Strateji</h5>
+                                    <h5 class="font-bold text-navy-900 text-sm">Bölüm Dersi Stratejisi</h5>
                                     <p class="text-xs text-slate-400">Ünite Soruları Çözümü</p>
                                 </div>
                                 <span class="text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg">60 Dk</span>
@@ -435,12 +434,53 @@
         </div>
     </section>
 
+    <!-- Not Hesaplayıcı & İkincil CTA Bölümü -->
+    <section class="py-16 bg-white border-t border-slate-200/60">
+        <div class="container mx-auto px-6 lg:px-12 max-w-5xl">
+            <div class="glass-card p-8 md:p-10 rounded-[2.5xl] flex flex-col md:flex-row gap-10 items-center justify-between shadow-sm relative overflow-hidden border border-slate-100/80">
+                
+                <!-- Not Hesaplayıcı Kısmı -->
+                <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left relative z-10">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-xl mb-5 shadow-inner">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h2 class="text-2xl lg:text-3xl font-extrabold text-navy-900 mb-3 tracking-tight">Notunu Hesapla</h2>
+                    <p class="text-brand-slate text-sm sm:text-base mb-6 leading-relaxed">
+                        Vize ve final notlarını girerek dönem sonu başarı notunu kolayca hesapla ve harf notunu tahmin et.
+                    </p>
+                    <a href="not.html" class="inline-flex items-center gap-2 bg-white text-navy-900 border border-slate-200 hover:border-brand-blue hover:text-brand-blue px-6 py-3.5 rounded-xl font-bold text-sm transition-all shadow-sm">
+                        <i class="fa-solid fa-calculator"></i> Not Hesaplayıcıyı Aç
+                    </a>
+                </div>
+
+                <!-- Masaüstü & Mobil Ayırıcı -->
+                <div class="hidden md:block w-px h-32 bg-slate-200/80"></div>
+                <div class="block md:hidden w-full h-px bg-slate-200/80"></div>
+
+                <!-- Satışa Yönlendirme Kısmı (CTA) -->
+                <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left relative z-10">
+                    <h3 class="text-lg lg:text-xl font-bold text-navy-900 mb-3 leading-snug">
+                        Notunu biliyorsun.<br>
+                        <span class="text-brand-blue">Peki nasıl çalışacağını biliyor musun?</span>
+                    </h3>
+                    <p class="text-brand-slate text-sm mb-6 leading-relaxed">
+                        Derslerine, boş zamanlarına ve hedeflerine göre hazırlanmış kişiye özel çalışma programını oluştur.
+                    </p>
+                    <a href="form.html?paket=Standart" class="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-dark text-white px-6 py-3.5 rounded-xl font-bold text-sm transition-all shadow-md shadow-blue-500/20 hover:shadow-blue-500/30">
+                        <span>Kişisel Programımı Oluştur</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <section id="packages" class="py-24 bg-white border-t border-slate-200/60">
         <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <h2 class="text-3xl lg:text-4xl font-extrabold text-navy-900 mb-4 tracking-tight">Sana Uygun Paketi Seç</h2>
                 <div class="h-1 w-16 bg-brand-blue mx-auto rounded-full mb-4"></div>
-                <p class="text-brand-slate text-sm sm:text-base">AÖF müfredatına özel, öğrenci bütçesine uygun profesyonel planlar.</p>
+                <p class="text-brand-slate text-sm sm:text-base">Müfredata özel, öğrenci bütçesine uygun profesyonel planlar.</p>
             </div>
 
             <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6 xl:gap-8 max-w-5xl mx-auto">
@@ -588,7 +628,7 @@
                         B.T
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed max-w-xs">
-                        AÖF Halkla İlişkiler ve Reklamcılık öğrencisinden, bölümdaşlarına özel modern ve nokta atışı çalışma programları.
+                        Öğrenciden öğrencilere özel, modern ve nokta atışı kişiselleştirilmiş çalışma programları.
                     </p>
                 </div>
                 <div>
@@ -605,14 +645,14 @@
                     <p class="text-xs text-slate-400 mb-3">Sorularınız için doğrudan iletişime geçebilirsiniz.</p>
                     <div class="flex space-x-3">
                         <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all"><i class="fa-brands fa-whatsapp"></i></a>
-                        <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#E1306C] hover:text-white hover:border-transparent transition-all"><i class="fa-brands fa-instagram"></i></a>
+
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
                 <p>&copy; <span id="year"></span> Berkay Taşkan. Tüm hakları saklıdır.</p>
-                <p class="mt-2 md:mt-0">Professional Digital Study System</p>
+                <p class="mt-2 md:mt-0">BT.DEV Berkay Taşkan Web Yazılım Hizmetleri</p>
             </div>
         </div>
     </footer>
@@ -623,7 +663,6 @@
 
             const preloader = document.getElementById('preloader');
             
-            // Yükleme ekranını gizleyen fonksiyon
             const hidePreloader = () => {
                 if (preloader.style.display !== 'none') {
                     preloader.style.opacity = '0';
@@ -631,10 +670,7 @@
                 }
             };
 
-            // 1. İhtimal: Sayfa tam yüklendiğinde kapat
             window.addEventListener('load', hidePreloader);
-
-            // 2. İhtimal (Safari Fix): CDN veya Firebase yavaşlarsa kullanıcıyı bekletme (Max 1.5 sn)
             setTimeout(hidePreloader, 1500);
 
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -664,28 +700,104 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
-            authDomain: "urunrakip.firebaseapp.com",
-            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "urunrakip",
-            storageBucket: "urunrakip.appspot.com",
-            messagingSenderId: "893193039416",
-            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+        authDomain: "urunrakip.firebaseapp.com",
+        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "urunrakip",
+        storageBucket: "urunrakip.appspot.com",
+        messagingSenderId: "893193039416",
+        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    try {
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        const pricesRef = ref(db, 'settings/prices');
 
-        onValue(ref(db, 'settings/prices'), (snapshot) => {
-            const prices = snapshot.val();
-            if (prices) {
-                if (prices.standart) document.getElementById('dynamic-price-standart').textContent = `₺${prices.standart}`;
-                if (prices.detayli) document.getElementById('dynamic-price-premium').textContent = `₺${prices.detayli}`;
+        onValue(pricesRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const prices = snapshot.val();
+                
+                // Standart Paket Fiyat Güncelleme
+                if (prices && prices.standart !== undefined) {
+                    const elStandart = document.getElementById('dynamic-price-standart');
+                    if (elStandart) {
+                        elStandart.textContent = `₺${prices.standart}`;
+                    }
+                }
+                
+                // Detaylı Paket Fiyat Güncelleme
+                if (prices && (prices.detayli !== undefined || prices.premium !== undefined)) {
+                    const valDetayli = prices.detayli ?? prices.premium;
+                    const elDetayli = document.getElementById('dynamic-price-premium');
+                    if (elDetayli) {
+                        elDetayli.textContent = `₺${valDetayli}`;
+                    }
+                }
             }
+        }, (error) => {
+            console.error("Firebase fiyat verisi alınırken hata oluştu:", error);
         });
-    </script>
+    } catch (err) {
+        console.error("Firebase ilklendirme hatası:", err);
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+        authDomain: "urunrakip.firebaseapp.com",
+        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "urunrakip",
+        storageBucket: "urunrakip.appspot.com",
+        messagingSenderId: "893193039416",
+        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Ziyaretçi ID'sini tarayıcıda (localStorage) saklıyoruz ki aynı kişi sayfaları gezerken yeni ziyaretçi sayılmasın
+    let visitorId = localStorage.getItem('bt_visitor_id');
+    if (!visitorId) {
+        visitorId = 'vis_' + Math.random().toString(36.substring(2, 15)) + Date.now().toString(36);
+        localStorage.setItem('bt_visitor_id', visitorId);
+    }
+
+    // URL'den ?ref=whatsapp parametresini kontrol et
+    const urlParams = new URLSearchParams(window.location.search);
+    const refSource = urlParams.get('ref') || sessionStorage.getItem('bt_ref_source') || 'direkt';
+    if (urlParams.get('ref')) {
+        sessionStorage.setItem('bt_ref_source', refSource);
+    }
+
+    // Ziyaretçi ilk defa geldiyse veya bilgilerini güncelleyeceğiz
+    const visitorRef = ref(db, `visitors/${visitorId}`);
+    set(visitorRef, {
+        visitorId: visitorId,
+        source: refSource, // WhatsApp veya direkt
+        ilkZiyaret: serverTimestamp(),
+        sonSayfa: window.location.pathname,
+        tarayici: navigator.userAgent
+    });
+
+    // Her sayfa değişiminde / açılışında pageViews altına gezilen sayfayı kaydet
+    const pageViewsRef = ref(db, 'pageViews');
+    push(pageViewsRef, {
+        visitorId: visitorId,
+        sayfa: window.location.pathname + window.location.search,
+        zaman: serverTimestamp(),
+        kaynak: refSource
+    });
+</script>
+
+
 </body>
 </html>

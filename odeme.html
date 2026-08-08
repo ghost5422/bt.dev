@@ -293,7 +293,7 @@
 
         let globalTalepKodu = paramKod || "";
         let globalPaketAdi = "";
-        let globalTutar = "349";
+        let globalTutar = "300";
 
         window.openWpModal = function() { document.getElementById('wpModal').classList.remove('hidden'); }
         window.closeWpModal = function() { document.getElementById('wpModal').classList.add('hidden'); }
@@ -333,25 +333,15 @@
             });
         }
 
-        onValue(ref(db, 'settings'), (snapshot) => {
-            const data = snapshot.val();
-            if(data) {
-                if(data.prices) {
-                    const p = data.prices;
-                    const pKucuk = (globalPaketAdi || "").toLowerCase();
-                    if(pKucuk.includes('detay') || pKucuk.includes('premium')) globalTutar = p.detayli || "499";
-                    else if(pKucuk.includes('temel')) globalTutar = "0";
-                    else globalTutar = p.standart || "349";
-                    
-                    document.getElementById('ozetTutar').innerText = `₺${globalTutar}`;
-                }
-                if(data.banka) {
-                    document.getElementById('ibanText').innerText = data.banka.iban || '';
-                    document.getElementById('hesapSahibiText').innerText = data.banka.ad || '';
-                }
+        onValue(ref(db, 'settings/banka'), (snapshot) => {
+            const bankaData = snapshot.val();
+            if(bankaData) {
+                document.getElementById('ibanText').innerText = bankaData.iban || '';
+                document.getElementById('hesapSahibiText').innerText = bankaData.ad || '';
             }
         });
 
+        // SİPARİŞİ DİNLEME VE FİYATI DOĞRUDAN SİPARİŞTEN OKUMA
         if (submissionId && submissionId !== "undefined" && submissionId !== "null") {
             onValue(ref(db, `submissions/${submissionId}`), (snapshot) => {
                 if (snapshot.exists()) {
@@ -359,8 +349,13 @@
                     globalTalepKodu = data.talepKodu || paramKod || "BT-XXXXXX";
                     globalPaketAdi = data.paket || 'Standart';
                     
+                    // Doğrudan siparişin içindeki gerçek satış fiyatını alıyoruz
+                    globalTutar = data.satisFiyati || "300";
+                    
                     document.getElementById('talepKoduText').innerText = globalTalepKodu;
                     document.getElementById('ozetPaketAdi').innerText = globalPaketAdi;
+                    document.getElementById('ozetTutar').innerText = `₺${globalTutar}`;
+                    
                     document.getElementById('paketOzetBox').classList.remove('hidden');
                     document.getElementById('hasOrderContainer').classList.remove('hidden');
                     document.getElementById('noOrderContainer').classList.add('hidden');

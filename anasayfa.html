@@ -48,7 +48,6 @@
             position: relative;
         }
         
-        /* Performanslı Arka Plan (Blur ve Blend-mode silindi, GPU dostu Gradient eklendi) */
         .bg-blobs {
             position: fixed;
             inset: 0;
@@ -61,7 +60,6 @@
             transform: translateZ(0);
         }
 
-        /* Navbar için Cam Efekti */
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
             -webkit-backdrop-filter: blur(16px);
@@ -71,7 +69,6 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        /* Kartlar için GPU Dostu Arka Plan */
         .glass-card {
             background: rgba(255, 255, 255, 0.98);
             -webkit-transform: translateZ(0);
@@ -121,6 +118,16 @@
     </style>
 </head>
 <body class="antialiased relative selection:bg-brand-blue selection:text-white">
+
+    <!-- Kullanıcı Adı Sorma Modalı -->
+    <div id="btUserModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(5px); z-index:99999; align-items:center; justify-content:center;">
+        <div style="background:white; padding:2rem; border-radius:1.5rem; max-width:350px; width:90%; text-align:center; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+            <h3 style="font-size:1.1rem; font-weight:700; color:#0f172a; margin-bottom:0.5rem;">Hoş Geldin!</h3>
+            <p style="font-size:0.8rem; color:#64748b; margin-bottom:1.2rem;">Sana daha iyi yardımcı olabilmemiz için adını yazar mısın?</p>
+            <input type="text" id="btUserNameInput" placeholder="Örn: Ahmet" style="width:100%; padding:0.75rem; border:1px solid #cbd5e1; border-radius:0.75rem; margin-bottom:1rem; font-size:0.9rem; text-align:center; outline:none;">
+            <button onclick="saveVisitorName()" style="width:100%; background:#2563eb; color:white; border:none; padding:0.75rem; border-radius:0.75rem; font-weight:700; cursor:pointer; font-size:0.9rem;">Devam Et</button>
+        </div>
+    </div>
 
     <div id="preloader">
         <div class="flex flex-col items-center">
@@ -439,7 +446,6 @@
         <div class="container mx-auto px-6 lg:px-12 max-w-5xl">
             <div class="glass-card p-8 md:p-10 rounded-[2.5xl] flex flex-col md:flex-row gap-10 items-center justify-between shadow-sm relative overflow-hidden border border-slate-100/80">
                 
-                <!-- Not Hesaplayıcı Kısmı -->
                 <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left relative z-10">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center text-xl mb-5 shadow-inner">
                         <i class="fa-solid fa-calculator"></i>
@@ -453,11 +459,9 @@
                     </a>
                 </div>
 
-                <!-- Masaüstü & Mobil Ayırıcı -->
                 <div class="hidden md:block w-px h-32 bg-slate-200/80"></div>
                 <div class="block md:hidden w-full h-px bg-slate-200/80"></div>
 
-                <!-- Satışa Yönlendirme Kısmı (CTA) -->
                 <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left relative z-10">
                     <h3 class="text-lg lg:text-xl font-bold text-navy-900 mb-3 leading-snug">
                         Notunu biliyorsun.<br>
@@ -645,7 +649,6 @@
                     <p class="text-xs text-slate-400 mb-3">Sorularınız için doğrudan iletişime geçebilirsiniz.</p>
                     <div class="flex space-x-3">
                         <a href="#" class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:bg-[#25D366] hover:text-white hover:border-transparent transition-all"><i class="fa-brands fa-whatsapp"></i></a>
-
                     </div>
                 </div>
             </div>
@@ -699,104 +702,145 @@
         });
     </script>
 
+    <!-- Fiyatları Dinleme Scripti -->
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
-        authDomain: "urunrakip.firebaseapp.com",
-        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "urunrakip",
-        storageBucket: "urunrakip.appspot.com",
-        messagingSenderId: "893193039416",
-        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            authDomain: "urunrakip.firebaseapp.com",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            storageBucket: "urunrakip.appspot.com",
+            messagingSenderId: "893193039416",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
 
-    try {
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            const pricesRef = ref(db, 'settings/prices');
+
+            onValue(pricesRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const prices = snapshot.val();
+                    if (prices && prices.standart !== undefined) {
+                        const elStandart = document.getElementById('dynamic-price-standart');
+                        if (elStandart) elStandart.textContent = `₺${prices.standart}`;
+                    }
+                    if (prices && (prices.detayli !== undefined || prices.premium !== undefined)) {
+                        const valDetayli = prices.detayli ?? prices.premium;
+                        const elDetayli = document.getElementById('dynamic-price-premium');
+                        if (elDetayli) elDetayli.textContent = `₺${valDetayli}`;
+                    }
+                }
+            });
+        } catch (err) {
+            console.error("Firebase fiyat hatası:", err);
+        }
+    </script>
+
+        <!-- Ziyaretçi, WhatsApp, Buton Tıklama ve Sıfırlama Takip Scripti (GÜNCELLENDİ) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getDatabase, ref, update, push, serverTimestamp, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+            authDomain: "urunrakip.firebaseapp.com",
+            databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "urunrakip",
+            storageBucket: "urunrakip.appspot.com",
+            messagingSenderId: "893193039416",
+            appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const pricesRef = ref(db, 'settings/prices');
 
-        onValue(pricesRef, (snapshot) => {
-            if (snapshot.exists()) {
-                const prices = snapshot.val();
-                
-                // Standart Paket Fiyat Güncelleme
-                if (prices && prices.standart !== undefined) {
-                    const elStandart = document.getElementById('dynamic-price-standart');
-                    if (elStandart) {
-                        elStandart.textContent = `₺${prices.standart}`;
-                    }
-                }
-                
-                // Detaylı Paket Fiyat Güncelleme
-                if (prices && (prices.detayli !== undefined || prices.premium !== undefined)) {
-                    const valDetayli = prices.detayli ?? prices.premium;
-                    const elDetayli = document.getElementById('dynamic-price-premium');
-                    if (elDetayli) {
-                        elDetayli.textContent = `₺${valDetayli}`;
-                    }
+        // Admin panelinden tüm geçmiş silindiğinde kullanıcıların hafızasını sıfırlayan kontrol
+        onValue(ref(db, 'settings/resetTime'), (snapshot) => {
+            const serverResetTime = snapshot.val();
+            if (serverResetTime) {
+                const localResetCleaned = localStorage.getItem('bt_last_reset');
+                if (localResetCleaned != serverResetTime) {
+                    localStorage.removeItem('bt_visitor_id');
+                    localStorage.removeItem('bt_visitor_name');
+                    localStorage.setItem('bt_last_reset', serverResetTime);
+                    window.location.reload();
                 }
             }
-        }, (error) => {
-            console.error("Firebase fiyat verisi alınırken hata oluştu:", error);
         });
-    } catch (err) {
-        console.error("Firebase ilklendirme hatası:", err);
-    }
-</script>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getDatabase, ref, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        let visitorId = localStorage.getItem('bt_visitor_id');
+        if (!visitorId) {
+            visitorId = 'vis_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+            localStorage.setItem('bt_visitor_id', visitorId);
+        }
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
-        authDomain: "urunrakip.firebaseapp.com",
-        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "urunrakip",
-        storageBucket: "urunrakip.appspot.com",
-        messagingSenderId: "893193039416",
-        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
-    };
+        let visitorName = localStorage.getItem('bt_visitor_name') || 'Misafir (İsimsiz)';
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        window.saveVisitorName = function() {
+            const inputVal = document.getElementById('btUserNameInput').value.trim();
+            if(inputVal) {
+                visitorName = inputVal;
+                localStorage.setItem('bt_visitor_name', visitorName);
+                const modal = document.getElementById('btUserModal');
+                if(modal) modal.style.display = 'none';
+                kaydiGonder();
+            }
+        };
 
-    // Ziyaretçi ID'sini tarayıcıda (localStorage) saklıyoruz ki aynı kişi sayfaları gezerken yeni ziyaretçi sayılmasın
-    let visitorId = localStorage.getItem('bt_visitor_id');
-    if (!visitorId) {
-        visitorId = 'vis_' + Math.random().toString(36.substring(2, 15)) + Date.now().toString(36);
-        localStorage.setItem('bt_visitor_id', visitorId);
-    }
+        if (!localStorage.getItem('bt_visitor_name')) {
+            const modal = document.getElementById('btUserModal');
+            if(modal) modal.style.display = 'flex';
+        }
 
-    // URL'den ?ref=whatsapp parametresini kontrol et
-    const urlParams = new URLSearchParams(window.location.search);
-    const refSource = urlParams.get('ref') || sessionStorage.getItem('bt_ref_source') || 'direkt';
-    if (urlParams.get('ref')) {
-        sessionStorage.setItem('bt_ref_source', refSource);
-    }
+        function kaydiGonder() {
+            let refSource = localStorage.getItem('bt_ref_source') || 'Direkt';
+            const fullUrl = window.location.href;
+            if (fullUrl.includes('ref=whatsapp') || fullUrl.includes('whatsapp')) {
+                refSource = 'WhatsApp';
+                localStorage.setItem('bt_ref_source', 'WhatsApp');
+            }
 
-    // Ziyaretçi ilk defa geldiyse veya bilgilerini güncelleyeceğiz
-    const visitorRef = ref(db, `visitors/${visitorId}`);
-    set(visitorRef, {
-        visitorId: visitorId,
-        source: refSource, // WhatsApp veya direkt
-        ilkZiyaret: serverTimestamp(),
-        sonSayfa: window.location.pathname,
-        tarayici: navigator.userAgent
-    });
+            // set yerine update kullanarak her sayfa gezisinde verinin ezilmesini ve şişmesini önlüyoruz
+            update(ref(db, `visitors/${visitorId}`), {
+                visitorId: visitorId,
+                adSoyad: localStorage.getItem('bt_visitor_name') || visitorName,
+                source: refSource,
+                sonSayfa: window.location.pathname,
+                tarayici: navigator.userAgent
+            });
 
-    // Her sayfa değişiminde / açılışında pageViews altına gezilen sayfayı kaydet
-    const pageViewsRef = ref(db, 'pageViews');
-    push(pageViewsRef, {
-        visitorId: visitorId,
-        sayfa: window.location.pathname + window.location.search,
-        zaman: serverTimestamp(),
-        kaynak: refSource
-    });
-</script>
+            push(ref(db, 'pageViews'), {
+                visitorId: visitorId,
+                adSoyad: localStorage.getItem('bt_visitor_name') || visitorName,
+                sayfa: window.location.pathname + window.location.search,
+                zaman: serverTimestamp(),
+                kaynak: refSource
+            });
+        }
+
+        if (localStorage.getItem('bt_visitor_name')) {
+            kaydiGonder();
+        }
+
+        // Buton ve Link Tıklama Takibi
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a, button');
+            if (target) {
+                const btnText = target.innerText.trim() || target.getAttribute('aria-label') || target.id || 'İsimsiz Buton';
+                push(ref(db, `userActions/${visitorId}`), {
+                    eylem: "Butona Tıkladı",
+                    detay: `${btnText} (${target.tagName})`,
+                    sayfa: window.location.pathname,
+                    zaman: serverTimestamp()
+                });
+            }
+        });
+    </script>
 
 
 </body>

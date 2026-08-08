@@ -42,22 +42,9 @@
             border: 1px solid rgba(226, 232, 240, 0.9);
             box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
         }
-        
-        #notification {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            transform: translateY(-40px); opacity: 0;
-        }
-        #notification.show { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body class="text-slate-800 antialiased relative min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
-
-    <div id="notification" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-navy-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-sm font-medium border border-slate-700 pointer-events-none">
-        <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
-            <i id="notifIcon" class="fa-solid fa-bell"></i>
-        </div>
-        <span id="notifText">Ödeme durumu güncellendi.</span>
-    </div>
 
     <div class="bg-blobs"></div>
 
@@ -238,7 +225,7 @@
     <!-- Firebase ve Takip Scriptleri -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set, update, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        import { getDatabase, ref, onValue, update, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
@@ -282,7 +269,6 @@
             kaynak: refSource
         });
 
-        // Buton Takibi
         document.addEventListener('click', (e) => {
             const target = e.target.closest('a, button');
             if (target) {
@@ -296,13 +282,12 @@
             }
         });
 
-        // --- ÖDEME VE SİPARİŞ MANTIĞI (localStorage KULLANILDI) ---
+        // --- ÖDEME VE SİPARİŞ MANTIĞI ---
         const urlParams = new URLSearchParams(window.location.search);
         let submissionId = urlParams.get('id') || localStorage.getItem('gecerli_siparis_id') || localStorage.getItem('lastSubmissionId');
         let paramKod = urlParams.get('kod');
 
-        // Sipariş ID yoksa doğrudan BOŞ EKRANI göster
-        if (!submissionId) {
+        if (!submissionId || submissionId === "undefined" || submissionId === "null") {
             showNoOrderUI();
         }
 
@@ -367,29 +352,32 @@
             }
         });
 
-        // SİPARİŞİ DİNLEME VE İPTAL / OLMAMA DURUMU KONTROLÜ
-        if (submissionId) {
+        if (submissionId && submissionId !== "undefined" && submissionId !== "null") {
             onValue(ref(db, `submissions/${submissionId}`), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    globalTalepKodu = data.talepKodu;
+                    globalTalepKodu = data.talepKodu || paramKod || "BT-XXXXXX";
                     globalPaketAdi = data.paket || 'Standart';
+                    
                     document.getElementById('talepKoduText').innerText = globalTalepKodu;
                     document.getElementById('ozetPaketAdi').innerText = globalPaketAdi;
                     document.getElementById('paketOzetBox').classList.remove('hidden');
                     document.getElementById('hasOrderContainer').classList.remove('hidden');
                     document.getElementById('noOrderContainer').classList.add('hidden');
+                    
                     updateStatusUI(data.odemeDurumu || 'bekliyor');
                 } else {
-                    // EĞER SİPARİŞ VERİTABANINDAN SİLİNMİŞSE
                     localStorage.removeItem('gecerli_siparis_id');
                     localStorage.removeItem('lastSubmissionId');
                     showNoOrderUI();
                 }
+            }, (error) => {
+                console.error("Firebase okuma hatası:", error);
+                showNoOrderUI();
             });
         }
 
-                function updateStatusUI(status) {
+        function updateStatusUI(status) {
             const badge = document.getElementById('statusBadge');
             const title = document.getElementById('statusTitle');
             const desc = document.getElementById('statusDesc');
@@ -406,7 +394,6 @@
                 title.innerText = "Ödemeniz Alındı!";
                 desc.innerText = "Programınız hazırlanıyor.";
                 
-                // İkonu Onaylandı (Yeşil & Tik) olarak değiştir
                 iconContainer.className = "w-20 h-20 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-emerald-100 transition-all duration-500";
                 statusIcon.className = "fa-solid fa-circle-check";
 
@@ -417,7 +404,6 @@
                 title.innerText = "Programınız Hazırlanıyor!";
                 desc.innerText = "Uzmanımız programınızı hazırlıyor, tamamlandığında tarafınıza iletilecektir.";
                 
-                // İkonu Hazırlanıyor (Mor & Çark/Spinner) olarak değiştir
                 iconContainer.className = "w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-indigo-100 transition-all duration-500";
                 statusIcon.className = "fa-solid fa-gear fa-spin";
 
@@ -428,7 +414,6 @@
                 title.innerText = "Programınız Hazır!";
                 desc.innerText = "Programınız başarıyla iletildi!";
                 
-                // İkonu Tamamlandı (Teal & Çift Tik) olarak değiştir
                 iconContainer.className = "w-20 h-20 bg-teal-50 text-teal-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-teal-100 transition-all duration-500";
                 statusIcon.className = "fa-solid fa-clipboard-check";
 
@@ -439,26 +424,22 @@
                 title.innerText = "Talebiniz İptal Edildi";
                 desc.innerText = "Bu sipariş talebiniz iptal edilmiştir. Detaylar veya yeni bir plan için yeni form oluşturabilirsiniz.";
                 
-                // İkonu İptal (Kırmızı & Çarpı) olarak değiştir
                 iconContainer.className = "w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-red-100 transition-all duration-500";
                 statusIcon.className = "fa-solid fa-triangle-exclamation";
 
                 ibanSec.classList.add('hidden'); actSec.classList.add('hidden'); compSec.classList.add('hidden'); cancelSec.classList.remove('hidden');
             } else {
-                // Bekliyor durumu
                 badge.innerHTML = `<i class="fa-solid fa-circle text-[8px] animate-ping"></i> Ödeme Bekleniyor`;
                 badge.className = "inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-200/60 mb-3 tracking-wider uppercase shadow-sm";
                 title.innerText = "Formunuz Başarıyla Alındı!";
                 desc.innerText = "Programınızın hızla hazırlanmaya başlanması için lütfen ödemeyi aşağıdaki IBAN adresine gerçekleştirin.";
                 
-                // İkonu Bekliyor (Turuncu & Saat) olarak ayarla
                 iconContainer.className = "w-20 h-20 bg-amber-50 text-amber-500 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-amber-100 transition-all duration-500";
                 statusIcon.className = "fa-solid fa-clock-rotate-left";
 
                 ibanSec.classList.remove('hidden'); actSec.classList.remove('hidden'); cancelSec.classList.add('hidden'); compSec.classList.add('hidden');
             }
         }
-
     </script>
 </body>
 </html>

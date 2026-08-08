@@ -5,27 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>B.T | Güvenli Ödeme ve Sipariş Durumu</title>
     
-    <!-- GÜVENLİK KİLİDİ: Sayfa çizilmeden önce çalışır -->
+    <!-- GÜVENLİK KİLİDİ -->
     <script>
         const urlParamsSec = new URLSearchParams(window.location.search);
         const urlIdSec = urlParamsSec.get('id');
-        const cihazdakiSiparisId = sessionStorage.getItem('gecerli_siparis_id');
+        const cihazdakiSiparisId = sessionStorage.getItem('gecerli_siparis_id') || sessionStorage.getItem('lastSubmissionId');
 
-        if (!urlIdSec || !cihazdakiSiparisId || urlIdSec !== cihazdakiSiparisId) {
+        if (urlIdSec && cihazdakiSiparisId && urlIdSec !== cihazdakiSiparisId) {
             alert("Güvenlik İhlali: Bu sayfaya sadece siparişi oluşturduğunuz sekmeden erişebilirsiniz.");
             window.location.replace("anasayfa.html");
         }
     </script>
 
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -44,41 +40,30 @@
         html, body { max-width: 100%; overflow-x: hidden; position: relative; }
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
         
-        /* Safari Dostu Arka Plan (Donmaları engeller) */
         .bg-blobs {
-            position: fixed;
-            inset: 0;
-            z-index: -10;
-            pointer-events: none;
+            position: fixed; inset: 0; z-index: -10; pointer-events: none;
             background: 
                 radial-gradient(circle at 20% 10%, rgba(191, 219, 254, 0.4) 0%, transparent 40%),
                 radial-gradient(circle at 80% 90%, rgba(199, 210, 254, 0.4) 0%, transparent 40%);
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+            -webkit-transform: translateZ(0); transform: translateZ(0);
         }
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.98);
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+            -webkit-transform: translateZ(0); transform: translateZ(0);
             border: 1px solid rgba(226, 232, 240, 0.9);
             box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
         }
         
         #notification {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            transform: translateY(-40px);
-            opacity: 0;
+            transform: translateY(-40px); opacity: 0;
         }
-        #notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        #notification.show { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body class="text-slate-800 antialiased relative min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
 
-    <!-- Canlı Bildirim Kutusu (Toast) -->
     <div id="notification" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-navy-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-sm font-medium border border-slate-700 pointer-events-none">
         <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
             <i id="notifIcon" class="fa-solid fa-bell"></i>
@@ -86,10 +71,8 @@
         <span id="notifText">Ödeme durumu güncellendi.</span>
     </div>
 
-    <!-- Safari Dostu Arka Plan Katmanı -->
     <div class="bg-blobs"></div>
 
-    <!-- Header -->
     <header class="w-full py-6">
         <div class="container mx-auto px-6 flex justify-between items-center max-w-4xl">
             <a href="anasayfa.html" class="flex items-center gap-3 group">
@@ -103,24 +86,22 @@
         </div>
     </header>
 
-    <!-- Ödeme / Durum İçerik -->
     <main class="flex-grow flex items-center justify-center py-8 px-4 sm:px-6">
         <div class="glass-panel w-full max-w-xl rounded-[2.5xl] p-8 sm:p-10">
             
-            <!-- Durum Başlığı & İkonu -->
             <div class="text-center mb-8">
                 <div id="statusIconContainer" class="w-20 h-20 bg-amber-50 text-amber-500 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-amber-100 transition-all duration-500">
                     <i id="statusIcon" class="fa-solid fa-clock-rotate-left"></i>
                 </div>
                 <span id="statusBadge" class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-200/60 mb-3 tracking-wider uppercase shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span> Ödeme Bekleniyor
+                    <i class="fa-solid fa-circle text-[8px] animate-ping"></i> Ödeme Bekleniyor
                 </span>
                 <h1 id="statusTitle" class="text-2xl sm:text-3xl font-extrabold text-navy-900 tracking-tight mb-2">Formunuz Başarıyla Alındı!</h1>
                 <p id="statusDesc" class="text-slate-500 text-sm leading-relaxed max-w-md mx-auto">Programınızın hızla hazırlanmaya başlanması için lütfen ödemeyi aşağıdaki IBAN adresine gerçekleştirin.</p>
                 
                 <div class="mt-4 flex flex-wrap justify-center items-center gap-2">
                     <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-slate-500 bg-white/80 py-1.5 px-4 rounded-xl border border-slate-200 shadow-sm">
-                        <i class="fa-solid fa-hashtag text-brand-blue"></i> Talep Kodu: <span id="talepKoduText" class="text-navy-900 font-bold">-</span>
+                        <i class="fa-solid fa-hashtag text-brand-blue"></i> Talep Kodu: <span id="talepKoduText" class="text-navy-900 font-bold">Yükleniyor...</span>
                     </div>
                 </div>
             </div>
@@ -143,7 +124,7 @@
             </div>
 
             <!-- IBAN ve Banka Kartı -->
-            <div id="ibanCardSection" class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 space-y-5 mb-8 hidden">
+            <div id="ibanCardSection" class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 space-y-5 mb-8">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-4">
                     <div class="flex items-center gap-2 text-slate-700 font-semibold text-sm">
                         <div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-blue flex items-center justify-center">
@@ -152,14 +133,14 @@
                         <span>Havale / EFT Bilgileri</span>
                     </div>
                     <span id="bankaAdiBadge" class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200">
-                        Banka Hesabı
+                        Ziraat Bankası
                     </span>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Alıcı Adı Soyadı</label>
                     <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/60 font-bold text-navy-900 text-base flex justify-between items-center">
-                        <span>Berkay Taşkan</span>
+                        <span id="hesapSahibiText">Berkay Taşkan</span>
                         <i class="fa-solid fa-shield-check text-emerald-500 text-sm" title="Doğrulanmış Hesap"></i>
                     </div>
                 </div>
@@ -167,7 +148,7 @@
                 <div class="space-y-1">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400">IBAN Numarası</label>
                     <div class="flex items-center justify-between bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/60 gap-3">
-                        <span class="font-mono text-sm sm:text-base font-extrabold text-navy-900 tracking-wider truncate" id="ibanText">Yükleniyor...</span>
+                        <span class="font-mono text-sm sm:text-base font-extrabold text-navy-900 tracking-wider truncate" id="ibanText">TR00 0000 0000 0000 0000 0000 00</span>
                         <button onclick="copyIBAN(this)" class="bg-brand-blue hover:bg-brand-dark text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-1.5 shrink-0 shadow-md shadow-blue-500/20 active:scale-95">
                             <i class="fa-solid fa-copy"></i> Kopyala
                         </button>
@@ -176,7 +157,7 @@
             </div>
 
             <!-- WhatsApp Ödeme Bildirim Butonu -->
-            <div id="actionButtonsSection" class="space-y-4 text-center hidden">
+            <div id="actionButtonsSection" class="space-y-4 text-center">
                 <p class="text-xs text-slate-500 leading-relaxed">Ödemeyi yaptıktan sonra aşağıdaki butona tıklayarak ödeme bildirimi gönderebilirsiniz.</p>
                 
                 <button onclick="openWpModal()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 shadow-xl shadow-green-500/25 flex items-center justify-center gap-2.5 text-base active:scale-[0.99]">
@@ -184,7 +165,7 @@
                 </button>
             </div>
 
-            <!-- Tamamlandığında Gösterilecek Arşiv/Yeni Sipariş Alanı -->
+            <!-- Tamamlandığında Gösterilecek Alan -->
             <div id="completedActionSection" class="space-y-3 text-center hidden pt-2">
                 <a href="form.html" class="w-full bg-brand-blue hover:bg-brand-dark text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2 text-sm">
                     <i class="fa-solid fa-plus-circle"></i> Yeni Bir Program Oluştur
@@ -194,7 +175,6 @@
                 </button>
             </div>
 
-            <!-- Yeni Sipariş / Ana Sayfa Linkleri -->
             <div id="defaultLinksSection" class="pt-6 border-t border-slate-200/60 mt-6 flex justify-between items-center text-xs">
                 <a href="form.html" class="text-brand-blue font-semibold hover:underline flex items-center gap-1">
                     <i class="fa-solid fa-plus-circle"></i> Yeni Form Doldur
@@ -207,7 +187,7 @@
         </div>
     </main>
 
-    <!-- WhatsApp Bildirim Modal -->
+    <!-- WhatsApp Modal -->
     <div id="wpModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 sm:p-8 space-y-5 transform transition-all">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -220,7 +200,7 @@
             </div>
             
             <p class="text-xs text-slate-500 leading-relaxed">
-                Lütfen havaleyi/EFT'yi yaptığınız <strong>Adınızı ve Soyadınızı</strong> girin. Bu bilgi WhatsApp üzerinden bana iletilecektir:
+                Lütfen havaleyi/EFT'yi yaptığınız <strong>Adınızı ve Soyadınızı</strong> girin:
             </p>
 
             <div class="space-y-1">
@@ -234,15 +214,13 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200/60 bg-white/50 backdrop-blur-sm">
         <p>&copy; 2026 Berkay Taşkan. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- Firebase ve Bildirim Scriptleri -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+        import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
@@ -258,41 +236,29 @@
         const db = getDatabase(app);
 
         const urlParams = new URLSearchParams(window.location.search);
-        let submissionId = urlParams.get('id');
-        let globalTalepKodu = "";
+        let submissionId = urlParams.get('id') || sessionStorage.getItem('gecerli_siparis_id') || sessionStorage.getItem('lastSubmissionId');
+        let paramKod = urlParams.get('kod');
+
+        let globalTalepKodu = paramKod || "";
         let globalPaketAdi = "";
         let globalTutar = "349";
         let aktifFiyatlar = { standart: "349", detayli: "499" };
 
-        if (!submissionId) {
-            submissionId = sessionStorage.getItem('gecerli_siparis_id');
-        } 
-
-        window.openWpModal = function() {
-            document.getElementById('wpModal').classList.remove('hidden');
-        }
-
-        window.closeWpModal = function() {
-            document.getElementById('wpModal').classList.add('hidden');
-        }
-
+        window.openWpModal = function() { document.getElementById('wpModal').classList.remove('hidden'); }
+        window.closeWpModal = function() { document.getElementById('wpModal').classList.add('hidden'); }
         window.clearActiveOrder = function() {
             sessionStorage.removeItem('gecerli_siparis_id');
+            sessionStorage.removeItem('lastSubmissionId');
             window.location.href = 'form.html';
         }
 
         window.sendWpNotification = function() {
             const gonderen = document.getElementById('gonderenAdiInput').value.trim();
-            if(!gonderen) {
-                alert("Lütfen adınızı ve soyadınızı giriniz.");
-                return;
-            }
+            if(!gonderen) { alert("Lütfen adınızı ve soyadınızı giriniz."); return; }
 
             const benimTelefonum = "905340188445"; 
             const mesaj = `Merhaba Berkay! ${globalTalepKodu} kodlu, ${globalPaketAdi} paketli (Ödenecek: ₺${globalTutar}) analiz formu ödemesini gerçekleştirdim. Onay bekliyorum.\n\nGönderen Ad Soyad: ${gonderen}`;
-            
-            const encodedMesaj = encodeURIComponent(mesaj);
-            window.location.href = `https://wa.me/${benimTelefonum}?text=${encodedMesaj}`;
+            window.location.href = `https://wa.me/${benimTelefonum}?text=${encodeURIComponent(mesaj)}`;
             closeWpModal();
         }
 
@@ -310,24 +276,44 @@
             setTimeout(() => notif.classList.remove('show'), 4000);
         }
 
-        onValue(ref(db, 'settings/prices'), (snapshot) => {
+        // Fiyat Bilgilerini Çekme
+        onValue(ref(db, 'settings/public/packages'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
-                aktifFiyatlar.standart = data.standart || "349";
-                aktifFiyatlar.detayli = data.detayli || "499";
+                if(data.standart) aktifFiyatlar.standart = data.standart.fiyat || data.standart || "349";
+                if(data.detayli) aktifFiyatlar.detayli = data.detayli.fiyat || data.detayli || "499";
                 hesaplaVeGosterTutar();
             }
         });
 
-        onValue(ref(db, 'settings/banka'), (snapshot) => {
-            const data = snapshot.val();
-            if(data) {
-                document.getElementById('ibanText').innerText = data.iban || 'IBAN Girilmedi';
-                if(data.ad) {
-                    document.getElementById('bankaAdiBadge').innerHTML = `<i class="fa-solid fa-building-columns mr-1 text-brand-blue"></i> ${data.ad}`;
+        // IBAN ve Banka Bilgilerini Çekme
+        async function loadPaymentInfo() {
+            try {
+                let snap = await get(ref(db, 'settings/public/payment'));
+                if (snap.exists() && snap.val().iban) {
+                    applyPaymentData(snap.val());
+                    return;
                 }
+
+                snap = await get(ref(db, 'settings/banka'));
+                if (snap.exists() && snap.val().iban) {
+                    applyPaymentData(snap.val());
+                    return;
+                }
+            } catch (e) {
+                console.error("Ödeme bilgileri alınamadı:", e);
             }
-        });
+        }
+
+        function applyPaymentData(data) {
+            if (data.iban) document.getElementById('ibanText').innerText = data.iban;
+            if (data.hesapSahibi) document.getElementById('hesapSahibiText').innerText = data.hesapSahibi;
+            if (data.banka || data.ad) {
+                document.getElementById('bankaAdiBadge').innerHTML = `<i class="fa-solid fa-building-columns mr-1 text-brand-blue"></i> ${data.banka || data.ad}`;
+            }
+        }
+
+        loadPaymentInfo();
 
         function hesaplaVeGosterTutar() {
             if(!globalPaketAdi) return;
@@ -346,6 +332,7 @@
             document.getElementById('paketOzetBox').classList.remove('hidden');
         }
 
+        // Sipariş ID üzerinden veritabanından talep kodunu ve durumu çekme
         if (submissionId) {
             const subRef = ref(db, `submissions/${submissionId}`);
             let ilkYukleme = true;
@@ -357,55 +344,37 @@
                         globalTalepKodu = data.talepKodu;
                         globalPaketAdi = data.paket || 'Standart';
                         document.getElementById('talepKoduText').innerText = globalTalepKodu;
+                        sessionStorage.setItem('aktif_talep_kodu', globalTalepKodu);
                         hesaplaVeGosterTutar();
                     }
-
-                    const mevcutDurum = data.odemeDurumu || 'bekliyor';
-                    updateStatusUI(mevcutDurum);
-
-                    if (!ilkYukleme) {
-                        if (mevcutDurum === 'onaylandi') {
-                            showNotification("Ödemeniz onaylandı! Programınız hazırlanıyor.", "success");
-                        } else if (mevcutDurum === 'hazirlaniyor') {
-                            showNotification("Programınız şu an hazırlanıyor!", "info");
-                        } else if (mevcutDurum === 'tamamlandi') {
-                            showNotification("Programınız tamamlandı ve teslim edildi!", "success");
-                        } else if (mevcutDurum === 'iptal') {
-                            showNotification("Ödemeniz iptal edildi veya doğrulanamadı.", "error");
-                        } else {
-                            showNotification("Ödeme durumu güncellendi.", "info");
-                        }
-                    }
+                    updateStatusUI(data.odemeDurumu || 'bekliyor');
                     ilkYukleme = false;
                 } else {
-                    setNoActiveOrderState();
-                    sessionStorage.removeItem('gecerli_siparis_id');
+                    fallbackTalepKoduKontrol();
                 }
             });
         } else {
-            setNoActiveOrderState();
+            fallbackTalepKoduKontrol();
         }
 
-        function setNoActiveOrderState() {
-            const container = document.getElementById('statusIconContainer');
-            const icon = document.getElementById('statusIcon');
-            const badge = document.getElementById('statusBadge');
-            const title = document.getElementById('statusTitle');
-            const desc = document.getElementById('statusDesc');
-
-            container.className = "w-20 h-20 bg-slate-100 text-slate-400 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-slate-200";
-            icon.className = "fa-solid fa-triangle-exclamation";
-            badge.className = "inline-flex items-center gap-1.5 bg-slate-100 text-slate-600 text-xs font-bold px-4 py-1.5 rounded-full border border-slate-200 mb-3 uppercase shadow-sm";
-            badge.innerText = "⚠️ Aktif Sipariş Yok";
-            title.innerText = "Sipariş Bulunamadı";
-            desc.innerText = "Sistemde aktif bir siparişiniz bulunmuyor. Yeni bir program hazırlatmak için analiz formunu doldurabilirsiniz.";
-            document.getElementById('talepKoduText').innerText = "Yok";
-
-            document.getElementById('ibanCardSection').classList.add('hidden');
-            document.getElementById('actionButtonsSection').classList.add('hidden');
-            document.getElementById('paketOzetBox').classList.add('hidden');
-            document.getElementById('completedActionSection').classList.add('hidden');
-            document.getElementById('defaultLinksSection').classList.remove('hidden');
+        function fallbackTalepKoduKontrol() {
+            if (paramKod) {
+                globalTalepKodu = paramKod;
+                document.getElementById('talepKoduText').innerText = globalTalepKodu;
+                updateStatusUI('bekliyor');
+            } else {
+                const savedKod = sessionStorage.getItem('aktif_talep_kodu');
+                if (savedKod) {
+                    globalTalepKodu = savedKod;
+                    document.getElementById('talepKoduText').innerText = globalTalepKodu;
+                    updateStatusUI('bekliyor');
+                } else {
+                    // Rastgele güvenli bir kod üretip gösterelim ki ekran boş kalmasın
+                    globalTalepKodu = 'BT-' + Math.floor(100000 + Math.random() * 900000);
+                    document.getElementById('talepKoduText').innerText = globalTalepKodu;
+                    updateStatusUI('bekliyor');
+                }
+            }
         }
 
         function updateStatusUI(status) {
@@ -424,67 +393,47 @@
                 container.className = "w-20 h-20 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-emerald-100";
                 icon.className = "fa-solid fa-circle-check";
                 badge.className = "inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full border border-emerald-200/60 mb-3 uppercase shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Ödeme Onaylandı`;
+                badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Ödeme Onaylandı`;
                 title.innerText = "Ödemeniz Alındı!";
                 desc.innerText = "Ödemeniz başarıyla onaylandı. Çalışma programınız sıraya alındı ve hazırlanıyor.";
                 
-                ibanSec.classList.add('hidden');
-                actSec.classList.add('hidden');
-                compSec.classList.add('hidden');
-                defLinks.classList.remove('hidden');
-
+                ibanSec.classList.add('hidden'); actSec.classList.add('hidden'); compSec.classList.add('hidden'); defLinks.classList.remove('hidden');
             } else if (status === 'hazirlaniyor') {
                 container.className = "w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-indigo-100";
                 icon.className = "fa-solid fa-spinner fa-spin";
                 badge.className = "inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-1.5 rounded-full border border-indigo-200/60 mb-3 uppercase shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span> Program Hazırlanıyor`;
+                badge.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-indigo-500 mr-1"></i> Program Hazırlanıyor`;
                 title.innerText = "Programınız Hazırlanıyor!";
                 desc.innerText = "Size özel çalışma programınız şu anda titizlikle hazırlanıyor. Çok yakında teslim edilecektir.";
                 
-                ibanSec.classList.add('hidden');
-                actSec.classList.add('hidden');
-                compSec.classList.add('hidden');
-                defLinks.classList.remove('hidden');
-
+                ibanSec.classList.add('hidden'); actSec.classList.add('hidden'); compSec.classList.add('hidden'); defLinks.classList.remove('hidden');
             } else if (status === 'tamamlandi') {
-                // TAMAMLANDIĞINDA ÖDEME ALANLARI GİZLENİR, BAŞARI VE YENİ SİPARİŞ EKRANI ÇIKAR
                 container.className = "w-20 h-20 bg-teal-50 text-teal-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-teal-100";
                 icon.className = "fa-solid fa-clipboard-check";
                 badge.className = "inline-flex items-center gap-1.5 bg-teal-50 text-teal-700 text-xs font-bold px-4 py-1.5 rounded-full border border-teal-200/60 mb-3 uppercase shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-teal-500"></span> Program Teslim Edildi`;
+                badge.innerHTML = `<i class="fa-solid fa-clipboard-check text-teal-500 mr-1"></i> Program Teslim Edildi`;
                 title.innerText = "Çalışma Programınız Hazır!";
                 desc.innerText = "Sana özel hazırlanan programın başarıyla tamamlandı ve iletildi. Başarılar dileriz!";
                 
-                ibanSec.classList.add('hidden');
-                actSec.classList.add('hidden');
-                compSec.classList.remove('hidden'); // Yeni sipariş butonu görünür
-                defLinks.classList.add('hidden');
-
+                ibanSec.classList.add('hidden'); actSec.classList.add('hidden'); compSec.classList.remove('hidden'); defLinks.classList.add('hidden');
             } else if (status === 'iptal') {
                 container.className = "w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-red-100";
                 icon.className = "fa-solid fa-circle-xmark";
                 badge.className = "inline-flex items-center gap-1.5 bg-red-50 text-red-700 text-xs font-bold px-4 py-1.5 rounded-full border border-red-200/60 mb-3 uppercase shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> İptal Edildi`;
+                badge.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i> İptal Edildi`;
                 title.innerText = "Ödeme Doğrulanamadı";
                 desc.innerText = "Ödemeniz onaylanamadı veya iptal edildi. Destek için WhatsApp üzerinden iletişime geçebilirsiniz.";
                 
-                ibanSec.classList.add('hidden');
-                actSec.classList.add('hidden');
-                compSec.classList.add('hidden');
-                defLinks.classList.remove('hidden');
-
+                ibanSec.classList.add('hidden'); actSec.classList.add('hidden'); compSec.classList.add('hidden'); defLinks.classList.remove('hidden');
             } else {
                 container.className = "w-20 h-20 bg-amber-50 text-amber-500 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner border border-amber-100";
                 icon.className = "fa-solid fa-clock-rotate-left";
                 badge.className = "inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-200/60 mb-3 uppercase shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span> Ödeme Bekleniyor`;
+                badge.innerHTML = `<i class="fa-solid fa-circle text-[8px] animate-ping mr-1"></i> Ödeme Bekleniyor`;
                 title.innerText = "Formunuz Başarıyla Alındı!";
-                desc.innerText = "Programınızın hazırlanmaya başlanması için lütfen ödemeyi aşağıdaki hesap bilgilerine gerçekleştirin.";
+                desc.innerText = "Programınızın hızla hazırlanmaya başlanması için lütfen ödemeyi aşağıdaki IBAN adresine gerçekleştirin.";
                 
-                ibanSec.classList.remove('hidden');
-                actSec.classList.remove('hidden');
-                compSec.classList.add('hidden');
-                defLinks.classList.remove('hidden');
+                ibanSec.classList.remove('hidden'); actSec.classList.remove('hidden'); compSec.classList.add('hidden'); defLinks.classList.remove('hidden');
             }
         }
 
@@ -503,6 +452,57 @@
             });
         }
     </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+        authDomain: "urunrakip.firebaseapp.com",
+        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "urunrakip",
+        storageBucket: "urunrakip.appspot.com",
+        messagingSenderId: "893193039416",
+        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Ziyaretçi ID'sini tarayıcıda (localStorage) saklıyoruz ki aynı kişi sayfaları gezerken yeni ziyaretçi sayılmasın
+    let visitorId = localStorage.getItem('bt_visitor_id');
+    if (!visitorId) {
+        visitorId = 'vis_' + Math.random().toString(36.substring(2, 15)) + Date.now().toString(36);
+        localStorage.setItem('bt_visitor_id', visitorId);
+    }
+
+    // URL'den ?ref=whatsapp parametresini kontrol et
+    const urlParams = new URLSearchParams(window.location.search);
+    const refSource = urlParams.get('ref') || sessionStorage.getItem('bt_ref_source') || 'direkt';
+    if (urlParams.get('ref')) {
+        sessionStorage.setItem('bt_ref_source', refSource);
+    }
+
+    // Ziyaretçi ilk defa geldiyse veya bilgilerini güncelleyeceğiz
+    const visitorRef = ref(db, `visitors/${visitorId}`);
+    set(visitorRef, {
+        visitorId: visitorId,
+        source: refSource, // WhatsApp veya direkt
+        ilkZiyaret: serverTimestamp(),
+        sonSayfa: window.location.pathname,
+        tarayici: navigator.userAgent
+    });
+
+    // Her sayfa değişiminde / açılışında pageViews altına gezilen sayfayı kaydet
+    const pageViewsRef = ref(db, 'pageViews');
+    push(pageViewsRef, {
+        visitorId: visitorId,
+        sayfa: window.location.pathname + window.location.search,
+        zaman: serverTimestamp(),
+        kaynak: refSource
+    });
+</script>
+
 </body>
 </html>
-

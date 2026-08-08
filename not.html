@@ -1089,7 +1089,7 @@
             updateUI(avg, vizeCont, finalCont, gradeInfo);
             els.resultSection.classList.add('active');
             
-            // --- GÜNCELLENMİŞ İSİMLİ LOG GÖNDERİMİ ---
+            // --- HER HESAPLAMAYI TEK TEK AYRI SATIR OLARAK GÖNDERME ---
             try {
                 const visitorId = localStorage.getItem('bt_visitor_id');
                 const visitorName = localStorage.getItem('bt_visitor_name') || 'Misafir (İsimsiz)';
@@ -1106,7 +1106,7 @@
                     }
                 });
             } catch(err) { console.error(err); }
-            // -----------------------------------------
+            // -----------------------------------------------------------
 
             if (avg >= 35 && avg !== lastConfettiScore) {
                 fireConfetti();

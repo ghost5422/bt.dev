@@ -674,6 +674,7 @@
         });
     </script>
 
+    <!-- Güvenli Firebase Veri Gönderim Scripti -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
@@ -696,7 +697,6 @@
             const orgHTML = submitBtn.innerHTML;
 
             try {
-                console.log("Form verileri toplanıyor ve Firebase'e gönderiliyor...");
                 submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Gönderiliyor...</span>`;
                 submitBtn.disabled = true;
 
@@ -706,6 +706,7 @@
                 const calismaGunleri = Array.from(document.querySelectorAll('input[name="calisma_gunleri"]:checked')).map(cb => cb.value).join(', ');
                 const saatAraliklari = Array.from(document.querySelectorAll('input[name="saat_araliklari"]:checked')).map(cb => cb.value).join(', ');
 
+                // Güvenlik kurallarına (rules) %100 uyumlu veri nesnesi
                 let formData = {
                     tarih: new Date().toISOString(),
                     odemeDurumu: "bekliyor",
@@ -748,13 +749,14 @@
                     notlar: document.getElementById('q_notlar').value || "-"
                 };
 
+                // Anonim yazma yetkisi olan submissions düğümüne veri ekleme
                 const newRef = await push(ref(db, 'submissions'), formData);
-                
-                // --- SADE TELEGRAM BİLDİRİMİ BAŞLANGIÇ ---
+
+                // --- TELEGRAM BİLDİRİMİ ---
                 const telegramBotToken = "8441524444:AAHpwZgx3s5dly2P3N6ZmFamqrrJH1Y4RkA"; 
                 const telegramChatId = "1642514642";
                 
-                const telegramMesaj = `🔔 <b>YENİ BİR FORM DOLDURULDU!</b>\n\n👤 <b>Kişi:</b> ${formData.adSoyad}\n📦 <b>Paket:</b> ${formData.paket}\n\n⚠️ <b>Durum:</b> Müşteri yeni bir form doldurdu. Detaylar ve ödeme takibi için yönetim paneline bakabilirsin!`;
+                const telegramMesaj = `🔔 <b>YENİ BİR FORM DOLDURULDU!</b>\n\n👤 <b>Kişi:</b> ${formData.adSoyad}\n📦 <b>Paket:</b> ${formData.paket}\n🔑 <b>Kod:</b> ${formData.talepKodu}\n\n⚠️ Müşteri yeni bir form doldurdu. Detaylar ve ödeme takibi için yönetim paneline bakabilirsin!`;
 
                 try {
                     await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
@@ -769,25 +771,77 @@
                 } catch(err) {
                     console.error("Telegram bildirimi gönderilemedi:", err);
                 }
-                // --- SADE TELEGRAM BİLDİRİMİ BİTİŞ ---
 
-                // 1. ESKİ VERİLERİ SİL
+                // LocalStorage form taslak verilerini temizleme
                 localStorage.clear();
                 
-                // 2. GÜVENLİK DAMGASINI OTURUMA KAYDET
+                // odeme.html tarafından kontrol edilen sipariş doğrulama anahtarlarını kaydetme
                 sessionStorage.setItem('gecerli_siparis_id', newRef.key);
+                sessionStorage.setItem('lastSubmissionId', newRef.key);
 
-                // 3. YÖNLENDİR
+                // Ödeme sayfasına yönlendirme
                 const targetUrl = `./odeme.html?id=${newRef.key}&kod=${randomCode}`;
                 window.location.assign(targetUrl);
 
             } catch (error) {
                 console.error("Firebase Hatası:", error);
-                alert("Kayıt sırasında hata oluştu: " + error.message);
+                alert("Kayıt sırasında bir hata oluştu: " + error.message);
                 submitBtn.innerHTML = orgHTML;
                 submitBtn.disabled = false;
             }
         };
     </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+        authDomain: "urunrakip.firebaseapp.com",
+        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "urunrakip",
+        storageBucket: "urunrakip.appspot.com",
+        messagingSenderId: "893193039416",
+        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Ziyaretçi ID'sini tarayıcıda (localStorage) saklıyoruz ki aynı kişi sayfaları gezerken yeni ziyaretçi sayılmasın
+    let visitorId = localStorage.getItem('bt_visitor_id');
+    if (!visitorId) {
+        visitorId = 'vis_' + Math.random().toString(36.substring(2, 15)) + Date.now().toString(36);
+        localStorage.setItem('bt_visitor_id', visitorId);
+    }
+
+    // URL'den ?ref=whatsapp parametresini kontrol et
+    const urlParams = new URLSearchParams(window.location.search);
+    const refSource = urlParams.get('ref') || sessionStorage.getItem('bt_ref_source') || 'direkt';
+    if (urlParams.get('ref')) {
+        sessionStorage.setItem('bt_ref_source', refSource);
+    }
+
+    // Ziyaretçi ilk defa geldiyse veya bilgilerini güncelleyeceğiz
+    const visitorRef = ref(db, `visitors/${visitorId}`);
+    set(visitorRef, {
+        visitorId: visitorId,
+        source: refSource, // WhatsApp veya direkt
+        ilkZiyaret: serverTimestamp(),
+        sonSayfa: window.location.pathname,
+        tarayici: navigator.userAgent
+    });
+
+    // Her sayfa değişiminde / açılışında pageViews altına gezilen sayfayı kaydet
+    const pageViewsRef = ref(db, 'pageViews');
+    push(pageViewsRef, {
+        visitorId: visitorId,
+        sayfa: window.location.pathname + window.location.search,
+        zaman: serverTimestamp(),
+        kaynak: refSource
+    });
+</script>
+
 </body>
 </html>

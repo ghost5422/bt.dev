@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="tr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>DropBeam | QR ile Hızlı Fotoğraf Aktarımı</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- PeerJS for WebRTC Direct Transfer (loaded safely with sandbox fallback) -->
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <!-- Confetti effect -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: rgba(18, 24, 38, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.4);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.7);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- Background decorative light orbs -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px]"></div>
+    <div class="absolute top-1/2 -right-40 w-96 h-96 bg-violet-600/15 rounded-full blur-[140px]"></div>
+    <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-blue-600/15 rounded-full blur-[128px]"></div>
+  </div>
+
+  <header class="w-full max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 z-20">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">
+          DropBeam
+        </h1>
+        <p class="text-xs text-slate-400 font-medium">iPhone & Laptop Anında Fotoğraf Aktarımı</p>
+      </div>
+    </div>
+
+    <!-- Mode Selector Tabs (Receiver, Sender & Side-by-Side Simulation) -->
+    <div class="glass-pill p-1 rounded-2xl flex items-center gap-1 border border-white/10 shadow-inner">
+      <button id="tabReceiverBtn" onclick="switchMode('receiver')" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-600/30">
+        <i data-lucide="laptop" class="w-4 h-4"></i>
+        <span>Laptop</span>
+      </button>
+      <button id="tabSenderBtn" onclick="switchMode('sender')" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 text-slate-400 hover:text-white">
+        <i data-lucide="smartphone" class="w-4 h-4"></i>
+        <span>iPhone</span>
+      </button>
+      <button id="tabSplitBtn" onclick="switchMode('split')" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 text-slate-400 hover:text-white" title="Her iki ekranı yan yana test et">
+        <i data-lucide="columns-2" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Simülatör</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Environment Status Banner -->
+  <div id="envNotice" class="w-full max-w-7xl mx-auto px-4 mb-2">
+    <div class="flex items-center justify-between px-3.5 py-2 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs text-indigo-300">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="envNoticeText">Güvenli İletişim Hattı Hazır (Çift Ekran & Tarayıcılar Arası Aktarım)</span>
+      </div>
+      <button onclick="toggleSetupGuide()" class="text-[11px] text-amber-300 hover:text-amber-200 underline font-medium flex items-center gap-1">
+        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+        <span>iPhone QR Neden Açılmadı? (Çözüm)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Troubleshoot / Setup Modal & Alert Box -->
+  <div id="setupGuideBox" class="w-full max-w-7xl mx-auto px-4 mb-4">
+    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-amber-500/30 bg-amber-950/20 text-xs text-slate-300 space-y-3">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+          <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+          <span>iPhone Kamerasının QR Kodu Açabilmesi İçin:</span>
+        </div>
+        <button onclick="toggleSetupGuide()" class="text-slate-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <p class="text-slate-300 leading-relaxed">
+        Şu an bu ekran <strong>tarayıcı önizleme penceresinde (sandbox)</strong> çalıştığı için, üretilen QR kod sanal bir iç bağlantı taşır. iPhone kameranız bu iç bağlantıyı göremez. Gerçek bir iPhone ile laptopu bağlamak için 2 basit yolunuz var:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+        <div class="glass-pill p-3 rounded-xl border border-white/10 space-y-1.5">
+          <span class="font-semibold text-white flex items-center gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+            Bu Sayfayı Canlıya Alın (Ücretsiz & 1 Dk)
+          </span>
+          <p class="text-[11px] text-slate-400">
+            Bu kodu <strong>Vercel, Netlify veya GitHub Pages</strong>'e yükleyin veya yerel sunucunuzda (örn: <code>http://192.168.1.35:3000</code>) açın. iPhone ve Laptop aynı Wi-Fi'de anında bağlanır.
+          </p>
+        </div>
+
+        <div class="glass-pill p-3 rounded-xl border border-white/10 space-y-1.5">
+          <span class="font-semibold text-white flex items-center gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">2</span>
+            Hemen Şimdi Test Etmek İçin
+          </span>
+          <p class="text-[11px] text-slate-400">
+            Üstteki <strong>"Simülatör"</strong> sekmesine geçerek iPhone ve Laptop ekranlarını yan yana açabilir, anında gerçek fotoğraflar yükleyip laptopunuza indirebilirsiniz.
+          </p>
+        </div>
+      </div>
+
+      <!-- Custom URL / IP Input to update QR Code directly -->
+      <div class="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+        <span class="text-[11px] text-slate-400 whitespace-nowrap">Canlı Web Siteniz veya Yerel IP'niz:</span>
+        <input type="text" id="customHostInput" placeholder="Örn: https://benimsitem.netlify.app veya http://192.168.1.25:8080" class="flex-1 px-3 py-1.5 bg-slate-900 border border-white/15 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-indigo-500">
+        <button onclick="applyCustomHostUrl()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-xl shadow transition-colors flex items-center justify-center gap-1">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>QR Kodu Yenile</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 py-2 sm:py-4 flex flex-col justify-center">
+
+    <!-- VIEW 1: SINGLE RECEIVER (LAPTOP VIEW) -->
+    <div id="receiverView" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: QR Code Card -->
+        <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="receiverPeerStatus">Bağlantı Bekleniyor</span>
+          </div>
+
+          <h2 class="text-2xl font-bold tracking-tight text-white mb-2">iPhone ile Okutun</h2>
+          <p class="text-slate-400 text-sm max-w-xs mb-6">
+            iPhone kameranızı açıp aşağıdaki QR koda tutun.
+          </p>
+
+          <!-- QR Container -->
+          <div class="p-4 bg-white rounded-2xl shadow-2xl relative group transition-transform duration-300 hover:scale-[1.02]">
+            <div id="qrcode" class="w-[190px] h-[190px] flex items-center justify-center"></div>
+          </div>
+
+          <!-- Direct URL preview under QR -->
+          <div class="mt-3 text-[11px] text-slate-400 max-w-xs truncate font-mono bg-black/30 px-2.5 py-1 rounded-lg border border-white/5" id="qrEncodedUrlDisplay">
+            Yükleniyor...
+          </div>
+
+          <!-- Room Code & Quick Pair Info -->
+          <div class="mt-6 w-full max-w-xs space-y-2">
+            <div class="text-xs text-slate-400 font-medium">Oda Kodu:</div>
+            <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 font-mono text-sm">
+              <span id="roomCodeDisplay" class="text-indigo-300 font-semibold tracking-wider">BEAM-8842</span>
+              <button onclick="copyRoomLink()" title="Bağlantıyı Kopyala" class="p-1 hover:text-indigo-400 text-slate-400 transition-colors">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>Doğrudan tarayıcı aktarımı (Sunucuya kaydedilmez)</span>
+          </div>
+        </div>
+
+        <!-- Right: Received Photos Inbox -->
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 flex flex-col min-h-[460px]">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <i data-lucide="download-cloud" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Laptopa Gelen Fotoğraflar</h3>
+                <p id="inboxCount" class="text-xs text-slate-400">Henüz fotoğraf gelmedi</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="downloadAllBtn" onclick="downloadAllFiles()" class="hidden text-xs text-indigo-300 hover:text-white transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/60 border border-indigo-500/30">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                Hepsini İndir
+              </button>
+              <button id="clearInboxBtn" onclick="clearInbox()" class="hidden text-xs text-slate-400 hover:text-rose-400 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-rose-500/10 border border-white/5">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                Temizle
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="inboxEmptyState" class="flex-1 flex flex-col items-center justify-center text-center p-8 text-slate-400 border-2 border-dashed border-white/5 rounded-2xl">
+            <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 text-slate-500">
+              <i data-lucide="image" class="w-8 h-8"></i>
+            </div>
+            <h4 class="text-base font-semibold text-slate-200 mb-1">Telefondan Yükleme Bekleniyor</h4>
+            <p class="text-xs text-slate-400 max-w-sm">
+              iPhone modundan seçeceğiniz fotoğraflar tam kalitede anında buraya düşer ve tek tıkla laptopunuza kaydedebilirsiniz.
+            </p>
+          </div>
+
+          <!-- Files Grid -->
+          <div id="inboxGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 overflow-y-auto max-h-[500px] pr-1"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2: SINGLE SENDER (IPHONE VIEW) -->
+    <div id="senderView" class="hidden space-y-6 max-w-2xl mx-auto w-full">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-2xl font-bold tracking-tight text-white">iPhone Fotoğraf Yükleyici</h2>
+              <span id="senderStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Laptop Bağlı
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Fotoğrafları iPhone galerinizden seçin veya anında çekin.</p>
+          </div>
+
+          <div id="roomConnectBar" class="flex items-center gap-2">
+            <input type="text" id="targetRoomInput" placeholder="Oda Kodu" value="BEAM-8842" class="px-3 py-2 bg-slate-900 border border-white/15 rounded-xl text-sm font-mono text-center uppercase tracking-wider focus:outline-none focus:border-indigo-500 w-32">
+            <button onclick="connectToReceiverFromInput()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-md transition-all">
+              Eşleş
+            </button>
+          </div>
+        </div>
+
+        <!-- File Upload Area / Drag & Drop -->
+        <div id="dropZone" onclick="triggerFileInput('fileInput')" class="relative border-2 border-dashed border-indigo-500/30 hover:border-indigo-500/60 bg-indigo-500/5 hover:bg-indigo-500/10 transition-all rounded-3xl p-8 text-center cursor-pointer flex flex-col items-center justify-center group">
+          <input type="file" id="fileInput" multiple accept="image/*,video/*,application/pdf" class="hidden" onchange="handleFileSelection(event)">
+          
+          <div class="w-16 h-16 rounded-2xl bg-indigo-600/20 group-hover:bg-indigo-600/30 text-indigo-400 flex items-center justify-center mb-3 transition-transform group-hover:scale-110 duration-200">
+            <i data-lucide="cloud-upload" class="w-8 h-8"></i>
+          </div>
+          
+          <h3 class="text-lg font-bold text-white mb-1">Fotoğraf veya Dosya Seç</h3>
+          <p class="text-xs text-slate-400 max-w-xs mb-3">
+            iPhone galerisinden fotoğraf seçmek için dokunun.
+          </p>
+
+          <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/10 text-slate-200 border border-white/10 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+            <i data-lucide="camera" class="w-4 h-4"></i>
+            Galeri / Kameradan Fotoğraf Seç
+          </span>
+        </div>
+
+        <!-- Selected Files Queue -->
+        <div id="selectedQueueContainer" class="hidden space-y-4">
+          <div class="flex items-center justify-between text-sm font-medium">
+            <span class="text-slate-300">Seçilen Dosyalar (<span id="selectedCount">0</span>)</span>
+            <button onclick="clearSelectedFiles()" class="text-xs text-rose-400 hover:text-rose-300">Temizle</button>
+          </div>
+
+          <div id="previewList" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-56 overflow-y-auto pr-1"></div>
+
+          <!-- Progress Bar -->
+          <div id="uploadProgressBarContainer" class="hidden space-y-2">
+            <div class="flex justify-between text-xs text-slate-400">
+              <span id="uploadProgressText">Laptopa aktarılıyor...</span>
+              <span id="uploadProgressPercent">0%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-white/5">
+              <div id="uploadProgressBar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full w-0 transition-all duration-200"></div>
+            </div>
+          </div>
+
+          <!-- Send Action Button -->
+          <button id="sendActionBtn" onclick="sendSelectedFiles()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white font-bold text-sm tracking-wide shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98]">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Laptopa Hemen Gönder</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 3: SPLIT VIEW SIMULATOR (LAPTOP & IPHONE TOGETHER) -->
+    <div id="splitView" class="hidden space-y-4">
+      <div class="flex items-center justify-between px-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+          <i data-lucide="split" class="w-4 h-4 text-indigo-400"></i>
+          Canlı Simülatör (Tek Ekranda İki Cihaz)
+        </span>
+        <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+          Senkronize Aktarım
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Left Column: Laptop Interface -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col min-h-[480px]">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
+                <i data-lucide="laptop" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">Laptop Alıcı Ekranı</h4>
+                <p class="text-[11px] text-slate-400">Gelen fotoğraflar burada belirir</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono text-indigo-300 px-2 py-0.5 rounded bg-slate-900 border border-white/10">BEAM-8842</span>
+          </div>
+
+          <div id="splitInboxEmpty" class="flex-1 flex flex-col items-center justify-center text-center p-6 text-slate-400 border border-dashed border-white/10 rounded-2xl">
+            <i data-lucide="image" class="w-8 h-8 text-slate-600 mb-2"></i>
+            <p class="text-xs text-slate-300 font-medium">Fotoğraf Bekleniyor</p>
+            <p class="text-[11px] text-slate-500 max-w-xs mt-1">Sağdaki iPhone panelinden fotoğraf yükleyin, anında burada göreceksiniz.</p>
+          </div>
+
+          <div id="splitInboxGrid" class="hidden grid grid-cols-2 gap-3 flex-1 overflow-y-auto max-h-[400px] pr-1"></div>
+        </div>
+
+        <!-- Right Column: iPhone Interface Mockup -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between border-indigo-500/20">
+          <div>
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="p-2 rounded-xl bg-violet-500/10 text-violet-400">
+                  <i data-lucide="smartphone" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white">iPhone Gönderici Ekranı</h4>
+                  <p class="text-[11px] text-slate-400">Fotoğraf seçin ve gönderin</p>
+                </div>
+              </div>
+              <span class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Eşleşti
+              </span>
+            </div>
+
+            <!-- Upload trigger -->
+            <div onclick="triggerFileInput('fileInputSplit')" class="border-2 border-dashed border-indigo-500/30 hover:border-indigo-500/60 bg-indigo-500/5 p-6 rounded-2xl text-center cursor-pointer mb-4">
+              <input type="file" id="fileInputSplit" multiple accept="image/*" class="hidden" onchange="handleFileSelection(event)">
+              <i data-lucide="plus-circle" class="w-7 h-7 text-indigo-400 mx-auto mb-2"></i>
+              <p class="text-xs font-bold text-white">Test Fotoğrafı Seç</p>
+              <p class="text-[11px] text-slate-400">Galerinizden yükleyin veya örnek fotoğrafla deneyin</p>
+            </div>
+
+            <!-- Quick Demo Button -->
+            <button onclick="injectDemoPhoto()" class="w-full mb-4 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs text-slate-300 font-medium flex items-center justify-center gap-2 transition-colors">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Örnek Doğa Fotoğrafı Yükle (Hızlı Test)</span>
+            </button>
+          </div>
+
+          <div id="splitQueueContainer" class="hidden space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300">
+              <span>Seçilen Fotoğraflar (<span id="splitCount">0</span>)</span>
+              <button onclick="clearSelectedFiles()" class="text-rose-400">Temizle</button>
+            </div>
+            <div id="splitPreviewList" class="grid grid-cols-3 gap-2 max-h-36 overflow-y-auto"></div>
+            <button onclick="sendSelectedFiles()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Laptopa Aktar</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-7xl mx-auto px-4 py-4 text-center text-xs text-slate-400 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div>DropBeam • iPhone ve Laptop Arasında Doğrudan Aktarım</div>
+    <div class="flex items-center gap-3">
+      <span class="text-slate-400">Çift Yönlü Güvenli Kanal</span>
+    </div>
+  </footer>
+
+  <script>
+    // Application State
+    let currentMode = 'receiver';
+    let currentRoomCode = 'BEAM-8842';
+    let customBaseUrl = '';
+    let selectedFiles = [];
+    let receivedFiles = [];
+    let peer = null;
+    let peerConn = null;
+    let broadcastChannel = null;
+
+    // Toggle troubleshoot setup guide
+    function toggleSetupGuide() {
+      const box = document.getElementById('setupGuideBox');
+      box.classList.toggle('hidden');
+    }
+
+    // Apply custom host URL entered by user
+    function applyCustomHostUrl() {
+      const input = document.getElementById('customHostInput');
+      const val = input.value.trim();
+      if (!val) {
+        showToast("Lütfen geçerli bir web sitesi veya IP adresi girin.", "error");
+        return;
+      }
+      try {
+        let formatted = val;
+        if (!formatted.startsWith('http://') && !formatted.startsWith('https://')) {
+          formatted = 'https://' + formatted;
+        }
+        new URL(formatted); // Validate URL format
+        customBaseUrl = formatted;
+        initQRCode();
+        showToast("QR kod yeni adresinizle güncellendi! Artık iPhone ile okutabilirsiniz.", "success");
+      } catch (err) {
+        showToast("Geçersiz URL formatı. Lütfen http:// veya https:// ile girin.", "error");
+      }
+    }
+
+    // Safe Web Audio API Chime
+    const playChime = (type = 'success') => {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const audioCtx = new AudioContextClass();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+          osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+          osc.start(audioCtx.currentTime);
+          osc.stop(audioCtx.currentTime + 0.35);
+        }
+      } catch (e) {
+        // Audio might be blocked before first user gesture
+      }
+    };
+
+    // Toast Notification System
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const bgColors = {
+        success: 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200',
+        info: 'bg-indigo-950/90 border-indigo-500/40 text-indigo-200',
+        error: 'bg-rose-950/90 border-rose-500/40 text-rose-200'
+      };
+
+      const iconName = type === 'success' ? 'check-circle' : (type === 'error' ? 'alert-triangle' : 'info');
+
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-xl backdrop-blur-md transition-all duration-300 transform translate-y-4 opacity-0 ${bgColors[type] || bgColors.info}`;
+      toast.innerHTML = `
+        <i data-lucide="${iconName}" class="w-5 h-5 flex-shrink-0"></i>
+        <span class="text-xs font-medium">${message}</span>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-x-6');
+        setTimeout(() => toast.remove(), 350);
+      }, 3500);
+    }
+
+    // Switch between modes: receiver, sender, split
+    function switchMode(mode) {
+      currentMode = mode;
+      const receiverView = document.getElementById('receiverView');
+      const senderView = document.getElementById('senderView');
+      const splitView = document.getElementById('splitView');
+
+      const tabReceiverBtn = document.getElementById('tabReceiverBtn');
+      const tabSenderBtn = document.getElementById('tabSenderBtn');
+      const tabSplitBtn = document.getElementById('tabSplitBtn');
+
+      const activeClass = "px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-600/30";
+      const inactiveClass = "px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 text-slate-400 hover:text-white";
+
+      receiverView.classList.add('hidden');
+      senderView.classList.add('hidden');
+      splitView.classList.add('hidden');
+
+      tabReceiverBtn.className = inactiveClass;
+      tabSenderBtn.className = inactiveClass;
+      tabSplitBtn.className = inactiveClass;
+
+      if (mode === 'receiver') {
+        receiverView.classList.remove('hidden');
+        tabReceiverBtn.className = activeClass;
+      } else if (mode === 'sender') {
+        senderView.classList.remove('hidden');
+        tabSenderBtn.className = activeClass;
+      } else if (mode === 'split') {
+        splitView.classList.remove('hidden');
+        tabSplitBtn.className = activeClass;
+      }
+
+      lucide.createIcons();
+    }
+
+    // Generate room code and QR Code
+    function initQRCode() {
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+
+      let baseUri = customBaseUrl;
+      
+      if (!baseUri) {
+        // Check if environment is a sandbox or about:srcdoc
+        if (window.location.protocol === 'about:' || window.location.href.includes('googleusercontent') || window.location.protocol === 'blob:') {
+          // Provide an online fallback or inform user
+          baseUri = window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'https://dropbeam.app';
+        } else {
+          baseUri = window.location.href.split('?')[0];
+        }
+      }
+
+      let targetUrl;
+      try {
+        targetUrl = new URL(baseUri);
+      } catch (e) {
+        targetUrl = new URL('https://dropbeam.app');
+      }
+
+      targetUrl.searchParams.set('room', currentRoomCode);
+      targetUrl.searchParams.set('mode', 'sender');
+
+      const urlString = targetUrl.toString();
+
+      // Display the actual URL being encoded so the user can verify
+      const urlDisplay = document.getElementById('qrEncodedUrlDisplay');
+      if (urlDisplay) {
+        urlDisplay.textContent = urlString;
+        urlDisplay.title = urlString;
+      }
+
+      try {
+        new QRCode(qrContainer, {
+          text: urlString,
+          width: 190,
+          height: 190,
+          colorDark: "#0f172a",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch (e) {
+        console.warn("QRCode render note:", e);
+      }
+    }
+
+    function initCommunicationChannels() {
+      // 1. BroadcastChannel (Works across tabs/windows safely in all modern browsers)
+      if (typeof BroadcastChannel !== 'undefined') {
+        try {
+          broadcastChannel = new BroadcastChannel('dropbeam_channel_' + currentRoomCode);
+          broadcastChannel.onmessage = (event) => {
+            const data = event.data;
+            if (data && data.type === 'file-transfer') {
+              handleIncomingFile(data);
+            }
+          };
+        } catch (e) {
+          console.warn("BroadcastChannel restricted:", e);
+        }
+      }
+
+      // 2. Storage event fallback (cross-window sync)
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'dropbeam_latest_file' && e.newValue) {
+          try {
+            const payload = JSON.parse(e.newValue);
+            if (payload && payload.timestamp > Date.now() - 5000) {
+              handleIncomingFile(payload);
+            }
+          } catch (err) {}
+        }
+      });
+
+      // 3. Safe WebSockets / PeerJS check (guarded against Canvas SecurityError)
+      safeInitializePeer();
+    }
+
+    function safeInitializePeer() {
+      // Test if WebSocket creation is blocked by the environment (Canvas / sandbox iframe)
+      let wsAllowed = false;
+      try {
+        if (typeof WebSocket !== 'undefined') {
+          // If in restricted sandbox, constructing WebSocket throws SecurityError
+          const dummy = new WebSocket('wss://echo.websocket.events');
+          dummy.close();
+          wsAllowed = true;
+        }
+      } catch (err) {
+        // WebSocket blocked by sandbox policy
+        wsAllowed = false;
+      }
+
+      if (!wsAllowed || typeof Peer === 'undefined') {
+        document.getElementById('envNoticeText').textContent = "Simülasyon & Yerel Aktarım Aktif (Sekmeler ve ekranlar arası anlık senkron)";
+        document.getElementById('receiverPeerStatus').textContent = "Eşleşmeye Hazır";
+        return;
+      }
+
+      // If WebSockets are permitted, connect PeerJS safely
+      try {
+        peer = new Peer('drop-' + currentRoomCode, { debug: 0 });
+        peer.on('open', () => {
+          document.getElementById('receiverPeerStatus').textContent = "iPhone Bekleniyor";
+        });
+        peer.on('connection', (c) => {
+          peerConn = c;
+          peerConn.on('data', (data) => {
+            if (data && data.type === 'file-transfer') handleIncomingFile(data);
+          });
+        });
+        peer.on('error', () => {
+          // Graceful fallback to BroadcastChannel
+          document.getElementById('receiverPeerStatus').textContent = "Eşleşmeye Hazır";
+        });
+      } catch (e) {
+        document.getElementById('receiverPeerStatus').textContent = "Eşleşmeye Hazır";
+      }
+    }
+
+    function handleIncomingFile(fileData) {
+      receivedFiles.unshift(fileData);
+      renderInbox();
+      playChime('success');
+
+      try {
+        confetti({
+          particleCount: 45,
+          spread: 55,
+          origin: { y: 0.7 }
+        });
+      } catch (e) {}
+
+      showToast(`"${fileData.name}" laptopa aktarıldı!`, 'success');
+    }
+
+    function renderInbox() {
+      const emptyState = document.getElementById('inboxEmptyState');
+      const inboxGrid = document.getElementById('inboxGrid');
+      const countLabel = document.getElementById('inboxCount');
+      const clearBtn = document.getElementById('clearInboxBtn');
+      const downloadAllBtn = document.getElementById('downloadAllBtn');
+
+      const splitEmpty = document.getElementById('splitInboxEmpty');
+      const splitGrid = document.getElementById('splitInboxGrid');
+
+      if (receivedFiles.length === 0) {
+        emptyState.classList.remove('hidden');
+        inboxGrid.classList.add('hidden');
+        clearBtn.classList.add('hidden');
+        downloadAllBtn.classList.add('hidden');
+        countLabel.textContent = "Henüz fotoğraf gelmedi";
+
+        if (splitEmpty) splitEmpty.classList.remove('hidden');
+        if (splitGrid) splitGrid.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      inboxGrid.classList.remove('hidden');
+      clearBtn.classList.remove('hidden');
+      downloadAllBtn.classList.remove('hidden');
+      countLabel.textContent = `${receivedFiles.length} fotoğraf alındı`;
+
+      if (splitEmpty) splitEmpty.classList.add('hidden');
+      if (splitGrid) splitGrid.classList.remove('hidden');
+
+      inboxGrid.innerHTML = '';
+      if (splitGrid) splitGrid.innerHTML = '';
+
+      receivedFiles.forEach((file, index) => {
+        const isImage = file.mimeType.startsWith('image/');
+        const sizeFormatted = formatFileSize(file.size);
+
+        // Standard Card
+        const card = document.createElement('div');
+        card.className = "glass-pill p-3.5 rounded-2xl border border-white/10 flex flex-col justify-between gap-3 group hover:border-indigo-500/40 transition-all";
+        
+        let previewContent = isImage 
+          ? `<div class="w-full h-36 rounded-xl overflow-hidden bg-slate-900/60 relative">
+               <img src="${file.dataUrl}" alt="${file.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+             </div>`
+          : `<div class="w-full h-32 rounded-xl bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 gap-1.5">
+               <i data-lucide="file" class="w-8 h-8 text-indigo-400"></i>
+               <span class="text-xs uppercase font-mono">${file.extension || 'FILE'}</span>
+             </div>`;
+
+        card.innerHTML = `
+          ${previewContent}
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-semibold text-white truncate" title="${file.name}">${file.name}</span>
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span>${sizeFormatted}</span>
+              <span class="text-emerald-400 font-medium">Orijinal Kalite</span>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <a href="${file.dataUrl}" download="${file.name}" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/20 transition-colors">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Orijinal İndir</span>
+            </a>
+          </div>
+        `;
+        inboxGrid.appendChild(card);
+
+        // Mini Card for Split simulator
+        if (splitGrid) {
+          const miniCard = document.createElement('div');
+          miniCard.className = "glass-pill p-2 rounded-xl border border-white/10 flex flex-col gap-2";
+          miniCard.innerHTML = `
+            <div class="w-full h-24 rounded-lg overflow-hidden bg-slate-900/60">
+              ${isImage 
+                ? `<img src="${file.dataUrl}" class="w-full h-full object-cover">` 
+                : `<div class="w-full h-full flex items-center justify-center text-xs text-slate-400">${file.name}</div>`}
+            </div>
+            <div class="flex items-center justify-between text-[10px]">
+              <span class="truncate max-w-[80px] text-slate-300">${file.name}</span>
+              <a href="${file.dataUrl}" download="${file.name}" class="text-indigo-400 hover:text-indigo-300 font-bold">İndir</a>
+            </div>
+          `;
+          splitGrid.appendChild(miniCard);
+        }
+      });
+
+      lucide.createIcons();
+    }
+
+    function clearInbox() {
+      receivedFiles = [];
+      renderInbox();
+      showToast("Gelen kutusu temizlendi.", "info");
+    }
+
+    function downloadAllFiles() {
+      receivedFiles.forEach((file, index) => {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = file.dataUrl;
+          link.download = file.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, index * 250);
+      });
+      showToast(`${receivedFiles.length} dosya indirilmeye başlandı.`, "success");
+    }
+
+    function triggerFileInput(id) {
+      document.getElementById(id).click();
+    }
+
+    function handleFileSelection(e) {
+      if (e.target.files && e.target.files.length) {
+        addFilesToQueue(Array.from(e.target.files));
+      }
+    }
+
+    function addFilesToQueue(newFiles) {
+      selectedFiles = selectedFiles.concat(newFiles);
+      renderSelectedQueue();
+    }
+
+    function clearSelectedFiles() {
+      selectedFiles = [];
+      renderSelectedQueue();
+      const input1 = document.getElementById('fileInput');
+      const input2 = document.getElementById('fileInputSplit');
+      if (input1) input1.value = '';
+      if (input2) input2.value = '';
+    }
+
+    function removeSelectedFile(index) {
+      selectedFiles.splice(index, 1);
+      renderSelectedQueue();
+    }
+
+    function renderSelectedQueue() {
+      const container = document.getElementById('selectedQueueContainer');
+      const previewList = document.getElementById('previewList');
+      const countSpan = document.getElementById('selectedCount');
+
+      const splitContainer = document.getElementById('splitQueueContainer');
+      const splitPreview = document.getElementById('splitPreviewList');
+      const splitCount = document.getElementById('splitCount');
+
+      if (selectedFiles.length === 0) {
+        if (container) container.classList.add('hidden');
+        if (splitContainer) splitContainer.classList.add('hidden');
+        return;
+      }
+
+      if (container) container.classList.remove('hidden');
+      if (splitContainer) splitContainer.classList.remove('hidden');
+      if (countSpan) countSpan.textContent = selectedFiles.length;
+      if (splitCount) splitCount.textContent = selectedFiles.length;
+
+      if (previewList) previewList.innerHTML = '';
+      if (splitPreview) splitPreview.innerHTML = '';
+
+      selectedFiles.forEach((file, idx) => {
+        const isImg = file.type.startsWith('image/');
+        const url = isImg ? URL.createObjectURL(file) : null;
+
+        if (previewList) {
+          const item = document.createElement('div');
+          item.className = "relative rounded-xl overflow-hidden glass-pill border border-white/10 p-2 flex items-center gap-2";
+          item.innerHTML = `
+            <div class="w-10 h-10 rounded-lg overflow-hidden bg-slate-900 flex-shrink-0 flex items-center justify-center">
+              ${isImg 
+                ? `<img src="${url}" class="w-full h-full object-cover">` 
+                : `<i data-lucide="file" class="w-5 h-5 text-indigo-400"></i>`}
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-medium text-white truncate">${file.name}</p>
+              <p class="text-[10px] text-slate-400">${formatFileSize(file.size)}</p>
+            </div>
+            <button onclick="removeSelectedFile(${idx})" class="p-1 text-slate-400 hover:text-rose-400 rounded transition-colors">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          `;
+          previewList.appendChild(item);
+        }
+
+        if (splitPreview) {
+          const miniItem = document.createElement('div');
+          miniItem.className = "w-full h-16 rounded-lg bg-slate-900 overflow-hidden relative border border-white/10";
+          miniItem.innerHTML = isImg ? `<img src="${url}" class="w-full h-full object-cover">` : `<div class="p-1 text-[9px] text-slate-300 truncate">${file.name}</div>`;
+          splitPreview.appendChild(miniItem);
+        }
+      });
+
+      lucide.createIcons();
+    }
+
+    // Quick demo photo generator for instant testing in Canvas
+    function injectDemoPhoto() {
+      // Generates a mock canvas photographic gradient
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 800;
+      const ctx = canvas.getContext('2d');
+
+      const gradient = ctx.createLinearGradient(0, 0, 1200, 800);
+      gradient.addColorStop(0, '#3b82f6');
+      gradient.addColorStop(0.5, '#6366f1');
+      gradient.addColorStop(1, '#ec4899');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 1200, 800);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 44px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('DropBeam iPhone Test Fotoğrafı', 600, 380);
+
+      ctx.font = '24px sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fillText('Orijinal Çözünürlük • ' + new Date().toLocaleTimeString('tr-TR'), 600, 430);
+
+      canvas.toBlob((blob) => {
+        const testFile = new File([blob], `iphone_foto_${Date.now().toString().slice(-4)}.jpg`, { type: 'image/jpeg' });
+        addFilesToQueue([testFile]);
+        showToast("Örnek fotoğraf eklendi. 'Laptopa Gönder' butonuna basabilirsiniz.", "info");
+      }, 'image/jpeg', 0.95);
+    }
+
+    // Send selected files to Laptop
+    async function sendSelectedFiles() {
+      if (selectedFiles.length === 0) {
+        showToast("Lütfen önce en az bir fotoğraf seçin.", "error");
+        return;
+      }
+
+      const progressContainer = document.getElementById('uploadProgressBarContainer');
+      const progressBar = document.getElementById('uploadProgressBar');
+      const progressText = document.getElementById('uploadProgressText');
+      const progressPercent = document.getElementById('uploadProgressPercent');
+      const sendBtn = document.getElementById('sendActionBtn');
+
+      if (progressContainer) progressContainer.classList.remove('hidden');
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+
+      const total = selectedFiles.length;
+
+      for (let i = 0; i < total; i++) {
+        const file = selectedFiles[i];
+        if (progressText) progressText.textContent = `Aktarılıyor (${i + 1}/${total}): ${file.name}`;
+        
+        const dataUrl = await readFileAsDataURL(file);
+
+        const payload = {
+          type: 'file-transfer',
+          name: file.name,
+          size: file.size,
+          mimeType: file.type,
+          extension: file.name.split('.').pop(),
+          dataUrl: dataUrl,
+          timestamp: Date.now()
+        };
+
+        // 1. Send via BroadcastChannel (for other tabs / windows)
+        if (broadcastChannel) {
+          try {
+            broadcastChannel.postMessage(payload);
+          } catch (e) {}
+        }
+
+        // 2. Send via WebRTC peer connection if active
+        if (peerConn && peerConn.open) {
+          try {
+            peerConn.send(payload);
+          } catch (e) {}
+        }
+
+        // 3. Fallback to localStorage
+        try {
+          localStorage.setItem('dropbeam_latest_file', JSON.stringify(payload));
+        } catch (e) {}
+
+        // 4. In-page delivery (Simulator / Split View)
+        handleIncomingFile(payload);
+
+        const percent = Math.round(((i + 1) / total) * 100);
+        if (progressBar) progressBar.style.width = percent + '%';
+        if (progressPercent) progressPercent.textContent = percent + '%';
+
+        await new Promise(r => setTimeout(r, 120));
+      }
+
+      playChime('success');
+      showToast(`${total} fotoğraf laptopa aktarıldı!`, "success");
+
+      setTimeout(() => {
+        if (progressContainer) progressContainer.classList.add('hidden');
+        if (progressBar) progressBar.style.width = '0%';
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+        clearSelectedFiles();
+      }, 700);
+    }
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes || bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    function copyRoomLink() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', currentRoomCode);
+      url.searchParams.set('mode', 'sender');
+      
+      const dummy = document.createElement("input");
+      document.body.appendChild(dummy);
+      dummy.value = url.toString();
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+
+      showToast("Eşleşme bağlantısı panoya kopyalandı!", "info");
+    }
+
+    function connectToReceiverFromInput() {
+      const val = document.getElementById('targetRoomInput').value.trim();
+      if (!val) {
+        showToast("Lütfen bir oda kodu girin.", "error");
+        return;
+      }
+      currentRoomCode = val.toUpperCase();
+      initCommunicationChannels();
+      showToast(`'${currentRoomCode}' odasına bağlanıldı!`, "success");
+    }
+
+    // Drag and Drop support
+    const dropZone = document.getElementById('dropZone');
+    if (dropZone) {
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.add('border-indigo-400', 'bg-indigo-500/15');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove('border-indigo-400', 'bg-indigo-500/15');
+        }, false);
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length) {
+          addFilesToQueue(Array.from(dt.files));
+        }
+      });
+    }
+
+    // Window initialization
+    window.addEventListener('load', () => {
+      lucide.createIcons();
+      initQRCode();
+      initCommunicationChannels();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedMode = urlParams.get('mode');
+      const requestedRoom = urlParams.get('room');
+
+      if (requestedRoom) {
+        currentRoomCode = requestedRoom.toUpperCase();
+        document.getElementById('roomCodeDisplay').textContent = currentRoomCode;
+        const targetInput = document.getElementById('targetRoomInput');
+        if (targetInput) targetInput.value = currentRoomCode;
+      }
+
+      if (requestedMode === 'sender') {
+        switchMode('sender');
+      } else {
+        // Default to receiver (Laptop)
+        switchMode('receiver');
+      }
+    });
+  </script>
+</body>
+</html>

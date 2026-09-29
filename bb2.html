@@ -13,7 +13,7 @@ body{font-family:Inter,sans-serif;background:#f6f8fb;color:#111827}
 .shift-pill{display:inline-flex;align-items:center;justify-content:center;width:100%;min-width:76px;max-width:96px;padding:8px 6px;border-radius:9px;font-weight:700;color:#111827;text-align:center;cursor:pointer;user-select:none;transition:.12s;font-size:12px}
 .shift-pill:active{transform:scale(.95)}
 .GECE{background:#fecaca}.SABAH{background:#bfdbfe}.İZİN{background:#bbf7d0}
-.EXTRA{background:#FF0000;color:#000000!important}
+.EXTRA{background:#dc2626;color:#000000!important}
 .today-row{background:#eff6ff!important;box-shadow:inset 4px 0 #2563eb}
 .today-badge{display:inline-block;margin-left:5px;padding:2px 5px;border-radius:5px;background:#2563eb;color:#fff;font-size:8px;font-weight:800}
 @media print{
@@ -129,13 +129,23 @@ appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Referans başlangıç tarihi: 24 Eylül 2026 Perşembe
-const anchorDate = new Date(Date.UTC(2026, 8, 24));
+const DB_ROOT = "vardiya_sistemi";
 
-// 24 Eylül Perşembe gününden başlayan döngüler
-const pattern2 = ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"];
-const pattern3 = ["SABAH", "SABAH", "GECE", "GECE", "İZİN", "İZİN"];
-const pattern4 = ["İZİN", "İZİN", "SABAH", "SABAH", "GECE", "GECE"];
+// Referans başlangıç tarihi: 1 Ekim 2026 Perşembe
+const anchorDate = new Date(Date.UTC(2026, 9, 1));
+
+// Görseldeki 6 günlük tam vardiya döngüleri
+const patternAynur    = ["SABAH", "SABAH", "SABAH", "EXTRA", "EXTRA", "SABAH"];
+const patternMuzeyyen = ["GECE", "İZİN", "İZİN", "SABAH", "SABAH", "GECE"];
+const patternOzlem    = ["SABAH", "GECE", "GECE", "İZİN", "İZİN", "SABAH"];
+const patternOmur     = ["İZİN", "SABAH", "SABAH", "GECE", "GECE", "İZİN"];
+
+const defaultPersonnel = [
+  { id: "person_aynur", name: "aynur" },
+  { id: "person_muzeyyen", name: "müzeyyen" },
+  { id: "person_ozlem", name: "özlem" },
+  { id: "person_omur", name: "ömür" }
+];
 
 const ayIsimleri = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 const gunIsimleri = ["Pazar","Pzt","Salı","Çarş","Perş","Cuma","Cmt"];
@@ -163,32 +173,39 @@ if (index < 0) index += 6;
 return cycle[index];
 }
 
-function getAutoShift(personIndex, date) {
-if (personIndex === 0) return "SABAH";
-if (personIndex === 1) return getShiftByCycle(date, pattern2);
-if (personIndex === 2) return getShiftByCycle(date, pattern3);
-if (personIndex === 3) return getShiftByCycle(date, pattern4);
+function getAutoShift(personName, personIndex, date) {
+const name = (personName || "").trim().toLowerCase();
+if (name === "aynur" || personIndex === 0) return getShiftByCycle(date, patternAynur);
+if (name === "müzeyyen" || personIndex === 1) return getShiftByCycle(date, patternMuzeyyen);
+if (name === "özlem" || personIndex === 2) return getShiftByCycle(date, patternOzlem);
+if (name === "ömür" || personIndex === 3) return getShiftByCycle(date, patternOmur);
 return "İZİN";
 }
 
 async function fetchPersonnel() {
 try {
-const snap = await get(ref(db, "personeller"));
+const snap = await get(ref(db, `${DB_ROOT}/personeller`));
 if (snap.exists()) {
 const val = snap.val();
 if (Array.isArray(val)) {
 personnelList = val.filter(Boolean);
 } else if (typeof val === "object") {
-personnelList = Object.keys(val).map(k => val[k]);
+personnelList = Object.keys(val).map(k => {
+return typeof val[k] === "string" ? { id: k, name: val[k] } : val[k];
+});
 } else {
 personnelList = [];
 }
 } else {
-personnelList = [];
+// Veritabanı boşsa varsayılan personelleri ata ve kaydet
+personnelList = defaultPersonnel;
+for (const p of defaultPersonnel) {
+await set(ref(db, `${DB_ROOT}/personeller/${p.id}`), p);
+}
 }
 } catch (e) {
 console.error("Personel getirme hatası:", e);
-personnelList = [];
+personnelList = defaultPersonnel;
 }
 }
 
@@ -196,10 +213,13 @@ window.addPerson = async function() {
 const input = document.getElementById("personNameInput");
 const name = input.value.trim();
 if (!name) return;
-const newPerson = { id: "p_" + Date.now(), name: name };
-personnelList.push(newPerson);
+
+const newPersonId = "person_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+const newPerson = { id: newPersonId, name: name };
+
 try {
-await set(ref(db, "personeller"), personnelList);
+await set(ref(db, `${DB_ROOT}/personeller/${newPersonId}`), newPerson);
+personnelList.push(newPerson);
 input.value = "";
 renderTable();
 showToast("Personel eklendi");
@@ -213,9 +233,10 @@ window.deletePerson = async function(id) {
 const p = personnelList.find(item => item.id === id);
 if (!p) return;
 if (!confirm(`"${p.name}" adlı personeli silmek istediğinize emin misiniz?`)) return;
-personnelList = personnelList.filter(item => item.id !== id);
+
 try {
-await set(ref(db, "personeller"), personnelList);
+await remove(ref(db, `${DB_ROOT}/personeller/${id}`));
+personnelList = personnelList.filter(item => item.id !== id);
 renderTable();
 showToast("Personel silindi");
 } catch (e) {
@@ -229,7 +250,7 @@ currentMonth = parseInt(document.getElementById("monthSelect").value);
 currentYear = parseInt(document.getElementById("yearSelect").value);
 await fetchPersonnel();
 
-const path = `vardiyalar/${currentYear}/${currentMonth + 1}`;
+const path = `${DB_ROOT}/vardiyalar/${currentYear}/${currentMonth + 1}`;
 try {
 const snap = await get(ref(db, path));
 if (snap.exists()) {
@@ -259,7 +280,7 @@ let headHtml = `<tr><th class="py-3 px-3 text-left text-gray-700 font-bold borde
 personnelList.forEach(p => {
 headHtml += `<th class="py-3 px-2 text-center text-gray-800 font-bold border-b-2 border-gray-800 min-w-[100px]">
 <div class="inline-flex items-center justify-center gap-1.5">
-<span>${p.name}</span>
+<span class="capitalize">${p.name}</span>
 <button onclick="deletePerson('${p.id}')" class="delete-btn text-gray-400 hover:text-red-600 transition-colors inline-flex items-center" title="Personeli Sil">
 <span class="material-symbols-outlined text-[16px]">close</span>
 </button>
@@ -288,7 +309,7 @@ let shift;
 if (monthData[dayKey] && monthData[dayKey][p.id]) {
 shift = monthData[dayKey][p.id];
 } else {
-shift = getAutoShift(idx, date);
+shift = getAutoShift(p.name, idx, date);
 }
 rowHtml += `<td class="py-2 px-1">
 <span class="shift-pill ${shift}" data-day="${dayKey}" data-pid="${p.id}" data-shift="${shift}" onclick="window.toggleShiftCell(this)">${shift}</span>
@@ -330,12 +351,12 @@ personnelList.forEach((p, idx) => {
 if (monthData[dayKey] && monthData[dayKey][p.id]) {
 fullData[dayKey][p.id] = monthData[dayKey][p.id];
 } else {
-fullData[dayKey][p.id] = getAutoShift(idx, date);
+fullData[dayKey][p.id] = getAutoShift(p.name, idx, date);
 }
 });
 }
 
-const path = `vardiyalar/${currentYear}/${currentMonth + 1}`;
+const path = `${DB_ROOT}/vardiyalar/${currentYear}/${currentMonth + 1}`;
 try {
 await set(ref(db, path), fullData);
 monthData = fullData;
@@ -348,7 +369,7 @@ alert("Vardiya kaydedilemedi.");
 
 window.resetMonth = async function() {
 if (!confirm(`${ayIsimleri[currentMonth]} ${currentYear} ayının kayıtlı planı silinecek ve otomatik örüntüye dönülecek. Devam edilsin mi?`)) return;
-const path = `vardiyalar/${currentYear}/${currentMonth + 1}`;
+const path = `${DB_ROOT}/vardiyalar/${currentYear}/${currentMonth + 1}`;
 try {
 await remove(ref(db, path));
 monthData = {};

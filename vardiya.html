@@ -94,7 +94,6 @@ body{
     border-bottom:none;
 }
 
-/* YAZDIRMA STİLLERİ */
 @media print{
     @page{
         size:A4 portrait;
@@ -287,7 +286,6 @@ body{
 </div>
 
 <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100 items-center">
-    <!-- DEĞİŞİKLİKLERİ KAYDET BUTONU -->
     <button id="saveShiftsBtn" onclick="saveAllPendingShifts()"
             class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-sm transition">
         <span class="material-symbols-outlined text-base">save</span>
@@ -327,7 +325,7 @@ body{
 </p>
 </section>
 
-<!-- 1. PERSONEL YÖNETİMİ PANELİ -->
+<!-- PERSONEL YÖNETİMİ PANELİ -->
 <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
 <div class="flex items-center justify-between mb-4">
     <div class="flex items-center gap-3">
@@ -339,7 +337,7 @@ body{
                 Personel Yönetimi
             </h2>
             <p class="text-xs text-gray-500">
-                Personel ekle, sil veya isimlerini düzenle (Tüm tablolara anında yansır)
+                Personel ekle, sil veya isimlerini düzenle
             </p>
         </div>
     </div>
@@ -355,12 +353,10 @@ body{
     </button>
 </div>
 
-<div id="staffList" class="flex flex-wrap gap-2 pt-2">
-    <!-- Dinamik personel etiketleri -->
-</div>
+<div id="staffList" class="flex flex-wrap gap-2 pt-2"></div>
 </section>
 
-<!-- 3. KISA VARDİYA PLANI SEÇİM PANELİ -->
+<!-- KISA VARDİYA PLANI PANELİ -->
 <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
 <div class="flex items-center gap-3 mb-4">
     <div class="icon-box bg-emerald-50 text-emerald-600">
@@ -405,7 +401,6 @@ body{
     </div>
 </div>
 
-<!-- Kısa Plan Tablo Alanı (Önizleme ve Canlı Düzenleme) -->
 <div id="shortPlanContainer" class="mt-4 pt-4 border-t border-gray-100 hidden">
     <div class="flex items-center justify-between mb-2">
         <span id="shortPlanInfoBadge" class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg"></span>
@@ -482,17 +477,15 @@ body{
 <div class="text-center header-area pb-4 mb-5 border-b border-gray-200">
     <h2 id="tableTitle"
         class="text-2xl font-bold text-gray-900 uppercase">
-        AY YIL VARDİYASI
+        EKİM 2026 VARDİYASI
     </h2>
     <p id="tableSubtitle" class="subtitle text-sm text-gray-500 mt-1">
-        Personel Vardiya Çizelgesi
+        ali, Berkay, Erdi
     </p>
 </div>
 <div class="overflow-x-auto">
     <table class="w-full text-center">
-        <thead id="monthlyThead">
-            <!-- Dinamik Personel Başlıkları -->
-        </thead>
+        <thead id="monthlyThead"></thead>
         <tbody id="tableBody"></tbody>
     </table>
 </div>
@@ -557,9 +550,6 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-/* =========================================================
-   FIREBASE YAPILANDIRMASI
-========================================================= */
 const firebaseConfig = {
     apiKey:"AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
     authDomain:"urunrakip.firebaseapp.com",
@@ -574,17 +564,14 @@ const db = getDatabase(app);
 const YEVMİYE = 1250;
 
 /* =========================================================
-   DİNAMİK PERSONEL YÖNETİMİ
+   DİNAMİK PERSONEL YÖNETİMİ & MÜKERRER KAYIT TEMİZLİĞİ
 ========================================================= */
 const DEFAULT_STAFF = [
-    { id: "azize", name: "Azize" },
-    { id: "erdi", name: "Erdi" },
-    { id: "ali", name: "Ali" }
+    { id: "ali", name: "ali" },
+    { id: "berkay", name: "Berkay" },
+    { id: "erdi", name: "Erdi" }
 ];
 let staffList = [...DEFAULT_STAFF];
-
-// BEKLEYEN DEĞİŞİKLİKLER HAVUZU (KAYDET BUTONUNA BASILANA KADAR BURADA TUTULUR)
-// Anahtar: `${year}_${month}_${dateKey}_${person}` -> Değer: { year, month, dateKey, person, oldShift, newShift }
 let pendingChanges = {};
 
 function getStaffPath(){
@@ -596,11 +583,33 @@ async function loadStaff(){
         const snap = await get(ref(db, getStaffPath()));
         if(snap.exists()){
             const data = snap.val();
+            let parsed = [];
             if(Array.isArray(data)){
-                staffList = data.filter(Boolean);
+                parsed = data.filter(Boolean);
             } else if(typeof data === "object"){
-                staffList = Object.values(data);
+                parsed = Object.values(data);
             }
+
+            // azize'yi berkay'a dönüştür veya mükerrer Berkay'ları teke indir
+            let cleaned = [];
+            let seen = new Set();
+            for(let p of parsed){
+                let normalizedId = (p.id === "azize") ? "berkay" : p.id;
+                let normalizedName = (p.name.toLowerCase() === "azize" || p.name.toLowerCase() === "berkay") ? "Berkay" : p.name;
+                
+                if(!seen.has(normalizedId)){
+                    seen.add(normalizedId);
+                    cleaned.push({ id: normalizedId, name: normalizedName });
+                }
+            }
+
+            // Temel kadro kontrolleri (ali, berkay, erdi mutlaka olmalı)
+            if(!cleaned.some(p => p.id === "ali")) cleaned.unshift({ id: "ali", name: "ali" });
+            if(!cleaned.some(p => p.id === "berkay")) cleaned.splice(1, 0, { id: "berkay", name: "Berkay" });
+            if(!cleaned.some(p => p.id === "erdi")) cleaned.push({ id: "erdi", name: "Erdi" });
+
+            staffList = cleaned;
+            await set(ref(db, getStaffPath()), staffList);
         } else {
             await set(ref(db, getStaffPath()), DEFAULT_STAFF);
             staffList = [...DEFAULT_STAFF];
@@ -646,7 +655,11 @@ window.addNewPerson = async function(){
         alert("Lütfen bir personel adı girin.");
         return;
     }
-    const id = "p_" + Date.now();
+    const id = name.toLowerCase().replace(/[^a-z0-9]/g, "") || ("p_" + Date.now());
+    if(staffList.some(p => p.id === id)){
+        alert("Bu isimde bir personel zaten mevcut.");
+        return;
+    }
     staffList.push({ id, name });
     input.value = "";
     await saveStaffToFirebase();
@@ -700,9 +713,9 @@ window.removePerson = async function(id){
 function getPersonDisplayName(id){
     const found = staffList.find(p => p.id === id);
     if(found) return found.name;
-    if(id === "azize") return "Azize";
+    if(id === "ali") return "ali";
+    if(id === "berkay" || id === "azize") return "Berkay";
     if(id === "erdi") return "Erdi";
-    if(id === "ali") return "Ali";
     return id;
 }
 
@@ -720,11 +733,12 @@ function escapeHtml(text){
 }
 
 /* =========================================================
-   VARDİYA REFERANS VE DÖNGÜ HESAPLARI
+   6 EKİM REFERANSLI KALICI VARDİYA ALGORİTMASI
 ========================================================= */
 function createUTCDate(year, month, day){
     return new Date(Date.UTC(year, month, day));
 }
+
 function dayDifference(date1, date2){
     const msPerDay = 86400000;
     return Math.floor(
@@ -732,6 +746,7 @@ function dayDifference(date1, date2){
          Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) / msPerDay
     );
 }
+
 function getCycleShift(date, anchorDate, cycle){
     let diff = dayDifference(date, anchorDate);
     let index = diff % cycle.length;
@@ -742,29 +757,38 @@ function getCycleShift(date, anchorDate, cycle){
 }
 
 function getOriginalShift(person, date){
-    if(person === "azize"){
-        const azizeAnchor = createUTCDate(2026,8,22);
-        const azizeCycle = ["SABAH","SABAH","GECE","GECE","İZİN","İZİN"];
-        return getCycleShift(date, azizeAnchor, azizeCycle);
+    const p = person.toLowerCase();
+    const oct1 = createUTCDate(2026, 9, 1); // 1 Ekim 2026
+    const diffFromOct1 = dayDifference(date, oct1);
+
+    // ERDİ: 4 SABAH + 2 İZİN döngüsü (1 Ekim 2026 = 1. Sabah)
+    if(p === "erdi"){
+        const erdiCycle = ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN", "İZİN"];
+        return getCycleShift(date, oct1, erdiCycle);
     }
-    if(person === "erdi"){
-        const specialDate = createUTCDate(2026,8,22);
-        const diff = dayDifference(date, specialDate);
-        if(diff === 0) return "GECE";
-        if(diff === 1) return "İZİN";
-        const erdiAnchor = createUTCDate(2026,8,24);
-        const erdiCycle = ["SABAH","SABAH","SABAH","SABAH","İZİN","İZİN"];
-        return getCycleShift(date, erdiAnchor, erdiCycle);
+
+    // BERKAY: 1-5 Ekim arası geçiş, 6 Ekim'den itibaren 2 GECE -> 2 İZİN -> 2 SABAH
+    if(p === "berkay" || p === "azize"){
+        if(diffFromOct1 >= 0 && diffFromOct1 < 5){
+            const earlyOct = ["GECE", "İZİN", "GECE", "İZİN", "SABAH"];
+            return earlyOct[diffFromOct1];
+        }
+        const berkayAnchor = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı
+        const berkayCycle = ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"];
+        return getCycleShift(date, berkayAnchor, berkayCycle);
     }
-    if(person === "ali"){
-        const specialDate = createUTCDate(2026,8,22);
-        const diff = dayDifference(date, specialDate);
-        if(diff === 0 || diff === 1) return "GECE";
-        if(diff === 2 || diff === 3) return "İZİN";
-        const aliAnchor = createUTCDate(2026,8,26);
-        const aliCycle = ["GECE","GECE","GECE","GECE","İZİN","İZİN"];
+
+    // ALİ: 1-5 Ekim arası geçiş, 6 Ekim'den itibaren 2 İZİN -> 4 GECE
+    if(p === "ali"){
+        if(diffFromOct1 >= 0 && diffFromOct1 < 5){
+            const earlyOct = ["İZİN", "GECE", "İZİN", "GECE", "GECE"];
+            return earlyOct[diffFromOct1];
+        }
+        const aliAnchor = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı
+        const aliCycle = ["İZİN", "İZİN", "GECE", "GECE", "GECE", "GECE"];
         return getCycleShift(date, aliAnchor, aliCycle);
     }
+
     return "İZİN";
 }
 
@@ -823,7 +847,7 @@ async function loadMonth(){
         firebaseConnected();
     }
     catch(error){
-        console.error("Firebase vardiya okuma hatası:", error);
+        console.error("Firebase okuma hatası:", error);
         firebaseError();
         currentData = {};
     }
@@ -841,11 +865,15 @@ function getPersonShift(person, date, dateKey, monthDataSource = currentData, ta
     if(monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey][person]){
         return monthDataSource[dateKey][person];
     }
+    // Azize verisi geriye dönük Berkay olarak okunur
+    if(person === "berkay" && monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey]["azize"]){
+        return monthDataSource[dateKey]["azize"];
+    }
     return getOriginalShift(person, date);
 }
 
 /* =========================================================
-   TABLO OLUŞTURMA (AYLIK)
+   TABLO OLUŞTURMA
 ========================================================= */
 function renderTable(){
     document.getElementById("tableTitle").innerText = `${ayIsimleri[currentMonth]} ${currentYear} VARDİYASI`;
@@ -912,7 +940,7 @@ function renderTable(){
 }
 
 /* =========================================================
-   VARDİYA DÖNGÜSÜ VE DÜZENLEME (HAFIZADA BEKLETME)
+   VARDİYA DÖNGÜSÜ & DEĞİŞTİRME
 ========================================================= */
 function getNextShift(currentShift){
     switch(currentShift){
@@ -933,8 +961,6 @@ window.toggleShift = function(element){
     const newShift = getNextShift(oldShift);
 
     const changeKey = `${year}_${month}_${dateKey}_${person}`;
-    
-    // Eğer daha önce bekleyen bir değişiklik varsa orijinal eski halini koru
     const originalOldShift = pendingChanges[changeKey] ? pendingChanges[changeKey].oldShift : oldShift;
 
     pendingChanges[changeKey] = {
@@ -946,7 +972,6 @@ window.toggleShift = function(element){
         newShift
     };
 
-    // Eğer kullanıcı döngüde dönüp tekrar orijinal eski vardiyaya gelirse listeden çıkar
     if(originalOldShift === newShift){
         delete pendingChanges[changeKey];
     }
@@ -955,10 +980,8 @@ window.toggleShift = function(element){
     element.className = `shift-pill ${newShift} ${pendingChanges[changeKey] ? 'shift-pending' : ''}`;
     element.innerText = newShift;
 
-    // Aynı hücre hem ana tabloda hem kısa planda varsa senkronize et
     syncCellAcrossTables(person, year, month, dateKey, newShift, !!pendingChanges[changeKey]);
 
-    // İstatistik ve rozeti güncelle
     updatePendingBadge();
     if(year === currentYear && month === currentMonth){
         updateStats();
@@ -991,7 +1014,7 @@ function updatePendingBadge(){
 }
 
 /* =========================================================
-   KAYDET BUTONU: TÜM DÜZENLEMELERİ FİREBASE'E KAYDET
+   KAYDETME
 ========================================================= */
 window.saveAllPendingShifts = async function(){
     const keys = Object.keys(pendingChanges);
@@ -1008,12 +1031,10 @@ window.saveAllPendingShifts = async function(){
     try{
         for(const k of keys){
             const item = pendingChanges[k];
-            // 1. Firebase vardiya yoluna yaz
             await set(
                 ref(db, `${getMonthPath(item.year, item.month)}/${item.dateKey}/${item.person}`),
                 item.newShift
             );
-            // 2. Geçmişe kaydet
             await push(ref(db, getHistoryPath()), {
                 person: item.person,
                 tarih: `${item.year}-${String(item.month + 1).padStart(2,"0")}-${item.dateKey}`,
@@ -1022,7 +1043,6 @@ window.saveAllPendingShifts = async function(){
                 zaman: serverTimestamp()
             });
 
-            // Aktif ayın hafızasını senkron tut
             if(item.year === currentYear && item.month === currentMonth){
                 if(!currentData[item.dateKey]) currentData[item.dateKey] = {};
                 currentData[item.dateKey][item.person] = item.newShift;
@@ -1032,7 +1052,6 @@ window.saveAllPendingShifts = async function(){
         pendingChanges = {};
         updatePendingBadge();
 
-        // Kesik çizgili (pending) stilleri temizle
         document.querySelectorAll(".shift-pending").forEach(el => {
             el.classList.remove("shift-pending");
         });
@@ -1045,9 +1064,9 @@ window.saveAllPendingShifts = async function(){
         alert("Tüm vardiya değişiklikleri başarıyla kaydedildi!");
     }
     catch(error){
-        console.error("Vardiyaları toplu kaydetme hatası:", error);
+        console.error("Vardiyaları kaydetme hatası:", error);
         firebaseError();
-        alert("Kayıt sırasında bir hata oluştu. Lütfen bağlantınızı kontrol edin.");
+        alert("Kayıt sırasında bir hata oluştu. Bağlantınızı kontrol edin.");
     }
     finally{
         saveBtn.disabled = false;
@@ -1057,7 +1076,7 @@ window.saveAllPendingShifts = async function(){
 };
 
 /* =========================================================
-   İSTATİSTİK VE YEVMİYE HESAPLAMA
+   İSTATİSTİK & YEVMİYE
 ========================================================= */
 function calculateStats(personId){
     const stats = { izin: 0, sabah: 0, gece: 0, extra: 0 };
@@ -1201,7 +1220,7 @@ function updateToday(){
 }
 
 /* =========================================================
-   KISA VARDİYA PLANI
+   KISA PLAN İŞLEMLERİ
 ========================================================= */
 async function fetchMonthDataIfNeeded(year, month){
     try{
@@ -1324,7 +1343,7 @@ window.loadShortPlan = async function(){
 };
 
 /* =========================================================
-   YAZDIRMA YÖNETİMİ
+   YAZDIRMA
 ========================================================= */
 window.printMonthlyPlan = function(){
     document.body.classList.remove("print-short-active");
@@ -1418,7 +1437,7 @@ window.printShortPlan = async function(){
 };
 
 /* =========================================================
-   AYI ORİJİNALE DÖNDÜR
+   AYI SIFIRLA
 ========================================================= */
 window.resetMonth = async function(){
     if(!confirm(`${ayIsimleri[currentMonth]} ${currentYear} ayındaki değiştirilmiş vardiyalar orijinal düzene döndürülecek. Emin misin?`)){
@@ -1453,7 +1472,7 @@ window.resetMonth = async function(){
 };
 
 /* =========================================================
-   DEĞİŞİKLİK GEÇMİŞİ
+   GEÇMİŞ
 ========================================================= */
 function loadHistory(){
     const list = document.getElementById("historyList");
@@ -1518,7 +1537,7 @@ window.generateTable = function(){
 };
 
 /* =========================================================
-   SAYFA AÇILIŞI VE BAŞLANGIÇ AYARLARI
+   BAŞLANGIÇ
 ========================================================= */
 window.onload = async function(){
     const now = new Date();
@@ -1527,21 +1546,17 @@ window.onload = async function(){
         const o = document.createElement("option");
         o.value = year;
         o.innerText = year;
-        if(year === now.getFullYear()){
+        if(year === 2026){
             o.selected = true;
         }
         ys.appendChild(o);
     }
-    document.getElementById("monthSelect").value = now.getMonth();
+    document.getElementById("monthSelect").value = 9;
 
     const startDateInput = document.getElementById("shortStartDate");
     const endDateInput = document.getElementById("shortEndDate");
-    
-    const startDefault = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endDefault = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5);
-    
-    startDateInput.value = startDefault.toISOString().split("T")[0];
-    endDateInput.value = endDefault.toISOString().split("T")[0];
+    startDateInput.value = "2026-10-01";
+    endDateInput.value = "2026-10-06";
 
     await loadStaff();
     await loadMonth();

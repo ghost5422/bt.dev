@@ -13,74 +13,95 @@
 }
 body{
     font-family:Inter,sans-serif;
-    background:#f6f8fb;
-    color:#111827;
+    background:#f8fafc;
+    color:#0f172a;
+}
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
 }
 .shift-pill{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    gap:6px;
+    gap:5px;
     width:100%;
     max-width:96px;
-    padding:8px 6px;
-    border-radius:9px;
+    padding:7px 5px;
+    border-radius:8px;
     font-weight:700;
-    color:#111827;
     text-align:center;
     cursor:pointer;
     user-select:none;
-    transition:.12s;
-    font-size:12px;
+    transition:all .15s ease-in-out;
+    font-size:11.5px;
+    letter-spacing:0.3px;
+    border:1px solid transparent;
 }
 .shift-pill:active{
     transform:scale(.95);
 }
 .shift-pending{
     outline: 2px dashed #2563eb;
-    outline-offset: 1px;
+    outline-offset: 2px;
     position: relative;
 }
+
+/* YÜKSEK KONTRASTLI OKUNAKLI VARDİYA RENKLERİ */
 .GECE{
-    background:#fecaca;
+    background:#fee2e2;
     color:#991b1b;
+    border-color:#fecaca;
 }
 .SABAH{
-    background:#bfdbfe;
+    background:#dbeafe;
     color:#1e40af;
+    border-color:#bfdbfe;
 }
 .İZİN{
-    background:#bbf7d0;
+    background:#dcfce7;
     color:#166534;
+    border-color:#bbf7d0;
 }
 .EXTRA{
-    background:#991b1b;
-    color:#000000;
+    background:#881337;
+    color:#ffffff;
+    border-color:#701a35;
+    box-shadow: 0 1px 2px rgba(136, 19, 55, 0.2);
 }
+
 .today-row{
-    background:#eff6ff!important;
+    background:#f1f5f9!important;
     box-shadow:inset 4px 0 #2563eb;
 }
 .today-badge{
-    display:inline-block;
-    margin-left:5px;
+    display:inline-flex;
+    align-items:center;
+    gap:2px;
+    margin-left:4px;
     padding:2px 5px;
-    border-radius:5px;
+    border-radius:4px;
     background:#2563eb;
     color:#fff;
-    font-size:8px;
+    font-size:9px;
     font-weight:800;
+    letter-spacing:0.3px;
 }
 .stat-card{
     background:#fff;
-    border:1px solid #e5e7eb;
+    border:1px solid #e2e8f0;
     border-radius:14px;
     padding:16px;
+    transition: all 0.2s ease;
+}
+.clickable-card:hover{
+    border-color:#93c5fd;
+    box-shadow:0 4px 14px rgba(37, 99, 235, 0.08);
 }
 .icon-box{
-    width:34px;
-    height:34px;
-    border-radius:9px;
+    width:36px;
+    height:36px;
+    border-radius:10px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -88,7 +109,7 @@ body{
 }
 .history-item{
     border-bottom:1px solid #f1f5f9;
-    padding:11px 0;
+    padding:10px 0;
 }
 .history-item:last-child{
     border-bottom:none;
@@ -120,20 +141,20 @@ body{
     .header-area{
         padding-bottom:6px!important;
         margin-bottom:8px!important;
-        border-bottom:2px solid #111827!important;
+        border-bottom:2px solid #0f172a!important;
         text-align:center!important;
     }
     .header-area h1, .header-area h2{
         font-size:16pt!important;
         font-weight:800!important;
         margin:0!important;
-        color:#111827!important;
+        color:#0f172a!important;
         letter-spacing:0.5px;
     }
     .subtitle{
         font-size:9.5pt!important;
         font-weight:600!important;
-        color:#374151!important;
+        color:#334155!important;
         margin-top:2px!important;
     }
     table{
@@ -142,15 +163,15 @@ body{
     }
     th{
         font-size:9pt!important;
-        padding:4px 3px!important;
+        padding:5px 3px!important;
         border-bottom:2px solid #000!important;
         color:#000!important;
-        background:#f9fafb!important;
+        background:#f8fafc!important;
     }
     td{
         padding:3px 2px!important;
         height:24px!important;
-        border-bottom:1px solid #e5e7eb!important;
+        border-bottom:1px solid #e2e8f0!important;
     }
     .date-col{
         font-size:8.5pt!important;
@@ -158,7 +179,7 @@ body{
     }
     .day-name{
         font-size:7.5pt!important;
-        color:#4b5563!important;
+        color:#475569!important;
     }
     .shift-pill{
         padding:3px 0!important;
@@ -171,23 +192,27 @@ body{
         outline:none!important;
     }
     .GECE{
-        background:#fecaca!important;
-        color:#000000!important;
+        background:#fee2e2!important;
+        color:#991b1b!important;
+        border:1px solid #fca5a5!important;
     }
     .SABAH{
-        background:#bfdbfe!important;
-        color:#000000!important;
+        background:#dbeafe!important;
+        color:#1e40af!important;
+        border:1px solid #93c5fd!important;
     }
     .İZİN{
-        background:#bbf7d0!important;
-        color:#000000!important;
+        background:#dcfce7!important;
+        color:#166534!important;
+        border:1px solid #86efac!important;
     }
     .EXTRA{
-        background:#991b1b!important;
-        color:#000000!important;
+        background:#881337!important;
+        color:#ffffff!important;
+        border:1px solid #4c0519!important;
     }
-    .shift-pill svg{
-        display:none;
+    .material-symbols-outlined{
+        display:none!important;
     }
     .today-row{
         background:transparent!important;
@@ -212,44 +237,40 @@ body{
 </style>
 </head>
 <body class="p-3 md:p-6">
-<div class="max-w-5xl mx-auto">
+<div class="max-w-5xl mx-auto space-y-5">
 
-<!-- ÜST PANEL -->
-<section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
+<!-- 1. ÜST PANEL -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
     <div>
         <div class="flex items-center gap-3">
             <div class="icon-box bg-blue-50 text-blue-600">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2"/>
-                    <path d="M16 2v4M8 2v4M3 10h18"/>
-                </svg>
+                <span class="material-symbols-outlined text-xl">calendar_month</span>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-gray-900">
+                <h1 class="text-xl font-bold text-slate-900">
                     Vardiya Yönetimi
                 </h1>
-                <p class="text-xs text-gray-500 mt-1">
-                    Aylık ve kısa vardiya planlarını dinamik olarak yönet
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Aylık ve dinamik vardiya planlama sistemi
                 </p>
             </div>
         </div>
     </div>
     <div id="firebaseStatus"
-         class="text-xs font-bold px-3 py-2 rounded-full bg-yellow-100 text-yellow-700 inline-flex items-center gap-2 self-start md:self-auto">
-        <span class="w-2 h-2 rounded-full bg-current"></span>
-        Bağlanıyor...
+         class="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-100 text-amber-800 inline-flex items-center gap-1.5 self-start md:self-auto">
+        <span class="material-symbols-outlined text-sm">cloud_sync</span>
+        <span>Bağlanıyor...</span>
     </div>
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
     <div>
-        <label class="block text-xs font-semibold text-gray-500 mb-1.5">
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">
             Ay
         </label>
         <select id="monthSelect"
-                class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 outline-none font-semibold">
+                class="w-full border border-slate-200 rounded-xl p-3 bg-slate-50 outline-none font-semibold text-sm focus:bg-white focus:border-blue-500 transition">
             <option value="0">Ocak</option>
             <option value="1">Şubat</option>
             <option value="2">Mart</option>
@@ -265,27 +286,23 @@ body{
         </select>
     </div>
     <div>
-        <label class="block text-xs font-semibold text-gray-500 mb-1.5">
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">
             Yıl
         </label>
         <select id="yearSelect"
-                class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 outline-none font-semibold">
+                class="w-full border border-slate-200 rounded-xl p-3 bg-slate-50 outline-none font-semibold text-sm focus:bg-white focus:border-blue-500 transition">
         </select>
     </div>
     <div class="flex items-end">
         <button onclick="generateTable()"
-                class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-5 rounded-xl flex items-center justify-center gap-2 transition">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2">
-                <path d="M21 12a9 9 0 1 1-3-6.7"/>
-                <path d="M21 3v6h-6"/>
-            </svg>
+                class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3 px-5 rounded-xl flex items-center justify-center gap-2 transition text-sm shadow-sm">
+            <span class="material-symbols-outlined text-base">sync</span>
             Planı Yükle
         </button>
     </div>
 </div>
 
-<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100 items-center">
+<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-100 items-center">
     <button id="saveShiftsBtn" onclick="saveAllPendingShifts()"
             class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-sm transition">
         <span class="material-symbols-outlined text-base">save</span>
@@ -294,60 +311,224 @@ body{
     </button>
 
     <button onclick="resetMonth()"
-            class="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2">
-            <path d="M3 12a9 9 0 1 0 3-6.7"/>
-            <path d="M3 4v6h6"/>
-        </svg>
+            class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition">
+        <span class="material-symbols-outlined text-base">restore</span>
         Orijinale Döndür
     </button>
     <button onclick="clearSystemHistory()"
-            class="bg-gray-700 hover:bg-gray-800 text-white font-semibold px-4 py-2 rounded-xl text-sm inline-flex items-center justify-center gap-1.5 transition">
-        <span class="material-symbols-outlined text-base">
-            delete_sweep
-        </span>
+            class="bg-slate-700 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-xl text-sm inline-flex items-center justify-center gap-1.5 transition">
+        <span class="material-symbols-outlined text-base">delete_sweep</span>
         Değişiklik Geçmişini Temizle
     </button>
     <button onclick="printMonthlyPlan()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2">
-            <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-            <path d="M6 14h12v8H6z"/>
-        </svg>
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition shadow-sm">
+        <span class="material-symbols-outlined text-base">print</span>
         Tüm Ayı Yazdır (PDF)
     </button>
 </div>
-<p class="text-xs text-gray-400 mt-3 flex items-center gap-1.5">
-    <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
+<p class="text-xs text-slate-500 mt-3 flex items-center gap-1.5">
+    <span class="material-symbols-outlined text-blue-500 text-base">touch_app</span>
     Hücrelere dokunarak vardiyayı değiştirebilirsiniz. Değişikliklerin Firebase'e aktarılması için <strong>"Vardiyaları Kaydet"</strong> butonuna basın.
 </p>
 </section>
 
-<!-- PERSONEL YÖNETİMİ PANELİ -->
-<section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
+<!-- 2. BUGÜNÜN & YARININ VARDİYASI ANA KARTI -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+    <div class="flex items-center gap-3">
+        <div class="icon-box bg-blue-50 text-blue-600">
+            <span class="material-symbols-outlined text-xl">today</span>
+        </div>
+        <div>
+            <h2 class="font-bold text-slate-900 text-base" id="todayHeaderTitle">Bugünün Vardiyası</h2>
+            <p class="text-xs text-slate-500" id="todayHeaderDate">Yükleniyor...</p>
+        </div>
+    </div>
+    <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 tracking-wide inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">radio_button_checked</span>
+        CANLI DURUM
+    </span>
+</div>
+
+<div id="todayCardBody" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <!-- JS ile doldurulur -->
+</div>
+
+<div class="mt-4 pt-3.5 border-t border-slate-100">
+    <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+            <span class="material-symbols-outlined text-base text-slate-400">fast_forward</span>
+            <span>Yarın:</span>
+            <span id="tomorrowHeaderDate" class="text-slate-500 font-normal">Yükleniyor...</span>
+        </div>
+    </div>
+    <div id="tomorrowCardBody" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <!-- JS ile doldurulur -->
+    </div>
+</div>
+</section>
+
+<!-- 3. PERSONEL KARTLARI -->
+<section class="no-print">
+<div class="flex items-center justify-between mb-3 px-1">
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-purple-600 text-xl">group</span>
+        <h2 class="font-bold text-slate-900 text-sm md:text-base">Personel Vardiya Kartları</h2>
+    </div>
+    <span class="text-xs text-slate-400 font-medium inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-sm">info</span>
+        Detay için karta tıklayın
+    </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="statsGrid">
+    <!-- JS ile doldurulur -->
+</div>
+</section>
+
+<!-- 4. AYLIK VARDİYA ÖZETİ (GENEL DAĞILIM) -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
+<div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+    <div class="flex items-center gap-3">
+        <div class="icon-box bg-indigo-50 text-indigo-600">
+            <span class="material-symbols-outlined text-xl">leaderboard</span>
+        </div>
+        <div>
+            <h2 class="font-bold text-slate-900" id="summarySectionTitle">Aylık Vardiya Özeti</h2>
+            <p class="text-xs text-slate-500">Seçili ayın toplam vardiya ve nöbet dağılımları</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" id="monthlyTotalShiftsBox">
+    <!-- JS ile Gece, Sabah, İzin, Extra toplamları doldurulur -->
+</div>
+
+<div class="overflow-x-auto border border-slate-200 rounded-xl">
+    <table class="w-full text-center text-xs">
+        <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
+            <tr>
+                <th class="py-2.5 px-3 text-left">Personel</th>
+                <th class="py-2.5 px-2">
+                    <span class="inline-flex items-center gap-1 text-red-800">
+                        <span class="material-symbols-outlined text-sm">dark_mode</span>
+                        GECE
+                    </span>
+                </th>
+                <th class="py-2.5 px-2">
+                    <span class="inline-flex items-center gap-1 text-blue-800">
+                        <span class="material-symbols-outlined text-sm">wb_sunny</span>
+                        SABAH
+                    </span>
+                </th>
+                <th class="py-2.5 px-2">
+                    <span class="inline-flex items-center gap-1 text-emerald-800">
+                        <span class="material-symbols-outlined text-sm">beach_access</span>
+                        İZİN
+                    </span>
+                </th>
+                <th class="py-2.5 px-2">
+                    <span class="inline-flex items-center gap-1 text-[#881337]">
+                        <span class="material-symbols-outlined text-sm">bolt</span>
+                        EXTRA
+                    </span>
+                </th>
+                <th class="py-2.5 px-3 font-extrabold text-slate-900">Toplam Gün</th>
+            </tr>
+        </thead>
+        <tbody id="monthlyStaffSummaryTbody" class="divide-y divide-slate-100 font-semibold text-slate-700">
+            <!-- JS ile doldurulur -->
+        </tbody>
+    </table>
+</div>
+</section>
+
+<!-- 5. VARDİYA KONTROLÜ (1 SABAH + 1 GECE + 1 İZİN) -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
+<div class="flex items-center justify-between mb-3">
+    <div class="flex items-center gap-3">
+        <div class="icon-box bg-amber-50 text-amber-600">
+            <span class="material-symbols-outlined text-xl">fact_check</span>
+        </div>
+        <div>
+            <h2 class="font-bold text-slate-900">Vardiya Kuralı Kontrolü</h2>
+            <p class="text-xs text-slate-500">Her gün 1 Sabah, 1 Gece, 1 İzin kuralı doğrulaması</p>
+        </div>
+    </div>
+    <div id="ruleStatusBadge" class="text-xs font-bold px-3 py-1.5 rounded-full bg-slate-100 text-slate-700">
+        Kontrol Ediliyor...
+    </div>
+</div>
+
+<div id="ruleValidationContainer" class="mt-3 text-xs">
+    <!-- JS ile kontrol listesi / durum kartı -->
+</div>
+</section>
+
+<!-- 6. VARDİYA DEĞİŞTİR / TAKAS ET PANELİ -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
+<div class="flex items-center gap-3 mb-4">
+    <div class="icon-box bg-rose-50 text-rose-600">
+        <span class="material-symbols-outlined text-xl">swap_horiz</span>
+    </div>
+    <div>
+        <h2 class="font-bold text-slate-900">Vardiya Değiştir (Hızlı Takas)</h2>
+        <p class="text-xs text-slate-500">Seçilen bir tarihteki iki personelin vardiyasını anında takas edin</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end">
+    <div>
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Tarih</label>
+        <input type="date" id="swapDate" onchange="window.updateSwapShiftsPreview()"
+               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition" />
+    </div>
+    <div>
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Personel 1</label>
+        <select id="swapPerson1" onchange="window.updateSwapShiftsPreview()"
+                class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition"></select>
+        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex items-center justify-between">
+            <span>Mevcut:</span>
+            <span id="swapP1ShiftBadge" class="font-bold text-slate-800">-</span>
+        </div>
+    </div>
+    <div>
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Personel 2</label>
+        <select id="swapPerson2" onchange="window.updateSwapShiftsPreview()"
+                class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition"></select>
+        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex items-center justify-between">
+            <span>Mevcut:</span>
+            <span id="swapP2ShiftBadge" class="font-bold text-slate-800">-</span>
+        </div>
+    </div>
+    <div>
+        <button onclick="window.confirmAndSwapShifts()"
+                class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-sm">
+            <span class="material-symbols-outlined text-base">swap_horiz</span>
+            Vardiyaları Değiştir
+        </button>
+    </div>
+</div>
+</section>
+
+<!-- 7. PERSONEL YÖNETİMİ PANELİ -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
 <div class="flex items-center justify-between mb-4">
     <div class="flex items-center gap-3">
         <div class="icon-box bg-purple-50 text-purple-600">
-            <span class="material-symbols-outlined">group</span>
+            <span class="material-symbols-outlined text-xl">manage_accounts</span>
         </div>
         <div>
-            <h2 class="font-bold text-gray-900">
-                Personel Yönetimi
-            </h2>
-            <p class="text-xs text-gray-500">
-                Personel ekle, sil veya isimlerini düzenle
-            </p>
+            <h2 class="font-bold text-slate-900">Personel Yönetimi</h2>
+            <p class="text-xs text-slate-500">Personel ekle, sil veya isimlerini düzenle</p>
         </div>
     </div>
 </div>
 
 <div class="flex flex-col sm:flex-row gap-2 mb-4">
     <input type="text" id="newPersonName" placeholder="Yeni Personel Adı..."
-           class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-gray-50 outline-none focus:border-purple-500 focus:bg-white transition" />
+           class="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm bg-slate-50 outline-none focus:border-purple-500 focus:bg-white transition" />
     <button onclick="addNewPerson()"
-            class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center gap-1.5 transition">
+            class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
         <span class="material-symbols-outlined text-base">person_add</span>
         Personel Ekle
     </button>
@@ -356,130 +537,70 @@ body{
 <div id="staffList" class="flex flex-wrap gap-2 pt-2"></div>
 </section>
 
-<!-- KISA VARDİYA PLANI PANELİ -->
-<section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
+<!-- 8. KISA VARDİYA PLANI PANELİ -->
+<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
 <div class="flex items-center gap-3 mb-4">
     <div class="icon-box bg-emerald-50 text-emerald-600">
-        <span class="material-symbols-outlined">date_range</span>
+        <span class="material-symbols-outlined text-xl">date_range</span>
     </div>
     <div>
-        <h2 class="font-bold text-gray-900">
-            Kısa Vardiya Planı (5-6 Günlük)
-        </h2>
-        <p class="text-xs text-gray-500">
-            İstediğin tarih aralığını belirle, sadece o günleri düzenle ve yazdır
-        </p>
+        <h2 class="font-bold text-slate-900">Kısa Vardiya Planı (5-6 Günlük)</h2>
+        <p class="text-xs text-slate-500">İstediğin tarih aralığını belirle, sadece o günleri düzenle ve yazdır</p>
     </div>
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 items-end">
     <div>
-        <label class="block text-xs font-semibold text-gray-500 mb-1.5">
-            Başlangıç Tarihi
-        </label>
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Başlangıç Tarihi</label>
         <input type="date" id="shortStartDate"
-               class="w-full border border-gray-200 rounded-xl p-2.5 bg-gray-50 font-semibold text-sm outline-none focus:bg-white" />
+               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-sm outline-none focus:bg-white focus:border-emerald-500 transition" />
     </div>
     <div>
-        <label class="block text-xs font-semibold text-gray-500 mb-1.5">
-            Bitiş Tarihi
-        </label>
+        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Bitiş Tarihi</label>
         <input type="date" id="shortEndDate"
-               class="w-full border border-gray-200 rounded-xl p-2.5 bg-gray-50 font-semibold text-sm outline-none focus:bg-white" />
+               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-sm outline-none focus:bg-white focus:border-emerald-500 transition" />
     </div>
     <div class="flex gap-2">
         <button onclick="loadShortPlan()"
-                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition">
+                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
             <span class="material-symbols-outlined text-base">visibility</span>
             Planı Gör
         </button>
         <button onclick="printShortPlan()"
-                class="flex-1 bg-gray-900 hover:bg-black text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition">
+                class="flex-1 bg-slate-900 hover:bg-black text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
             <span class="material-symbols-outlined text-base">print</span>
             Seçili Günleri Yazdır
         </button>
     </div>
 </div>
 
-<div id="shortPlanContainer" class="mt-4 pt-4 border-t border-gray-100 hidden">
+<div id="shortPlanContainer" class="mt-4 pt-4 border-t border-slate-100 hidden">
     <div class="flex items-center justify-between mb-2">
-        <span id="shortPlanInfoBadge" class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg"></span>
+        <span id="shortPlanInfoBadge" class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">event</span>
+            <span id="shortPlanInfoBadgeText"></span>
+        </span>
         <button onclick="saveAllPendingShifts()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
             <span class="material-symbols-outlined text-sm">save</span>
             Düzenlemeleri Kaydet
         </button>
     </div>
-    <div class="overflow-x-auto border border-gray-200 rounded-xl">
+    <div class="overflow-x-auto border border-slate-200 rounded-xl">
         <table class="w-full text-center">
-            <thead id="shortPlanThead" class="bg-gray-50"></thead>
+            <thead id="shortPlanThead" class="bg-slate-50"></thead>
             <tbody id="shortPlanTbody"></tbody>
         </table>
     </div>
 </div>
 </section>
 
-<!-- BUGÜN -->
-<section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-5 no-print">
-<div class="flex items-center gap-3 mb-3">
-    <div class="icon-box bg-blue-50 text-blue-600">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-        </svg>
-    </div>
-    <div>
-        <h2 class="font-bold text-gray-900">
-            Bugünün Vardiyası
-        </h2>
-        <p class="text-xs text-gray-500">
-            Bugünkü güncel durum
-        </p>
-    </div>
-</div>
-<div id="todayInfo"
-     class="text-sm font-semibold text-gray-700 bg-gray-50 rounded-xl p-4">
-    Hesaplanıyor...
-</div>
-</section>
-
-<!-- İSTATİSTİKLER -->
-<section class="mb-5 no-print">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3"
-     id="statsGrid">
-</div>
-<div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-xs text-gray-500 font-semibold">
-    <span class="flex items-center gap-1.5">
-        <span class="w-3.5 h-3.5 rounded bg-blue-200"></span>
-        Sabah
-    </span>
-    <span class="flex items-center gap-1.5">
-        <span class="w-3.5 h-3.5 rounded bg-red-200"></span>
-        Gece
-    </span>
-    <span class="flex items-center gap-1.5">
-        <span class="w-3.5 h-3.5 rounded bg-green-200"></span>
-        İzin
-    </span>
-    <span class="flex items-center gap-1.5">
-        <span class="w-3.5 h-3.5 rounded bg-[#991b1b]"></span>
-        Extra
-    </span>
-</div>
-<div class="text-center text-[11px] text-gray-400 mt-2">
-    Orijinal vardiyaya göre değişen çalışma günleri yevmiyeye otomatik olarak +1 / -1 yansır.
-    Yevmiye: ₺1.250
-</div>
-</section>
-
-<!-- TÜM AY TABLOSU -->
-<section id="monthlySection" class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 md:p-8 print-container">
-<div class="text-center header-area pb-4 mb-5 border-b border-gray-200">
-    <h2 id="tableTitle"
-        class="text-2xl font-bold text-gray-900 uppercase">
+<!-- 9. TÜM AY TABLOSU -->
+<section id="monthlySection" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-8 print-container">
+<div class="text-center header-area pb-4 mb-5 border-b border-slate-200">
+    <h2 id="tableTitle" class="text-2xl font-bold text-slate-900 uppercase">
         EKİM 2026 VARDİYASI
     </h2>
-    <p id="tableSubtitle" class="subtitle text-sm text-gray-500 mt-1">
+    <p id="tableSubtitle" class="subtitle text-sm text-slate-500 mt-1">
         ali, Berkay, Erdi
     </p>
 </div>
@@ -491,7 +612,7 @@ body{
 </div>
 </section>
 
-<!-- SEÇİLİ GÜNLER YAZDIRMA ÇIKTI BÖLÜMÜ -->
+<!-- 10. SEÇİLİ GÜNLER YAZDIRMA ÇIKTI BÖLÜMÜ -->
 <section id="shortPlanPrintSection" class="print-container">
     <div class="header-area">
         <h1>VARDİYA PLANI</h1>
@@ -505,32 +626,50 @@ body{
     </div>
 </section>
 
-<!-- DEĞİŞİKLİK GEÇMİŞİ -->
-<section class="max-w-5xl mx-auto mt-5 bg-white rounded-2xl shadow-sm border border-gray-200 p-5 no-print">
+<!-- 11. DEĞİŞİKLİK GEÇMİŞİ -->
+<section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 no-print">
 <div class="flex items-center gap-3 mb-3">
-    <div class="icon-box bg-gray-100 text-gray-700">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2">
-            <path d="M3 12a9 9 0 1 0 3-6.7"/>
-            <path d="M3 4v6h6"/>
-            <path d="M12 7v5l3 2"/>
-        </svg>
+    <div class="icon-box bg-slate-100 text-slate-700">
+        <span class="material-symbols-outlined text-xl">history</span>
     </div>
     <div>
-        <h3 class="font-bold text-gray-900">
-            Değişiklik Geçmişi
-        </h3>
-        <p class="text-xs text-gray-400">
-            Son yapılan vardiya değişiklikleri
-        </p>
+        <h3 class="font-bold text-slate-900">Değişiklik Geçmişi</h3>
+        <p class="text-xs text-slate-400">Son yapılan vardiya değişiklikleri ve takaslar</p>
     </div>
 </div>
-<div id="historyList"
-     class="text-sm text-gray-600">
+<div id="historyList" class="text-sm text-slate-600">
     Henüz değişiklik yok.
 </div>
 </section>
 
+</div>
+
+<!-- PERSONEL AY DETAY MODAL -->
+<div id="personDetailModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden no-print">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] border border-slate-200">
+        <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-blue-400">person</span>
+                <div>
+                    <h3 class="font-bold text-base leading-tight" id="modalPersonTitle">Personel Vardiya Detayı</h3>
+                    <p class="text-xs text-slate-400" id="modalPersonSubtitle"></p>
+                </div>
+            </div>
+            <button onclick="window.closePersonModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+        </div>
+        <div class="p-3 bg-slate-50 border-b border-slate-100 grid grid-cols-4 gap-1.5 text-center text-xs" id="modalStatsGrid">
+        </div>
+        <div class="p-4 overflow-y-auto space-y-1.5" id="modalDaysList">
+        </div>
+        <div class="p-3 bg-slate-50 border-t border-slate-200 text-right">
+            <button onclick="window.closePersonModal()" class="px-4 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl transition inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">check</span>
+                Kapat
+            </button>
+        </div>
+    </div>
 </div>
 
 <script type="module">
@@ -561,7 +700,6 @@ const firebaseConfig = {
 };
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const YEVMİYE = 1250;
 
 /* =========================================================
    DİNAMİK PERSONEL YÖNETİMİ & MÜKERRER KAYIT TEMİZLİĞİ
@@ -590,7 +728,6 @@ async function loadStaff(){
                 parsed = Object.values(data);
             }
 
-            // azize'yi berkay'a dönüştür veya mükerrer Berkay'ları teke indir
             let cleaned = [];
             let seen = new Set();
             for(let p of parsed){
@@ -603,7 +740,6 @@ async function loadStaff(){
                 }
             }
 
-            // Temel kadro kontrolleri (ali, berkay, erdi mutlaka olmalı)
             if(!cleaned.some(p => p.id === "ali")) cleaned.unshift({ id: "ali", name: "ali" });
             if(!cleaned.some(p => p.id === "berkay")) cleaned.splice(1, 0, { id: "berkay", name: "Berkay" });
             if(!cleaned.some(p => p.id === "erdi")) cleaned.push({ id: "erdi", name: "Erdi" });
@@ -619,6 +755,7 @@ async function loadStaff(){
         staffList = [...DEFAULT_STAFF];
     }
     renderStaffManager();
+    populateSwapSelectors();
 }
 
 async function saveStaffToFirebase(){
@@ -636,8 +773,8 @@ function renderStaffManager(){
     const container = document.getElementById("staffList");
     if(!container) return;
     container.innerHTML = staffList.map(person => `
-        <div class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-1.5">
-            <span class="font-bold text-xs text-gray-800">${escapeHtml(person.name)}</span>
+        <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5">
+            <span class="font-bold text-xs text-slate-800">${escapeHtml(person.name)}</span>
             <button onclick="window.editPersonName('${person.id}')" title="İsim Değiştir" class="text-blue-600 hover:text-blue-800 p-0.5">
                 <span class="material-symbols-outlined text-sm">edit</span>
             </button>
@@ -664,9 +801,8 @@ window.addNewPerson = async function(){
     input.value = "";
     await saveStaffToFirebase();
     renderStaffManager();
-    renderTable();
-    updateStats();
-    updateToday();
+    populateSwapSelectors();
+    refreshAllViews();
     if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
         loadShortPlan();
     }
@@ -685,9 +821,8 @@ window.editPersonName = async function(id){
     person.name = trimmed;
     await saveStaffToFirebase();
     renderStaffManager();
-    renderTable();
-    updateStats();
-    updateToday();
+    populateSwapSelectors();
+    refreshAllViews();
     if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
         loadShortPlan();
     }
@@ -702,9 +837,8 @@ window.removePerson = async function(id){
     staffList = staffList.filter(p => p.id !== id);
     await saveStaffToFirebase();
     renderStaffManager();
-    renderTable();
-    updateStats();
-    updateToday();
+    populateSwapSelectors();
+    refreshAllViews();
     if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
         loadShortPlan();
     }
@@ -733,7 +867,7 @@ function escapeHtml(text){
 }
 
 /* =========================================================
-   6 EKİM REFERANSLI KALICI VARDİYA ALGORİTMASI
+   6 EKİM 2026 REFERANSLI MERKEZİ VARDİYA ALGORİTMASI
 ========================================================= */
 function createUTCDate(year, month, day){
     return new Date(Date.UTC(year, month, day));
@@ -761,32 +895,38 @@ function getOriginalShift(person, date){
     const oct1 = createUTCDate(2026, 9, 1); // 1 Ekim 2026
     const diffFromOct1 = dayDifference(date, oct1);
 
-    // ERDİ: 4 SABAH + 2 İZİN döngüsü (1 Ekim 2026 = 1. Sabah)
+    // 1–5 Ekim 2026 Özel Başlangıç Düzeni
+    if(diffFromOct1 >= 0 && diffFromOct1 < 5){
+        if(p === "ali"){
+            const earlyAli = ["İZİN", "GECE", "İZİN", "GECE", "GECE"];
+            return earlyAli[diffFromOct1];
+        }
+        if(p === "berkay" || p === "azize"){
+            const earlyBerkay = ["GECE", "İZİN", "GECE", "İZİN", "SABAH"];
+            return earlyBerkay[diffFromOct1];
+        }
+        if(p === "erdi"){
+            const earlyErdi = ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN"];
+            return earlyErdi[diffFromOct1];
+        }
+    }
+
+    // 6 Ekim 2026 ve Sonrası Kesintisiz 6 Günlük Döngü
+    const anchorDate = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı = 1. gün (index 0)
+
+    if(p === "ali"){
+        const aliCycle = ["İZİN", "İZİN", "GECE", "GECE", "GECE", "GECE"];
+        return getCycleShift(date, anchorDate, aliCycle);
+    }
+
+    if(p === "berkay" || p === "azize"){
+        const berkayCycle = ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"];
+        return getCycleShift(date, anchorDate, berkayCycle);
+    }
+
     if(p === "erdi"){
         const erdiCycle = ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN", "İZİN"];
-        return getCycleShift(date, oct1, erdiCycle);
-    }
-
-    // BERKAY: 1-5 Ekim arası geçiş, 6 Ekim'den itibaren 2 GECE -> 2 İZİN -> 2 SABAH
-    if(p === "berkay" || p === "azize"){
-        if(diffFromOct1 >= 0 && diffFromOct1 < 5){
-            const earlyOct = ["GECE", "İZİN", "GECE", "İZİN", "SABAH"];
-            return earlyOct[diffFromOct1];
-        }
-        const berkayAnchor = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı
-        const berkayCycle = ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"];
-        return getCycleShift(date, berkayAnchor, berkayCycle);
-    }
-
-    // ALİ: 1-5 Ekim arası geçiş, 6 Ekim'den itibaren 2 İZİN -> 4 GECE
-    if(p === "ali"){
-        if(diffFromOct1 >= 0 && diffFromOct1 < 5){
-            const earlyOct = ["İZİN", "GECE", "İZİN", "GECE", "GECE"];
-            return earlyOct[diffFromOct1];
-        }
-        const aliAnchor = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı
-        const aliCycle = ["İZİN", "İZİN", "GECE", "GECE", "GECE", "GECE"];
-        return getCycleShift(date, aliAnchor, aliCycle);
+        return getCycleShift(date, anchorDate, erdiCycle);
     }
 
     return "İZİN";
@@ -799,30 +939,41 @@ const ayIsimleri = [
 const gunIsimleri = [
     "Pazar", "Pzt", "Salı", "Çarş", "Perş", "Cuma", "Cmt"
 ];
+const gunIsimleriUzun = [
+    "Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"
+];
 
 let currentData = {};
 let currentMonth = null;
 let currentYear = null;
 let historyUnsubscribe = null;
 
-const icons = {
-    SABAH: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
-    GECE: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5z"/></svg>',
-    İZİN: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7 10 17l-5-5"/><path d="M4 4h16v16H4z" opacity=".35"/></svg>',
-    EXTRA: '<span class="material-symbols-outlined text-[15px]">bolt</span>'
-};
+function getShiftIconTag(shift){
+    switch(shift){
+        case "SABAH":
+            return '<span class="material-symbols-outlined text-[15px]">wb_sunny</span>';
+        case "GECE":
+            return '<span class="material-symbols-outlined text-[15px]">dark_mode</span>';
+        case "İZİN":
+            return '<span class="material-symbols-outlined text-[15px]">beach_access</span>';
+        case "EXTRA":
+            return '<span class="material-symbols-outlined text-[15px]">bolt</span>';
+        default:
+            return '';
+    }
+}
 
 function firebaseConnected(){
     const e = document.getElementById("firebaseStatus");
     if(!e) return;
-    e.innerHTML = '<span class="w-2 h-2 rounded-full bg-current"></span> Firebase Bağlı';
-    e.className = "text-xs font-bold px-3 py-2 rounded-full bg-green-100 text-green-700 inline-flex items-center gap-2 self-start md:self-auto";
+    e.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_done</span><span>Firebase Bağlı</span>';
+    e.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 inline-flex items-center gap-1.5 self-start md:self-auto";
 }
 function firebaseError(){
     const e = document.getElementById("firebaseStatus");
     if(!e) return;
-    e.innerHTML = '<span class="w-2 h-2 rounded-full bg-current"></span> Bağlantı Hatası';
-    e.className = "text-xs font-bold px-3 py-2 rounded-full bg-red-100 text-red-700 inline-flex items-center gap-2 self-start md:self-auto";
+    e.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_off</span><span>Bağlantı Hatası</span>';
+    e.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-red-100 text-red-800 inline-flex items-center gap-1.5 self-start md:self-auto";
 }
 
 function getMonthPath(year, month){
@@ -830,6 +981,36 @@ function getMonthPath(year, month){
 }
 function getHistoryPath(){
     return "vardiyaGecmisi";
+}
+
+/* =========================================================
+   MERKEZİ VARDİYA GETİRİCİ
+========================================================= */
+function getPersonShift(person, date, dateKey, monthDataSource = currentData, targetYear = currentYear, targetMonth = currentMonth){
+    const changeKey = `${targetYear}_${targetMonth}_${dateKey}_${person}`;
+    if(pendingChanges[changeKey]){
+        return pendingChanges[changeKey].newShift;
+    }
+    if(monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey][person]){
+        return monthDataSource[dateKey][person];
+    }
+    if(person === "berkay" && monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey]["azize"]){
+        return monthDataSource[dateKey]["azize"];
+    }
+    return getOriginalShift(person, date);
+}
+
+async function getActualShiftForAnyDate(personId, dateObj){
+    const y = dateObj.getFullYear();
+    const m = dateObj.getMonth();
+    const d = dateObj.getDate();
+    const dateKey = String(d).padStart(2, "0");
+
+    if(y === currentYear && m === currentMonth){
+        return getPersonShift(personId, dateObj, dateKey, currentData, y, m);
+    }
+    const data = await fetchMonthDataIfNeeded(y, m);
+    return getPersonShift(personId, dateObj, dateKey, data, y, m);
 }
 
 /* =========================================================
@@ -851,26 +1032,516 @@ async function loadMonth(){
         firebaseError();
         currentData = {};
     }
-    renderTable();
-    updateStats();
-    updateToday();
+    refreshAllViews();
     loadHistory();
 }
 
-function getPersonShift(person, date, dateKey, monthDataSource = currentData, targetYear = currentYear, targetMonth = currentMonth){
-    const changeKey = `${targetYear}_${targetMonth}_${dateKey}_${person}`;
-    if(pendingChanges[changeKey]){
-        return pendingChanges[changeKey].newShift;
-    }
-    if(monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey][person]){
-        return monthDataSource[dateKey][person];
-    }
-    // Azize verisi geriye dönük Berkay olarak okunur
-    if(person === "berkay" && monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey]["azize"]){
-        return monthDataSource[dateKey]["azize"];
-    }
-    return getOriginalShift(person, date);
+function refreshAllViews(){
+    renderTable();
+    updateStatsCards();
+    updateMonthlySummary();
+    updateRuleValidation();
+    updateTodayAndTomorrow();
+    updateSwapShiftsPreview();
 }
+
+/* =========================================================
+   BUGÜN VE YARIN (TÜRKİYE SAATİ İLE)
+========================================================= */
+function getTurkeyNow(){
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    return new Date(utc + (3600000 * 3));
+}
+
+async function updateTodayAndTomorrow(){
+    const today = getTurkeyNow();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const todayTitle = document.getElementById("todayHeaderTitle");
+    const todayDate = document.getElementById("todayHeaderDate");
+    const tomorrowDate = document.getElementById("tomorrowHeaderDate");
+    const todayBody = document.getElementById("todayCardBody");
+    const tomorrowBody = document.getElementById("tomorrowCardBody");
+
+    if(!todayTitle || !todayBody) return;
+
+    todayTitle.innerText = "Bugünün Vardiyası";
+    todayDate.innerText = `${today.getDate()} ${ayIsimleri[today.getMonth()]} ${today.getFullYear()} — ${gunIsimleriUzun[today.getDay()]}`;
+    tomorrowDate.innerText = `${tomorrow.getDate()} ${ayIsimleri[tomorrow.getMonth()]} ${tomorrow.getFullYear()} — ${gunIsimleriUzun[tomorrow.getDay()]}`;
+
+    let todayHtml = "";
+    for(const p of staffList){
+        const shift = await getActualShiftForAnyDate(p.id, today);
+        todayHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-slate-50/70">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                        ${escapeHtml(p.name.charAt(0).toUpperCase())}
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900 text-sm">${escapeHtml(p.name)}</div>
+                        <div class="text-[10px] text-slate-400">Bugünkü görev</div>
+                    </div>
+                </div>
+                <span class="shift-pill ${shift} text-xs py-1.5 px-3">
+                    ${getShiftIconTag(shift)}
+                    <span>${shift}</span>
+                </span>
+            </div>
+        `;
+    }
+    todayBody.innerHTML = todayHtml;
+
+    let tomorrowHtml = "";
+    for(const p of staffList){
+        const shift = await getActualShiftForAnyDate(p.id, tomorrow);
+        tomorrowHtml += `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs">
+                <span class="font-semibold text-slate-800">${escapeHtml(p.name)}</span>
+                <span class="shift-pill ${shift} text-[11px] py-0.5 px-2 max-w-[85px]">
+                    ${getShiftIconTag(shift)}
+                    <span>${shift}</span>
+                </span>
+            </div>
+        `;
+    }
+    tomorrowBody.innerHTML = tomorrowHtml;
+}
+
+/* =========================================================
+   PERSONEL KARTLARI
+========================================================= */
+function calculateStats(personId){
+    const stats = { izin: 0, sabah: 0, gece: 0, extra: 0, toplamGun: 0 };
+    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+    for(let day = 1; day <= days; day++){
+        const date = new Date(currentYear, currentMonth, day);
+        const key = String(day).padStart(2, "0");
+        const shift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
+        if(shift === "İZİN") stats.izin++;
+        else if(shift === "SABAH") { stats.sabah++; }
+        else if(shift === "GECE") { stats.gece++; }
+        else if(shift === "EXTRA") { stats.extra++; }
+        stats.toplamGun++;
+    }
+    return stats;
+}
+
+function updateStatsCards(){
+    const grid = document.getElementById("statsGrid");
+    if(!grid) return;
+    grid.innerHTML = staffList.map(person => {
+        const s = calculateStats(person.id);
+        return `
+        <div class="stat-card clickable-card cursor-pointer" onclick="window.openPersonModal('${person.id}')">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="icon-box bg-slate-100 text-slate-700">
+                        <span class="material-symbols-outlined text-lg">person</span>
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900">${escapeHtml(person.name)}</div>
+                        <div class="text-[11px] text-slate-400">Aylık Vardiya Kartı</div>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">open_in_new</span>
+            </div>
+
+            <div class="grid grid-cols-4 gap-1.5 text-center mb-3">
+                <div class="bg-red-50 border border-red-200/80 rounded-lg p-1.5">
+                    <div class="text-[10px] text-red-800 font-bold flex items-center justify-center gap-0.5">
+                        <span class="material-symbols-outlined text-xs">dark_mode</span>
+                        GECE
+                    </div>
+                    <div class="font-extrabold text-red-900 text-sm mt-0.5">${s.gece}</div>
+                </div>
+                <div class="bg-blue-50 border border-blue-200/80 rounded-lg p-1.5">
+                    <div class="text-[10px] text-blue-800 font-bold flex items-center justify-center gap-0.5">
+                        <span class="material-symbols-outlined text-xs">wb_sunny</span>
+                        SABAH
+                    </div>
+                    <div class="font-extrabold text-blue-900 text-sm mt-0.5">${s.sabah}</div>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200/80 rounded-lg p-1.5">
+                    <div class="text-[10px] text-emerald-800 font-bold flex items-center justify-center gap-0.5">
+                        <span class="material-symbols-outlined text-xs">beach_access</span>
+                        İZİN
+                    </div>
+                    <div class="font-extrabold text-emerald-900 text-sm mt-0.5">${s.izin}</div>
+                </div>
+                <div class="bg-[#881337] rounded-lg p-1.5 text-white">
+                    <div class="text-[10px] text-rose-200 font-bold flex items-center justify-center gap-0.5">
+                        <span class="material-symbols-outlined text-xs">bolt</span>
+                        EXTRA
+                    </div>
+                    <div class="font-extrabold text-white text-sm mt-0.5">${s.extra}</div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
+                <span class="text-slate-500 font-medium">Toplam Kayıtlı Gün:</span>
+                <span class="font-bold text-slate-900">${s.toplamGun} gün</span>
+            </div>
+        </div>
+        `;
+    }).join("");
+}
+
+/* =========================================================
+   PERSONEL AY DETAY MODAL
+========================================================= */
+window.openPersonModal = function(personId){
+    const person = staffList.find(p => p.id === personId);
+    if(!person) return;
+
+    const modal = document.getElementById("personDetailModal");
+    const title = document.getElementById("modalPersonTitle");
+    const subtitle = document.getElementById("modalPersonSubtitle");
+    const statsGrid = document.getElementById("modalStatsGrid");
+    const daysList = document.getElementById("modalDaysList");
+
+    title.innerText = `${person.name.toUpperCase()} — AY DETAYI`;
+    subtitle.innerText = `${ayIsimleri[currentMonth]} ${currentYear}`;
+
+    const s = calculateStats(personId);
+    statsGrid.innerHTML = `
+        <div class="bg-red-50 p-2 rounded-lg font-bold text-red-900 border border-red-200">
+            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">dark_mode</span>Gece</div>
+            <div class="text-sm font-extrabold mt-0.5">${s.gece}</div>
+        </div>
+        <div class="bg-blue-50 p-2 rounded-lg font-bold text-blue-900 border border-blue-200">
+            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">wb_sunny</span>Sabah</div>
+            <div class="text-sm font-extrabold mt-0.5">${s.sabah}</div>
+        </div>
+        <div class="bg-emerald-50 p-2 rounded-lg font-bold text-emerald-900 border border-emerald-200">
+            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">beach_access</span>İzin</div>
+            <div class="text-sm font-extrabold mt-0.5">${s.izin}</div>
+        </div>
+        <div class="bg-[#881337] p-2 rounded-lg font-bold text-white border border-[#701a35]">
+            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">bolt</span>Extra</div>
+            <div class="text-sm font-extrabold mt-0.5">${s.extra}</div>
+        </div>
+    `;
+
+    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+    let rowsHtml = "";
+    for(let d = 1; d <= days; d++){
+        const date = new Date(currentYear, currentMonth, d);
+        const key = String(d).padStart(2, "0");
+        const shift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
+
+        rowsHtml += `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs">
+                <div class="font-semibold text-slate-700">
+                    <span class="w-6 inline-block font-bold text-slate-900">${key}</span>
+                    <span class="text-slate-500">${ayIsimleri[currentMonth]} ${gunIsimleri[date.getDay()]}</span>
+                </div>
+                <span class="shift-pill ${shift} text-xs py-1 px-3 max-w-[85px]">
+                    ${getShiftIconTag(shift)}
+                    <span>${shift}</span>
+                </span>
+            </div>
+        `;
+    }
+    daysList.innerHTML = rowsHtml;
+    modal.classList.remove("hidden");
+};
+
+window.closePersonModal = function(){
+    document.getElementById("personDetailModal").classList.add("hidden");
+};
+
+/* =========================================================
+   AYLIK VARDİYA ÖZETİ
+========================================================= */
+function updateMonthlySummary(){
+    const summaryTitle = document.getElementById("summarySectionTitle");
+    const totalBox = document.getElementById("monthlyTotalShiftsBox");
+    const tbody = document.getElementById("monthlyStaffSummaryTbody");
+    if(!summaryTitle || !totalBox || !tbody) return;
+
+    summaryTitle.innerText = `${ayIsimleri[currentMonth].toUpperCase()} ${currentYear} VARDİYA ÖZETİ`;
+
+    let totalGece = 0;
+    let totalSabah = 0;
+    let totalIzin = 0;
+    let totalExtra = 0;
+
+    let rowsHtml = "";
+    staffList.forEach(p => {
+        const s = calculateStats(p.id);
+        totalGece += s.gece;
+        totalSabah += s.sabah;
+        totalIzin += s.izin;
+        totalExtra += s.extra;
+
+        rowsHtml += `
+            <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-2.5 px-3 text-left font-bold text-slate-900">${escapeHtml(p.name)}</td>
+                <td class="py-2.5 px-2 font-bold text-red-800">${s.gece}</td>
+                <td class="py-2.5 px-2 font-bold text-blue-800">${s.sabah}</td>
+                <td class="py-2.5 px-2 font-bold text-emerald-800">${s.izin}</td>
+                <td class="py-2.5 px-2 font-bold text-[#881337]">${s.extra}</td>
+                <td class="py-2.5 px-3 font-extrabold text-slate-900">${s.toplamGun} gün</td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = rowsHtml;
+
+    totalBox.innerHTML = `
+        <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-center">
+            <div class="text-[11px] font-bold text-red-900 flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">dark_mode</span>
+                TOPLAM GECE
+            </div>
+            <div class="text-xl font-extrabold text-red-950 mt-1">${totalGece}</div>
+        </div>
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-center">
+            <div class="text-[11px] font-bold text-blue-900 flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">wb_sunny</span>
+                TOPLAM SABAH
+            </div>
+            <div class="text-xl font-extrabold text-blue-950 mt-1">${totalSabah}</div>
+        </div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
+            <div class="text-[11px] font-bold text-emerald-900 flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">beach_access</span>
+                TOPLAM İZİN
+            </div>
+            <div class="text-xl font-extrabold text-emerald-950 mt-1">${totalIzin}</div>
+        </div>
+        <div class="p-3 bg-[#881337] rounded-xl text-center text-white">
+            <div class="text-[11px] font-bold text-rose-200 flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">bolt</span>
+                TOPLAM EXTRA
+            </div>
+            <div class="text-xl font-extrabold text-white mt-1">${totalExtra}</div>
+        </div>
+    `;
+}
+
+/* =========================================================
+   VARDİYA KONTROLÜ
+========================================================= */
+function updateRuleValidation(){
+    const badge = document.getElementById("ruleStatusBadge");
+    const container = document.getElementById("ruleValidationContainer");
+    if(!badge || !container) return;
+
+    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+    let issues = [];
+    let extraDays = [];
+
+    for(let d = 1; d <= days; d++){
+        const date = new Date(currentYear, currentMonth, d);
+        const key = String(d).padStart(2, "0");
+        
+        let counts = { SABAH: 0, GECE: 0, İZİN: 0, EXTRA: 0 };
+        let assignments = [];
+
+        staffList.forEach(p => {
+            const shift = getPersonShift(p.id, date, key, currentData, currentYear, currentMonth);
+            counts[shift] = (counts[shift] || 0) + 1;
+            assignments.push(`${p.name} (${shift})`);
+        });
+
+        if(counts.EXTRA > 0){
+            extraDays.push({
+                day: d,
+                assignments: assignments.join(", ")
+            });
+        }
+
+        if(counts.EXTRA === 0){
+            const isIdeal = (counts.SABAH === 1 && counts.GECE === 1 && counts.İZİN === 1);
+            if(!isIdeal){
+                let missing = [];
+                if(counts.SABAH === 0) missing.push("SABAH");
+                if(counts.GECE === 0) missing.push("GECE");
+                if(counts.İZİN === 0) missing.push("İZİN");
+
+                let duplicated = [];
+                if(counts.SABAH > 1) duplicated.push(`${counts.SABAH} SABAH`);
+                if(counts.GECE > 1) duplicated.push(`${counts.GECE} GECE`);
+                if(counts.İZİN > 1) duplicated.push(`${counts.İZİN} İZİN`);
+
+                issues.push({
+                    day: d,
+                    dateStr: `${d} ${ayIsimleri[currentMonth]} ${currentYear}`,
+                    assignments: assignments.join(" · "),
+                    summary: `${counts.GECE} GECE, ${counts.SABAH} SABAH, ${counts.İZİN} İZİN`,
+                    missing: missing.join(", "),
+                    duplicated: duplicated.join(", ")
+                });
+            }
+        }
+    }
+
+    if(issues.length === 0){
+        badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1";
+        badge.innerHTML = `<span class="material-symbols-outlined text-sm">verified</span><span>VARDİYA PLANI UYGUN</span>`;
+
+        let extraNote = extraDays.length > 0
+            ? `<div class="mt-2.5 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-[#881337] text-xs font-semibold flex items-center gap-1.5">
+                   <span class="material-symbols-outlined text-base">bolt</span>
+                   <span>Bu ayda <strong>${extraDays.length} gün</strong> EXTRA vardiyası bulunmaktadır (kural ihlali sayılmaz).</span>
+               </div>`
+            : "";
+
+        container.innerHTML = `
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950">
+                <div class="font-bold flex items-center gap-2 text-sm">
+                    <span class="material-symbols-outlined text-emerald-700">check_circle</span>
+                    Tüm Ay Standart Vardiya Kuralına Uygun
+                </div>
+                <p class="text-xs text-emerald-800 mt-1">
+                    Seçili aydaki tüm günlerde 1 Kişi Gece, 1 Kişi Sabah ve 1 Kişi İzin dağılımı eksiksiz sağlanmıştır.
+                </p>
+                ${extraNote}
+            </div>
+        `;
+    } else {
+        badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 flex items-center gap-1";
+        badge.innerHTML = `<span class="material-symbols-outlined text-sm">warning</span><span>${issues.length} GÜNDE KURAL İHLALİ</span>`;
+
+        container.innerHTML = `
+            <div class="space-y-2">
+                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 text-xs font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-700 text-lg">error</span>
+                    Aşağıdaki günlerde 1 Gece + 1 Sabah + 1 İzin dengesinde sapma tespit edildi:
+                </div>
+                <div class="max-h-56 overflow-y-auto space-y-1.5 pr-1">
+                    ${issues.map(iss => `
+                        <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+                            <div>
+                                <span class="font-bold text-slate-900">${iss.dateStr}:</span>
+                                <span class="text-slate-600 ml-1 font-medium">${iss.assignments}</span>
+                            </div>
+                            <div class="text-[11px] font-bold text-red-800 bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg self-start sm:self-auto flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">priority_high</span>
+                                <span>${iss.missing ? 'Eksik: ' + iss.missing : ''}</span>
+                                <span>${iss.missing && iss.duplicated ? ' | ' : ''}</span>
+                                <span>${iss.duplicated ? 'Çakışma: ' + iss.duplicated : ''}</span>
+                            </div>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        `;
+    }
+}
+
+/* =========================================================
+   VARDİYA DEĞİŞTİR / TAKAS ET SİSTEMİ
+========================================================= */
+function populateSwapSelectors(){
+    const p1 = document.getElementById("swapPerson1");
+    const p2 = document.getElementById("swapPerson2");
+    if(!p1 || !p2) return;
+
+    const optHtml = staffList.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("");
+    p1.innerHTML = optHtml;
+    p2.innerHTML = optHtml;
+
+    if(staffList.length > 1){
+        p1.selectedIndex = 0;
+        p2.selectedIndex = 1;
+    }
+}
+
+window.updateSwapShiftsPreview = async function(){
+    const dateInput = document.getElementById("swapDate");
+    const p1Select = document.getElementById("swapPerson1");
+    const p2Select = document.getElementById("swapPerson2");
+    const b1 = document.getElementById("swapP1ShiftBadge");
+    const b2 = document.getElementById("swapP2ShiftBadge");
+
+    if(!dateInput || !p1Select || !p2Select || !dateInput.value) return;
+
+    const date = new Date(dateInput.value + "T00:00:00");
+    const s1 = await getActualShiftForAnyDate(p1Select.value, date);
+    const s2 = await getActualShiftForAnyDate(p2Select.value, date);
+
+    if(b1) b1.innerHTML = `<span class="shift-pill ${s1} text-[10px] py-0.5 px-2">${getShiftIconTag(s1)} ${s1}</span>`;
+    if(b2) b2.innerHTML = `<span class="shift-pill ${s2} text-[10px] py-0.5 px-2">${getShiftIconTag(s2)} ${s2}</span>`;
+};
+
+window.confirmAndSwapShifts = async function(){
+    const dateInput = document.getElementById("swapDate");
+    const p1Select = document.getElementById("swapPerson1");
+    const p2Select = document.getElementById("swapPerson2");
+
+    if(!dateInput.value){
+        alert("Lütfen takas edilecek tarihi seçin.");
+        return;
+    }
+
+    const p1Id = p1Select.value;
+    const p2Id = p2Select.value;
+
+    if(p1Id === p2Id){
+        alert("Lütfen birbirinden farklı iki personel seçin.");
+        return;
+    }
+
+    const swapDateObj = new Date(dateInput.value + "T00:00:00");
+    const y = swapDateObj.getFullYear();
+    const m = swapDateObj.getMonth();
+    const d = swapDateObj.getDate();
+    const dateKey = String(d).padStart(2, "0");
+
+    const p1Name = getPersonDisplayName(p1Id);
+    const p2Name = getPersonDisplayName(p2Id);
+
+    const shiftP1 = await getActualShiftForAnyDate(p1Id, swapDateObj);
+    const shiftP2 = await getActualShiftForAnyDate(p2Id, swapDateObj);
+
+    if(shiftP1 === shiftP2){
+        alert(`${p1Name} ve ${p2Name} zaten aynı (${shiftP1}) vardiyadalar. Takas yapmaya gerek yok.`);
+        return;
+    }
+
+    const confirmed = confirm(
+        `${p1Name} ve ${p2Name}'nin ${d} ${ayIsimleri[m]} ${y} tarihindeki vardiyalarını takas etmek istediğinize emin misiniz?\n\n` +
+        `• ${p1Name}: ${shiftP1} ➔ ${shiftP2}\n` +
+        `• ${p2Name}: ${shiftP2} ➔ ${shiftP1}`
+    );
+
+    if(!confirmed) return;
+
+    try{
+        await set(ref(db, `${getMonthPath(y, m)}/${dateKey}/${p1Id}`), shiftP2);
+        await set(ref(db, `${getMonthPath(y, m)}/${dateKey}/${p2Id}`), shiftP1);
+
+        await push(ref(db, getHistoryPath()), {
+            person: `${p1Id} ↔ ${p2Id}`,
+            tarih: `${d} ${ayIsimleri[m]} ${y}`,
+            eskiVardiya: `${shiftP1} ↔ ${shiftP2}`,
+            yeniVardiya: `${shiftP2} ↔ ${shiftP1} (TAKAS)`,
+            zaman: serverTimestamp()
+        });
+
+        if(y === currentYear && m === currentMonth){
+            if(!currentData[dateKey]) currentData[dateKey] = {};
+            currentData[dateKey][p1Id] = shiftP2;
+            currentData[dateKey][p2Id] = shiftP1;
+
+            delete pendingChanges[`${y}_${m}_${dateKey}_${p1Id}`];
+            delete pendingChanges[`${y}_${m}_${dateKey}_${p2Id}`];
+            updatePendingBadge();
+        }
+
+        refreshAllViews();
+        alert(`${p1Name} ve ${p2Name}'nin ${d} ${ayIsimleri[m]} ${y} vardiyaları başarıyla değiştirildi!`);
+    } catch(err){
+        console.error("Vardiya takas hatası:", err);
+        firebaseError();
+        alert("Vardiya takası Firebase'e kaydedilemedi. İnternet bağlantınızı kontrol edin.");
+    }
+};
 
 /* =========================================================
    TABLO OLUŞTURMA
@@ -882,9 +1553,9 @@ function renderTable(){
     const thead = document.getElementById("monthlyThead");
     thead.innerHTML = `
         <tr>
-            <th class="py-3 px-2 text-left text-gray-700 font-bold border-b-2 border-gray-800">Tarih</th>
+            <th class="py-3 px-2 text-left text-slate-800 font-bold border-b-2 border-slate-900">Tarih</th>
             ${staffList.map(p => `
-                <th class="py-3 px-2 text-gray-700 font-bold border-b-2 border-gray-800">${escapeHtml(p.name)}</th>
+                <th class="py-3 px-2 text-slate-800 font-bold border-b-2 border-slate-900">${escapeHtml(p.name)}</th>
             `).join("")}
         </tr>
     `;
@@ -892,7 +1563,7 @@ function renderTable(){
     const tbody = document.getElementById("tableBody");
     tbody.innerHTML = "";
     const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const today = new Date();
+    const today = getTurkeyNow();
 
     for(let day = 1; day <= days; day++){
         const date = new Date(currentYear, currentMonth, day);
@@ -902,13 +1573,13 @@ function renderTable(){
                         date.getDate() === today.getDate();
 
         const tr = document.createElement("tr");
-        tr.className = "border-b border-gray-100 hover:bg-gray-50 " + (isToday ? "today-row" : "");
+        tr.className = "border-b border-slate-100 hover:bg-slate-50/70 " + (isToday ? "today-row" : "");
         
         let rowHtml = `
-            <td class="py-2.5 px-2 text-left date-col font-bold">
+            <td class="py-2 px-2 text-left date-col font-bold">
                 ${day}
-                <span class="day-name font-normal ml-1">${gunIsimleri[date.getDay()]}</span>
-                ${isToday ? '<span class="today-badge">BUGÜN</span>' : ''}
+                <span class="day-name font-normal ml-1 text-slate-500">${gunIsimleri[date.getDay()]}</span>
+                ${isToday ? '<span class="today-badge"><span class="material-symbols-outlined text-[10px]">stars</span>BUGÜN</span>' : ''}
             </td>
         `;
 
@@ -918,7 +1589,7 @@ function renderTable(){
             const isPending = !!pendingChanges[changeKey];
 
             rowHtml += `
-                <td class="py-2 px-1">
+                <td class="py-1.5 px-1">
                     <span
                         class="shift-pill ${shift} ${isPending ? 'shift-pending' : ''}"
                         data-person="${person.id}"
@@ -928,7 +1599,8 @@ function renderTable(){
                         data-shift="${shift}"
                         onclick="window.toggleShift(this)"
                     >
-                        ${shift}
+                        ${getShiftIconTag(shift)}
+                        <span>${shift}</span>
                     </span>
                 </td>
             `;
@@ -978,14 +1650,16 @@ window.toggleShift = function(element){
 
     element.dataset.shift = newShift;
     element.className = `shift-pill ${newShift} ${pendingChanges[changeKey] ? 'shift-pending' : ''}`;
-    element.innerText = newShift;
+    element.innerHTML = `${getShiftIconTag(newShift)}<span>${newShift}</span>`;
 
     syncCellAcrossTables(person, year, month, dateKey, newShift, !!pendingChanges[changeKey]);
 
     updatePendingBadge();
     if(year === currentYear && month === currentMonth){
-        updateStats();
-        updateToday();
+        updateStatsCards();
+        updateMonthlySummary();
+        updateRuleValidation();
+        updateTodayAndTomorrow();
     }
 };
 
@@ -994,7 +1668,7 @@ function syncCellAcrossTables(person, year, month, dateKey, newShift, isPending)
     document.querySelectorAll(selector).forEach(el => {
         el.dataset.shift = newShift;
         el.className = `shift-pill ${newShift} ${isPending ? 'shift-pending' : ''}`;
-        el.innerText = newShift;
+        el.innerHTML = `${getShiftIconTag(newShift)}<span>${newShift}</span>`;
     });
 }
 
@@ -1057,8 +1731,7 @@ window.saveAllPendingShifts = async function(){
         });
 
         firebaseConnected();
-        updateStats();
-        updateToday();
+        refreshAllViews();
         loadHistory();
         
         alert("Tüm vardiya değişiklikleri başarıyla kaydedildi!");
@@ -1074,150 +1747,6 @@ window.saveAllPendingShifts = async function(){
         updatePendingBadge();
     }
 };
-
-/* =========================================================
-   İSTATİSTİK & YEVMİYE
-========================================================= */
-function calculateStats(personId){
-    const stats = { izin: 0, sabah: 0, gece: 0, extra: 0 };
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    for(let day = 1; day <= days; day++){
-        const date = new Date(currentYear, currentMonth, day);
-        const key = String(day).padStart(2, "0");
-        const shift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
-        if(shift === "İZİN") stats.izin++;
-        else if(shift === "SABAH") stats.sabah++;
-        else if(shift === "GECE") stats.gece++;
-        else if(shift === "EXTRA") stats.extra++;
-    }
-    return stats;
-}
-
-function calculatePayAdjustment(personId){
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    let originalWorkDays = 0;
-    let currentWorkDays = 0;
-    let adjustment = 0;
-    for(let day = 1; day <= days; day++){
-        const date = new Date(currentYear, currentMonth, day);
-        const key = String(day).padStart(2, "0");
-        const originalShift = getOriginalShift(personId, date);
-        const currentShift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
-        
-        const originalWork = (originalShift === "SABAH" || originalShift === "GECE" || originalShift === "EXTRA");
-        const currentWork = (currentShift === "SABAH" || currentShift === "GECE" || currentShift === "EXTRA");
-        
-        if(originalWork) originalWorkDays++;
-        if(currentWork) currentWorkDays++;
-        
-        if(!originalWork && currentWork) adjustment++;
-        if(originalWork && !currentWork) adjustment--;
-    }
-    return {
-        originalWorkDays,
-        currentWorkDays,
-        adjustment,
-        salary: currentWorkDays * YEVMİYE
-    };
-}
-
-function updateStats(){
-    const grid = document.getElementById("statsGrid");
-    if(!grid) return;
-    grid.innerHTML = staffList.map(person => {
-        const s = calculateStats(person.id);
-        const pay = calculatePayAdjustment(person.id);
-        const adjustmentText = pay.adjustment > 0
-            ? `+${pay.adjustment} gün`
-            : pay.adjustment < 0
-            ? `${pay.adjustment} gün`
-            : "0 gün";
-        const adjustmentClass = pay.adjustment > 0
-            ? "text-green-700 bg-green-50 border-green-100"
-            : pay.adjustment < 0
-            ? "text-red-700 bg-red-50 border-red-100"
-            : "text-gray-600 bg-gray-50 border-gray-100";
-        const adjustmentLabel = pay.adjustment > 0
-            ? "Ek yevmiye"
-            : pay.adjustment < 0
-            ? "Eksilen yevmiye"
-            : "Yevmiye değişimi";
-        return `
-        <div class="stat-card">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="icon-box bg-gray-100 text-gray-700">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21a8 8 0 0 0-16 0"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </div>
-                <div>
-                    <div class="font-bold text-gray-900">${escapeHtml(person.name)}</div>
-                    <div class="text-xs text-gray-400">Aylık vardiya özeti</div>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-1.5 text-xs">
-                <div class="bg-blue-50 rounded-xl p-2 text-center">
-                    <div class="text-gray-500 text-[11px]">Sabah</div>
-                    <div class="font-bold text-blue-700 text-base mt-0.5">${s.sabah}</div>
-                </div>
-                <div class="bg-red-50 rounded-xl p-2 text-center">
-                    <div class="text-gray-500 text-[11px]">Gece</div>
-                    <div class="font-bold text-red-700 text-base mt-0.5">${s.gece}</div>
-                </div>
-                <div class="bg-green-50 rounded-xl p-2 text-center">
-                    <div class="text-gray-500 text-[11px]">İzin</div>
-                    <div class="font-bold text-green-700 text-base mt-0.5">${s.izin}</div>
-                </div>
-                <div class="bg-rose-50 rounded-xl p-2 text-center">
-                    <div class="text-gray-500 text-[11px]">Extra</div>
-                    <div class="font-bold text-rose-800 text-base mt-0.5">${s.extra}</div>
-                </div>
-            </div>
-            <div class="mt-3 rounded-xl border ${adjustmentClass} px-3 py-2.5">
-                <div class="flex items-center justify-between gap-2">
-                    <div class="text-xs font-semibold">${adjustmentLabel}</div>
-                    <div class="font-bold text-sm">${adjustmentText}</div>
-                </div>
-                <div class="flex items-center justify-between gap-2 mt-1.5 text-xs">
-                    <span>Toplam çalışma</span>
-                    <strong>${pay.currentWorkDays} gün</strong>
-                </div>
-                <div class="flex items-center justify-between gap-2 mt-1 text-xs">
-                    <span>Yevmiye tutarı</span>
-                    <strong>₺${pay.salary.toLocaleString("tr-TR")}</strong>
-                </div>
-            </div>
-        </div>
-        `;
-    }).join("");
-}
-
-function updateToday(){
-    const info = document.getElementById("todayInfo");
-    const today = new Date();
-    if(today.getMonth() !== currentMonth || today.getFullYear() !== currentYear){
-        info.innerText = "Seçili ay mevcut tarihi içermiyor.";
-        return;
-    }
-    const key = String(today.getDate()).padStart(2, "0");
-    const date = new Date(currentYear, currentMonth, today.getDate());
-
-    info.innerHTML = `
-        <div class="flex flex-wrap gap-2">
-            ${staffList.map(person => {
-                const shift = getPersonShift(person.id, date, key, currentData, currentYear, currentMonth);
-                return `
-                <span class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs">
-                    ${icons[shift] || ""}
-                    <strong>${escapeHtml(person.name)}</strong>
-                    <span class="font-bold ${shift === 'EXTRA' ? 'text-rose-700' : ''}">${shift}</span>
-                </span>
-                `;
-            }).join("")}
-        </div>
-    `;
-}
 
 /* =========================================================
    KISA PLAN İŞLEMLERİ
@@ -1255,9 +1784,9 @@ window.loadShortPlan = async function(){
     const container = document.getElementById("shortPlanContainer");
     const thead = document.getElementById("shortPlanThead");
     const tbody = document.getElementById("shortPlanTbody");
-    const infoBadge = document.getElementById("shortPlanInfoBadge");
+    const infoBadgeText = document.getElementById("shortPlanInfoBadgeText");
 
-    infoBadge.innerText = `${formatDateTurkish(startDate)} - ${formatDateTurkish(endDate)}`;
+    infoBadgeText.innerText = `${formatDateTurkish(startDate)} - ${formatDateTurkish(endDate)}`;
 
     const monthsCache = {};
     let cursor = new Date(startDate);
@@ -1277,16 +1806,16 @@ window.loadShortPlan = async function(){
 
     thead.innerHTML = `
         <tr>
-            <th class="py-2.5 px-3 text-left font-bold text-gray-700 text-xs border-b border-gray-200">Tarih</th>
+            <th class="py-2.5 px-3 text-left font-bold text-slate-800 text-xs border-b border-slate-200">Tarih</th>
             ${staffList.map(p => `
-                <th class="py-2.5 px-3 font-bold text-gray-700 text-xs border-b border-gray-200">${escapeHtml(p.name)}</th>
+                <th class="py-2.5 px-3 font-bold text-slate-800 text-xs border-b border-slate-200">${escapeHtml(p.name)}</th>
             `).join("")}
         </tr>
     `;
 
     tbody.innerHTML = "";
     cursor = new Date(startDate);
-    const today = new Date();
+    const today = getTurkeyNow();
 
     while(cursor <= endDate){
         const y = cursor.getFullYear();
@@ -1301,13 +1830,13 @@ window.loadShortPlan = async function(){
                          cursor.getDate() === today.getDate());
 
         const tr = document.createElement("tr");
-        tr.className = "border-b border-gray-100 hover:bg-gray-50 " + (isToday ? "today-row" : "");
+        tr.className = "border-b border-slate-100 hover:bg-slate-50/70 " + (isToday ? "today-row" : "");
 
         let trContent = `
             <td class="py-2.5 px-3 text-left font-bold text-xs">
                 ${d} ${ayIsimleri[m]}
-                <span class="day-name font-normal ml-1 text-gray-500">${gunIsimleri[cursor.getDay()]}</span>
-                ${isToday ? '<span class="today-badge">BUGÜN</span>' : ''}
+                <span class="day-name font-normal ml-1 text-slate-500">${gunIsimleri[cursor.getDay()]}</span>
+                ${isToday ? '<span class="today-badge"><span class="material-symbols-outlined text-[10px]">stars</span>BUGÜN</span>' : ''}
             </td>
         `;
 
@@ -1327,7 +1856,8 @@ window.loadShortPlan = async function(){
                         data-shift="${shift}"
                         onclick="window.toggleShift(this)"
                     >
-                        ${shift}
+                        ${getShiftIconTag(shift)}
+                        <span>${shift}</span>
                     </span>
                 </td>
             `;
@@ -1456,9 +1986,7 @@ window.resetMonth = async function(){
             yeniVardiya: "ORİJİNAL DÜZEN",
             zaman: serverTimestamp()
         });
-        renderTable();
-        updateStats();
-        updateToday();
+        refreshAllViews();
         loadHistory();
         if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
             loadShortPlan();
@@ -1493,14 +2021,15 @@ function loadHistory(){
                 const div = document.createElement("div");
                 div.className = "history-item";
                 div.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
-                        <div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between gap-1.5">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-sm text-slate-400">commit</span>
                             <strong>${escapeHtml(displayName)}</strong>
-                            <span class="text-gray-400"> · ${item.tarih || ""}</span>
+                            <span class="text-slate-400"> · ${item.tarih || ""}</span>
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">${item.eskiVardiya || ""}</span>
-                            →
+                        <div class="text-xs flex items-center gap-1">
+                            <span class="font-semibold text-slate-500">${item.eskiVardiya || ""}</span>
+                            <span class="material-symbols-outlined text-xs text-slate-400">arrow_right_alt</span>
                             <span class="font-bold text-blue-600">${item.yeniVardiya || ""}</span>
                         </div>
                     </div>
@@ -1540,7 +2069,7 @@ window.generateTable = function(){
    BAŞLANGIÇ
 ========================================================= */
 window.onload = async function(){
-    const now = new Date();
+    const now = getTurkeyNow();
     const ys = document.getElementById("yearSelect");
     for(let year = 2024; year <= now.getFullYear() + 5; year++){
         const o = document.createElement("option");
@@ -1557,6 +2086,11 @@ window.onload = async function(){
     const endDateInput = document.getElementById("shortEndDate");
     startDateInput.value = "2026-10-01";
     endDateInput.value = "2026-10-06";
+
+    const swapDate = document.getElementById("swapDate");
+    const mStr = String(now.getMonth() + 1).padStart(2, "0");
+    const dStr = String(now.getDate()).padStart(2, "0");
+    swapDate.value = `${now.getFullYear()}-${mStr}-${dStr}`;
 
     await loadStaff();
     await loadMonth();

@@ -1,2100 +1,1100 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="antialiased">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vardiya Yönetimi</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-*{
-    box-sizing:border-box;
-}
-body{
-    font-family:Inter,sans-serif;
-    background:#f8fafc;
-    color:#0f172a;
-}
-.material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-    vertical-align: middle;
-}
-.shift-pill{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    width:100%;
-    max-width:96px;
-    padding:7px 5px;
-    border-radius:8px;
-    font-weight:700;
-    text-align:center;
-    cursor:pointer;
-    user-select:none;
-    transition:all .15s ease-in-out;
-    font-size:11.5px;
-    letter-spacing:0.3px;
-    border:1px solid transparent;
-}
-.shift-pill:active{
-    transform:scale(.95);
-}
-.shift-pending{
-    outline: 2px dashed #2563eb;
-    outline-offset: 2px;
-    position: relative;
-}
-
-/* YÜKSEK KONTRASTLI OKUNAKLI VARDİYA RENKLERİ */
-.GECE{
-    background:#fee2e2;
-    color:#991b1b;
-    border-color:#fecaca;
-}
-.SABAH{
-    background:#dbeafe;
-    color:#1e40af;
-    border-color:#bfdbfe;
-}
-.İZİN{
-    background:#dcfce7;
-    color:#166534;
-    border-color:#bbf7d0;
-}
-.EXTRA{
-    background:#881337;
-    color:#ffffff;
-    border-color:#701a35;
-    box-shadow: 0 1px 2px rgba(136, 19, 55, 0.2);
-}
-
-.today-row{
-    background:#f1f5f9!important;
-    box-shadow:inset 4px 0 #2563eb;
-}
-.today-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:2px;
-    margin-left:4px;
-    padding:2px 5px;
-    border-radius:4px;
-    background:#2563eb;
-    color:#fff;
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:0.3px;
-}
-.stat-card{
-    background:#fff;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    padding:16px;
-    transition: all 0.2s ease;
-}
-.clickable-card:hover{
-    border-color:#93c5fd;
-    box-shadow:0 4px 14px rgba(37, 99, 235, 0.08);
-}
-.icon-box{
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    flex:none;
-}
-.history-item{
-    border-bottom:1px solid #f1f5f9;
-    padding:10px 0;
-}
-.history-item:last-child{
-    border-bottom:none;
-}
-
-@media print{
-    @page{
-        size:A4 portrait;
-        margin:6mm!important;
-    }
-    body{
-        background:#fff!important;
-        padding:0!important;
-        margin:0!important;
-        -webkit-print-color-adjust:exact!important;
-        print-color-adjust:exact!important;
-    }
-    .no-print{
-        display:none!important;
-    }
-    .print-container{
-        box-shadow:none!important;
-        padding:0!important;
-        margin:0!important;
-        width:100%!important;
-        max-width:none!important;
-        border:none!important;
-    }
-    .header-area{
-        padding-bottom:6px!important;
-        margin-bottom:8px!important;
-        border-bottom:2px solid #0f172a!important;
-        text-align:center!important;
-    }
-    .header-area h1, .header-area h2{
-        font-size:16pt!important;
-        font-weight:800!important;
-        margin:0!important;
-        color:#0f172a!important;
-        letter-spacing:0.5px;
-    }
-    .subtitle{
-        font-size:9.5pt!important;
-        font-weight:600!important;
-        color:#334155!important;
-        margin-top:2px!important;
-    }
-    table{
-        width:100%!important;
-        border-collapse:collapse!important;
-    }
-    th{
-        font-size:9pt!important;
-        padding:5px 3px!important;
-        border-bottom:2px solid #000!important;
-        color:#000!important;
-        background:#f8fafc!important;
-    }
-    td{
-        padding:3px 2px!important;
-        height:24px!important;
-        border-bottom:1px solid #e2e8f0!important;
-    }
-    .date-col{
-        font-size:8.5pt!important;
-        color:#000!important;
-    }
-    .day-name{
-        font-size:7.5pt!important;
-        color:#475569!important;
-    }
-    .shift-pill{
-        padding:3px 0!important;
-        font-size:8pt!important;
-        height:auto!important;
-        max-width:none!important;
-        border-radius:4px!important;
-        box-shadow:none!important;
-        font-weight:700!important;
-        outline:none!important;
-    }
-    .GECE{
-        background:#fee2e2!important;
-        color:#991b1b!important;
-        border:1px solid #fca5a5!important;
-    }
-    .SABAH{
-        background:#dbeafe!important;
-        color:#1e40af!important;
-        border:1px solid #93c5fd!important;
-    }
-    .İZİN{
-        background:#dcfce7!important;
-        color:#166534!important;
-        border:1px solid #86efac!important;
-    }
-    .EXTRA{
-        background:#881337!important;
-        color:#ffffff!important;
-        border:1px solid #4c0519!important;
-    }
-    .material-symbols-outlined{
-        display:none!important;
-    }
-    .today-row{
-        background:transparent!important;
-        box-shadow:none!important;
-    }
-    .today-badge{
-        display:none!important;
-    }
-    body.print-short-active #monthlySection {
-        display:none!important;
-    }
-    body.print-short-active #shortPlanPrintSection {
-        display:block!important;
-    }
-    body:not(.print-short-active) #shortPlanPrintSection {
-        display:none!important;
-    }
-}
-#shortPlanPrintSection {
-    display: none;
-}
-</style>
-</head>
-<body class="p-3 md:p-6">
-<div class="max-w-5xl mx-auto space-y-5">
-
-<!-- 1. ÜST PANEL -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
-    <div>
-        <div class="flex items-center gap-3">
-            <div class="icon-box bg-blue-50 text-blue-600">
-                <span class="material-symbols-outlined text-xl">calendar_month</span>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold text-slate-900">
-                    Vardiya Yönetimi
-                </h1>
-                <p class="text-xs text-slate-500 mt-0.5">
-                    Aylık ve dinamik vardiya planlama sistemi
-                </p>
-            </div>
-        </div>
-    </div>
-    <div id="firebaseStatus"
-         class="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-100 text-amber-800 inline-flex items-center gap-1.5 self-start md:self-auto">
-        <span class="material-symbols-outlined text-sm">cloud_sync</span>
-        <span>Bağlanıyor...</span>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">
-            Ay
-        </label>
-        <select id="monthSelect"
-                class="w-full border border-slate-200 rounded-xl p-3 bg-slate-50 outline-none font-semibold text-sm focus:bg-white focus:border-blue-500 transition">
-            <option value="0">Ocak</option>
-            <option value="1">Şubat</option>
-            <option value="2">Mart</option>
-            <option value="3">Nisan</option>
-            <option value="4">Mayıs</option>
-            <option value="5">Haziran</option>
-            <option value="6">Temmuz</option>
-            <option value="7">Ağustos</option>
-            <option value="8">Eylül</option>
-            <option value="9">Ekim</option>
-            <option value="10">Kasım</option>
-            <option value="11">Aralık</option>
-        </select>
-    </div>
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">
-            Yıl
-        </label>
-        <select id="yearSelect"
-                class="w-full border border-slate-200 rounded-xl p-3 bg-slate-50 outline-none font-semibold text-sm focus:bg-white focus:border-blue-500 transition">
-        </select>
-    </div>
-    <div class="flex items-end">
-        <button onclick="generateTable()"
-                class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3 px-5 rounded-xl flex items-center justify-center gap-2 transition text-sm shadow-sm">
-            <span class="material-symbols-outlined text-base">sync</span>
-            Planı Yükle
-        </button>
-    </div>
-</div>
-
-<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-100 items-center">
-    <button id="saveShiftsBtn" onclick="saveAllPendingShifts()"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-sm transition">
-        <span class="material-symbols-outlined text-base">save</span>
-        <span>Vardiyaları Kaydet</span>
-        <span id="pendingCountBadge" class="bg-emerald-800 text-white text-[11px] px-2 py-0.5 rounded-full hidden">0</span>
-    </button>
-
-    <button onclick="resetMonth()"
-            class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition">
-        <span class="material-symbols-outlined text-base">restore</span>
-        Orijinale Döndür
-    </button>
-    <button onclick="clearSystemHistory()"
-            class="bg-slate-700 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-xl text-sm inline-flex items-center justify-center gap-1.5 transition">
-        <span class="material-symbols-outlined text-base">delete_sweep</span>
-        Değişiklik Geçmişini Temizle
-    </button>
-    <button onclick="printMonthlyPlan()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 transition shadow-sm">
-        <span class="material-symbols-outlined text-base">print</span>
-        Tüm Ayı Yazdır (PDF)
-    </button>
-</div>
-<p class="text-xs text-slate-500 mt-3 flex items-center gap-1.5">
-    <span class="material-symbols-outlined text-blue-500 text-base">touch_app</span>
-    Hücrelere dokunarak vardiyayı değiştirebilirsiniz. Değişikliklerin Firebase'e aktarılması için <strong>"Vardiyaları Kaydet"</strong> butonuna basın.
-</p>
-</section>
-
-<!-- 2. BUGÜNÜN & YARININ VARDİYASI ANA KARTI -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-    <div class="flex items-center gap-3">
-        <div class="icon-box bg-blue-50 text-blue-600">
-            <span class="material-symbols-outlined text-xl">today</span>
-        </div>
-        <div>
-            <h2 class="font-bold text-slate-900 text-base" id="todayHeaderTitle">Bugünün Vardiyası</h2>
-            <p class="text-xs text-slate-500" id="todayHeaderDate">Yükleniyor...</p>
-        </div>
-    </div>
-    <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 tracking-wide inline-flex items-center gap-1">
-        <span class="material-symbols-outlined text-xs">radio_button_checked</span>
-        CANLI DURUM
-    </span>
-</div>
-
-<div id="todayCardBody" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-    <!-- JS ile doldurulur -->
-</div>
-
-<div class="mt-4 pt-3.5 border-t border-slate-100">
-    <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
-            <span class="material-symbols-outlined text-base text-slate-400">fast_forward</span>
-            <span>Yarın:</span>
-            <span id="tomorrowHeaderDate" class="text-slate-500 font-normal">Yükleniyor...</span>
-        </div>
-    </div>
-    <div id="tomorrowCardBody" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <!-- JS ile doldurulur -->
-    </div>
-</div>
-</section>
-
-<!-- 3. PERSONEL KARTLARI -->
-<section class="no-print">
-<div class="flex items-center justify-between mb-3 px-1">
-    <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-purple-600 text-xl">group</span>
-        <h2 class="font-bold text-slate-900 text-sm md:text-base">Personel Vardiya Kartları</h2>
-    </div>
-    <span class="text-xs text-slate-400 font-medium inline-flex items-center gap-1">
-        <span class="material-symbols-outlined text-sm">info</span>
-        Detay için karta tıklayın
-    </span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="statsGrid">
-    <!-- JS ile doldurulur -->
-</div>
-</section>
-
-<!-- 4. AYLIK VARDİYA ÖZETİ (GENEL DAĞILIM) -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-    <div class="flex items-center gap-3">
-        <div class="icon-box bg-indigo-50 text-indigo-600">
-            <span class="material-symbols-outlined text-xl">leaderboard</span>
-        </div>
-        <div>
-            <h2 class="font-bold text-slate-900" id="summarySectionTitle">Aylık Vardiya Özeti</h2>
-            <p class="text-xs text-slate-500">Seçili ayın toplam vardiya ve nöbet dağılımları</p>
-        </div>
-    </div>
-</div>
-
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" id="monthlyTotalShiftsBox">
-    <!-- JS ile Gece, Sabah, İzin, Extra toplamları doldurulur -->
-</div>
-
-<div class="overflow-x-auto border border-slate-200 rounded-xl">
-    <table class="w-full text-center text-xs">
-        <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
-            <tr>
-                <th class="py-2.5 px-3 text-left">Personel</th>
-                <th class="py-2.5 px-2">
-                    <span class="inline-flex items-center gap-1 text-red-800">
-                        <span class="material-symbols-outlined text-sm">dark_mode</span>
-                        GECE
-                    </span>
-                </th>
-                <th class="py-2.5 px-2">
-                    <span class="inline-flex items-center gap-1 text-blue-800">
-                        <span class="material-symbols-outlined text-sm">wb_sunny</span>
-                        SABAH
-                    </span>
-                </th>
-                <th class="py-2.5 px-2">
-                    <span class="inline-flex items-center gap-1 text-emerald-800">
-                        <span class="material-symbols-outlined text-sm">beach_access</span>
-                        İZİN
-                    </span>
-                </th>
-                <th class="py-2.5 px-2">
-                    <span class="inline-flex items-center gap-1 text-[#881337]">
-                        <span class="material-symbols-outlined text-sm">bolt</span>
-                        EXTRA
-                    </span>
-                </th>
-                <th class="py-2.5 px-3 font-extrabold text-slate-900">Toplam Gün</th>
-            </tr>
-        </thead>
-        <tbody id="monthlyStaffSummaryTbody" class="divide-y divide-slate-100 font-semibold text-slate-700">
-            <!-- JS ile doldurulur -->
-        </tbody>
-    </table>
-</div>
-</section>
-
-<!-- 5. VARDİYA KONTROLÜ (1 SABAH + 1 GECE + 1 İZİN) -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center justify-between mb-3">
-    <div class="flex items-center gap-3">
-        <div class="icon-box bg-amber-50 text-amber-600">
-            <span class="material-symbols-outlined text-xl">fact_check</span>
-        </div>
-        <div>
-            <h2 class="font-bold text-slate-900">Vardiya Kuralı Kontrolü</h2>
-            <p class="text-xs text-slate-500">Her gün 1 Sabah, 1 Gece, 1 İzin kuralı doğrulaması</p>
-        </div>
-    </div>
-    <div id="ruleStatusBadge" class="text-xs font-bold px-3 py-1.5 rounded-full bg-slate-100 text-slate-700">
-        Kontrol Ediliyor...
-    </div>
-</div>
-
-<div id="ruleValidationContainer" class="mt-3 text-xs">
-    <!-- JS ile kontrol listesi / durum kartı -->
-</div>
-</section>
-
-<!-- 6. VARDİYA DEĞİŞTİR / TAKAS ET PANELİ -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center gap-3 mb-4">
-    <div class="icon-box bg-rose-50 text-rose-600">
-        <span class="material-symbols-outlined text-xl">swap_horiz</span>
-    </div>
-    <div>
-        <h2 class="font-bold text-slate-900">Vardiya Değiştir (Hızlı Takas)</h2>
-        <p class="text-xs text-slate-500">Seçilen bir tarihteki iki personelin vardiyasını anında takas edin</p>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end">
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Tarih</label>
-        <input type="date" id="swapDate" onchange="window.updateSwapShiftsPreview()"
-               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition" />
-    </div>
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Personel 1</label>
-        <select id="swapPerson1" onchange="window.updateSwapShiftsPreview()"
-                class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition"></select>
-        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex items-center justify-between">
-            <span>Mevcut:</span>
-            <span id="swapP1ShiftBadge" class="font-bold text-slate-800">-</span>
-        </div>
-    </div>
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Personel 2</label>
-        <select id="swapPerson2" onchange="window.updateSwapShiftsPreview()"
-                class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-xs outline-none focus:bg-white focus:border-rose-500 transition"></select>
-        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex items-center justify-between">
-            <span>Mevcut:</span>
-            <span id="swapP2ShiftBadge" class="font-bold text-slate-800">-</span>
-        </div>
-    </div>
-    <div>
-        <button onclick="window.confirmAndSwapShifts()"
-                class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-sm">
-            <span class="material-symbols-outlined text-base">swap_horiz</span>
-            Vardiyaları Değiştir
-        </button>
-    </div>
-</div>
-</section>
-
-<!-- 7. PERSONEL YÖNETİMİ PANELİ -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center justify-between mb-4">
-    <div class="flex items-center gap-3">
-        <div class="icon-box bg-purple-50 text-purple-600">
-            <span class="material-symbols-outlined text-xl">manage_accounts</span>
-        </div>
-        <div>
-            <h2 class="font-bold text-slate-900">Personel Yönetimi</h2>
-            <p class="text-xs text-slate-500">Personel ekle, sil veya isimlerini düzenle</p>
-        </div>
-    </div>
-</div>
-
-<div class="flex flex-col sm:flex-row gap-2 mb-4">
-    <input type="text" id="newPersonName" placeholder="Yeni Personel Adı..."
-           class="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm bg-slate-50 outline-none focus:border-purple-500 focus:bg-white transition" />
-    <button onclick="addNewPerson()"
-            class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
-        <span class="material-symbols-outlined text-base">person_add</span>
-        Personel Ekle
-    </button>
-</div>
-
-<div id="staffList" class="flex flex-wrap gap-2 pt-2"></div>
-</section>
-
-<!-- 8. KISA VARDİYA PLANI PANELİ -->
-<section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 no-print">
-<div class="flex items-center gap-3 mb-4">
-    <div class="icon-box bg-emerald-50 text-emerald-600">
-        <span class="material-symbols-outlined text-xl">date_range</span>
-    </div>
-    <div>
-        <h2 class="font-bold text-slate-900">Kısa Vardiya Planı (5-6 Günlük)</h2>
-        <p class="text-xs text-slate-500">İstediğin tarih aralığını belirle, sadece o günleri düzenle ve yazdır</p>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 items-end">
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Başlangıç Tarihi</label>
-        <input type="date" id="shortStartDate"
-               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-sm outline-none focus:bg-white focus:border-emerald-500 transition" />
-    </div>
-    <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Bitiş Tarihi</label>
-        <input type="date" id="shortEndDate"
-               class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-semibold text-sm outline-none focus:bg-white focus:border-emerald-500 transition" />
-    </div>
-    <div class="flex gap-2">
-        <button onclick="loadShortPlan()"
-                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
-            <span class="material-symbols-outlined text-base">visibility</span>
-            Planı Gör
-        </button>
-        <button onclick="printShortPlan()"
-                class="flex-1 bg-slate-900 hover:bg-black text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 transition shadow-sm">
-            <span class="material-symbols-outlined text-base">print</span>
-            Seçili Günleri Yazdır
-        </button>
-    </div>
-</div>
-
-<div id="shortPlanContainer" class="mt-4 pt-4 border-t border-slate-100 hidden">
-    <div class="flex items-center justify-between mb-2">
-        <span id="shortPlanInfoBadge" class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg inline-flex items-center gap-1">
-            <span class="material-symbols-outlined text-sm">event</span>
-            <span id="shortPlanInfoBadgeText"></span>
-        </span>
-        <button onclick="saveAllPendingShifts()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-            <span class="material-symbols-outlined text-sm">save</span>
-            Düzenlemeleri Kaydet
-        </button>
-    </div>
-    <div class="overflow-x-auto border border-slate-200 rounded-xl">
-        <table class="w-full text-center">
-            <thead id="shortPlanThead" class="bg-slate-50"></thead>
-            <tbody id="shortPlanTbody"></tbody>
-        </table>
-    </div>
-</div>
-</section>
-
-<!-- 9. TÜM AY TABLOSU -->
-<section id="monthlySection" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-8 print-container">
-<div class="text-center header-area pb-4 mb-5 border-b border-slate-200">
-    <h2 id="tableTitle" class="text-2xl font-bold text-slate-900 uppercase">
-        EKİM 2026 VARDİYASI
-    </h2>
-    <p id="tableSubtitle" class="subtitle text-sm text-slate-500 mt-1">
-        ali, Berkay, Erdi
-    </p>
-</div>
-<div class="overflow-x-auto">
-    <table class="w-full text-center">
-        <thead id="monthlyThead"></thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-</div>
-</section>
-
-<!-- 10. SEÇİLİ GÜNLER YAZDIRMA ÇIKTI BÖLÜMÜ -->
-<section id="shortPlanPrintSection" class="print-container">
-    <div class="header-area">
-        <h1>VARDİYA PLANI</h1>
-        <div id="shortPlanPrintDateSubtitle" class="subtitle"></div>
-    </div>
-    <div class="overflow-x-auto">
-        <table class="w-full text-center">
-            <thead id="shortPlanPrintThead"></thead>
-            <tbody id="shortPlanPrintTbody"></tbody>
-        </table>
-    </div>
-</section>
-
-<!-- 11. DEĞİŞİKLİK GEÇMİŞİ -->
-<section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 no-print">
-<div class="flex items-center gap-3 mb-3">
-    <div class="icon-box bg-slate-100 text-slate-700">
-        <span class="material-symbols-outlined text-xl">history</span>
-    </div>
-    <div>
-        <h3 class="font-bold text-slate-900">Değişiklik Geçmişi</h3>
-        <p class="text-xs text-slate-400">Son yapılan vardiya değişiklikleri ve takaslar</p>
-    </div>
-</div>
-<div id="historyList" class="text-sm text-slate-600">
-    Henüz değişiklik yok.
-</div>
-</section>
-
-</div>
-
-<!-- PERSONEL AY DETAY MODAL -->
-<div id="personDetailModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden no-print">
-    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] border border-slate-200">
-        <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-blue-400">person</span>
-                <div>
-                    <h3 class="font-bold text-base leading-tight" id="modalPersonTitle">Personel Vardiya Detayı</h3>
-                    <p class="text-xs text-slate-400" id="modalPersonSubtitle"></p>
-                </div>
-            </div>
-            <button onclick="window.closePersonModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
-                <span class="material-symbols-outlined text-xl">close</span>
-            </button>
-        </div>
-        <div class="p-3 bg-slate-50 border-b border-slate-100 grid grid-cols-4 gap-1.5 text-center text-xs" id="modalStatsGrid">
-        </div>
-        <div class="p-4 overflow-y-auto space-y-1.5" id="modalDaysList">
-        </div>
-        <div class="p-3 bg-slate-50 border-t border-slate-200 text-right">
-            <button onclick="window.closePersonModal()" class="px-4 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl transition inline-flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">check</span>
-                Kapat
-            </button>
-        </div>
-    </div>
-</div>
-
-<script type="module">
-import {
-    initializeApp,
-    getApps,
-    getApp
-} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import {
-    getDatabase,
-    ref,
-    get,
-    set,
-    push,
-    onValue,
-    remove,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey:"AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
-    authDomain:"urunrakip.firebaseapp.com",
-    databaseURL:"https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId:"urunrakip",
-    storageBucket:"urunrakip.appspot.com",
-    messagingSenderId:"893193039416",
-    appId:"1:893193039416:web:8624c79038f5dc9a2ac0cd"
-};
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-/* =========================================================
-   DİNAMİK PERSONEL YÖNETİMİ & MÜKERRER KAYIT TEMİZLİĞİ
-========================================================= */
-const DEFAULT_STAFF = [
-    { id: "ali", name: "ali" },
-    { id: "berkay", name: "Berkay" },
-    { id: "erdi", name: "Erdi" }
-];
-let staffList = [...DEFAULT_STAFF];
-let pendingChanges = {};
-
-function getStaffPath(){
-    return "personeller";
-}
-
-async function loadStaff(){
-    try{
-        const snap = await get(ref(db, getStaffPath()));
-        if(snap.exists()){
-            const data = snap.val();
-            let parsed = [];
-            if(Array.isArray(data)){
-                parsed = data.filter(Boolean);
-            } else if(typeof data === "object"){
-                parsed = Object.values(data);
-            }
-
-            let cleaned = [];
-            let seen = new Set();
-            for(let p of parsed){
-                let normalizedId = (p.id === "azize") ? "berkay" : p.id;
-                let normalizedName = (p.name.toLowerCase() === "azize" || p.name.toLowerCase() === "berkay") ? "Berkay" : p.name;
-                
-                if(!seen.has(normalizedId)){
-                    seen.add(normalizedId);
-                    cleaned.push({ id: normalizedId, name: normalizedName });
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BerkayDev Personel Yönetim Sistemi</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            200: '#bcccdc',
+                            300: '#9fb3c8',
+                            400: '#829ab1',
+                            500: '#627d98',
+                            600: '#486581',
+                            700: '#334e68',
+                            800: '#243b53',
+                            900: '#102a43',
+                            950: '#0b1d2e',
+                        },
+                        accent: {
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 15px rgba(59, 130, 246, 0.5)',
+                    }
                 }
             }
-
-            if(!cleaned.some(p => p.id === "ali")) cleaned.unshift({ id: "ali", name: "ali" });
-            if(!cleaned.some(p => p.id === "berkay")) cleaned.splice(1, 0, { id: "berkay", name: "Berkay" });
-            if(!cleaned.some(p => p.id === "erdi")) cleaned.push({ id: "erdi", name: "Erdi" });
-
-            staffList = cleaned;
-            await set(ref(db, getStaffPath()), staffList);
-        } else {
-            await set(ref(db, getStaffPath()), DEFAULT_STAFF);
-            staffList = [...DEFAULT_STAFF];
         }
-    } catch(err){
-        console.error("Personel yükleme hatası:", err);
-        staffList = [...DEFAULT_STAFF];
-    }
-    renderStaffManager();
-    populateSwapSelectors();
-}
+    </script>
 
-async function saveStaffToFirebase(){
-    try{
-        await set(ref(db, getStaffPath()), staffList);
-        firebaseConnected();
-    }catch(err){
-        console.error("Personel kaydetme hatası:", err);
-        firebaseError();
-        alert("Personel bilgileri Firebase'e kaydedilemedi!");
-    }
-}
-
-function renderStaffManager(){
-    const container = document.getElementById("staffList");
-    if(!container) return;
-    container.innerHTML = staffList.map(person => `
-        <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5">
-            <span class="font-bold text-xs text-slate-800">${escapeHtml(person.name)}</span>
-            <button onclick="window.editPersonName('${person.id}')" title="İsim Değiştir" class="text-blue-600 hover:text-blue-800 p-0.5">
-                <span class="material-symbols-outlined text-sm">edit</span>
-            </button>
-            <button onclick="window.removePerson('${person.id}')" title="Personeli Sil" class="text-red-500 hover:text-red-700 p-0.5">
-                <span class="material-symbols-outlined text-sm">close</span>
-            </button>
-        </div>
-    `).join("");
-}
-
-window.addNewPerson = async function(){
-    const input = document.getElementById("newPersonName");
-    const name = input.value.trim();
-    if(!name){
-        alert("Lütfen bir personel adı girin.");
-        return;
-    }
-    const id = name.toLowerCase().replace(/[^a-z0-9]/g, "") || ("p_" + Date.now());
-    if(staffList.some(p => p.id === id)){
-        alert("Bu isimde bir personel zaten mevcut.");
-        return;
-    }
-    staffList.push({ id, name });
-    input.value = "";
-    await saveStaffToFirebase();
-    renderStaffManager();
-    populateSwapSelectors();
-    refreshAllViews();
-    if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
-        loadShortPlan();
-    }
-};
-
-window.editPersonName = async function(id){
-    const person = staffList.find(p => p.id === id);
-    if(!person) return;
-    const newName = prompt(`"${person.name}" personeli için yeni ismi girin:`, person.name);
-    if(newName === null) return;
-    const trimmed = newName.trim();
-    if(!trimmed){
-        alert("Personel ismi boş bırakılamaz.");
-        return;
-    }
-    person.name = trimmed;
-    await saveStaffToFirebase();
-    renderStaffManager();
-    populateSwapSelectors();
-    refreshAllViews();
-    if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
-        loadShortPlan();
-    }
-};
-
-window.removePerson = async function(id){
-    const person = staffList.find(p => p.id === id);
-    if(!person) return;
-    if(!confirm(`"${person.name}" personelini silmek istediğinize emin misiniz? Tablo sütunları güncellenecektir.`)){
-        return;
-    }
-    staffList = staffList.filter(p => p.id !== id);
-    await saveStaffToFirebase();
-    renderStaffManager();
-    populateSwapSelectors();
-    refreshAllViews();
-    if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
-        loadShortPlan();
-    }
-};
-
-function getPersonDisplayName(id){
-    const found = staffList.find(p => p.id === id);
-    if(found) return found.name;
-    if(id === "ali") return "ali";
-    if(id === "berkay" || id === "azize") return "Berkay";
-    if(id === "erdi") return "Erdi";
-    return id;
-}
-
-function escapeHtml(text){
-    if(!text) return "";
-    return text.replace(/[&<>"']/g, function(m) {
-        return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        }[m];
-    });
-}
-
-/* =========================================================
-   6 EKİM 2026 REFERANSLI MERKEZİ VARDİYA ALGORİTMASI
-========================================================= */
-function createUTCDate(year, month, day){
-    return new Date(Date.UTC(year, month, day));
-}
-
-function dayDifference(date1, date2){
-    const msPerDay = 86400000;
-    return Math.floor(
-        (Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) -
-         Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) / msPerDay
-    );
-}
-
-function getCycleShift(date, anchorDate, cycle){
-    let diff = dayDifference(date, anchorDate);
-    let index = diff % cycle.length;
-    if(index < 0){
-        index += cycle.length;
-    }
-    return cycle[index];
-}
-
-function getOriginalShift(person, date){
-    const p = person.toLowerCase();
-    const oct1 = createUTCDate(2026, 9, 1); // 1 Ekim 2026
-    const diffFromOct1 = dayDifference(date, oct1);
-
-    // 1–5 Ekim 2026 Özel Başlangıç Düzeni
-    if(diffFromOct1 >= 0 && diffFromOct1 < 5){
-        if(p === "ali"){
-            const earlyAli = ["İZİN", "GECE", "İZİN", "GECE", "GECE"];
-            return earlyAli[diffFromOct1];
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(220,100%,95%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            touch-action: manipulation;
         }
-        if(p === "berkay" || p === "azize"){
-            const earlyBerkay = ["GECE", "İZİN", "GECE", "İZİN", "SABAH"];
-            return earlyBerkay[diffFromOct1];
+
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-        if(p === "erdi"){
-            const earlyErdi = ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN"];
-            return earlyErdi[diffFromOct1];
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(16, 42, 67, 0.08);
         }
-    }
 
-    // 6 Ekim 2026 ve Sonrası Kesintisiz 6 Günlük Döngü
-    const anchorDate = createUTCDate(2026, 9, 6); // 6 Ekim 2026 Salı = 1. gün (index 0)
-
-    if(p === "ali"){
-        const aliCycle = ["İZİN", "İZİN", "GECE", "GECE", "GECE", "GECE"];
-        return getCycleShift(date, anchorDate, aliCycle);
-    }
-
-    if(p === "berkay" || p === "azize"){
-        const berkayCycle = ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"];
-        return getCycleShift(date, anchorDate, berkayCycle);
-    }
-
-    if(p === "erdi"){
-        const erdiCycle = ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN", "İZİN"];
-        return getCycleShift(date, anchorDate, erdiCycle);
-    }
-
-    return "İZİN";
-}
-
-const ayIsimleri = [
-    "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
-];
-const gunIsimleri = [
-    "Pazar", "Pzt", "Salı", "Çarş", "Perş", "Cuma", "Cmt"
-];
-const gunIsimleriUzun = [
-    "Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"
-];
-
-let currentData = {};
-let currentMonth = null;
-let currentYear = null;
-let historyUnsubscribe = null;
-
-function getShiftIconTag(shift){
-    switch(shift){
-        case "SABAH":
-            return '<span class="material-symbols-outlined text-[15px]">wb_sunny</span>';
-        case "GECE":
-            return '<span class="material-symbols-outlined text-[15px]">dark_mode</span>';
-        case "İZİN":
-            return '<span class="material-symbols-outlined text-[15px]">beach_access</span>';
-        case "EXTRA":
-            return '<span class="material-symbols-outlined text-[15px]">bolt</span>';
-        default:
-            return '';
-    }
-}
-
-function firebaseConnected(){
-    const e = document.getElementById("firebaseStatus");
-    if(!e) return;
-    e.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_done</span><span>Firebase Bağlı</span>';
-    e.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 inline-flex items-center gap-1.5 self-start md:self-auto";
-}
-function firebaseError(){
-    const e = document.getElementById("firebaseStatus");
-    if(!e) return;
-    e.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_off</span><span>Bağlantı Hatası</span>';
-    e.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-red-100 text-red-800 inline-flex items-center gap-1.5 self-start md:self-auto";
-}
-
-function getMonthPath(year, month){
-    return `vardiyalar/${year}/${month + 1}`;
-}
-function getHistoryPath(){
-    return "vardiyaGecmisi";
-}
-
-/* =========================================================
-   MERKEZİ VARDİYA GETİRİCİ
-========================================================= */
-function getPersonShift(person, date, dateKey, monthDataSource = currentData, targetYear = currentYear, targetMonth = currentMonth){
-    const changeKey = `${targetYear}_${targetMonth}_${dateKey}_${person}`;
-    if(pendingChanges[changeKey]){
-        return pendingChanges[changeKey].newShift;
-    }
-    if(monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey][person]){
-        return monthDataSource[dateKey][person];
-    }
-    if(person === "berkay" && monthDataSource && monthDataSource[dateKey] && monthDataSource[dateKey]["azize"]){
-        return monthDataSource[dateKey]["azize"];
-    }
-    return getOriginalShift(person, date);
-}
-
-async function getActualShiftForAnyDate(personId, dateObj){
-    const y = dateObj.getFullYear();
-    const m = dateObj.getMonth();
-    const d = dateObj.getDate();
-    const dateKey = String(d).padStart(2, "0");
-
-    if(y === currentYear && m === currentMonth){
-        return getPersonShift(personId, dateObj, dateKey, currentData, y, m);
-    }
-    const data = await fetchMonthDataIfNeeded(y, m);
-    return getPersonShift(personId, dateObj, dateKey, data, y, m);
-}
-
-/* =========================================================
-   AY YÜKLE
-========================================================= */
-async function loadMonth(){
-    currentMonth = parseInt(document.getElementById("monthSelect").value);
-    currentYear = parseInt(document.getElementById("yearSelect").value);
-    currentData = {};
-    try{
-        const snap = await get(ref(db, getMonthPath(currentYear, currentMonth)));
-        if(snap.exists()){
-            currentData = snap.val() || {};
+        .shift-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            min-width: 85px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        firebaseConnected();
-    }
-    catch(error){
-        console.error("Firebase okuma hatası:", error);
-        firebaseError();
-        currentData = {};
-    }
-    refreshAllViews();
-    loadHistory();
-}
-
-function refreshAllViews(){
-    renderTable();
-    updateStatsCards();
-    updateMonthlySummary();
-    updateRuleValidation();
-    updateTodayAndTomorrow();
-    updateSwapShiftsPreview();
-}
-
-/* =========================================================
-   BUGÜN VE YARIN (TÜRKİYE SAATİ İLE)
-========================================================= */
-function getTurkeyNow(){
-    const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    return new Date(utc + (3600000 * 3));
-}
-
-async function updateTodayAndTomorrow(){
-    const today = getTurkeyNow();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const todayTitle = document.getElementById("todayHeaderTitle");
-    const todayDate = document.getElementById("todayHeaderDate");
-    const tomorrowDate = document.getElementById("tomorrowHeaderDate");
-    const todayBody = document.getElementById("todayCardBody");
-    const tomorrowBody = document.getElementById("tomorrowCardBody");
-
-    if(!todayTitle || !todayBody) return;
-
-    todayTitle.innerText = "Bugünün Vardiyası";
-    todayDate.innerText = `${today.getDate()} ${ayIsimleri[today.getMonth()]} ${today.getFullYear()} — ${gunIsimleriUzun[today.getDay()]}`;
-    tomorrowDate.innerText = `${tomorrow.getDate()} ${ayIsimleri[tomorrow.getMonth()]} ${tomorrow.getFullYear()} — ${gunIsimleriUzun[tomorrow.getDay()]}`;
-
-    let todayHtml = "";
-    for(const p of staffList){
-        const shift = await getActualShiftForAnyDate(p.id, today);
-        todayHtml += `
-            <div class="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-slate-50/70">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
-                        ${escapeHtml(p.name.charAt(0).toUpperCase())}
-                    </div>
-                    <div>
-                        <div class="font-bold text-slate-900 text-sm">${escapeHtml(p.name)}</div>
-                        <div class="text-[10px] text-slate-400">Bugünkü görev</div>
-                    </div>
-                </div>
-                <span class="shift-pill ${shift} text-xs py-1.5 px-3">
-                    ${getShiftIconTag(shift)}
-                    <span>${shift}</span>
-                </span>
-            </div>
-        `;
-    }
-    todayBody.innerHTML = todayHtml;
-
-    let tomorrowHtml = "";
-    for(const p of staffList){
-        const shift = await getActualShiftForAnyDate(p.id, tomorrow);
-        tomorrowHtml += `
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs">
-                <span class="font-semibold text-slate-800">${escapeHtml(p.name)}</span>
-                <span class="shift-pill ${shift} text-[11px] py-0.5 px-2 max-w-[85px]">
-                    ${getShiftIconTag(shift)}
-                    <span>${shift}</span>
-                </span>
-            </div>
-        `;
-    }
-    tomorrowBody.innerHTML = tomorrowHtml;
-}
-
-/* =========================================================
-   PERSONEL KARTLARI
-========================================================= */
-function calculateStats(personId){
-    const stats = { izin: 0, sabah: 0, gece: 0, extra: 0, toplamGun: 0 };
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    for(let day = 1; day <= days; day++){
-        const date = new Date(currentYear, currentMonth, day);
-        const key = String(day).padStart(2, "0");
-        const shift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
-        if(shift === "İZİN") stats.izin++;
-        else if(shift === "SABAH") { stats.sabah++; }
-        else if(shift === "GECE") { stats.gece++; }
-        else if(shift === "EXTRA") { stats.extra++; }
-        stats.toplamGun++;
-    }
-    return stats;
-}
-
-function updateStatsCards(){
-    const grid = document.getElementById("statsGrid");
-    if(!grid) return;
-    grid.innerHTML = staffList.map(person => {
-        const s = calculateStats(person.id);
-        return `
-        <div class="stat-card clickable-card cursor-pointer" onclick="window.openPersonModal('${person.id}')">
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-2.5">
-                    <div class="icon-box bg-slate-100 text-slate-700">
-                        <span class="material-symbols-outlined text-lg">person</span>
-                    </div>
-                    <div>
-                        <div class="font-bold text-slate-900">${escapeHtml(person.name)}</div>
-                        <div class="text-[11px] text-slate-400">Aylık Vardiya Kartı</div>
-                    </div>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">open_in_new</span>
-            </div>
-
-            <div class="grid grid-cols-4 gap-1.5 text-center mb-3">
-                <div class="bg-red-50 border border-red-200/80 rounded-lg p-1.5">
-                    <div class="text-[10px] text-red-800 font-bold flex items-center justify-center gap-0.5">
-                        <span class="material-symbols-outlined text-xs">dark_mode</span>
-                        GECE
-                    </div>
-                    <div class="font-extrabold text-red-900 text-sm mt-0.5">${s.gece}</div>
-                </div>
-                <div class="bg-blue-50 border border-blue-200/80 rounded-lg p-1.5">
-                    <div class="text-[10px] text-blue-800 font-bold flex items-center justify-center gap-0.5">
-                        <span class="material-symbols-outlined text-xs">wb_sunny</span>
-                        SABAH
-                    </div>
-                    <div class="font-extrabold text-blue-900 text-sm mt-0.5">${s.sabah}</div>
-                </div>
-                <div class="bg-emerald-50 border border-emerald-200/80 rounded-lg p-1.5">
-                    <div class="text-[10px] text-emerald-800 font-bold flex items-center justify-center gap-0.5">
-                        <span class="material-symbols-outlined text-xs">beach_access</span>
-                        İZİN
-                    </div>
-                    <div class="font-extrabold text-emerald-900 text-sm mt-0.5">${s.izin}</div>
-                </div>
-                <div class="bg-[#881337] rounded-lg p-1.5 text-white">
-                    <div class="text-[10px] text-rose-200 font-bold flex items-center justify-center gap-0.5">
-                        <span class="material-symbols-outlined text-xs">bolt</span>
-                        EXTRA
-                    </div>
-                    <div class="font-extrabold text-white text-sm mt-0.5">${s.extra}</div>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
-                <span class="text-slate-500 font-medium">Toplam Kayıtlı Gün:</span>
-                <span class="font-bold text-slate-900">${s.toplamGun} gün</span>
-            </div>
-        </div>
-        `;
-    }).join("");
-}
-
-/* =========================================================
-   PERSONEL AY DETAY MODAL
-========================================================= */
-window.openPersonModal = function(personId){
-    const person = staffList.find(p => p.id === personId);
-    if(!person) return;
-
-    const modal = document.getElementById("personDetailModal");
-    const title = document.getElementById("modalPersonTitle");
-    const subtitle = document.getElementById("modalPersonSubtitle");
-    const statsGrid = document.getElementById("modalStatsGrid");
-    const daysList = document.getElementById("modalDaysList");
-
-    title.innerText = `${person.name.toUpperCase()} — AY DETAYI`;
-    subtitle.innerText = `${ayIsimleri[currentMonth]} ${currentYear}`;
-
-    const s = calculateStats(personId);
-    statsGrid.innerHTML = `
-        <div class="bg-red-50 p-2 rounded-lg font-bold text-red-900 border border-red-200">
-            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">dark_mode</span>Gece</div>
-            <div class="text-sm font-extrabold mt-0.5">${s.gece}</div>
-        </div>
-        <div class="bg-blue-50 p-2 rounded-lg font-bold text-blue-900 border border-blue-200">
-            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">wb_sunny</span>Sabah</div>
-            <div class="text-sm font-extrabold mt-0.5">${s.sabah}</div>
-        </div>
-        <div class="bg-emerald-50 p-2 rounded-lg font-bold text-emerald-900 border border-emerald-200">
-            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">beach_access</span>İzin</div>
-            <div class="text-sm font-extrabold mt-0.5">${s.izin}</div>
-        </div>
-        <div class="bg-[#881337] p-2 rounded-lg font-bold text-white border border-[#701a35]">
-            <div class="flex items-center justify-center gap-1"><span class="material-symbols-outlined text-xs">bolt</span>Extra</div>
-            <div class="text-sm font-extrabold mt-0.5">${s.extra}</div>
-        </div>
-    `;
-
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    let rowsHtml = "";
-    for(let d = 1; d <= days; d++){
-        const date = new Date(currentYear, currentMonth, d);
-        const key = String(d).padStart(2, "0");
-        const shift = getPersonShift(personId, date, key, currentData, currentYear, currentMonth);
-
-        rowsHtml += `
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs">
-                <div class="font-semibold text-slate-700">
-                    <span class="w-6 inline-block font-bold text-slate-900">${key}</span>
-                    <span class="text-slate-500">${ayIsimleri[currentMonth]} ${gunIsimleri[date.getDay()]}</span>
-                </div>
-                <span class="shift-pill ${shift} text-xs py-1 px-3 max-w-[85px]">
-                    ${getShiftIconTag(shift)}
-                    <span>${shift}</span>
-                </span>
-            </div>
-        `;
-    }
-    daysList.innerHTML = rowsHtml;
-    modal.classList.remove("hidden");
-};
-
-window.closePersonModal = function(){
-    document.getElementById("personDetailModal").classList.add("hidden");
-};
-
-/* =========================================================
-   AYLIK VARDİYA ÖZETİ
-========================================================= */
-function updateMonthlySummary(){
-    const summaryTitle = document.getElementById("summarySectionTitle");
-    const totalBox = document.getElementById("monthlyTotalShiftsBox");
-    const tbody = document.getElementById("monthlyStaffSummaryTbody");
-    if(!summaryTitle || !totalBox || !tbody) return;
-
-    summaryTitle.innerText = `${ayIsimleri[currentMonth].toUpperCase()} ${currentYear} VARDİYA ÖZETİ`;
-
-    let totalGece = 0;
-    let totalSabah = 0;
-    let totalIzin = 0;
-    let totalExtra = 0;
-
-    let rowsHtml = "";
-    staffList.forEach(p => {
-        const s = calculateStats(p.id);
-        totalGece += s.gece;
-        totalSabah += s.sabah;
-        totalIzin += s.izin;
-        totalExtra += s.extra;
-
-        rowsHtml += `
-            <tr class="hover:bg-slate-50/80 transition">
-                <td class="py-2.5 px-3 text-left font-bold text-slate-900">${escapeHtml(p.name)}</td>
-                <td class="py-2.5 px-2 font-bold text-red-800">${s.gece}</td>
-                <td class="py-2.5 px-2 font-bold text-blue-800">${s.sabah}</td>
-                <td class="py-2.5 px-2 font-bold text-emerald-800">${s.izin}</td>
-                <td class="py-2.5 px-2 font-bold text-[#881337]">${s.extra}</td>
-                <td class="py-2.5 px-3 font-extrabold text-slate-900">${s.toplamGun} gün</td>
-            </tr>
-        `;
-    });
-
-    tbody.innerHTML = rowsHtml;
-
-    totalBox.innerHTML = `
-        <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-center">
-            <div class="text-[11px] font-bold text-red-900 flex items-center justify-center gap-1">
-                <span class="material-symbols-outlined text-sm">dark_mode</span>
-                TOPLAM GECE
-            </div>
-            <div class="text-xl font-extrabold text-red-950 mt-1">${totalGece}</div>
-        </div>
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-center">
-            <div class="text-[11px] font-bold text-blue-900 flex items-center justify-center gap-1">
-                <span class="material-symbols-outlined text-sm">wb_sunny</span>
-                TOPLAM SABAH
-            </div>
-            <div class="text-xl font-extrabold text-blue-950 mt-1">${totalSabah}</div>
-        </div>
-        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
-            <div class="text-[11px] font-bold text-emerald-900 flex items-center justify-center gap-1">
-                <span class="material-symbols-outlined text-sm">beach_access</span>
-                TOPLAM İZİN
-            </div>
-            <div class="text-xl font-extrabold text-emerald-950 mt-1">${totalIzin}</div>
-        </div>
-        <div class="p-3 bg-[#881337] rounded-xl text-center text-white">
-            <div class="text-[11px] font-bold text-rose-200 flex items-center justify-center gap-1">
-                <span class="material-symbols-outlined text-sm">bolt</span>
-                TOPLAM EXTRA
-            </div>
-            <div class="text-xl font-extrabold text-white mt-1">${totalExtra}</div>
-        </div>
-    `;
-}
-
-/* =========================================================
-   VARDİYA KONTROLÜ
-========================================================= */
-function updateRuleValidation(){
-    const badge = document.getElementById("ruleStatusBadge");
-    const container = document.getElementById("ruleValidationContainer");
-    if(!badge || !container) return;
-
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    let issues = [];
-    let extraDays = [];
-
-    for(let d = 1; d <= days; d++){
-        const date = new Date(currentYear, currentMonth, d);
-        const key = String(d).padStart(2, "0");
         
-        let counts = { SABAH: 0, GECE: 0, İZİN: 0, EXTRA: 0 };
-        let assignments = [];
+        .shift-pill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: 0.5s;
+        }
+        
+        .shift-pill:hover::before { left: 100%; }
+        .shift-pill:active { transform: scale(0.92); }
 
-        staffList.forEach(p => {
-            const shift = getPersonShift(p.id, date, key, currentData, currentYear, currentMonth);
-            counts[shift] = (counts[shift] || 0) + 1;
-            assignments.push(`${p.name} (${shift})`);
-        });
+        .SABAH { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); border: 1px solid #60a5fa;}
+        .GECE  { background: linear-gradient(135deg, #e11d48, #be123c); color: white; box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35); border: 1px solid #fb7185;}
+        .İZİN  { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); border: 1px solid #34d399;}
+        .EXTRA { background: linear-gradient(135deg, #f43f5e, #9f1239); color: white; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3); border: 1px solid #fda4af;}
 
-        if(counts.EXTRA > 0){
-            extraDays.push({
-                day: d,
-                assignments: assignments.join(", ")
-            });
+        .shift-pending {
+            animation: pulse-border 1.5s infinite;
         }
 
-        if(counts.EXTRA === 0){
-            const isIdeal = (counts.SABAH === 1 && counts.GECE === 1 && counts.İZİN === 1);
-            if(!isIdeal){
-                let missing = [];
-                if(counts.SABAH === 0) missing.push("SABAH");
-                if(counts.GECE === 0) missing.push("GECE");
-                if(counts.İZİN === 0) missing.push("İZİN");
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
 
-                let duplicated = [];
-                if(counts.SABAH > 1) duplicated.push(`${counts.SABAH} SABAH`);
-                if(counts.GECE > 1) duplicated.push(`${counts.GECE} GECE`);
-                if(counts.İZİN > 1) duplicated.push(`${counts.İZİN} İZİN`);
+        .table-container {
+            border-radius: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #e2e8f0;
+        }
+        
+        thead th {
+            background: #f1f5f9;
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #64748b;
+        }
 
-                issues.push({
-                    day: d,
-                    dateStr: `${d} ${ayIsimleri[currentMonth]} ${currentYear}`,
-                    assignments: assignments.join(" · "),
-                    summary: `${counts.GECE} GECE, ${counts.SABAH} SABAH, ${counts.İZİN} İZİN`,
-                    missing: missing.join(", "),
-                    duplicated: duplicated.join(", ")
-                });
+        .today-row td { 
+            background: linear-gradient(90deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.9)); 
+            position: relative;
+        }
+        .today-row td:first-child::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: #3b82f6;
+        }
+        
+        .today-badge {
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-left: 8px;
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.4);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #102a43, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 30-31 çeken ayları tek sayfaya (A4 Landscape) tam sığdıran optimize yazdırma kuralları */
+        @media print {
+            @page { 
+                size: A4 landscape; 
+                margin: 5mm; 
             }
+            body { 
+                background: #FFFFFF !important; 
+                color: #000000 !important; 
+                zoom: 82%; /* Yazıcının tek sayfaya sığdırmasını garanti altına alır */
+            }
+            #sidebar, #mobile-header, .no-print, header { display: none !important; }
+            #main-workspace { padding: 0 !important; margin: 0 !important; overflow: visible !important; height: auto !important; max-width: 100% !important; }
+            .glass-card { box-shadow: none !important; border: none !important; backdrop-filter: none !important; padding: 0 !important; background: transparent !important; }
+            .print-container { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; margin: 0 !important; }
+            
+            table { width: 100% !important; border-collapse: collapse !important; font-size: 8pt !important; page-break-inside: avoid; }
+            thead th { border-bottom: 2px solid #000 !important; color: #000 !important; padding: 3px 2px !important; background: #eee !important; font-size: 8pt !important; }
+            td { border-bottom: 1px solid #CBD5E1 !important; padding: 2px 3px !important; }
+            
+            .shift-pill { 
+                border: 1px solid #64748b !important; 
+                background: #f8fafc !important; 
+                color: #000 !important; 
+                box-shadow: none !important; 
+                padding: 1px 3px !important; 
+                font-size: 8pt !important;
+                min-width: 55px !important;
+            }
+            .material-symbols-rounded { display: none !important; }
+            
+            body.print-short-active #monthlySection { display: none !important; }
+            body.print-short-active #shortPlanPrintSection { display: block !important; }
+            body:not(.print-short-active) #shortPlanPrintSection { display: none !important; }
         }
-    }
+        #shortPlanPrintSection { display: none; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800">
 
-    if(issues.length === 0){
-        badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1";
-        badge.innerHTML = `<span class="material-symbols-outlined text-sm">verified</span><span>VARDİYA PLANI UYGUN</span>`;
-
-        let extraNote = extraDays.length > 0
-            ? `<div class="mt-2.5 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-[#881337] text-xs font-semibold flex items-center gap-1.5">
-                   <span class="material-symbols-outlined text-base">bolt</span>
-                   <span>Bu ayda <strong>${extraDays.length} gün</strong> EXTRA vardiyası bulunmaktadır (kural ihlali sayılmaz).</span>
-               </div>`
-            : "";
-
-        container.innerHTML = `
-            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950">
-                <div class="font-bold flex items-center gap-2 text-sm">
-                    <span class="material-symbols-outlined text-emerald-700">check_circle</span>
-                    Tüm Ay Standart Vardiya Kuralına Uygun
-                </div>
-                <p class="text-xs text-emerald-800 mt-1">
-                    Seçili aydaki tüm günlerde 1 Kişi Gece, 1 Kişi Sabah ve 1 Kişi İzin dağılımı eksiksiz sağlanmıştır.
-                </p>
-                ${extraNote}
+    <!-- PREMIUM TOAST -->
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-[200%] opacity-0 z-[100] transition-all duration-400 ease-out w-[90%] max-w-md">
+        <div class="glass-card bg-slate-900/95 text-white px-5 py-3.5 rounded-2xl flex items-center gap-3.5 shadow-2xl border border-slate-700/50">
+            <div class="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0" id="toastIconContainer">
+                <span class="material-symbols-rounded text-xl" id="toastIcon">check_circle</span>
             </div>
-        `;
-    } else {
-        badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-amber-100 text-amber-900 flex items-center gap-1";
-        badge.innerHTML = `<span class="material-symbols-outlined text-sm">warning</span><span>${issues.length} GÜNDE KURAL İHLALİ</span>`;
+            <div class="min-w-0 flex-1">
+                <h4 class="font-bold text-sm text-white" id="toastTitle">Başarılı</h4>
+                <p class="text-xs text-slate-300 font-medium truncate" id="toastMsg">Kaydedildi</p>
+            </div>
+        </div>
+    </div>
 
-        container.innerHTML = `
-            <div class="space-y-2">
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 text-xs font-semibold flex items-center gap-2">
-                    <span class="material-symbols-outlined text-amber-700 text-lg">error</span>
-                    Aşağıdaki günlerde 1 Gece + 1 Sabah + 1 İzin dengesinde sapma tespit edildi:
+    <!-- RESPONSIVE HEADER -->
+    <header class="bg-navy-950 text-white sticky top-0 z-40 border-b border-navy-800 shadow-lg no-print">
+        <div class="max-w-[1600px] mx-auto px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center shadow-glow flex-shrink-0 font-black text-white text-sm tracking-tighter">
+                    B.T
                 </div>
-                <div class="max-h-56 overflow-y-auto space-y-1.5 pr-1">
-                    ${issues.map(iss => `
-                        <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                            <div>
-                                <span class="font-bold text-slate-900">${iss.dateStr}:</span>
-                                <span class="text-slate-600 ml-1 font-medium">${iss.assignments}</span>
-                            </div>
-                            <div class="text-[11px] font-bold text-red-800 bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg self-start sm:self-auto flex items-center gap-1">
-                                <span class="material-symbols-outlined text-xs">priority_high</span>
-                                <span>${iss.missing ? 'Eksik: ' + iss.missing : ''}</span>
-                                <span>${iss.missing && iss.duplicated ? ' | ' : ''}</span>
-                                <span>${iss.duplicated ? 'Çakışma: ' + iss.duplicated : ''}</span>
-                            </div>
+                <div>
+                    <h1 class="font-extrabold text-sm sm:text-base tracking-tight leading-none text-white">BerkayDev<span class="text-accent-400 ml-1">Personel</span></h1>
+                    <p class="text-[9px] text-navy-300 font-mono tracking-widest uppercase mt-0.5">Yönetim Sistemi</p>
+                </div>
+            </div>
+
+            <!-- Central Toolbar & Controls -->
+            <div class="flex flex-wrap items-center gap-2.5 ml-auto">
+                
+                <!-- Team Toggle -->
+                <div class="flex items-center bg-navy-900 p-1 rounded-xl border border-navy-800">
+                    <button id="btnTeamBulasik" onclick="switchTeam('bulasikcilar')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-accent-500 text-white shadow-sm">
+                        <span class="material-symbols-rounded text-[15px]">local_dining</span> Bulaşık
+                    </button>
+                    <button id="btnTeamKepce" onclick="switchTeam('kepceciler')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-navy-300 hover:text-white">
+                        <span class="material-symbols-rounded text-[15px]">soup_kitchen</span> Kepçe
+                    </button>
+                </div>
+
+                <!-- Date Selector -->
+                <div class="flex items-center bg-navy-900 border border-navy-800 rounded-xl px-2 py-1">
+                    <select id="monthSelect" class="bg-transparent text-xs font-bold text-white outline-none cursor-pointer py-1 pr-1">
+                        <option value="0" class="text-black">Ocak</option><option value="1" class="text-black">Şubat</option><option value="2" class="text-black">Mart</option>
+                        <option value="3" class="text-black">Nisan</option><option value="4" class="text-black">Mayıs</option><option value="5" class="text-black">Haziran</option>
+                        <option value="6" class="text-black">Temmuz</option><option value="7" class="text-black">Ağustos</option><option value="8" class="text-black">Eylül</option>
+                        <option value="9" class="text-black">Ekim</option><option value="10" class="text-black">Kasım</option><option value="11" class="text-black">Aralık</option>
+                    </select>
+                    <div class="w-px h-3.5 bg-navy-700 mx-1"></div>
+                    <select id="yearSelect" class="bg-transparent text-xs font-bold text-white outline-none cursor-pointer py-1 pl-1 pr-1"></select>
+                    <button onclick="loadMonth()" class="ml-1.5 bg-accent-500 hover:bg-accent-400 text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-lg transition-colors">Yükle</button>
+                </div>
+
+                <!-- Save Action -->
+                <button id="saveShiftsBtn" onclick="saveAllPendingShifts()" class="relative bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)] flex items-center gap-1.5">
+                    <span class="material-symbols-rounded text-[16px]">save</span>
+                    <span>Kaydet</span>
+                    <span id="pendingCountBadge" class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full shadow border border-navy-950 hidden">0</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <main id="main-workspace" class="flex-1 w-full max-w-[1600px] mx-auto p-4 lg:p-8 space-y-6">
+
+        <!-- OVERVIEW & KPIS -->
+        <section class="grid grid-cols-1 xl:grid-cols-3 gap-5 no-print">
+            
+            <!-- Dashboard Info -->
+            <div class="glass-card rounded-2xl p-5 flex flex-col justify-center relative overflow-hidden">
+                <h2 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-1" id="currentTeamTitleTag">BULAŞIKÇILAR</h2>
+                <h3 class="text-2xl font-extrabold text-gradient mb-3">Aylık Operasyon</h3>
+                
+                <div class="flex items-center gap-2.5 mt-auto">
+                    <button onclick="printMonthlyPlan()" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow">
+                        <span class="material-symbols-rounded text-[16px]">print</span> Yazdır
+                    </button>
+                    <button onclick="resetMonth()" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 p-2.5 rounded-xl transition-all shadow-sm" title="Orijinale Dön">
+                        <span class="material-symbols-rounded text-[18px]">restore</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Validation -->
+            <div class="glass-card rounded-2xl p-5 border-t-4 border-t-emerald-500 relative overflow-hidden" id="valCard">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" id="valIconDiv">
+                        <span class="material-symbols-rounded text-emerald-500 text-lg" id="valIcon">verified_user</span>
+                    </div>
+                    <span id="ruleStatusBadge" class="bg-emerald-100 text-emerald-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">Geçerli</span>
+                </div>
+                <h4 class="font-extrabold text-slate-900 text-sm">Plan Denetimi</h4>
+                <div id="ruleValidationContainer" class="mt-1 text-xs"></div>
+            </div>
+
+            <!-- Live Status -->
+            <div class="glass-card rounded-2xl p-0 flex flex-col sm:flex-row overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-slate-200/50">
+                <div class="flex-1 p-5 bg-white/50">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-extrabold text-slate-900 text-xs flex items-center gap-1.5 uppercase">
+                            <span class="material-symbols-rounded text-accent-500 text-base">today</span> Bugün
+                        </h4>
+                        <span id="todayHeaderDate" class="text-[11px] font-bold text-slate-500 font-mono">--</span>
+                    </div>
+                    <div id="todayCardBody" class="space-y-1.5"></div>
+                </div>
+                <div class="flex-1 p-5 bg-slate-50/50">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-extrabold text-slate-900 text-xs flex items-center gap-1.5 uppercase">
+                            <span class="material-symbols-rounded text-indigo-500 text-base">event_upcoming</span> Yarın
+                        </h4>
+                        <span id="tomorrowHeaderDate" class="text-[11px] font-bold text-slate-500 font-mono">--</span>
+                    </div>
+                    <div id="tomorrowCardBody" class="space-y-1.5"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN SCHEDULE TABLE -->
+        <section id="monthlySection" class="glass-card rounded-3xl p-5 sm:p-6 print-container shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-3 no-print">
+                <div>
+                    <h2 id="tableTitle" class="text-xl font-black text-slate-900 uppercase tracking-tight">Ay Yıl Vardiyası</h2>
+                    <p id="tableSubtitle" class="text-xs font-semibold text-slate-500 mt-0.5"></p>
+                </div>
+                <div class="bg-accent-50 text-accent-700 text-xs font-bold px-3.5 py-1.5 rounded-xl border border-accent-100 flex items-center gap-1.5">
+                    <span class="material-symbols-rounded text-[16px]">touch_app</span> Hücreye tıklayarak değiştirebilirsiniz
+                </div>
+            </div>
+
+            <div class="table-container custom-scrollbar bg-white relative">
+                <table class="w-full text-left border-collapse min-w-[700px]">
+                    <thead id="monthlyThead"></thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PERSONNEL STATS & DIRECTORY -->
+        <section id="sec-staff" class="space-y-5 no-print">
+            <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-rounded text-accent-500 text-xl">monitoring</span> Personel Aylık Vardiya Dağılımı
+            </h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="statsGrid"></div>
+        </section>
+
+        <!-- TOOLS GRID -->
+        <section id="sec-planning" class="grid grid-cols-1 lg:grid-cols-3 gap-5 no-print">
+            
+            <!-- Swap -->
+            <div class="glass-card rounded-2xl p-5 flex flex-col relative overflow-hidden">
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-5 bg-amber-500 rounded-full"></span> Hızlı Vardiya Takas
+                </h3>
+                
+                <div class="space-y-3 relative z-10">
+                    <input type="date" id="swapDate" onchange="updateSwapShiftsPreview()" class="w-full bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-amber-500 block p-2.5 outline-none shadow-sm">
+                    
+                    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+                        <div class="space-y-1.5">
+                            <select id="swapPerson1" onchange="updateSwapShiftsPreview()" class="w-full bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-amber-500 block p-2.5 outline-none"></select>
+                            <div id="swapP1ShiftBadge" class="flex justify-center">--</div>
                         </div>
-                    `).join("")}
+                        <div class="w-7 h-7 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <span class="material-symbols-rounded text-base">sync_alt</span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <select id="swapPerson2" onchange="updateSwapShiftsPreview()" class="w-full bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-amber-500 block p-2.5 outline-none"></select>
+                            <div id="swapP2ShiftBadge" class="flex justify-center">--</div>
+                        </div>
+                    </div>
+                    <button onclick="confirmAndSwapShifts()" class="w-full mt-2 bg-amber-500 hover:bg-amber-400 text-white font-black text-xs py-3 rounded-xl transition-all shadow-md">TAKASI UYGULA</button>
                 </div>
             </div>
-        `;
-    }
-}
 
-/* =========================================================
-   VARDİYA DEĞİŞTİR / TAKAS ET SİSTEMİ
-========================================================= */
-function populateSwapSelectors(){
-    const p1 = document.getElementById("swapPerson1");
-    const p2 = document.getElementById("swapPerson2");
-    if(!p1 || !p2) return;
+            <!-- Short Plan -->
+            <div class="glass-card rounded-2xl p-5 flex flex-col relative overflow-hidden">
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-5 bg-teal-500 rounded-full"></span> Kısa Dönem Plan
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-3 mb-auto relative z-10">
+                    <div>
+                        <label class="block text-[9px] font-black text-slate-400 uppercase mb-1">Başlangıç</label>
+                        <input type="date" id="shortStartDate" class="w-full bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-teal-500 block p-2.5 outline-none shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-black text-slate-400 uppercase mb-1">Bitiş</label>
+                        <input type="date" id="shortEndDate" class="w-full bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-teal-500 block p-2.5 outline-none shadow-sm">
+                    </div>
+                </div>
+                
+                <div class="flex gap-2.5 mt-4 relative z-10">
+                    <button onclick="loadShortPlan()" class="flex-1 bg-teal-500 hover:bg-teal-400 text-white font-black text-xs py-3 rounded-xl transition-all shadow-md">GÖRÜNTÜLE</button>
+                    <button onclick="printShortPlan()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-3 py-3 rounded-xl transition-all shadow"><span class="material-symbols-rounded text-lg">print</span></button>
+                </div>
+            </div>
 
-    const optHtml = staffList.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("");
-    p1.innerHTML = optHtml;
-    p2.innerHTML = optHtml;
+            <!-- Personnel Mgmt -->
+            <div class="glass-card rounded-2xl p-5 flex flex-col relative overflow-hidden">
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-5 bg-purple-500 rounded-full"></span> Personel Yönetimi
+                </h3>
+                
+                <div class="flex gap-2.5 mb-4 relative z-10">
+                    <input type="text" id="newPersonName" placeholder="Personel Adı" class="flex-1 bg-white border border-slate-200 text-slate-900 font-bold text-xs rounded-xl focus:border-purple-500 block p-2.5 outline-none shadow-sm" />
+                    <button onclick="addNewPerson()" class="bg-purple-600 hover:bg-purple-500 text-white font-black px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center justify-center">
+                        <span class="material-symbols-rounded text-lg">add</span>
+                    </button>
+                </div>
+                
+                <div id="staffList" class="flex flex-wrap gap-2 relative z-10 max-h-36 overflow-y-auto"></div>
+                <table class="hidden"><tbody id="monthlyStaffSummaryTbody"></tbody></table>
+            </div>
 
-    if(staffList.length > 1){
-        p1.selectedIndex = 0;
-        p2.selectedIndex = 1;
-    }
-}
+        </section>
 
-window.updateSwapShiftsPreview = async function(){
-    const dateInput = document.getElementById("swapDate");
-    const p1Select = document.getElementById("swapPerson1");
-    const p2Select = document.getElementById("swapPerson2");
-    const b1 = document.getElementById("swapP1ShiftBadge");
-    const b2 = document.getElementById("swapP2ShiftBadge");
+        <!-- HIDDEN SHORT PLAN OUTPUT -->
+        <section id="shortPlanContainer" class="hidden glass-card rounded-3xl p-5 print-container no-print border-2 border-teal-500">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="shortPlanTitle" class="text-base font-black text-slate-900 uppercase">Kısa Dönem Planı</h3>
+                <button onclick="saveAllPendingShifts()" class="text-xs font-bold bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-slate-800 transition-colors shadow">Kaydet</button>
+            </div>
+            <div class="table-container custom-scrollbar bg-white">
+                <table class="w-full text-left border-collapse">
+                    <thead id="shortPlanThead"></thead>
+                    <tbody id="shortPlanTbody" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </section>
 
-    if(!dateInput || !p1Select || !p2Select || !dateInput.value) return;
+        <!-- HISTORY / AUDIT LOG -->
+        <section id="sec-history" class="glass-card rounded-2xl p-5 no-print max-w-4xl mx-auto w-full">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                    <span class="w-1.5 h-5 bg-slate-900 rounded-full"></span> İşlem Logları
+                </h3>
+                <button onclick="clearSystemHistory()" class="text-xs font-bold text-rose-500 hover:text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+                    <span class="material-symbols-rounded text-[14px]">delete</span> Temizle
+                </button>
+            </div>
+            <div id="historyList" class="overflow-y-auto max-h-60 custom-scrollbar pr-1 space-y-2.5"></div>
+        </section>
 
-    const date = new Date(dateInput.value + "T00:00:00");
-    const s1 = await getActualShiftForAnyDate(p1Select.value, date);
-    const s2 = await getActualShiftForAnyDate(p2Select.value, date);
+        <!-- PRINT-ONLY SHORT PLAN SECTION -->
+        <section id="shortPlanPrintSection" class="print-container">
+            <div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; margin-bottom:20px;">
+                <h1 id="shortPlanPrintTitle" style="font-size:18pt; font-weight:800; margin:0;">KISA DÖNEM VARDİYA PLANI</h1>
+                <div id="shortPlanPrintDateSubtitle" style="font-size:11pt; font-weight:600; margin-top:5px; color:#444;"></div>
+            </div>
+            <table class="w-full text-center border-collapse">
+                <thead id="shortPlanPrintThead"></thead>
+                <tbody id="shortPlanPrintTbody"></tbody>
+            </table>
+        </section>
 
-    if(b1) b1.innerHTML = `<span class="shift-pill ${s1} text-[10px] py-0.5 px-2">${getShiftIconTag(s1)} ${s1}</span>`;
-    if(b2) b2.innerHTML = `<span class="shift-pill ${s2} text-[10px] py-0.5 px-2">${getShiftIconTag(s2)} ${s2}</span>`;
-};
+    </main>
 
-window.confirmAndSwapShifts = async function(){
-    const dateInput = document.getElementById("swapDate");
-    const p1Select = document.getElementById("swapPerson1");
-    const p2Select = document.getElementById("swapPerson2");
+    <!-- PREMIUM MODAL (PERSON DETAIL) -->
+    <div id="personDetailModal" class="fixed inset-0 bg-navy-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden no-print transition-all duration-300 opacity-0">
+        <div class="bg-white rounded-3xl max-w-md w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden transform transition-transform duration-300 scale-95" id="modalContent">
+            
+            <div class="px-6 py-5 bg-slate-900 text-white relative overflow-hidden">
+                <div class="flex justify-between items-start relative z-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-accent-400 to-accent-600 text-white flex items-center justify-center font-black text-xl shadow-md capitalize" id="modalPersonAvatar">A</div>
+                        <div>
+                            <h3 id="modalPersonTitle" class="font-black text-xl capitalize tracking-tight leading-none">--</h3>
+                            <p id="modalPersonSubtitle" class="text-[11px] font-bold text-accent-300 mt-1 uppercase tracking-wider font-mono">--</p>
+                        </div>
+                    </div>
+                    <button onclick="closePersonModal()" class="text-slate-400 hover:text-white bg-white/10 p-2 rounded-xl transition-colors">
+                        <span class="material-symbols-rounded text-lg">close</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 grid grid-cols-4 gap-2 text-center" id="modalStatsGrid"></div>
+            <div class="px-6 py-3 overflow-y-auto flex-1 custom-scrollbar space-y-2 bg-white" id="modalDaysList"></div>
+            
+        </div>
+    </div>
 
-    if(!dateInput.value){
-        alert("Lütfen takas edilecek tarihi seçin.");
-        return;
-    }
+    <!-- Core Business Logic & Data -->
+    <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, get, set, remove, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-    const p1Id = p1Select.value;
-    const p2Id = p2Select.value;
-
-    if(p1Id === p2Id){
-        alert("Lütfen birbirinden farklı iki personel seçin.");
-        return;
-    }
-
-    const swapDateObj = new Date(dateInput.value + "T00:00:00");
-    const y = swapDateObj.getFullYear();
-    const m = swapDateObj.getMonth();
-    const d = swapDateObj.getDate();
-    const dateKey = String(d).padStart(2, "0");
-
-    const p1Name = getPersonDisplayName(p1Id);
-    const p2Name = getPersonDisplayName(p2Id);
-
-    const shiftP1 = await getActualShiftForAnyDate(p1Id, swapDateObj);
-    const shiftP2 = await getActualShiftForAnyDate(p2Id, swapDateObj);
-
-    if(shiftP1 === shiftP2){
-        alert(`${p1Name} ve ${p2Name} zaten aynı (${shiftP1}) vardiyadalar. Takas yapmaya gerek yok.`);
-        return;
-    }
-
-    const confirmed = confirm(
-        `${p1Name} ve ${p2Name}'nin ${d} ${ayIsimleri[m]} ${y} tarihindeki vardiyalarını takas etmek istediğinize emin misiniz?\n\n` +
-        `• ${p1Name}: ${shiftP1} ➔ ${shiftP2}\n` +
-        `• ${p2Name}: ${shiftP2} ➔ ${shiftP1}`
-    );
-
-    if(!confirmed) return;
-
-    try{
-        await set(ref(db, `${getMonthPath(y, m)}/${dateKey}/${p1Id}`), shiftP2);
-        await set(ref(db, `${getMonthPath(y, m)}/${dateKey}/${p2Id}`), shiftP1);
-
-        await push(ref(db, getHistoryPath()), {
-            person: `${p1Id} ↔ ${p2Id}`,
-            tarih: `${d} ${ayIsimleri[m]} ${y}`,
-            eskiVardiya: `${shiftP1} ↔ ${shiftP2}`,
-            yeniVardiya: `${shiftP2} ↔ ${shiftP1} (TAKAS)`,
-            zaman: serverTimestamp()
-        });
-
-        if(y === currentYear && m === currentMonth){
-            if(!currentData[dateKey]) currentData[dateKey] = {};
-            currentData[dateKey][p1Id] = shiftP2;
-            currentData[dateKey][p2Id] = shiftP1;
-
-            delete pendingChanges[`${y}_${m}_${dateKey}_${p1Id}`];
-            delete pendingChanges[`${y}_${m}_${dateKey}_${p2Id}`];
-            updatePendingBadge();
-        }
-
-        refreshAllViews();
-        alert(`${p1Name} ve ${p2Name}'nin ${d} ${ayIsimleri[m]} ${y} vardiyaları başarıyla değiştirildi!`);
-    } catch(err){
-        console.error("Vardiya takas hatası:", err);
-        firebaseError();
-        alert("Vardiya takası Firebase'e kaydedilemedi. İnternet bağlantınızı kontrol edin.");
-    }
-};
-
-/* =========================================================
-   TABLO OLUŞTURMA
-========================================================= */
-function renderTable(){
-    document.getElementById("tableTitle").innerText = `${ayIsimleri[currentMonth]} ${currentYear} VARDİYASI`;
-    document.getElementById("tableSubtitle").innerText = staffList.map(s => s.name).join(", ");
-    
-    const thead = document.getElementById("monthlyThead");
-    thead.innerHTML = `
-        <tr>
-            <th class="py-3 px-2 text-left text-slate-800 font-bold border-b-2 border-slate-900">Tarih</th>
-            ${staffList.map(p => `
-                <th class="py-3 px-2 text-slate-800 font-bold border-b-2 border-slate-900">${escapeHtml(p.name)}</th>
-            `).join("")}
-        </tr>
-    `;
-
-    const tbody = document.getElementById("tableBody");
-    tbody.innerHTML = "";
-    const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const today = getTurkeyNow();
-
-    for(let day = 1; day <= days; day++){
-        const date = new Date(currentYear, currentMonth, day);
-        const key = String(day).padStart(2, "0");
-        const isToday = date.getFullYear() === today.getFullYear() &&
-                        date.getMonth() === today.getMonth() &&
-                        date.getDate() === today.getDate();
-
-        const tr = document.createElement("tr");
-        tr.className = "border-b border-slate-100 hover:bg-slate-50/70 " + (isToday ? "today-row" : "");
-        
-        let rowHtml = `
-            <td class="py-2 px-2 text-left date-col font-bold">
-                ${day}
-                <span class="day-name font-normal ml-1 text-slate-500">${gunIsimleri[date.getDay()]}</span>
-                ${isToday ? '<span class="today-badge"><span class="material-symbols-outlined text-[10px]">stars</span>BUGÜN</span>' : ''}
-            </td>
-        `;
-
-        staffList.forEach(person => {
-            const shift = getPersonShift(person.id, date, key, currentData, currentYear, currentMonth);
-            const changeKey = `${currentYear}_${currentMonth}_${key}_${person.id}`;
-            const isPending = !!pendingChanges[changeKey];
-
-            rowHtml += `
-                <td class="py-1.5 px-1">
-                    <span
-                        class="shift-pill ${shift} ${isPending ? 'shift-pending' : ''}"
-                        data-person="${person.id}"
-                        data-year="${currentYear}"
-                        data-month="${currentMonth}"
-                        data-date="${key}"
-                        data-shift="${shift}"
-                        onclick="window.toggleShift(this)"
-                    >
-                        ${getShiftIconTag(shift)}
-                        <span>${shift}</span>
-                    </span>
-                </td>
-            `;
-        });
-
-        tr.innerHTML = rowHtml;
-        tbody.appendChild(tr);
-    }
-}
-
-/* =========================================================
-   VARDİYA DÖNGÜSÜ & DEĞİŞTİRME
-========================================================= */
-function getNextShift(currentShift){
-    switch(currentShift){
-        case "GECE": return "SABAH";
-        case "SABAH": return "İZİN";
-        case "İZİN": return "EXTRA";
-        case "EXTRA": return "GECE";
-        default: return "GECE";
-    }
-}
-
-window.toggleShift = function(element){
-    const person = element.dataset.person;
-    const dateKey = element.dataset.date;
-    const year = parseInt(element.dataset.year || currentYear);
-    const month = parseInt(element.dataset.month || currentMonth);
-    const oldShift = element.dataset.shift;
-    const newShift = getNextShift(oldShift);
-
-    const changeKey = `${year}_${month}_${dateKey}_${person}`;
-    const originalOldShift = pendingChanges[changeKey] ? pendingChanges[changeKey].oldShift : oldShift;
-
-    pendingChanges[changeKey] = {
-        year,
-        month,
-        dateKey,
-        person,
-        oldShift: originalOldShift,
-        newShift
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+      authDomain: "urunrakip.firebaseapp.com",
+      databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "urunrakip",
+      storageBucket: "urunrakip.appspot.com",
+      messagingSenderId: "893193039416",
+      appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
     };
 
-    if(originalOldShift === newShift){
-        delete pendingChanges[changeKey];
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const ayIsimleri = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+    const gunIsimleri = ["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+
+    function createUTCDate(year, month1Based, day) { return new Date(Date.UTC(year, month1Based - 1, day)); }
+    function dayDifference(date1, date2) { return Math.round((Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) - Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) / 86400000); }
+    function getCycleShift(date, anchorDate, cycle) {
+      let diff = dayDifference(date, anchorDate);
+      let index = diff % cycle.length;
+      if (index < 0) index += cycle.length;
+      return cycle[index];
     }
 
-    element.dataset.shift = newShift;
-    element.className = `shift-pill ${newShift} ${pendingChanges[changeKey] ? 'shift-pending' : ''}`;
-    element.innerHTML = `${getShiftIconTag(newShift)}<span>${newShift}</span>`;
+    const OCTOBER_2026_REFERENCE = {
+      "01": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "02": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "03": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "04": { person_aynur: "EXTRA", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "05": { person_aynur: "EXTRA", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "06": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "07": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "08": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "09": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "10": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "11": { person_aynur: "EXTRA", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "12": { person_aynur: "EXTRA", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "13": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "14": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "15": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "16": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "17": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "18": { person_aynur: "EXTRA", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "19": { person_aynur: "EXTRA", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "20": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "21": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "22": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "23": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "24": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "25": { person_aynur: "EXTRA", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "26": { person_aynur: "EXTRA", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "27": { person_aynur: "SABAH", person_muzeyyen: "İZİN",  person_omur: "SABAH", person_ozlem: "GECE"  },
+      "28": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "29": { person_aynur: "SABAH", person_muzeyyen: "SABAH", person_omur: "GECE",  person_ozlem: "İZİN"  },
+      "30": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" },
+      "31": { person_aynur: "SABAH", person_muzeyyen: "GECE",  person_omur: "İZİN",  person_ozlem: "SABAH" }
+    };
 
-    syncCellAcrossTables(person, year, month, dateKey, newShift, !!pendingChanges[changeKey]);
+    const bulasikAnchorDate = createUTCDate(2026, 10, 1);
+    const patternAynur    = ["SABAH", "SABAH", "SABAH", "EXTRA", "EXTRA", "SABAH", "SABAH"];
+    const patternMuzeyyen = ["GECE", "İZİN", "İZİN", "SABAH", "SABAH", "GECE"];
+    const patternOmur     = ["İZİN", "SABAH", "SABAH", "GECE", "GECE", "İZİN"];
+    const patternOzlem    = ["SABAH", "GECE", "GECE", "İZİN", "İZİN", "SABAH"];
 
-    updatePendingBadge();
-    if(year === currentYear && month === currentMonth){
-        updateStatsCards();
-        updateMonthlySummary();
-        updateRuleValidation();
-        updateTodayAndTomorrow();
-    }
-};
+    const TEAMS = {
+      bulasikcilar: { id: "bulasikcilar", name: "BULAŞIKÇILAR", firebaseRoot: "vardiya_sistemi", defaultPersonnel: [{ id: "person_aynur", name: "Aynur" }, { id: "person_muzeyyen", name: "Müzeyyen" }, { id: "person_omur", name: "Ömür" }, { id: "person_ozlem", name: "Özlem" }] },
+      kepceciler: { id: "kepceciler", name: "KEPÇECİLER", firebaseRoot: "kepceciler_v2", defaultPersonnel: [{ id: "ali", name: "ali" }, { id: "berkay", name: "Berkay" }, { id: "erdi", name: "Erdi" }] }
+    };
 
-function syncCellAcrossTables(person, year, month, dateKey, newShift, isPending){
-    const selector = `[data-person="${person}"][data-year="${year}"][data-month="${month}"][data-date="${dateKey}"]`;
-    document.querySelectorAll(selector).forEach(el => {
-        el.dataset.shift = newShift;
-        el.className = `shift-pill ${newShift} ${isPending ? 'shift-pending' : ''}`;
-        el.innerHTML = `${getShiftIconTag(newShift)}<span>${newShift}</span>`;
-    });
-}
+    let activeTeam = "bulasikcilar";
+    let personnelList = []; let monthData = {}; let pendingChanges = {}; let monthCache = {};
+    let currentMonth = null; let currentYear = null; let historyUnsubscribe = null;
 
-function updatePendingBadge(){
-    const count = Object.keys(pendingChanges).length;
-    const badge = document.getElementById("pendingCountBadge");
-    const saveBtn = document.getElementById("saveShiftsBtn");
-    
-    if(count > 0){
-        badge.innerText = `${count} Değişiklik`;
-        badge.classList.remove("hidden");
-        saveBtn.classList.add("ring-4", "ring-emerald-300");
-    } else {
-        badge.classList.add("hidden");
-        saveBtn.classList.remove("ring-4", "ring-emerald-300");
-    }
-}
+    function getTeamRoot() { return TEAMS[activeTeam].firebaseRoot; }
+    function getTeamMonthPath(year, month1Based) { return activeTeam === "bulasikcilar" ? `${getTeamRoot()}/vardiyalar/${year}/${month1Based}` : `vardiyalar/${year}/${month1Based}`; }
+    function getTeamHistoryPath() { return activeTeam === "bulasikcilar" ? `${getTeamRoot()}/vardiyaGecmisi` : "vardiyaGecmisi"; }
+    function getTeamStaffPath() { return activeTeam === "bulasikcilar" ? `${getTeamRoot()}/personeller` : "personeller"; }
 
-/* =========================================================
-   KAYDETME
-========================================================= */
-window.saveAllPendingShifts = async function(){
-    const keys = Object.keys(pendingChanges);
-    if(keys.length === 0){
-        alert("Kaydedilecek herhangi bir vardiya değişikliği bulunmuyor.");
-        return;
-    }
-
-    const saveBtn = document.getElementById("saveShiftsBtn");
-    const originalText = saveBtn.innerHTML;
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">refresh</span> Kaydediliyor...`;
-
-    try{
-        for(const k of keys){
-            const item = pendingChanges[k];
-            await set(
-                ref(db, `${getMonthPath(item.year, item.month)}/${item.dateKey}/${item.person}`),
-                item.newShift
-            );
-            await push(ref(db, getHistoryPath()), {
-                person: item.person,
-                tarih: `${item.year}-${String(item.month + 1).padStart(2,"0")}-${item.dateKey}`,
-                eskiVardiya: item.oldShift,
-                yeniVardiya: item.newShift,
-                zaman: serverTimestamp()
-            });
-
-            if(item.year === currentYear && item.month === currentMonth){
-                if(!currentData[item.dateKey]) currentData[item.dateKey] = {};
-                currentData[item.dateKey][item.person] = item.newShift;
-            }
+    function getOriginalShift(teamId, personId, personName, personIndex, date) {
+      const dayKey = String(date.getDate()).padStart(2, "0");
+      if (teamId === "bulasikcilar") {
+        if (date.getFullYear() === 2026 && date.getMonth() === 9 && OCTOBER_2026_REFERENCE[dayKey] && OCTOBER_2026_REFERENCE[dayKey][personId]) return OCTOBER_2026_REFERENCE[dayKey][personId];
+        const name = (personName || "").trim().toLowerCase();
+        if (personId === "person_aynur" || name === "aynur" || personIndex === 0) return getCycleShift(date, bulasikAnchorDate, patternAynur);
+        if (personId === "person_muzeyyen" || name === "müzeyyen" || personIndex === 1) return getCycleShift(date, bulasikAnchorDate, patternMuzeyyen);
+        if (personId === "person_omur" || name === "ömür" || personIndex === 2) return getCycleShift(date, bulasikAnchorDate, patternOmur);
+        if (personId === "person_ozlem" || name === "özlem" || personIndex === 3) return getCycleShift(date, bulasikAnchorDate, patternOzlem);
+        return getCycleShift(date, bulasikAnchorDate, patternMuzeyyen);
+      } else {
+        const p = (personId || personName || "").toLowerCase();
+        const isBerkayOrAzize = (p === "berkay" || p === "azize"); const isAli = (p === "ali"); const isErdi = (p === "erdi");
+        const diffFromOct1 = dayDifference(date, createUTCDate(2026, 10, 1));
+        if (diffFromOct1 >= 0 && diffFromOct1 < 5) {
+          if (isAli) return ["İZİN", "GECE", "İZİN", "GECE", "GECE"][diffFromOct1];
+          if (isBerkayOrAzize) return ["GECE", "İZİN", "GECE", "İZİN", "SABAH"][diffFromOct1];
+          if (isErdi) return ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN"][diffFromOct1];
         }
+        const anchorDate = createUTCDate(2026, 10, 6);
+        if (isAli) return getCycleShift(date, anchorDate, ["İZİN", "İZİN", "GECE", "GECE", "GECE", "GECE"]);
+        if (isBerkayOrAzize) return getCycleShift(date, anchorDate, ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"]);
+        if (isErdi) return getCycleShift(date, anchorDate, ["SABAH", "SABAH", "SABAH", "SABAH", "İZİN", "İZİN"]);
+        return "İZİN";
+      }
+    }
 
-        pendingChanges = {};
-        updatePendingBadge();
+    function getPersonShift(personId, personName, personIndex, dateKey, date, sourceData = monthData, targetYear = currentYear, targetMonth = currentMonth) {
+      const pendingKey = `${activeTeam}_${targetYear || date.getFullYear()}_${(targetMonth !== null ? targetMonth + 1 : date.getMonth() + 1)}_${dateKey}_${personId}`;
+      if (pendingChanges[pendingKey] !== undefined) return pendingChanges[pendingKey];
+      if (sourceData && sourceData[dateKey]) {
+        if (sourceData[dateKey][personId]) return sourceData[dateKey][personId];
+        if (activeTeam === "kepceciler" && personId === "berkay" && sourceData[dateKey]["azize"]) return sourceData[dateKey]["azize"];
+      }
+      return getOriginalShift(activeTeam, personId, personName, personIndex, date);
+    }
 
-        document.querySelectorAll(".shift-pending").forEach(el => {
-            el.classList.remove("shift-pending");
-        });
+    async function getActualShiftForAnyDate(personId, personName, personIndex, dateObj) {
+      const y = dateObj.getFullYear(); const m = dateObj.getMonth(); const dateKey = String(dateObj.getDate()).padStart(2, "0");
+      if (y === currentYear && m === currentMonth) return getPersonShift(personId, personName, personIndex, dateKey, dateObj, monthData, y, m);
+      const fetched = await fetchMonthDataFromFirebase(y, m + 1);
+      return getPersonShift(personId, personName, personIndex, dateKey, dateObj, fetched, y, m);
+    }
 
-        firebaseConnected();
-        refreshAllViews();
-        loadHistory();
+    function getShiftIconTag(shift) {
+        switch (shift) {
+            case "SABAH": return '<span class="material-symbols-rounded text-[14px]">wb_twilight</span>';
+            case "GECE": return '<span class="material-symbols-rounded text-[14px]">bedtime</span>';
+            case "İZİN": return '<span class="material-symbols-rounded text-[14px]">home</span>';
+            case "EXTRA": return '<span class="material-symbols-rounded text-[14px]">electric_bolt</span>';
+            default: return '';
+        }
+    }
+
+    function showToast(title = "Başarılı", msg = "Kaydedildi", type = "success") {
+      const toast = document.getElementById("toast"); 
+      const iconContainer = document.getElementById("toastIconContainer");
+      const icon = document.getElementById("toastIcon");
+      
+      document.getElementById("toastTitle").innerText = title;
+      document.getElementById("toastMsg").innerText = msg;
+      
+      if(type === "error") {
+          icon.innerText = "error";
+          iconContainer.className = "w-9 h-9 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0";
+      } else {
+          icon.innerText = "check_circle";
+          iconContainer.className = "w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0";
+      }
+
+      toast.classList.remove("-translate-y-[200%]", "opacity-0");
+      setTimeout(() => toast.classList.add("-translate-y-[200%]", "opacity-0"), 3000);
+    }
+
+    async function fetchPersonnel() {
+      try {
+        const snap = await get(ref(db, getTeamStaffPath()));
+        if (snap.exists()) {
+          let list = Array.isArray(snap.val()) ? snap.val().filter(Boolean) : Object.keys(snap.val()).map(k => typeof snap.val()[k] === "string" ? { id: k, name: snap.val()[k] } : snap.val()[k]);
+          if (activeTeam === "kepceciler") {
+            let cleaned = []; let seen = new Set();
+            for (let p of list) {
+              let nId = (p.id === "azize") ? "berkay" : p.id;
+              if (!seen.has(nId)) { seen.add(nId); cleaned.push({ id: nId, name: (p.name.toLowerCase() === "azize" || p.name.toLowerCase() === "berkay") ? "Berkay" : p.name }); }
+            }
+            if (!cleaned.some(p => p.id === "ali")) cleaned.unshift({ id: "ali", name: "ali" });
+            if (!cleaned.some(p => p.id === "berkay")) cleaned.splice(1, 0, { id: "berkay", name: "Berkay" });
+            if (!cleaned.some(p => p.id === "erdi")) cleaned.push({ id: "erdi", name: "Erdi" });
+            personnelList = cleaned;
+          } else personnelList = list;
+        } else {
+          personnelList = [...TEAMS[activeTeam].defaultPersonnel]; await set(ref(db, getTeamStaffPath()), personnelList);
+        }
+      } catch (e) { personnelList = [...TEAMS[activeTeam].defaultPersonnel]; }
+      renderStaffManager();
+    }
+
+    async function fetchMonthDataFromFirebase(year, month1Based) {
+      const cacheKey = `${activeTeam}_${year}_${month1Based}`;
+      if (monthCache[cacheKey]) return monthCache[cacheKey];
+      try {
+        const snap = await get(ref(db, getTeamMonthPath(year, month1Based)));
+        monthCache[cacheKey] = snap.exists() ? (snap.val() || {}) : {};
+        return monthCache[cacheKey];
+      } catch (e) { return {}; }
+    }
+
+    window.switchTeam = async function(teamId) {
+      if (Object.keys(pendingChanges).length > 0 && !confirm("Kaydedilmemiş değişiklikler var. Takım değiştirilirse silinecek. Devam mı?")) return;
+      pendingChanges = {}; activeTeam = teamId;
+      
+      const b1 = document.getElementById("btnTeamBulasik"); const b2 = document.getElementById("btnTeamKepce");
+      const titleTag = document.getElementById("currentTeamTitleTag");
+
+      const activeClass = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-accent-500 text-white shadow-sm";
+      const inactiveClass = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-navy-300 hover:text-white";
+
+      if (activeTeam === "bulasikcilar") {
+        if(b1) b1.className = activeClass; if(b2) b2.className = inactiveClass;
+        if(titleTag) titleTag.innerText = "BULAŞIKÇILAR";
+      } else {
+        if(b2) b2.className = activeClass; if(b1) b1.className = inactiveClass;
+        if(titleTag) titleTag.innerText = "KEPÇECİLER";
+      }
+      await loadMonth();
+    };
+
+    window.loadMonth = async function() {
+      currentMonth = parseInt(document.getElementById("monthSelect").value);
+      currentYear = parseInt(document.getElementById("yearSelect").value);
+      await fetchPersonnel();
+      monthData = await fetchMonthDataFromFirebase(currentYear, currentMonth + 1);
+      refreshAllViews(); loadHistory();
+      showToast("Ay Yüklendi", `${ayIsimleri[currentMonth]} ${currentYear} dönemi başarıyla yüklendi.`);
+    };
+
+    function refreshAllViews() {
+      renderTable(); updatePendingBadge(); renderRuleValidation(); renderTodayTomorrow(); renderStatisticsAndSummary(); populateSwapSelects();
+    }
+
+    function updatePendingBadge() {
+      const badge = document.getElementById("pendingCountBadge");
+      const count = Object.keys(pendingChanges).length;
+      if (count > 0) { 
+          badge.innerText = count; 
+          badge.classList.remove("hidden"); 
+      } else { 
+          badge.classList.add("hidden"); 
+      }
+    }
+
+    function renderTable() {
+      document.getElementById("tableTitle").innerText = `${ayIsimleri[currentMonth]} ${currentYear}`;
+      document.getElementById("tableSubtitle").innerText = personnelList.map(s => s.name).join(", ");
+      const thead = document.getElementById("monthlyThead"); const tbody = document.getElementById("tableBody");
+      
+      if (personnelList.length === 0) {
+        thead.innerHTML = `<tr><th class="py-4 px-6 text-left">Tarih</th></tr>`;
+        tbody.innerHTML = `<tr><td class="py-10 px-6 text-center text-slate-400 font-bold">Personel bulunmuyor.</td></tr>`; return;
+      }
+      
+      let headHtml = `<tr><th class="sticky left-0 z-10 py-3.5 px-5 text-left min-w-[130px] shadow-[1px_0_0_0_#e2e8f0]">Tarih</th>`;
+      personnelList.forEach(p => headHtml += `<th class="py-3.5 px-3 text-center min-w-[125px] text-slate-900 font-black text-xs tracking-wide">${escapeHtml(p.name)}</th>`);
+      thead.innerHTML = headHtml + `</tr>`; tbody.innerHTML = "";
+      
+      const days = new Date(currentYear, currentMonth + 1, 0).getDate(); const today = new Date();
+      for (let day = 1; day <= days; day++) {
+        const date = new Date(currentYear, currentMonth, day); const dayKey = String(day).padStart(2, "0");
+        const isToday = date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate();
         
-        alert("Tüm vardiya değişiklikleri başarıyla kaydedildi!");
-    }
-    catch(error){
-        console.error("Vardiyaları kaydetme hatası:", error);
-        firebaseError();
-        alert("Kayıt sırasında bir hata oluştu. Bağlantınızı kontrol edin.");
-    }
-    finally{
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = originalText;
-        updatePendingBadge();
-    }
-};
-
-/* =========================================================
-   KISA PLAN İŞLEMLERİ
-========================================================= */
-async function fetchMonthDataIfNeeded(year, month){
-    try{
-        const snap = await get(ref(db, getMonthPath(year, month)));
-        if(snap.exists()) return snap.val();
-    }catch(e){
-        console.error(e);
-    }
-    return {};
-}
-
-function formatDateTurkish(date){
-    return `${date.getDate()} ${ayIsimleri[date.getMonth()]} ${date.getFullYear()}`;
-}
-
-window.loadShortPlan = async function(){
-    const startVal = document.getElementById("shortStartDate").value;
-    const endVal = document.getElementById("shortEndDate").value;
-    if(!startVal || !endVal){
-        alert("Lütfen hem başlangıç hem de bitiş tarihini seçin.");
-        return;
-    }
-
-    const startDate = new Date(startVal + "T00:00:00");
-    const endDate = new Date(endVal + "T00:00:00");
-
-    if(startDate > endDate){
-        alert("Başlangıç tarihi bitiş tarihinden sonra olamaz!");
-        return;
-    }
-
-    const container = document.getElementById("shortPlanContainer");
-    const thead = document.getElementById("shortPlanThead");
-    const tbody = document.getElementById("shortPlanTbody");
-    const infoBadgeText = document.getElementById("shortPlanInfoBadgeText");
-
-    infoBadgeText.innerText = `${formatDateTurkish(startDate)} - ${formatDateTurkish(endDate)}`;
-
-    const monthsCache = {};
-    let cursor = new Date(startDate);
-    while(cursor <= endDate){
-        const y = cursor.getFullYear();
-        const m = cursor.getMonth();
-        const cacheKey = `${y}_${m}`;
-        if(!monthsCache[cacheKey]){
-            if(y === currentYear && m === currentMonth){
-                monthsCache[cacheKey] = currentData;
-            } else {
-                monthsCache[cacheKey] = await fetchMonthDataIfNeeded(y, m);
-            }
-        }
-        cursor.setDate(cursor.getDate() + 1);
-    }
-
-    thead.innerHTML = `
-        <tr>
-            <th class="py-2.5 px-3 text-left font-bold text-slate-800 text-xs border-b border-slate-200">Tarih</th>
-            ${staffList.map(p => `
-                <th class="py-2.5 px-3 font-bold text-slate-800 text-xs border-b border-slate-200">${escapeHtml(p.name)}</th>
-            `).join("")}
-        </tr>
-    `;
-
-    tbody.innerHTML = "";
-    cursor = new Date(startDate);
-    const today = getTurkeyNow();
-
-    while(cursor <= endDate){
-        const y = cursor.getFullYear();
-        const m = cursor.getMonth();
-        const d = cursor.getDate();
-        const dateKey = String(d).padStart(2, "0");
-        const cacheKey = `${y}_${m}`;
-        const monthData = monthsCache[cacheKey] || {};
-
-        const isToday = (cursor.getFullYear() === today.getFullYear() &&
-                         cursor.getMonth() === today.getMonth() &&
-                         cursor.getDate() === today.getDate());
-
-        const tr = document.createElement("tr");
-        tr.className = "border-b border-slate-100 hover:bg-slate-50/70 " + (isToday ? "today-row" : "");
-
-        let trContent = `
-            <td class="py-2.5 px-3 text-left font-bold text-xs">
-                ${d} ${ayIsimleri[m]}
-                <span class="day-name font-normal ml-1 text-slate-500">${gunIsimleri[cursor.getDay()]}</span>
-                ${isToday ? '<span class="today-badge"><span class="material-symbols-outlined text-[10px]">stars</span>BUGÜN</span>' : ''}
-            </td>
-        `;
-
-        staffList.forEach(person => {
-            const shift = getPersonShift(person.id, new Date(cursor), dateKey, monthData, y, m);
-            const changeKey = `${y}_${m}_${dateKey}_${person.id}`;
-            const isPending = !!pendingChanges[changeKey];
-
-            trContent += `
-                <td class="py-1.5 px-2">
-                    <span
-                        class="shift-pill ${shift} ${isPending ? 'shift-pending' : ''}"
-                        data-person="${person.id}"
-                        data-year="${y}"
-                        data-month="${m}"
-                        data-date="${dateKey}"
-                        data-shift="${shift}"
-                        onclick="window.toggleShift(this)"
-                    >
-                        ${getShiftIconTag(shift)}
-                        <span>${shift}</span>
-                    </span>
-                </td>
-            `;
-        });
-
-        tr.innerHTML = trContent;
-        tbody.appendChild(tr);
-
-        cursor.setDate(cursor.getDate() + 1);
-    }
-
-    container.classList.remove("hidden");
-};
-
-/* =========================================================
-   YAZDIRMA
-========================================================= */
-window.printMonthlyPlan = function(){
-    document.body.classList.remove("print-short-active");
-    window.print();
-};
-
-window.printShortPlan = async function(){
-    const startVal = document.getElementById("shortStartDate").value;
-    const endVal = document.getElementById("shortEndDate").value;
-    if(!startVal || !endVal){
-        alert("Lütfen önce başlangıç ve bitiş tarihlerini seçin.");
-        return;
-    }
-    const startDate = new Date(startVal + "T00:00:00");
-    const endDate = new Date(endVal + "T00:00:00");
-    if(startDate > endDate){
-        alert("Başlangıç tarihi bitiş tarihinden sonra olamaz!");
-        return;
-    }
-
-    const printSubtitle = document.getElementById("shortPlanPrintDateSubtitle");
-    printSubtitle.innerText = `${formatDateTurkish(startDate)} - ${formatDateTurkish(endDate)}`;
-
-    const thead = document.getElementById("shortPlanPrintThead");
-    const tbody = document.getElementById("shortPlanPrintTbody");
-
-    thead.innerHTML = `
-        <tr>
-            <th class="text-left font-bold" style="width: 25%;">Tarih</th>
-            ${staffList.map(p => `<th class="font-bold">${escapeHtml(p.name)}</th>`).join("")}
-        </tr>
-    `;
-
-    tbody.innerHTML = "";
-
-    const monthsCache = {};
-    let cursor = new Date(startDate);
-    while(cursor <= endDate){
-        const y = cursor.getFullYear();
-        const m = cursor.getMonth();
-        const cacheKey = `${y}_${m}`;
-        if(!monthsCache[cacheKey]){
-            if(y === currentYear && m === currentMonth){
-                monthsCache[cacheKey] = currentData;
-            } else {
-                monthsCache[cacheKey] = await fetchMonthDataIfNeeded(y, m);
-            }
-        }
-        cursor.setDate(cursor.getDate() + 1);
-    }
-
-    cursor = new Date(startDate);
-    while(cursor <= endDate){
-        const y = cursor.getFullYear();
-        const m = cursor.getMonth();
-        const d = cursor.getDate();
-        const dateKey = String(d).padStart(2, "0");
-        const cacheKey = `${y}_${m}`;
-        const monthData = monthsCache[cacheKey] || {};
-
-        const tr = document.createElement("tr");
+        const tr = document.createElement("tr"); 
+        tr.className = `hover:bg-slate-50 transition-colors ${isToday ? "today-row" : ""}`;
+        
         let rowHtml = `
-            <td class="text-left date-col font-bold">
-                ${d} ${ayIsimleri[m]}
-                <span class="day-name font-normal ml-1">(${gunIsimleri[cursor.getDay()]})</span>
-            </td>
-        `;
-
-        staffList.forEach(person => {
-            const shift = getPersonShift(person.id, new Date(cursor), dateKey, monthData, y, m);
-            rowHtml += `
-                <td>
-                    <span class="shift-pill ${shift}">
-                        ${shift}
-                    </span>
-                </td>
-            `;
+        <td class="sticky left-0 z-10 bg-white group-hover:bg-slate-50 transition-colors py-2 px-5 shadow-[1px_0_0_0_#f1f5f9] ${isToday ? '!bg-white' : ''}">
+            <div class="flex items-center">
+                <span class="font-extrabold text-slate-900 text-sm w-5">${day}</span>
+                <span class="text-slate-400 text-xs ml-2 font-bold uppercase tracking-wider">${gunIsimleri[date.getDay()]}</span>
+                ${isToday ? '<span class="today-badge no-print">BUGÜN</span>' : ""}
+            </div>
+        </td>`;
+        
+        personnelList.forEach((p, idx) => {
+          const shift = getPersonShift(p.id, p.name, idx, dayKey, date);
+          const isPending = pendingChanges[`${activeTeam}_${currentYear}_${currentMonth + 1}_${dayKey}_${p.id}`] !== undefined;
+          rowHtml += `<td class="py-1.5 px-2 text-center"><span class="shift-pill ${shift} ${isPending ? 'shift-pending' : ''}" data-day="${dayKey}" data-pid="${p.id}" data-idx="${idx}" onclick="window.toggleShiftCell(this)">${getShiftIconTag(shift)} <span>${shift}</span></span></td>`;
         });
-
-        tr.innerHTML = rowHtml;
-        tbody.appendChild(tr);
-
-        cursor.setDate(cursor.getDate() + 1);
+        tr.innerHTML = rowHtml; tbody.appendChild(tr);
+      }
     }
 
-    document.body.classList.add("print-short-active");
-    window.print();
-    setTimeout(() => {
-        document.body.classList.remove("print-short-active");
-    }, 1000);
-};
+    window.toggleShiftCell = function(element) {
+      const dayKey = element.dataset.day; const pid = element.dataset.pid; const idx = parseInt(element.dataset.idx);
+      const date = new Date(currentYear, currentMonth, parseInt(dayKey));
+      const curr = getPersonShift(pid, personnelList[idx]?.name, idx, dayKey, date);
+      const next = curr === "GECE" ? "SABAH" : curr === "SABAH" ? "İZİN" : curr === "İZİN" ? "EXTRA" : "GECE";
+      const saved = (monthData[dayKey] && monthData[dayKey][pid]) || getOriginalShift(activeTeam, pid, personnelList[idx]?.name, idx, date);
+      const pKey = `${activeTeam}_${currentYear}_${currentMonth + 1}_${dayKey}_${pid}`;
+      if (next === saved) delete pendingChanges[pKey]; else pendingChanges[pKey] = next;
+      refreshAllViews();
+    };
 
-/* =========================================================
-   AYI SIFIRLA
-========================================================= */
-window.resetMonth = async function(){
-    if(!confirm(`${ayIsimleri[currentMonth]} ${currentYear} ayındaki değiştirilmiş vardiyalar orijinal düzene döndürülecek. Emin misin?`)){
-        return;
+    window.saveAllPendingShifts = async function() {
+      const keys = Object.keys(pendingChanges); if (keys.length === 0) return;
+      const btn = document.getElementById("saveShiftsBtn"); 
+      const orig = btn.innerHTML; 
+      btn.innerHTML = `<span class="material-symbols-rounded text-base animate-spin">sync</span> Kaydediliyor...`; 
+      btn.disabled = true;
+      try {
+        for (const k of keys) {
+          const parts = k.split("_"); const yr = parts[1]; const mo = parts[2]; const dayKey = parts[3]; const pid = parts.slice(4).join("_");
+          const newShift = pendingChanges[k]; const p = personnelList.find(x => x.id === pid) || { name: pid };
+          const savedOld = (monthData[dayKey] && monthData[dayKey][pid]) || getOriginalShift(parts[0], pid, p.name, 0, new Date(parseInt(yr), parseInt(mo)-1, parseInt(dayKey)));
+          await set(ref(db, `${getTeamMonthPath(yr, mo)}/${dayKey}/${pid}`), newShift);
+          await push(ref(db, getTeamHistoryPath()), { person: p.name, tarih: `${dayKey}.${String(mo).padStart(2,'0')}.${yr}`, eskiVardiya: savedOld, yeniVardiya: newShift, zaman: serverTimestamp() });
+          if (parseInt(yr) === currentYear && (parseInt(mo) - 1) === currentMonth) { if(!monthData[dayKey]) monthData[dayKey] = {}; monthData[dayKey][pid] = newShift; }
+        }
+        pendingChanges = {}; delete monthCache[`${activeTeam}_${currentYear}_${currentMonth + 1}`];
+        refreshAllViews(); loadHistory(); showToast("Başarılı", "Tüm vardiya değişiklikleri sisteme işlendi.");
+      } catch (e) { showToast("Bağlantı Hatası", "Kayıt işlemi başarısız oldu.", "error"); } finally { btn.innerHTML = orig; btn.disabled = false; }
+    };
+
+    window.resetMonth = async function() {
+      if (!confirm("Bu aya ait tüm manuel değişiklikler silinecektir. Onaylıyor musunuz?")) return;
+      try {
+        await remove(ref(db, getTeamMonthPath(currentYear, currentMonth + 1)));
+        monthData = {}; delete monthCache[`${activeTeam}_${currentYear}_${currentMonth + 1}`];
+        Object.keys(pendingChanges).forEach(k => { if(k.startsWith(`${activeTeam}_${currentYear}_${currentMonth + 1}_`)) delete pendingChanges[k]; });
+        refreshAllViews(); showToast("Sıfırlandı", "Aylık tablo orijinal formuna döndürüldü.");
+      } catch(e) {}
+    };
+
+    function renderRuleValidation() {
+      const badge = document.getElementById("ruleStatusBadge");
+      const container = document.getElementById("ruleValidationContainer"); 
+      const valCard = document.getElementById("valCard");
+      const valIcon = document.getElementById("valIcon");
+      const valIconDiv = document.getElementById("valIconDiv");
+      let v = [];
+      const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+      for (let d = 1; d <= days; d++) {
+        const dayKey = String(d).padStart(2, "0"); let c = { SABAH:0, GECE:0, İZİN:0, EXTRA:0 };
+        personnelList.forEach((p, idx) => c[getPersonShift(p.id, p.name, idx, dayKey, new Date(currentYear, currentMonth, d))]++);
+        if (activeTeam === "bulasikcilar") {
+          let g = c.SABAH + c.EXTRA; let iss=[]; if(g!==2) iss.push(`Gündüz: ${g}`); if(c.GECE!==1) iss.push(`Gece: ${c.GECE}`); if(c.İZİN!==1) iss.push(`İzin: ${c.İZİN}`);
+          if(iss.length) v.push(`<span class="font-bold">${dayKey} ${ayIsimleri[currentMonth]}:</span> ${iss.join(", ")}`);
+        } else {
+          if(c.EXTRA===0){ let iss=[]; if(c.SABAH!==1) iss.push(`Sab: ${c.SABAH}`); if(c.GECE!==1) iss.push(`Gec: ${c.GECE}`); if(c.İZİN!==1) iss.push(`İzn: ${c.İZİN}`);
+          if(iss.length) v.push(`<span class="font-bold">${dayKey} ${ayIsimleri[currentMonth]}:</span> ${iss.join(", ")}`); }
+        }
+      }
+      if (v.length === 0) { 
+          valCard.className = "glass-card rounded-2xl p-5 border-t-4 border-t-emerald-500 relative overflow-hidden";
+          badge.className = "bg-emerald-100 text-emerald-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider";
+          badge.innerText = "GEÇERLİ";
+          valIconDiv.className = "w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center";
+          valIcon.className = "material-symbols-rounded text-emerald-600 text-lg";
+          valIcon.innerText = "verified_user";
+          container.innerHTML = `<p class="text-xs font-semibold text-slate-500 mt-1">Vardiya planı kurallara uygun.</p>`;
+      } else { 
+          valCard.className = "glass-card rounded-2xl p-5 border-t-4 border-t-rose-500 relative overflow-hidden";
+          badge.className = "bg-rose-100 text-rose-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider";
+          badge.innerText = `${v.length} HATA`;
+          valIconDiv.className = "w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center";
+          valIcon.className = "material-symbols-rounded text-rose-600 text-lg";
+          valIcon.innerText = "warning";
+          
+          let listHtml = v.slice(0,2).map(msg => `<div class="text-[11px] font-medium text-rose-800 bg-rose-50 px-2 py-1 rounded border border-rose-100 truncate">${msg}</div>`).join("");
+          if(v.length>2) listHtml += `<div class="text-[10px] font-black text-rose-600 mt-1 uppercase">+ ${v.length-2} GÜN DAHA</div>`;
+          container.innerHTML = `<div class="mt-1 space-y-1">${listHtml}</div>`;
+      }
     }
-    try{
-        await remove(ref(db, getMonthPath(currentYear, currentMonth)));
-        currentData = {};
-        pendingChanges = {};
-        updatePendingBadge();
 
-        await push(ref(db, getHistoryPath()), {
-            person:"SİSTEM",
-            tarih: `${currentYear}-${String(currentMonth + 1).padStart(2,"0")}`,
-            eskiVardiya: "Değiştirilmiş vardiyalar",
-            yeniVardiya: "ORİJİNAL DÜZEN",
-            zaman: serverTimestamp()
+    async function renderTodayTomorrow() {
+      const t = new Date(); const tm = new Date(); tm.setDate(t.getDate()+1);
+      document.getElementById("todayHeaderDate").innerText = `${t.getDate()} ${ayIsimleri[t.getMonth()]}`; 
+      document.getElementById("tomorrowHeaderDate").innerText = `${tm.getDate()} ${ayIsimleri[tm.getMonth()]}`;
+      
+      const render = async (date, id) => {
+        let h = "";
+        for(let i=0; i<personnelList.length; i++) {
+          let s = await getActualShiftForAnyDate(personnelList[i].id, personnelList[i].name, i, date);
+          let initial = personnelList[i].name.charAt(0).toUpperCase();
+          h += `
+          <div class="flex items-center justify-between py-1.5 px-2.5 bg-white/60 hover:bg-white rounded-xl border border-white transition-all shadow-sm group">
+              <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-black text-slate-500 group-hover:text-slate-700">${initial}</div>
+                  <span class="text-xs font-black text-slate-900 capitalize tracking-tight">${escapeHtml(personnelList[i].name)}</span>
+              </div>
+              <span class="shift-pill ${s} !w-auto !min-w-[70px] !py-1 text-[10px] pointer-events-none">${getShiftIconTag(s)} <span>${s}</span></span>
+          </div>`;
+        }
+        document.getElementById(id).innerHTML = h || '<div class="text-center text-xs font-bold text-slate-400 py-3">Kayıt Yok</div>';
+      };
+      await render(t, "todayCardBody"); await render(tm, "tomorrowCardBody");
+    }
+
+    function populateSwapSelects() {
+      let h = personnelList.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("");
+      const s1 = document.getElementById("swapPerson1"); const s2 = document.getElementById("swapPerson2");
+      s1.innerHTML = h; s2.innerHTML = h; if(personnelList.length>1) s2.selectedIndex=1;
+      if(!document.getElementById("swapDate").value) document.getElementById("swapDate").value = new Date().toISOString().split('T')[0];
+      updateSwapShiftsPreview();
+    }
+    
+    window.updateSwapShiftsPreview = async function() {
+      const dVal = document.getElementById("swapDate").value; if(!dVal) return; const d = new Date(dVal+"T00:00:00");
+      const p1 = personnelList.find(x => x.id === document.getElementById("swapPerson1").value);
+      const p2 = personnelList.find(x => x.id === document.getElementById("swapPerson2").value);
+      if(p1) { let s1 = await getActualShiftForAnyDate(p1.id, p1.name, personnelList.indexOf(p1), d); document.getElementById("swapP1ShiftBadge").innerHTML = `<span class="shift-pill ${s1} !w-auto !py-1 pointer-events-none text-[10px] shadow-none">${getShiftIconTag(s1)} <span>${s1}</span></span>`; }
+      if(p2) { let s2 = await getActualShiftForAnyDate(p2.id, p2.name, personnelList.indexOf(p2), d); document.getElementById("swapP2ShiftBadge").innerHTML = `<span class="shift-pill ${s2} !w-auto !py-1 pointer-events-none text-[10px] shadow-none">${getShiftIconTag(s2)} <span>${s2}</span></span>`; }
+    };
+    
+    window.confirmAndSwapShifts = async function() {
+      const dVal = document.getElementById("swapDate").value; const id1 = document.getElementById("swapPerson1").value; const id2 = document.getElementById("swapPerson2").value;
+      if(id1===id2) return alert("Lütfen farklı personel seçiniz.");
+      const d = new Date(dVal+"T00:00:00"); const dayKey = String(d.getDate()).padStart(2,"0"); const yr=d.getFullYear(); const mo=d.getMonth()+1;
+      const p1 = personnelList.find(x=>x.id===id1); const p2 = personnelList.find(x=>x.id===id2);
+      const s1 = await getActualShiftForAnyDate(p1.id, p1.name, personnelList.indexOf(p1), d); const s2 = await getActualShiftForAnyDate(p2.id, p2.name, personnelList.indexOf(p2), d);
+      if(s1===s2) return alert("Seçili personellerin vardiyaları zaten aynı.");
+      if(!confirm("Vardiya takasını onaylıyor musunuz?")) return;
+      const tD = await fetchMonthDataFromFirebase(yr, mo); if(!tD[dayKey]) tD[dayKey] = {};
+      tD[dayKey][p1.id] = s2; tD[dayKey][p2.id] = s1;
+      try {
+        await set(ref(db, `${getTeamMonthPath(yr, mo)}/${dayKey}/${p1.id}`), s2); await set(ref(db, `${getTeamMonthPath(yr, mo)}/${dayKey}/${p2.id}`), s1);
+        delete monthCache[`${activeTeam}_${yr}_${mo}`];
+        await push(ref(db, getTeamHistoryPath()), { person: `${p1.name} ↔ ${p2.name}`, tarih: `${dayKey}.${String(mo).padStart(2,'0')}.${yr}`, eskiVardiya: `${s1}/${s2}`, yeniVardiya: `${s2}/${s1}`, zaman: serverTimestamp() });
+        if(yr===currentYear && mo===(currentMonth+1)) monthData = tD;
+        refreshAllViews(); loadHistory(); showToast("İşlem Başarılı", "Vardiya takası kaydedildi.");
+      } catch(e){ showToast("Hata", "Takas gerçekleştirilemedi.", "error"); }
+    };
+
+    window.loadShortPlan = async function() {
+      const sV = document.getElementById("shortStartDate").value; const eV = document.getElementById("shortEndDate").value;
+      if(!sV || !eV || new Date(sV)>new Date(eV)) return alert("Geçerli bir tarih aralığı giriniz.");
+      const s = new Date(sV+"T00:00:00"); const e = new Date(eV+"T00:00:00");
+      document.getElementById("shortPlanTitle").innerText = `${s.toLocaleDateString("tr-TR")} - ${e.toLocaleDateString("tr-TR")}`;
+      
+      document.getElementById("shortPlanThead").innerHTML = `<tr><th class="py-3 px-5 text-left text-xs font-black text-slate-400 uppercase">Tarih</th>${personnelList.map(p=>`<th class="py-3 px-3 text-center text-xs font-black text-slate-900">${escapeHtml(p.name)}</th>`).join("")}</tr>`;
+      const b = document.getElementById("shortPlanTbody"); b.innerHTML = "";
+      let c = new Date(s);
+      
+      while(c<=e) {
+        const yr=c.getFullYear(); const mo=c.getMonth()+1; const dayKey=String(c.getDate()).padStart(2,"0");
+        const d = await fetchMonthDataFromFirebase(yr,mo);
+        let h = `<td class="py-2.5 px-5 whitespace-nowrap"><span class="font-extrabold text-slate-900">${c.getDate()}</span> <span class="font-bold text-slate-500">${ayIsimleri[c.getMonth()]}</span> <span class="text-slate-300 text-xs ml-1 font-mono">${gunIsimleri[c.getDay()]}</span></td>`;
+        personnelList.forEach((p,i) => { 
+            let sft = getPersonShift(p.id,p.name,i,dayKey,c,d,yr,c.getMonth()); 
+            h+=`<td class="py-2 px-2 text-center"><span class="shift-pill ${sft} pointer-events-none">${getShiftIconTag(sft)} <span>${sft}</span></span></td>`; 
         });
-        refreshAllViews();
-        loadHistory();
-        if(!document.getElementById("shortPlanContainer").classList.contains("hidden")){
-            loadShortPlan();
-        }
-        alert("Seçili ay orijinal vardiya düzenine döndürüldü.");
-    }
-    catch(error){
-        console.error(error);
-        alert("Sıfırlama sırasında hata oluştu.");
-    }
-};
+        b.innerHTML += `<tr class="hover:bg-slate-50 transition-colors">${h}</tr>`; c.setDate(c.getDate()+1);
+      }
+      document.getElementById("shortPlanContainer").classList.remove("hidden");
+    };
 
-/* =========================================================
-   GEÇMİŞ
-========================================================= */
-function loadHistory(){
-    const list = document.getElementById("historyList");
-    if(historyUnsubscribe){
-        historyUnsubscribe();
+    function renderStatisticsAndSummary() {
+      let pp={}; personnelList.forEach(p=>pp[p.id]={name:p.name, S:0, G:0, I:0, E:0, T:0});
+      for (let d=1; d<=new Date(currentYear, currentMonth+1, 0).getDate(); d++) {
+        const dk = String(d).padStart(2,"0"); const dt = new Date(currentYear, currentMonth, d);
+        personnelList.forEach((p,i) => {
+          let s = getPersonShift(p.id, p.name, i, dk, dt);
+          if(s==="SABAH") pp[p.id].S++; else if(s==="GECE") pp[p.id].G++; else if(s==="İZİN") pp[p.id].I++; else if(s==="EXTRA") pp[p.id].E++; pp[p.id].T++;
+        });
+      }
+      
+      document.getElementById("statsGrid").innerHTML = Object.values(pp).map(p=>`
+        <div onclick='openPersonModal("${personnelList.find(x=>x.name===p.name).id}")' class="glass-card rounded-2xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between">
+            <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-base shadow-md capitalize">
+                    ${p.name.charAt(0)}
+                </div>
+                <div>
+                    <h4 class="text-base font-black text-slate-900 capitalize leading-tight">${escapeHtml(p.name)}</h4>
+                    <span class="text-[10px] text-accent-600 font-extrabold uppercase tracking-wider mt-0.5 block">Aylık Vardiya Özeti</span>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-4 gap-2 bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
+                <div class="flex flex-col items-center">
+                    <span class="text-xs font-bold text-slate-400 uppercase mb-0.5">Sabah</span>
+                    <span class="text-base font-black text-blue-600">${p.S}</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-xs font-bold text-slate-400 uppercase mb-0.5">Gece</span>
+                    <span class="text-base font-black text-rose-600">${p.G}</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-xs font-bold text-slate-400 uppercase mb-0.5">İzin</span>
+                    <span class="text-base font-black text-emerald-600">${p.I}</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-xs font-bold text-slate-400 uppercase mb-0.5">Extra</span>
+                    <span class="text-base font-black text-pink-600">${p.E}</span>
+                </div>
+            </div>
+        </div>
+      `).join("");
     }
-    historyUnsubscribe = onValue(
-        ref(db, getHistoryPath()),
-        snapshot => {
-            if(!snapshot.exists()){
-                list.innerText = "Henüz değişiklik yok.";
-                return;
-            }
-            const entries = Object.entries(snapshot.val()).reverse().slice(0,30);
-            list.innerHTML = "";
-            entries.forEach(([id, item]) => {
-                const displayName = getPersonDisplayName(item.person);
-                const div = document.createElement("div");
-                div.className = "history-item";
-                div.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:justify-between gap-1.5">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-sm text-slate-400">commit</span>
-                            <strong>${escapeHtml(displayName)}</strong>
-                            <span class="text-slate-400"> · ${item.tarih || ""}</span>
-                        </div>
-                        <div class="text-xs flex items-center gap-1">
-                            <span class="font-semibold text-slate-500">${item.eskiVardiya || ""}</span>
-                            <span class="material-symbols-outlined text-xs text-slate-400">arrow_right_alt</span>
-                            <span class="font-bold text-blue-600">${item.yeniVardiya || ""}</span>
-                        </div>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-        },
-        error => {
-            console.error("Geçmiş okuma hatası:", error);
-        }
-    );
-}
 
-window.clearSystemHistory = async function(){
-    if(!confirm("Tüm değişiklik geçmişi silinecek. Vardiya tablosu ve diğer Firebase verileri etkilenmeyecek. Devam edilsin mi?")){
-        return;
+    window.openPersonModal = function(id) {
+      const p = personnelList.find(x=>x.id===id); if(!p) return;
+      let o={SABAH:0,GECE:0,İZİN:0,EXTRA:0}; let list="";
+      for (let d=1; d<=new Date(currentYear, currentMonth+1, 0).getDate(); d++) {
+        const dk = String(d).padStart(2,"0"); const dt = new Date(currentYear, currentMonth, d);
+        let s = getPersonShift(p.id, p.name, personnelList.indexOf(p), dk, dt); o[s]++;
+        list += `
+        <div class="flex justify-between items-center py-2.5 px-3.5 mb-1.5 bg-slate-50 hover:bg-slate-100/70 border border-slate-100 rounded-xl transition-colors text-xs">
+            <span class="font-extrabold text-slate-800">${dk} <span class="text-slate-400 font-semibold ml-1">${ayIsimleri[currentMonth]}</span></span>
+            <span class="shift-pill ${s} !w-auto !min-w-[75px] !py-1 text-[10px] pointer-events-none shadow-none">${getShiftIconTag(s)} <span>${s}</span></span>
+        </div>`;
+      }
+      document.getElementById("modalPersonAvatar").innerText = p.name.charAt(0).toUpperCase();
+      document.getElementById("modalPersonTitle").innerText = p.name;
+      document.getElementById("modalPersonSubtitle").innerText = `${ayIsimleri[currentMonth]} ${currentYear}`;
+      document.getElementById("modalStatsGrid").innerHTML = `
+        <div class="bg-white rounded-xl p-2.5 shadow-sm border border-slate-100 flex flex-col"><span class="text-[8px] text-slate-400 font-black uppercase mb-0.5">Sabah</span><span class="text-base font-black text-slate-800">${o.SABAH}</span></div>
+        <div class="bg-white rounded-xl p-2.5 shadow-sm border border-slate-100 flex flex-col"><span class="text-[8px] text-slate-400 font-black uppercase mb-0.5">Gece</span><span class="text-base font-black text-slate-800">${o.GECE}</span></div>
+        <div class="bg-white rounded-xl p-2.5 shadow-sm border border-slate-100 flex flex-col"><span class="text-[8px] text-slate-400 font-black uppercase mb-0.5">İzin</span><span class="text-base font-black text-slate-800">${o.İZİN}</span></div>
+        <div class="bg-white rounded-xl p-2.5 shadow-sm border border-slate-100 flex flex-col"><span class="text-[8px] text-slate-400 font-black uppercase mb-0.5">Extra</span><span class="text-base font-black text-slate-800">${o.EXTRA}</span></div>
+      `;
+      document.getElementById("modalDaysList").innerHTML = list;
+      
+      const modal = document.getElementById("personDetailModal");
+      const content = document.getElementById("modalContent");
+      modal.classList.remove("hidden");
+      requestAnimationFrame(() => {
+          modal.classList.remove("opacity-0");
+          content.classList.remove("scale-95");
+      });
+    };
+    
+    window.closePersonModal = function() { 
+        const modal = document.getElementById("personDetailModal");
+        const content = document.getElementById("modalContent");
+        modal.classList.add("opacity-0");
+        content.classList.add("scale-95");
+        setTimeout(() => { modal.classList.add("hidden"); }, 300);
+    };
+
+    function renderStaffManager() {
+      document.getElementById("staffList").innerHTML = personnelList.map(p => `
+        <div class="bg-white border border-slate-200 text-slate-900 text-xs font-extrabold px-3 py-2 rounded-xl flex items-center gap-3 shadow-sm">
+          <span class="capitalize text-slate-900">${escapeHtml(p.name)}</span>
+          <div class="flex items-center gap-1 border-l border-slate-200 pl-2">
+              <button onclick="editPerson('${p.id}')" class="text-slate-400 hover:text-accent-500 p-1"><span class="material-symbols-rounded text-sm">edit</span></button>
+              <button onclick="deletePerson('${p.id}')" class="text-slate-400 hover:text-rose-500 p-1"><span class="material-symbols-rounded text-sm">delete</span></button>
+          </div>
+        </div>
+      `).join("");
     }
-    try{
-        await remove(ref(db, getHistoryPath()));
-        const historyList = document.getElementById("historyList");
-        if(historyList){
-            historyList.innerText = "Henüz değişiklik yok.";
-        }
-        alert("Değişiklik geçmişi temizlendi.");
+    
+    window.addNewPerson = async function() {
+      let v = document.getElementById("newPersonName").value.trim(); if(!v) return;
+      personnelList.push({ id: "person_"+Date.now(), name: v });
+      try { await set(ref(db, getTeamStaffPath()), personnelList); document.getElementById("newPersonName").value=""; refreshAllViews(); renderStaffManager(); showToast("Başarılı", "Personel eklendi.");} catch(e){}
+    };
+    
+    window.editPerson = async function(id) {
+      const p = personnelList.find(x=>x.id===id); if(!p) return;
+      const n = prompt("Yeni ismi girin:", p.name); if(!n || !n.trim() || n.trim()===p.name) return;
+      p.name = n.trim(); try { await set(ref(db, getTeamStaffPath()), personnelList); refreshAllViews(); renderStaffManager(); showToast("Başarılı", "Güncellendi.");} catch(e){}
+    };
+    
+    window.deletePerson = async function(id) {
+      if(!confirm("Personeli silmek istediğinize emin misiniz?")) return;
+      personnelList = personnelList.filter(x=>x.id!==id); try { await set(ref(db, getTeamStaffPath()), personnelList); refreshAllViews(); renderStaffManager(); showToast("Başarılı", "Personel silindi.");} catch(e){}
+    };
+
+    function loadHistory() {
+      if(historyUnsubscribe) historyUnsubscribe();
+      historyUnsubscribe = onValue(ref(db, getTeamHistoryPath()), snap => {
+        const c = document.getElementById("historyList");
+        if(!snap.exists()) { c.innerHTML="<div class='py-6 text-center text-xs font-bold text-slate-400'>İşlem geçmişi bulunmuyor.</div>"; return; }
+        c.innerHTML = Object.values(snap.val()).reverse().slice(0,30).map(r=>`
+          <div class="p-3 bg-white border border-slate-100 rounded-xl text-xs">
+            <div class="flex items-center justify-between mb-1.5">
+                <span class="font-extrabold text-slate-900 capitalize">${escapeHtml(r.person)}</span>
+                <span class="text-[9px] text-slate-400 font-bold bg-slate-50 px-2 py-0.5 rounded">${r.zaman ? new Date(r.zaman).toLocaleTimeString("tr-TR", {hour: '2-digit', minute:'2-digit'}) : ''}</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-lg text-slate-600">
+                <span class="font-bold">${r.tarih||''}</span>
+                <span class="text-slate-300">•</span>
+                <span class="line-through text-slate-400">${r.eskiVardiya||'-'}</span>
+                <span class="material-symbols-rounded text-xs text-accent-500">arrow_forward</span>
+                <span class="font-black text-slate-900">${r.yeniVardiya}</span>
+            </div>
+          </div>
+        `).join("");
+      });
     }
-    catch(error){
-        console.error("Geçmiş silme hatası:", error);
-        alert("Değişiklik geçmişi temizlenemedi.");
-    }
-};
+    
+    window.clearSystemHistory = async function() { if(confirm("Logları silmek istediğinize emin misiniz?")) try{ await remove(ref(db, getTeamHistoryPath())); loadHistory(); showToast("Başarılı", "Loglar temizlendi.");}catch(e){} };
 
-window.generateTable = function(){
-    loadMonth();
-};
+    window.printShortPlan = async function() {
+      const sV = document.getElementById("shortStartDate").value; const eV = document.getElementById("shortEndDate").value; if(!sV||!eV) return;
+      const s = new Date(sV+"T00:00:00"); const e = new Date(eV+"T00:00:00");
+      document.getElementById("shortPlanPrintDateSubtitle").innerText = `${s.toLocaleDateString("tr-TR")} - ${e.toLocaleDateString("tr-TR")}`;
+      document.getElementById("shortPlanPrintThead").innerHTML = `<tr><th style="text-align:left; width:20%">Tarih</th>${personnelList.map(p=>`<th>${escapeHtml(p.name)}</th>`).join("")}</tr>`;
+      const tb = document.getElementById("shortPlanPrintTbody"); tb.innerHTML = ""; let c=new Date(s);
+      while(c<=e) {
+        const yr=c.getFullYear(); const mo=c.getMonth()+1; const dk=String(c.getDate()).padStart(2,"0"); const fd = await fetchMonthDataFromFirebase(yr, mo);
+        let h = `<td style="text-align:left; font-weight:800;">${c.getDate()} ${ayIsimleri[c.getMonth()]}</td>`;
+        personnelList.forEach((p,i)=> h+=`<td><span class="shift-pill ${getPersonShift(p.id,p.name,i,dk,c,fd,yr,c.getMonth())}">${getPersonShift(p.id,p.name,i,dk,c,fd,yr,c.getMonth())}</span></td>`);
+        tb.innerHTML += `<tr>${h}</tr>`; c.setDate(c.getDate()+1);
+      }
+      document.body.classList.add("print-short-active"); window.print(); setTimeout(()=>document.body.classList.remove("print-short-active"), 1000);
+    };
+    
+    window.printMonthlyPlan = function() { document.body.classList.remove("print-short-active"); window.print(); };
+    function escapeHtml(t) { return t?t.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m]):""; }
 
-/* =========================================================
-   BAŞLANGIÇ
-========================================================= */
-window.onload = async function(){
-    const now = getTurkeyNow();
-    const ys = document.getElementById("yearSelect");
-    for(let year = 2024; year <= now.getFullYear() + 5; year++){
-        const o = document.createElement("option");
-        o.value = year;
-        o.innerText = year;
-        if(year === 2026){
-            o.selected = true;
-        }
-        ys.appendChild(o);
-    }
-    document.getElementById("monthSelect").value = 9;
-
-    const startDateInput = document.getElementById("shortStartDate");
-    const endDateInput = document.getElementById("shortEndDate");
-    startDateInput.value = "2026-10-01";
-    endDateInput.value = "2026-10-06";
-
-    const swapDate = document.getElementById("swapDate");
-    const mStr = String(now.getMonth() + 1).padStart(2, "0");
-    const dStr = String(now.getDate()).padStart(2, "0");
-    swapDate.value = `${now.getFullYear()}-${mStr}-${dStr}`;
-
-    await loadStaff();
-    await loadMonth();
-};
-</script>
+    window.onload = async function() {
+      const ys = document.getElementById("yearSelect");
+      for (let y=2024; y<=new Date().getFullYear()+5; y++) { let o=document.createElement("option"); o.value=y; o.innerText=y; if(y===2026) o.selected=true; ys.appendChild(o); }
+      document.getElementById("monthSelect").value = 9;
+      document.getElementById("shortStartDate").value = "2026-10-01"; document.getElementById("shortEndDate").value = "2026-10-06";
+      await loadMonth();
+    };
+    </script>
 </body>
 </html>

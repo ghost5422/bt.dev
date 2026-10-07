@@ -91,6 +91,8 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         
         .shift-pill::before {
@@ -166,8 +168,12 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 30-31 çeken ayları tek sayfaya (A4 Landscape) tam sığdıran optimize yazdırma kuralları */
+        /* 30-31 çeken ayları tek sayfaya (A4 Landscape) tam sığdıran ve renkleri koruyan yazdırma kuralları */
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
             @page { 
                 size: A4 landscape; 
                 margin: 5mm; 
@@ -175,7 +181,7 @@
             body { 
                 background: #FFFFFF !important; 
                 color: #000000 !important; 
-                zoom: 82%; /* Yazıcının tek sayfaya sığdırmasını garanti altına alır */
+                zoom: 82%; 
             }
             #sidebar, #mobile-header, .no-print, header { display: none !important; }
             #main-workspace { padding: 0 !important; margin: 0 !important; overflow: visible !important; height: auto !important; max-width: 100% !important; }
@@ -183,19 +189,16 @@
             .print-container { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; margin: 0 !important; }
             
             table { width: 100% !important; border-collapse: collapse !important; font-size: 8pt !important; page-break-inside: avoid; }
-            thead th { border-bottom: 2px solid #000 !important; color: #000 !important; padding: 3px 2px !important; background: #eee !important; font-size: 8pt !important; }
-            td { border-bottom: 1px solid #CBD5E1 !important; padding: 2px 3px !important; }
+            thead th { border-bottom: 2px solid #cbd5e1 !important; color: #0f172a !important; padding: 4px 3px !important; background: #f1f5f9 !important; font-size: 8pt !important; }
+            td { border-bottom: 1px solid #e2e8f0 !important; padding: 3px !important; }
             
             .shift-pill { 
-                border: 1px solid #64748b !important; 
-                background: #f8fafc !important; 
-                color: #000 !important; 
                 box-shadow: none !important; 
-                padding: 1px 3px !important; 
+                padding: 3px 6px !important; 
                 font-size: 8pt !important;
-                min-width: 55px !important;
+                min-width: 60px !important;
             }
-            .material-symbols-rounded { display: none !important; }
+            .material-symbols-rounded { display: inline-block !important; font-size: 11px !important; }
             
             body.print-short-active #monthlySection { display: none !important; }
             body.print-short-active #shortPlanPrintSection { display: block !important; }

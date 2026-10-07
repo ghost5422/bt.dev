@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="tr" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Berkay - Kişisel Vardiya ve Takip Paneli</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#f0f4f8', 100: '#d9e2ec', 200: '#bcccdc', 300: '#9fb3c8',
+                            400: '#829ab1', 500: '#627d98', 600: '#486581', 700: '#334e68',
+                            800: '#243b53', 900: '#102a43', 950: '#0b1d2e',
+                        },
+                        accent: { 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210,100%,95%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(220,100%,95%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            touch-action: manipulation;
+        }
+
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(16, 42, 67, 0.08);
+        }
+
+        .shift-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            min-width: 110px;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .shift-pill:active { transform: scale(0.92); }
+
+        .SABAH { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); border: 1px solid #60a5fa;}
+        .GECE  { background: linear-gradient(135deg, #e11d48, #be123c); color: white; box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35); border: 1px solid #fb7185;}
+        .İZİN  { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); border: 1px solid #34d399;}
+        .EXTRA { background: linear-gradient(135deg, #facc15, #eab308); color: #0f172a; box-shadow: 0 4px 10px rgba(234, 179, 8, 0.3); border: 1px solid #fde047; font-weight: 800; }
+
+        .today-row td { 
+            background: linear-gradient(90deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.9)); 
+            position: relative;
+        }
+        .today-row td:first-child::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: #3b82f6;
+        }
+        
+        .today-badge {
+            background: #3b82f6; color: white; padding: 2px 8px; border-radius: 12px;
+            font-size: 9px; font-weight: 800; text-transform: uppercase; margin-left: 8px;
+        }
+        
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800">
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-[200%] opacity-0 z-[100] transition-all duration-400 ease-out w-[90%] max-w-md">
+        <div class="glass-card bg-slate-900/95 text-white px-5 py-3.5 rounded-2xl flex items-center gap-3.5 shadow-2xl border border-slate-700/50">
+            <span class="material-symbols-rounded text-emerald-400 text-xl" id="toastIcon">check_circle</span>
+            <div class="min-w-0 flex-1">
+                <h4 class="font-bold text-sm text-white" id="toastTitle">Başarılı</h4>
+                <p class="text-xs text-slate-300 font-medium truncate" id="toastMsg">İşlem tamamlandı</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY DETAIL MODAL -->
+    <div id="dayModal" class="fixed inset-0 bg-navy-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden transition-all duration-300 opacity-0">
+        <div class="bg-white rounded-3xl max-w-md w-full flex flex-col shadow-2xl overflow-hidden transform transition-transform duration-300 scale-95" id="modalContent">
+            
+            <div class="px-6 py-5 bg-slate-900 text-white flex justify-between items-center">
+                <div>
+                    <h3 id="modalDateTitle" class="font-black text-lg">Gün Detayı</h3>
+                    <p class="text-[11px] text-accent-300 font-bold uppercase mt-0.5">Vardiya ve Özel Not Yönetimi</p>
+                </div>
+                <button onclick="closeDayModal()" class="text-slate-400 hover:text-white bg-white/10 p-2 rounded-xl transition-colors">
+                    <span class="material-symbols-rounded text-lg">close</span>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-1.5">O Günkü Vardiya Durumun</label>
+                    <div id="modalShiftDisplay" class="p-3 rounded-2xl font-black text-center text-sm shadow-sm flex items-center justify-center gap-2">--</div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-400 uppercase mb-1.5">Özel Not / Açıklama <span class="text-[10px] text-slate-400 font-normal">(Örn: GS-FB Derbi Günü, Market Kasa vb.)</span></label>
+                    <textarea id="modalNoteInput" rows="3" placeholder="Bu güne özel not ekleyin..." class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-accent-500 text-slate-900 text-xs font-medium rounded-2xl p-3 outline-none transition-all shadow-inner resize-none"></textarea>
+                </div>
+
+                <button onclick="saveModalNote()" class="w-full bg-accent-500 hover:bg-accent-400 text-white font-black text-xs py-3 rounded-xl transition-all shadow-md">NOTU KAYDET</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-navy-950 text-white sticky top-0 z-40 border-b border-navy-800 shadow-xl">
+        <div class="max-w-5xl mx-auto px-4 lg:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Logo Alanı -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center font-black text-white text-base shadow-glow flex-shrink-0">
+                    B.T
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white leading-tight">Berkay<span class="text-accent-400 ml-1">Özel Vardiya</span></h1>
+                    <p class="text-[10px] text-navy-300 font-mono tracking-widest uppercase mt-0.5">Bağımsız Kişisel Panel</p>
+                </div>
+            </div>
+
+            <!-- Kontroller -->
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="flex items-center bg-navy-900 border border-navy-700 rounded-2xl px-3 py-2 shadow-inner">
+                    <select id="monthSelect" class="bg-transparent text-sm font-bold text-white outline-none cursor-pointer py-1 px-1">
+                        <option value="0" class="text-black">Ocak</option><option value="1" class="text-black">Şubat</option><option value="2" class="text-black">Mart</option>
+                        <option value="3" class="text-black">Nisan</option><option value="4" class="text-black">Mayıs</option><option value="5" class="text-black">Haziran</option>
+                        <option value="6" class="text-black">Temmuz</option><option value="7" class="text-black">Ağustos</option><option value="8" class="text-black">Eylül</option>
+                        <option value="9" class="text-black" selected>Ekim</option><option value="10" class="text-black">Kasım</option><option value="11" class="text-black">Aralık</option>
+                    </select>
+                    <div class="w-px h-5 bg-navy-700 mx-2"></div>
+                    <select id="yearSelect" class="bg-transparent text-sm font-bold text-white outline-none cursor-pointer py-1 px-1"></select>
+                    
+                    <button onclick="loadMonth()" class="ml-3 bg-accent-600 hover:bg-accent-500 text-white text-xs uppercase font-extrabold px-3.5 py-2 rounded-xl transition-all shadow-sm">
+                        Yükle
+                    </button>
+                </div>
+
+                <button onclick="saveAllChanges()" class="bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-xs sm:text-sm px-5 py-3 rounded-2xl transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                    <span class="material-symbols-rounded text-lg">save</span> 
+                    <span>Kaydet</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-1 w-full max-w-5xl mx-auto p-4 lg:p-6 space-y-6">
+
+        <!-- BUGÜNKÜ VARDİYA ÖZET KARTI -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="glass-card rounded-2xl p-4.5 border-l-4 border-l-blue-500 flex items-center justify-between">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-xl">today</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Bugünün Durumu</span>
+                        <h3 id="todayHeaderInfo" class="font-extrabold text-slate-900 text-sm">Yükleniyor...</h3>
+                    </div>
+                </div>
+                <div id="todayHeaderBadge"></div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-4.5 border-l-4 border-l-emerald-500 flex items-center justify-between" id="valCard">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center" id="valIconDiv">
+                        <span class="material-symbols-rounded text-xl" id="valIcon">verified_user</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400">Algoritma Denetimi</span>
+                        <h3 id="ruleValidationContainer" class="font-extrabold text-slate-900 text-sm">Tüm kurallar uyumlu</h3>
+                    </div>
+                </div>
+                <span id="ruleStatusBadge" class="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">Aktif</span>
+            </div>
+        </section>
+
+        <!-- İSTATİSTİK KUTULARI -->
+        <section class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="statsBoxes"></section>
+
+        <!-- BU AYA AİT ÖZEL NOTLAR / HATIRLATICILAR -->
+        <section class="glass-card rounded-2xl p-4.5 no-print border border-slate-200/80 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-accent-500 rounded-full"></span> Bu Aya Ait Özel Notlar / Hatırlatıcılar
+                </h3>
+                <span id="notesCountBadge" class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full">0 Not</span>
+            </div>
+            <div id="quickNotesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-44 overflow-y-auto pr-1"></div>
+        </section>
+
+        <!-- TABLO -->
+        <section class="glass-card rounded-3xl p-5 sm:p-6 shadow-sm">
+            <div class="mb-5 no-print flex items-center justify-between flex-wrap gap-3">
+                <div>
+                    <h2 id="tableTitle" class="text-lg font-black text-slate-900 uppercase">Ekim 2026 Vardiya Planım</h2>
+                    <p class="text-xs font-semibold text-slate-500 mt-0.5">Vardiya hücrelerine tıklayarak değiştirebilir, günlerin üstüne tıklayarak notlar ekleyebilirsin.</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-[10px] font-black uppercase text-slate-600 tracking-wider">
+                            <th class="py-3 px-4">Tarih</th>
+                            <th class="py-3 px-4 text-center">Vardiya Durumu</th>
+                            <th class="py-3 px-4 text-right">Özel Not / Etkinlik</th>
+                        </tr>
+                    </thead>
+                    <tbody id="personalTableBody" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LOGIC -->
+    <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+      authDomain: "urunrakip.firebaseapp.com",
+      databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "urunrakip",
+      storageBucket: "urunrakip.appspot.com",
+      messagingSenderId: "893193039416",
+      appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const ayIsimleri = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+    const gunIsimleri = ["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+
+    let currentMonth = 9; let currentYear = 2026;
+    let personalMonthData = {}; 
+    let pendingChanges = {};
+    let activeModalDayKey = null;
+
+    function createUTCDate(year, month1Based, day) { return new Date(Date.UTC(year, month1Based - 1, day)); }
+    function dayDifference(date1, date2) { return Math.round((Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) - Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) / 86400000); }
+    function getCycleShift(date, anchorDate, cycle) {
+      let diff = dayDifference(date, anchorDate);
+      let index = diff % cycle.length;
+      if (index < 0) index += cycle.length;
+      return cycle[index];
+    }
+
+    function getDefaultShift(date) {
+      const diffFromOct1 = dayDifference(date, createUTCDate(2026, 10, 1));
+      if (diffFromOct1 >= 0 && diffFromOct1 < 5) {
+        return ["GECE", "İZİN", "GECE", "İZİN", "SABAH"][diffFromOct1];
+      }
+      const anchorDate = createUTCDate(2026, 10, 6);
+      return getCycleShift(date, anchorDate, ["GECE", "GECE", "İZİN", "İZİN", "SABAH", "SABAH"]);
+    }
+
+    function getShiftIconTag(shift) {
+        switch (shift) {
+            case "SABAH": return '<span class="material-symbols-rounded text-[14px]">wb_twilight</span>';
+            case "GECE": return '<span class="material-symbols-rounded text-[14px]">bedtime</span>';
+            case "İZİN": return '<span class="material-symbols-rounded text-[14px]">home</span>';
+            case "EXTRA": return '<span class="material-symbols-rounded text-[14px]">electric_bolt</span>';
+            default: return '';
+        }
+    }
+
+    function showToast(title, msg) {
+        const toast = document.getElementById("toast");
+        document.getElementById("toastTitle").innerText = title;
+        document.getElementById("toastMsg").innerText = msg;
+        toast.classList.remove("-translate-y-[200%]", "opacity-0");
+        setTimeout(() => toast.classList.add("-translate-y-[200%]", "opacity-0"), 3000);
+    }
+
+    window.loadMonth = async function() {
+        currentMonth = parseInt(document.getElementById("monthSelect").value);
+        currentYear = parseInt(document.getElementById("yearSelect").value);
+        
+        try {
+            const snap = await get(ref(db, `berkay_ozel_sistem/${currentYear}/${currentMonth + 1}`));
+            personalMonthData = snap.exists() ? (snap.val() || {}) : {};
+        } catch(e) {
+            personalMonthData = {};
+        }
+        renderView();
+        showToast("Yüklendi", `${ayIsimleri[currentMonth]} ${currentYear} verileriniz getirildi.`);
+    };
+
+    function getActiveShift(dayKey, date) {
+        if (pendingChanges[dayKey] !== undefined) return pendingChanges[dayKey].shift;
+        if (personalMonthData[dayKey] && personalMonthData[dayKey].shift) {
+            return personalMonthData[dayKey].shift;
+        }
+        return getDefaultShift(date);
+    }
+
+    function getActiveNote(dayKey) {
+        if (pendingChanges[dayKey] !== undefined) return pendingChanges[dayKey].note;
+        if (personalMonthData[dayKey] && personalMonthData[dayKey].note !== undefined) {
+            return personalMonthData[dayKey].note;
+        }
+        return "";
+    }
+
+    window.toggleShift = function(element) {
+        const dayKey = element.dataset.day;
+        const date = new Date(currentYear, currentMonth, parseInt(dayKey));
+        const curr = getActiveShift(dayKey, date);
+        const next = curr === "GECE" ? "SABAH" : curr === "SABAH" ? "İZİN" : curr === "İZİN" ? "EXTRA" : "GECE";
+        
+        const currentNote = getActiveNote(dayKey);
+        pendingChanges[dayKey] = { shift: next, note: currentNote };
+        renderView();
+    };
+
+    window.openDayModal = function(dayKey) {
+        activeModalDayKey = dayKey;
+        const date = new Date(currentYear, currentMonth, parseInt(dayKey));
+        const shift = getActiveShift(dayKey, date);
+        const note = getActiveNote(dayKey);
+
+        document.getElementById("modalDateTitle").innerText = `${parseInt(dayKey)} ${ayIsimleri[currentMonth]} ${currentYear} Gün Detayı`;
+        
+        const shiftDisplay = document.getElementById("modalShiftDisplay");
+        shiftDisplay.className = `p-3 rounded-2xl font-black text-center text-sm shadow-sm flex items-center justify-center gap-2 ${shift}`;
+        shiftDisplay.innerHTML = `${getShiftIconTag(shift)} <span>${shift} VARDİYASI</span>`;
+
+        document.getElementById("modalNoteInput").value = note;
+
+        const modal = document.getElementById("dayModal");
+        const content = document.getElementById("modalContent");
+        modal.classList.remove("hidden");
+        requestAnimationFrame(() => {
+            modal.classList.remove("opacity-0");
+            content.classList.remove("scale-95");
+        });
+    };
+
+    window.closeDayModal = function() {
+        const modal = document.getElementById("dayModal");
+        const content = document.getElementById("modalContent");
+        modal.classList.add("opacity-0");
+        content.classList.add("scale-95");
+        setTimeout(() => { modal.classList.add("hidden"); }, 300);
+    };
+
+    window.saveModalNote = function() {
+        if(!activeModalDayKey) return;
+        const val = document.getElementById("modalNoteInput").value.trim();
+        const date = new Date(currentYear, currentMonth, parseInt(activeModalDayKey));
+        const currentShift = getActiveShift(activeModalDayKey, date);
+
+        pendingChanges[activeModalDayKey] = { shift: currentShift, note: val };
+        renderView();
+        closeDayModal();
+        showToast("Not Eklendi", "Güne ait özel not güncellendi.");
+    };
+
+    window.saveAllChanges = async function() {
+        try {
+            const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+            let updates = {};
+            
+            for (let d = 1; d <= days; d++) {
+                const dayKey = String(d).padStart(2, "0");
+                const date = new Date(currentYear, currentMonth, d);
+                
+                const finalShift = getActiveShift(dayKey, date);
+                const finalNote = getActiveNote(dayKey);
+                
+                updates[dayKey] = { shift: finalShift, note: finalNote };
+                if(!personalMonthData[dayKey]) personalMonthData[dayKey] = {};
+                personalMonthData[dayKey].shift = finalShift;
+                personalMonthData[dayKey].note = finalNote;
+            }
+
+            await set(ref(db, `berkay_ozel_sistem/${currentYear}/${currentMonth + 1}`), updates);
+            pendingChanges = {};
+
+            renderView();
+            showToast("Başarılı", "Kişisel vardiya ve notlarınız kaydedildi.");
+        } catch(e) {
+            showToast("Hata", "Kayıt sırasında hata oluştu.", "error");
+        }
+    };
+
+    function renderRuleValidation(counts, days, shiftSequence) {
+        const badge = document.getElementById("ruleStatusBadge");
+        const container = document.getElementById("ruleValidationContainer");
+        const valCard = document.getElementById("valCard");
+        const valIcon = document.getElementById("valIcon");
+        const valIconDiv = document.getElementById("valIconDiv");
+
+        let errors = [];
+        let warnings = [];
+
+        for (let i = 0; i < shiftSequence.length - 1; i++) {
+            if (shiftSequence[i] === "GECE" && shiftSequence[i+1] === "SABAH") {
+                errors.push(`Gece vardiyasından sonra Sabah vardiyasına geçilemez!`);
+            }
+        }
+
+        if (days === 31 && counts.İZİN === 11) {
+            warnings.push(`Ayın 31 çekmesinden dolayı izin sayısı 11 (Normal).`);
+        } else if (counts.İZİN < 10) {
+            errors.push(`İzin sayısı 10 günden az olamaz!`);
+        }
+
+        if (errors.length > 0) {
+            valCard.className = "glass-card rounded-2xl p-4.5 border-l-4 border-l-rose-500 flex items-center justify-between";
+            badge.className = "bg-rose-100 text-rose-700 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider";
+            badge.innerText = "HATA";
+            valIconDiv.className = "w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center";
+            valIcon.innerText = "error";
+            container.innerText = errors[0];
+        } else if (warnings.length > 0) {
+            valCard.className = "glass-card rounded-2xl p-4.5 border-l-4 border-l-amber-500 flex items-center justify-between";
+            badge.className = "bg-amber-100 text-amber-800 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider";
+            badge.innerText = "DİKKAT";
+            valIconDiv.className = "w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center";
+            valIcon.innerText = "warning";
+            container.innerText = warnings[0];
+        } else {
+            valCard.className = "glass-card rounded-2xl p-4.5 border-l-4 border-l-emerald-500 flex items-center justify-between";
+            badge.className = "bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider";
+            badge.innerText = "MÜKEMMEL";
+            valIconDiv.className = "w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center";
+            valIcon.innerText = "verified_user";
+            container.innerText = "Tüm vardiya kuralları tam uyumlu.";
+        }
+    }
+
+    function renderView() {
+        document.getElementById("tableTitle",).innerText = `${ayIsimleri[currentMonth]} ${currentYear} Vardiya Planım`;
+        const tbody = document.getElementById("personalTableBody");
+        tbody.innerHTML = "";
+        
+        const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const today = new Date();
+        
+        let counts = { SABAH: 0, GECE: 0, İZİN: 0, EXTRA: 0, TOPLAM: days };
+        let shiftSequence = [];
+        let activeNotesList = [];
+        let todayShiftVal = "--";
+
+        for (let d = 1; d <= days; d++) {
+            const dayKey = String(d).padStart(2, "0");
+            const date = new Date(currentYear, currentMonth, d);
+            const isToday = date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate();
+            
+            const shift = getActiveShift(dayKey, date);
+            if(counts[shift] !== undefined) counts[shift]++;
+            shiftSequence.push(shift);
+
+            if (isToday) {
+                todayShiftVal = shift;
+                document.getElementById("todayHeaderInfo").innerText = `${d} ${ayIsimleri[currentMonth]} ${currentYear} (${gunIsimleri[date.getDay()]})`;
+                document.getElementById("todayHeaderBadge").innerHTML = `<span class="shift-pill ${shift} !py-1.5 !px-3 !text-xs">${getShiftIconTag(shift)} <span>${shift}</span></span>`;
+            }
+
+            const noteVal = getActiveNote(dayKey);
+            if(noteVal && noteVal.trim() !== "") {
+                activeNotesList.push({ day: d, dayKey: dayKey, note: noteVal, shift: shift });
+            }
+
+            const tr = document.createElement("tr");
+            tr.className = `hover:bg-slate-50 transition-colors ${isToday ? "today-row" : ""}`;
+            
+            tr.innerHTML = `
+                <td class="py-3 px-4">
+                    <div class="flex items-center cursor-pointer" onclick="window.openDayModal('${dayKey}')">
+                        <span class="font-black text-slate-900 text-sm w-7">${d}</span>
+                        <span class="text-slate-500 text-xs font-bold uppercase tracking-wider">${gunIsimleri[date.getDay()]}</span>
+                        ${isToday ? '<span class="today-badge">BUGÜN</span>' : ""}
+                    </div>
+                </td>
+                <td class="py-2.5 px-4 text-center">
+                    <span class="shift-pill ${shift}" data-day="${dayKey}" onclick="window.toggleShift(this)">
+                        ${getShiftIconTag(shift)} <span>${shift}</span>
+                    </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                    <button onclick="window.openDayModal('${dayKey}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${noteVal ? 'bg-accent-50 text-accent-700 border-accent-200 shadow-sm' : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'}">
+                        <span class="material-symbols-rounded text-sm">${noteVal ? 'note_alt' : 'add_notes'}</span>
+                        <span class="truncate max-w-[140px]">${escapeHtml(noteVal) || 'Not Ekle'}</span>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        // Eğer bugün seçilen ay/yıl dışındaysa üst bantta uyarı göster
+        const isCurrentMonthActive = (currentMonth === today.getMonth() && currentYear === today.getFullYear());
+        if (!isCurrentMonthActive) {
+            document.getElementById("todayHeaderInfo").innerText = `Seçilen ayda bugün bulunmuyor`;
+            document.getElementById("todayHeaderBadge").innerHTML = `<span class="text-xs font-bold text-slate-400">Farklı Ay</span>`;
+        }
+
+        // İstatistik Kutuları
+        document.getElementById("statsBoxes").innerHTML = `
+            <div class="glass-card rounded-2xl p-3.5 bg-blue-500 text-white shadow-lg shadow-blue-500/10 flex flex-col justify-center">
+                <div class="text-[9px] font-black uppercase tracking-widest text-blue-100 mb-0.5">Sabah</div>
+                <div class="text-xl font-black">${counts.SABAH}</div>
+            </div>
+            <div class="glass-card rounded-2xl p-3.5 bg-rose-600 text-white shadow-lg shadow-rose-600/10 flex flex-col justify-center">
+                <div class="text-[9px] font-black uppercase tracking-widest text-rose-100 mb-0.5">Gece</div>
+                <div class="text-xl font-black">${counts.GECE}</div>
+            </div>
+            <div class="glass-card rounded-2xl p-3.5 bg-emerald-500 text-white shadow-lg shadow-emerald-500/10 flex flex-col justify-center">
+                <div class="text-[9px] font-black uppercase tracking-widest text-emerald-100 mb-0.5">İzin</div>
+                <div class="text-xl font-black">${counts.İZİN}</div>
+            </div>
+            <div class="glass-card rounded-2xl p-3.5 bg-amber-400 text-slate-900 shadow-lg shadow-amber-400/10 flex flex-col justify-center font-bold">
+                <div class="text-[9px] font-black uppercase tracking-widest text-slate-900/80 mb-0.5">Extra</div>
+                <div class="text-xl font-black">${counts.EXTRA}</div>
+            </div>
+            <div class="glass-card rounded-2xl p-3.5 bg-slate-900 text-white shadow-lg flex flex-col justify-center col-span-2 sm:col-span-1">
+                <div class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Toplam</div>
+                <div class="text-xl font-black text-accent-400">${counts.TOPLAM}</div>
+            </div>
+        `;
+
+        // Özel Notlar Listesi
+        const notesContainer = document.getElementById("quickNotesContainer");
+        document.getElementById("notesCountBadge").innerText = `${activeNotesList.length} Not`;
+        
+        if(activeNotesList.length === 0) {
+            notesContainer.innerHTML = `<div class="col-span-full py-4 text-center text-xs font-bold text-slate-400">Bu aya ait kaydedilmiş özel not bulunmuyor.</div>`;
+        } else {
+            notesContainer.innerHTML = activeNotesList.map((n, idx) => `
+                <div onclick="window.openDayModal('${n.dayKey}')" class="bg-white/90 hover:bg-white border border-slate-200/80 p-3 rounded-2xl cursor-pointer transition-all shadow-sm flex flex-col justify-between gap-2 group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">${idx + 1}. Not</span>
+                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-lg ${n.shift} shadow-xs">${n.shift}</span>
+                    </div>
+                    <div>
+                        <div class="text-xs font-black text-slate-900 mb-0.5">${n.day} ${ayIsimleri[currentMonth]}</div>
+                        <p class="text-xs font-bold text-accent-600 truncate group-hover:text-accent-700 transition-colors">${escapeHtml(n.note)}</p>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        renderRuleValidation(counts, days, shiftSequence);
+    }
+
+    function escapeHtml(t) { return t ? t.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m]) : ""; }
+
+    window.onload = async function() {
+        const ys = document.getElementById("yearSelect");
+        for (let y = 2024; y <= new Date().getFullYear() + 5; y++) {
+            let o = document.createElement("option"); o.value = y; o.innerText = y;
+            if (y === 2026) o.selected = true;
+            ys.appendChild(o);
+        }
+        document.getElementById("monthSelect").value = 9; // Ekim
+        await loadMonth();
+    };
+    </script>
+</body>
+</html>

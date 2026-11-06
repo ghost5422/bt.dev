@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090f1b">
+<title>AÖF — Ders Takibim</title>
+<style>
+:root{color-scheme:dark;--bg:#080e19;--card:#131d2d;--card2:#172438;--stroke:#29384d;--text:#f2f6ff;--sub:#a1aec3;--muted:#74859f;--primary:#6597ff;--success:#4ad6aa;--radius:22px}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse 800px 340px at 90% -90px,#172d50 0%,transparent 72%),radial-gradient(ellipse 640px 330px at -20% 700px,#101f35 0%,transparent 70%),var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,input:focus-visible{outline:2px solid #82b3ff;outline-offset:3px}.icon{width:19px;height:19px;display:inline-block;flex:none;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}.app{width:min(1160px,calc(100% - 52px));margin:0 auto;padding:26px 0 80px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 0 28px}.identity{display:flex;align-items:center;gap:13px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#648bff,#896cfb);display:grid;place-items:center;box-shadow:0 7px 24px #477eff33}.logo .icon{width:25px;height:25px}.brand-title{font-size:16px;letter-spacing:-.035em;font-weight:800}.brand-caption{font-size:11px;color:var(--sub);margin-top:3px;letter-spacing:.015em}.date{display:flex;align-items:center;gap:9px;padding:10px 14px;background:#141e2dbb;border:1px solid #2a3950;border-radius:12px;font-size:12px;font-weight:650;color:#bccbe2}.date svg{color:#94b2ff;width:16px;height:16px}
+.hero{position:relative;isolation:isolate;display:flex;justify-content:space-between;align-items:center;gap:22px;min-height:210px;background:linear-gradient(108deg,#1b3155 0%,#172644 52%,#1b2242 100%);border:1px solid #334869;border-radius:25px;padding:30px 36px;overflow:hidden;box-shadow:0 17px 48px #00000018}.hero:before{content:"";position:absolute;z-index:-1;right:-130px;top:-240px;width:480px;height:480px;border-radius:50%;border:1px solid #ffffff14;box-shadow:0 0 0 50px #ffffff05,0 0 0 110px #ffffff04}.hero:after{content:"";position:absolute;z-index:-1;right:100px;bottom:-175px;width:330px;height:330px;background:#5379fc18;filter:blur(50px);border-radius:50%}.overline{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#afc6f2}.overline .icon{width:16px;height:16px}.hero h1{font-size:clamp(25px,3.4vw,36px);line-height:1.18;letter-spacing:-.045em;margin:18px 0 11px}.hero-desc{color:#adc2df;font-size:13px;line-height:1.6;margin:0}.stats{display:flex;gap:22px;margin-top:23px}.stat{display:flex;flex-direction:column;gap:5px}.stat strong{font-size:20px;letter-spacing:-.045em;font-variant-numeric:tabular-nums}.stat span{font-size:11px;color:#a6bbda}.stat-div{width:1px;background:#ffffff21}.ring{--p:0;flex:none;width:158px;height:158px;border-radius:50%;background:conic-gradient(#77a7ff calc(var(--p)*1%),#ffffff1f 0);display:grid;place-items:center;box-shadow:0 0 0 10px #ffffff05}.ring-inner{width:129px;height:129px;border-radius:50%;background:#1d2d4e;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 20px #00000019}.ring-num{font-weight:830;font-size:34px;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}.ring-sub{margin-top:8px;color:#a7bce0;font-size:11px}
+.section{margin-top:35px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.section-title{display:flex;align-items:center;gap:10px}.section-title .heading-icon{display:grid;place-items:center;border:1px solid #2d4262;border-radius:10px;background:#182840;color:#91b3ff;width:32px;height:32px}.section-title .icon{width:17px;height:17px}.section-title h2{font-size:18px;letter-spacing:-.035em;margin:0;font-weight:770}.section-sub{color:var(--muted);font-size:12px;font-weight:500}.week-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:#3a4d69 transparent;padding:2px 1px 7px}.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;min-width:810px}.weekday{min-height:118px;padding:15px 13px;background:#121e2d;border:1px solid #26364b;border-radius:16px;display:flex;flex-direction:column;gap:11px;position:relative}.weekday.today{background:linear-gradient(155deg,#1f3558,#1b2c47);border-color:#668feb;box-shadow:inset 0 0 0 1px #668feb33}.day-top{display:flex;align-items:center;justify-content:space-between}.day-name{font-size:11px;color:#94a9c7;font-weight:760;letter-spacing:.035em}.today-dot{width:7px;height:7px;background:#7eadff;border-radius:50%;box-shadow:0 0 0 4px #6498ff25}.day-icon{color:#91a7c4}.day-icon .icon{width:17px;height:17px}.day-lesson{font-size:12px;line-height:1.4;font-weight:730;letter-spacing:-.015em}.weekday.today .day-name,.weekday.today .day-lesson{color:#c6dcff}.today-note{font-size:10px;color:#78a9ff;font-weight:750;margin-top:auto}
+.courses-head{margin-top:2px}.course-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}.course{--accent:#789aff;--soft:#23365a;min-width:0;background:linear-gradient(155deg,#172235 0%,#131d2d 55%);border:1px solid #2b3b51;border-radius:22px;padding:23px;box-shadow:0 12px 36px #00000010;transition:border-color .2s,transform .2s}.course:hover{border-color:#435872}.course-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.course-details{display:flex;align-items:center;gap:12px;min-width:0}.course-icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:var(--soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent);flex:none}.course-icon .icon{width:23px;height:23px}.course-code{color:#8194ad;letter-spacing:.1em;font-size:10px;font-weight:780}.course-name{font-size:17px;font-weight:780;letter-spacing:-.035em;line-height:1.28;margin:5px 0 0}.course-percentage{font-size:23px;letter-spacing:-.055em;font-weight:840;color:var(--accent);font-variant-numeric:tabular-nums}.track{height:7px;border-radius:10px;background:#27374e;margin-top:22px;overflow:hidden}.track-fill{height:100%;background:var(--accent);border-radius:10px;transition:width .3s}.progress-caption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0 22px;color:#8ca0bb;font-size:11px}.progress-caption strong{color:#c5d2e5;font-weight:730}.unit-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;font-size:11px}.unit-section-head strong{font-weight:790;letter-spacing:.1em;font-size:10px;color:#aebdd2}.unit-section-head span{color:#788ba4}.unit-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px}.unit-button{min-width:0;aspect-ratio:1/1;border:1px solid #34455e;border-radius:11px;background:#1a293d;color:#8ba0bf;display:grid;place-items:center;font-size:12px;font-weight:800;transition:background .18s,border-color .18s,transform .18s}.unit-button .icon{width:15px;height:15px;stroke-width:2.5}.unit-button:hover{transform:translateY(-2px);border-color:var(--accent);color:#fff}.unit-button.completed{color:#b7e9d9;background:#1d3e3c;border-color:#356a5f}.unit-button.selected{background:var(--soft);border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 12%,transparent)}.unit-button.completed.selected{background:#22413d;color:#d0f8e7}.course-hint{font-size:11px;color:#8799b3;margin-top:10px;display:flex;align-items:center;gap:7px}.course-hint .icon{width:14px;height:14px}
+.unit-panel{margin-top:21px;padding:18px;border:1px solid #35465e;background:#101b2b;border-radius:16px}.unit-panel-top{display:flex;justify-content:space-between;align-items:flex-start;gap:9px}.unit-panel h3{font-size:15px;margin:0 0 4px;letter-spacing:-.025em}.unit-panel-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11px;color:#8da3c2}.status-bullet{display:inline-block;width:6px;height:6px;border-radius:50%;background:#7489aa}.status-bullet.done{background:#53d6ad}.status-bullet.active{background:#edb66b}.close-unit{display:grid;place-items:center;border:1px solid #36465d;border-radius:9px;background:#1b293d;color:#9fb2ce;width:30px;height:30px}.close-unit:hover{color:white;border-color:#6f85a6}.close-unit .icon{width:16px;height:16px}.topics{display:flex;flex-direction:column;gap:8px;margin-top:16px}.topic-row{display:flex;align-items:center;gap:10px;min-width:0;background:#19283a;border:1px solid #2a3a50;border-radius:11px;padding:10px 11px}.check{appearance:none;-webkit-appearance:none;width:18px;height:18px;flex:none;border:1.5px solid #5a708f;border-radius:6px;background:#121d2d;display:grid;place-items:center;margin:0;cursor:pointer}.check:checked{background:var(--accent);border-color:var(--accent)}.check:checked:after{content:"";width:9px;height:5px;border:solid #0b1729;border-width:0 0 2px 2px;transform:rotate(-45deg) translate(1px,-1px)}.topic-text{font-size:12px;line-height:1.45;color:#d5e1f1;flex:1;cursor:pointer;min-width:0;overflow-wrap:anywhere}.topic-row:has(.check:checked) .topic-text{color:#778ca9;text-decoration:line-through}.remove{border:0;background:transparent;padding:4px;color:#7186a4;display:grid;place-items:center;border-radius:6px}.remove:hover{background:#4d2734;color:#ff9fae}.remove .icon{width:15px;height:15px}.no-topics{border:1px dashed #32445d;padding:13px 10px;border-radius:10px;color:#8194ae;font-size:12px;line-height:1.5;margin:16px 0 0}.add-topic{display:flex;gap:8px;margin-top:12px}.add-topic input{min-width:0;flex:1;background:#0e1929;border:1px solid #34465e;border-radius:10px;padding:10px 12px;outline:none;color:#eaf1ff;font-size:12px}.add-topic input:focus{border-color:var(--accent)}.add-topic input::placeholder{color:#72869f}.add-btn{background:#243a57;border:1px solid #3a5780;border-radius:10px;padding:0 13px;color:#cfe0ff;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:750}.add-btn .icon{width:15px;height:15px}.add-btn:hover{background:#2e4a72}.panel-actions{border-top:1px solid #293a51;margin-top:17px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:10px}.topic-progress{font-size:11px;color:#8ca0b9}.finish-btn{border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:10px;background:var(--accent);color:#101b2e;font-size:12px;font-weight:820;padding:10px 13px;display:flex;align-items:center;gap:8px;white-space:nowrap}.finish-btn .icon{width:16px;height:16px;stroke-width:2.5}.finish-btn:hover{filter:brightness(1.13)}.finish-btn.undo{background:#22334a;color:#b5c8e4;border-color:#3e526f}.foot{display:flex;justify-content:center;align-items:center;gap:8px;color:#788da9;margin-top:32px;font-size:11px;text-align:center;line-height:1.5}.foot .icon{width:14px;height:14px}.save-alert{background:#392b25;color:#ffd5a3;border:1px solid #765036;padding:12px 15px;border-radius:12px;font-size:12px;line-height:1.5;margin-bottom:20px}
+@media (max-width:900px){.course-grid{gap:14px}.course{padding:18px}.unit-grid{gap:5px}.unit-button{border-radius:9px}.hero{padding:29px}}
+@media (max-width:680px){.app{width:calc(100% - 30px);padding-top:19px}.topbar{padding-bottom:21px}.date{padding:9px}.date span{display:none}.hero{padding:24px;min-height:0}.hero h1{font-size:27px;margin-top:14px}.hero-desc{font-size:12px}.ring{width:112px;height:112px}.ring-inner{width:90px;height:90px}.ring-num{font-size:27px}.ring-sub{font-size:10px;margin-top:5px}.stats{gap:14px;margin-top:18px}.stat strong{font-size:18px}.stat span{font-size:10px}.section{margin-top:29px}.section-title h2{font-size:17px}.section-sub{font-size:11px}.course-grid{grid-template-columns:1fr;gap:15px}.course{padding:20px}.unit-button{border-radius:11px}.week{min-width:745px}.weekday{min-height:106px}}
+@media (max-width:400px){.hero{padding:20px;gap:12px}.hero h1{font-size:24px}.ring{width:98px;height:98px}.ring-inner{width:79px;height:79px}.ring-num{font-size:24px}.ring-sub{font-size:9px}.stat strong{font-size:16px}.stat span{font-size:9px}.stats{gap:10px}.overline{font-size:9px}.course-heading{gap:8px}.course-name{font-size:16px}.course-icon{width:41px;height:41px}.section-sub{display:none}.unit-panel{padding:14px}.progress-caption{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7.5c-2.8-2-6.6-2.2-10-1.2V20c3.5-1.1 7-.8 10 1.2 3-2 6.5-2.3 10-1.2V6.3c-3.4-1-7.2-.8-10 1.2Zm0 0v13.7"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.3 4.3L19 6.7"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"/></symbol>
+<symbol id="i-landmark" viewBox="0 0 24 24"><path d="m3 9 9-6 9 6H3ZM5 9v10m5-10v10m4-10v10m5-10v10M3 21h18M2 19h20"/></symbol>
+<symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12c6 4 12 4 18 0M12 13v3"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 15.4A8.6 8.6 0 0 1 8.6 4 8.6 8.6 0 1 0 20 15.4Z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M3 7h14l-3-3m3 3-3 3M21 17H7l3-3m-3 3 3 3"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 22V3m0 1c4-2 9 2 14 0v12c-5 2-10-2-14 0"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></symbol>
+<symbol id="i-pointer" viewBox="0 0 24 24"><path d="M4 4v15l4.5-4.5L12 21l3-1.5-3.5-6.5L19 11 4 4Z"/></symbol>
+</svg>
+<main class="app">
+  <header class="topbar">
+    <div class="identity"><div class="logo"><svg class="icon"><use href="#i-book"/></svg></div><div><div class="brand-title">AÖF Çalışma Paneli</div><div class="brand-caption">Anadolu Üniversitesi · Ders Takibim</div></div></div>
+    <div class="date"><svg class="icon"><use href="#i-calendar"/></svg><span id="dateText"></span></div>
+  </header>
+  <div id="saveAlert" class="save-alert" hidden>Tarayıcı kayıt alanına erişilemedi. Bu oturumda yaptığın değişiklikler daha sonra korunmayabilir.</div>
+  <section class="hero" aria-label="Genel ilerleme">
+    <div><div class="overline"><svg class="icon"><use href="#i-target"/></svg> GENEL İLERLEME</div><h1>Çalışmaların bir bakışta.</h1><p class="hero-desc">Derslerin, ünitelerin ve tamamladığın konular tek yerde.</p><div class="stats"><div class="stat"><strong id="doneCount">0</strong><span>Biten ünite</span></div><div class="stat-div"></div><div class="stat"><strong id="remainingCount">32</strong><span>Kalan ünite</span></div><div class="stat-div"></div><div class="stat"><strong>4</strong><span>Aktif ders</span></div></div></div>
+    <div class="ring" id="totalRing" role="progressbar" aria-label="Genel tamamlanma" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="ring-inner"><strong class="ring-num" id="totalPct">0%</strong><span class="ring-sub">tamamlandı</span></div></div>
+  </section>
+  <section class="section" aria-labelledby="scheduleTitle">
+    <div class="section-head"><div class="section-title"><span class="heading-icon"><svg class="icon"><use href="#i-calendar"/></svg></span><h2 id="scheduleTitle">Haftalık Ders Programı</h2></div><span class="section-sub">Bugünkü çalışma günün işaretli</span></div>
+    <div class="week-scroll"><div id="week" class="week"></div></div>
+  </section>
+  <section class="section" aria-labelledby="coursesTitle">
+    <div class="section-head courses-head"><div class="section-title"><span class="heading-icon"><svg class="icon"><use href="#i-book"/></svg></span><h2 id="coursesTitle">Derslerim <span style="color:#7187a6;font-weight:540">(4)</span></h2></div><span class="section-sub">Ünite seçerek konularını takip et</span></div>
+    <div class="course-grid" id="courseGrid"></div>
+  </section>
+  <footer class="foot"><svg class="icon"><use href="#i-lock"/></svg>İlerleme bilgilerin bu tarayıcıda otomatik kaydedilir.</footer>
+</main>
+<script>
+(()=>{'use strict';
+const KEY='aof-premium-takip-2026-v1', OLD_KEY='aof-sade-takip-2026-v1';
+const icon=(id)=>`<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const escapeHtml=(v)=>String(v).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+const catalogue=[
+ {id:'tur',code:'TÜR201U',name:'Türk Dili I',accent:'#8d9fff',soft:'#292e58',icon:'book',finished:[1],topics:{2:[['Tanzimat Dönemi',true],['Şemsettin Sami ve Kâmûs-ı Türkî',true],['Yeni Lisan Hareketi',true],['Türkoloji araştırmaları',true],['Yazı Devrimi',false]]}},
+ {id:'ikt',code:'İKT101U',name:'İktisada Giriş I',accent:'#54d0c5',soft:'#1c464c',icon:'trend',finished:[1],topics:{2:[['Piyasa dengesi',true],['Arz ve talep fazlası',true],['Arzı belirleyen faktörler',true],['Talep değişimi ve denge',false],['Arz değişimi ve denge',false]]}},
+ {id:'tar',code:'TAR201U',name:'İnkılap Tarihi I',accent:'#f4ad72',soft:'#4a352c',icon:'landmark',finished:[1,2],topics:{2:[['Trablusgarp Savaşı',true],['Balkan Savaşları',true],['I. Dünya Savaşı: giriş ve cepheler',true]]}},
+ {id:'isl',code:'İŞL107U',name:'Genel İşletme',accent:'#bf9af7',soft:'#362c50',icon:'briefcase',finished:[1],topics:{2:[['Sistem ve alt sistemler',true],['Açık ve kapalı sistemler',true],['Sinerji',true],['Entropi ve ekofinalite',true],['Misyon ve vizyon',false]]}}
+];
+const schedule=[['Pazartesi','Türk Dili I','book'],['Salı','İktisada Giriş','trend'],['Çarşamba','İnkılap Tarihi','landmark'],['Perşembe','Genel İşletme','briefcase'],['Cuma','Eksik dersler','flag'],['Cumartesi','Genel tekrar','repeat'],['Pazar','Dinlenme','moon']];
+const initial=()=>catalogue.map(c=>({id:c.id,units:Array.from({length:8},(_,i)=>({num:i+1,done:c.finished.includes(i+1),topics:(c.topics[i+1]||[]).map(([name,done])=>({name,done}))}))}));
+const valid=(v)=>Array.isArray(v)&&v.length===4&&catalogue.every((c,i)=>v[i]&&v[i].id===c.id&&Array.isArray(v[i].units)&&v[i].units.length===8&&v[i].units.every((u,j)=>u.num===j+1&&typeof u.done==='boolean'&&Array.isArray(u.topics)&&u.topics.every(t=>typeof t.name==='string'&&typeof t.done==='boolean')));
+let state;
+try{let v=JSON.parse(localStorage.getItem(KEY)||'null');if(!valid(v))v=JSON.parse(localStorage.getItem(OLD_KEY)||'null');state=valid(v)?v:initial()}catch(e){state=initial()}
+const selected={tur:null,ikt:null,tar:null,isl:null};
+const grid=document.getElementById('courseGrid');
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));document.getElementById('saveAlert').hidden=true}catch(e){document.getElementById('saveAlert').hidden=false}}
+function getUnit(cid,num){return state.find(c=>c.id===cid)?.units.find(u=>u.num===num)}
+const today=(new Date().getDay()+6)%7;
+document.getElementById('dateText').textContent=new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',weekday:'long'}).format(new Date());
+document.getElementById('week').innerHTML=schedule.map(([day,lesson,ico],i)=>`<article class="weekday ${i===today?'today':''}" ${i===today?'aria-current="date"':''}><div class="day-top"><span class="day-name">${day}</span><span class="day-icon">${icon(ico)}</span></div><div class="day-lesson">${lesson}</div>${i===today?'<div class="today-note">● BUGÜN</div>':''}</article>`).join('');
+function render(){
+ const done=state.reduce((n,c)=>n+c.units.filter(u=>u.done).length,0),pct=Math.round(done/32*100);
+ document.getElementById('doneCount').textContent=done;document.getElementById('remainingCount').textContent=32-done;document.getElementById('totalPct').textContent=pct+'%';
+ const ring=document.getElementById('totalRing');ring.style.setProperty('--p',pct);ring.setAttribute('aria-valuenow',pct);
+ grid.innerHTML=state.map((course,i)=>{
+  const c=catalogue[i],completed=course.units.filter(u=>u.done).length,progress=Math.round(completed/8*100),selectedNum=selected[c.id];
+  return `<article class="course" style="--accent:${c.accent};--soft:${c.soft}"><div class="course-heading"><div class="course-details"><div class="course-icon">${icon(c.icon)}</div><div><span class="course-code">${c.code}</span><h3 class="course-name">${c.name}</h3></div></div><strong class="course-percentage">${progress}%</strong></div>
+  <div class="track" role="progressbar" aria-label="${c.name} ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><div class="track-fill" style="width:${progress}%"></div></div>
+  <div class="progress-caption"><span><strong>${completed} / 8 ünite</strong> tamamlandı</span><span>${8-completed} ünite kaldı</span></div>
+  <div class="unit-section-head"><strong>ÜNİTELER</strong><span>1–4: Vize kapsamı</span></div>
+  <div class="unit-grid" role="group" aria-label="${c.name} üniteleri">${course.units.map(u=>`<button type="button" class="unit-button ${u.done?'completed':''} ${selectedNum===u.num?'selected':''}" data-action="select" data-course="${c.id}" data-unit="${u.num}" aria-label="${u.num}. Ünite ${u.done?'tamamlandı':'tamamlanmadı'}, konuları ${selectedNum===u.num?'kapat':'aç'}" aria-pressed="${selectedNum===u.num}">${u.done?icon('check'):u.num}</button>`).join('')}</div>
+  ${selectedNum?unitPanel(c.id,getUnit(c.id,selectedNum)): `<div class="course-hint">${icon('pointer')} Konuları görmek için bir ünite seç.</div>`}</article>`
+ }).join('');
+}
+function unitPanel(cid,u){if(!u)return '';
+ const doneTopics=u.topics.filter(t=>t.done).length;
+ const status=u.done?'Tamamlandı':u.topics.length?'Devam ediyor':'Başlanmadı';
+ return `<div class="unit-panel"><div class="unit-panel-top"><div><h3>${u.num}. Ünite ${u.num<=4?'· Vize':''}</h3><div class="unit-panel-meta"><span class="status-bullet ${u.done?'done':u.topics.length?'active':''}"></span><span>${status}</span><span>·</span><span>${doneTopics}/${u.topics.length} konu bitti</span></div></div><button type="button" class="close-unit" data-action="close" data-course="${cid}" title="Kapat" aria-label="Üniteyi kapat">${icon('close')}</button></div>
+ ${u.topics.length?`<div class="topics">${u.topics.map((t,j)=>`<div class="topic-row"><input class="check" type="checkbox" id="${cid}-${u.num}-${j}" data-action="topic" data-course="${cid}" data-unit="${u.num}" data-index="${j}" ${t.done?'checked':''}><label class="topic-text" for="${cid}-${u.num}-${j}">${escapeHtml(t.name)}</label><button class="remove" type="button" data-action="remove" data-course="${cid}" data-unit="${u.num}" data-index="${j}" title="Konuyu sil" aria-label="${escapeHtml(t.name)} konusunu sil">${icon('close')}</button></div>`).join('')}</div>`:'<div class="no-topics">Bu ünitede henüz konu eklenmemiş.</div>'}
+ <form class="add-topic" data-course="${cid}" data-unit="${u.num}"><input name="topic" type="text" placeholder="Yeni konu ekle..." maxlength="120" autocomplete="off" aria-label="Yeni konu adı" required><button type="submit" class="add-btn">${icon('plus')} Ekle</button></form>
+ <div class="panel-actions"><span class="topic-progress">${doneTopics} konu tamamlandı</span><button type="button" class="finish-btn ${u.done?'undo':''}" data-action="finish" data-course="${cid}" data-unit="${u.num}">${icon('check')} ${u.done?'Tamamlamayı geri al':'Üniteyi bitir'}</button></div></div>`
+}
+grid.addEventListener('click',e=>{
+ const button=e.target.closest('button[data-action]');if(!button)return;
+ const a=button.dataset.action,cid=button.dataset.course,num=Number(button.dataset.unit);
+ if(a==='select'){selected[cid]=selected[cid]===num?null:num;render();return}
+ if(a==='close'){selected[cid]=null;render();return}
+ const unit=getUnit(cid,num);if(!unit)return;
+ if(a==='finish')unit.done=!unit.done;
+ else if(a==='remove')unit.topics.splice(Number(button.dataset.index),1);
+ else return;
+ save();render();
+});
+grid.addEventListener('change',e=>{
+ const el=e.target;if(el.dataset.action!=='topic')return;
+ const unit=getUnit(el.dataset.course,Number(el.dataset.unit)),topic=unit?.topics[Number(el.dataset.index)];
+ if(topic){topic.done=el.checked;save();render()}
+});
+grid.addEventListener('submit',e=>{
+ const form=e.target.closest('form.add-topic');if(!form)return;e.preventDefault();
+ const input=form.elements.namedItem('topic'),value=input.value.trim();if(!value)return;
+ const unit=getUnit(form.dataset.course,Number(form.dataset.unit));if(!unit)return;
+ unit.topics.push({name:value,done:false});save();render();
+ grid.querySelector(`form.add-topic[data-course="${form.dataset.course}"][data-unit="${form.dataset.unit}"] input`)?.focus();
+});
+render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AÖF Plan | Yapay Zeka Destekli Kişisel Çalışma Programı</title>
+    <meta name="description" content="Anadolu Üniversitesi AÖF öğrencilerine özel; ders yüküne, sınav tarihine ve günlük müsaitlik saatlerine göre yapay zeka destekli kişisel çalışma programı." />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* Modern AI & EdTech Palette */
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --primary-hover: #3730A3;
+            --accent: #2563EB;
+            --accent-cyan: #0EA5E9;
+            --primary-light: #EEF2FF;
+            --primary-border: #C7D2FE;
+            
+            --navy: #0B1120;
+            --navy-light: #1E293B;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --surface-muted: #F1F5F9;
+            --border: #E2E8F0;
+            --border-strong: #CBD5E1;
+            
+            --text-main: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            
+            --success: #059669;
+            --success-bg: #ECFDF5;
+            --success-border: #A7F3D0;
+            --warning: #D97706;
+            --warning-bg: #FFFBEB;
+            --warning-border: #FDE68A;
+            --danger: #DC2626;
+            --danger-bg: #FEF2F2;
+            --danger-border: #FECACA;
+
+            /* Elevation & Radius */
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.05);
+            --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 1px 1px rgba(15, 23, 42, 0.04);
+            --shadow-glow: 0 10px 25px -5px rgba(79, 70, 229, 0.35);
+            
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 15% 0%, rgba(79, 70, 229, 0.08) 0px, transparent 50%),
+                radial-gradient(at 85% 5%, rgba(14, 165, 233, 0.07) 0px, transparent 45%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :focus-visible { outline: 3px solid #A5B4FC; outline-offset: 2px; }
+
+        /* Typography */
+        h1, h2, h3, h4 { color: var(--navy); font-weight: 800; line-height: 1.2; letter-spacing: -0.025em; }
+        p { color: var(--text-secondary); }
+        strong { font-weight: 700; color: var(--navy); }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .page-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sticky Glass Header */
+        .header-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.75);
+            margin-bottom: 24px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+            min-width: 0;
+        }
+        .brand-icon {
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            border-radius: var(--radius-md);
+            color: white;
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.24);
+        }
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.15;
+            white-space: nowrap;
+        }
+        .brand-sub {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+        
+        /* Badges */
+        .badge {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            background: var(--surface);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+            box-shadow: var(--shadow-xs);
+        }
+        .badge i, .badge svg { width: 14px; height: 14px; flex: none; }
+        .badge-ai {
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0F2FE 100%);
+            border-color: #C7D2FE;
+            color: #3730A3;
+        }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 32px 0 52px; }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin: 18px auto 20px;
+            max-width: 780px;
+            line-height: 1.14;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 55%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 17px;
+            max-width: 620px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+        }
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 34px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy-light);
+            background: var(--surface);
+            padding: 10px 16px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+        }
+        .feature-item i, .feature-item svg { color: var(--primary); width: 17px; height: 17px; }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .hero-subnote {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 46px;
+            padding: 13px 22px;
+            font-size: 14.5px;
+            font-weight: 700;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            font-family: inherit;
+        }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--primary-dark), #1D4ED8);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px -6px rgba(79, 70, 229, 0.45);
+        }
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--navy);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--surface-muted);
+            border-color: var(--border-strong);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            min-height: 38px;
+        }
+        .btn-ghost:hover { background: var(--surface-muted); color: var(--navy); }
+
+        /* Cards & Panels */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: clamp(24px, 4.5vw, 40px);
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            margin-bottom: 32px;
+        }
+
+        /* How It Works */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 36px;
+        }
+        .step-card {
+            background: var(--surface);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-border);
+        }
+        .step-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .step-card h3 { font-size: 16px; margin-bottom: 8px; }
+        .step-card p { font-size: 13.5px; margin: 0; line-height: 1.55; }
+
+        /* Pricing Card */
+        .pricing-card {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.35), transparent 55%),
+                        linear-gradient(145deg, #0B1120 0%, #172033 100%);
+            color: white;
+            padding: 34px 36px;
+            border-radius: var(--radius-xl);
+            margin-bottom: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 24px 48px -12px rgba(11, 17, 32, 0.28);
+        }
+        .pricing-content { flex: 1; }
+        .pricing-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #A5B4FC;
+            background: rgba(79, 70, 229, 0.25);
+            border: 1px solid rgba(165, 180, 252, 0.25);
+            padding: 5px 12px;
+            border-radius: 99px;
+            margin-bottom: 12px;
+        }
+        .pricing-content h2 { color: white; margin-bottom: 10px; font-size: 24px; }
+        .pricing-content p { color: #CBD5E1; margin: 0; font-size: 14.5px; max-width: 500px; line-height: 1.6; }
+        .pricing-perks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 16px;
+            font-size: 12.5px;
+            color: #94A3B8;
+            font-weight: 600;
+        }
+        .pricing-perks span { display: inline-flex; align-items: center; gap: 5px; color: #E2E8F0; }
+        .pricing-perks i, .pricing-perks svg { width: 15px; height: 15px; color: #38BDF8; }
+        
+        .pricing-box-right {
+            text-align: right;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px 24px;
+            border-radius: var(--radius-lg);
+            min-width: 170px;
+        }
+        .pricing-amount {
+            font-size: 44px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+        .pricing-amount span { font-size: 18px; color: #A5B4FC; font-weight: 700; padding-bottom: 6px; }
+        .pricing-caption {
+            font-size: 11.5px;
+            color: #94A3B8;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Example Plan Table */
+        .example-plan-card { overflow: hidden; }
+        .example-plan-heading { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+        .example-plan-heading h2 { font-size: 21px; margin: 0; }
+        .example-plan-note { font-size: 13.5px; color: var(--text-muted); margin: 0 0 22px; }
+        .example-plan-wrap { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .example-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 13.5px; margin: 0; }
+        .example-table th {
+            background: var(--surface-muted);
+            padding: 14px 14px;
+            text-align: left;
+            color: var(--navy);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid var(--border);
+        }
+        .example-table td {
+            padding: 16px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            vertical-align: middle;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+        }
+        .example-table tr:last-child td { border-bottom: 0; }
+        .example-table tbody tr:nth-child(even) { background: #FAFBFD; }
+        .example-table th:nth-child(1) { width: 18%; }
+        .example-table th:nth-child(2) { width: 20%; }
+        .example-table th:nth-child(3) { width: 25%; }
+        .example-table th:nth-child(4) { width: 37%; }
+        .example-table .day-name { font-weight: 800; color: var(--navy); }
+        .example-table .time-label {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            background: var(--surface-muted);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12.5px;
+        }
+        .tag-course {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+        .example-plan-foot {
+            margin-top: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            line-height: 1.5;
+        }
+        .example-plan-foot svg { flex: none; width: 16px; height: 16px; color: var(--primary); margin-top: 2px; }
+
+        /* Wizard Form */
+        .wizard-top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-border);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 28px;
+            font-size: 13px;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        .wizard-top-banner span { display: inline-flex; align-items: center; gap: 8px; }
+        .wizard-top-banner svg { width: 17px; height: 17px; flex: none; }
+
+        .form-header { margin-bottom: 28px; }
+        .form-header h2 { font-size: 22px; margin-bottom: 6px; }
+        .form-header p { font-size: 14.5px; }
+
+        .wizard-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .wizard-progress::before {
+            content: '';
+            position: absolute;
+            top: 17px;
+            left: 24px;
+            right: 24px;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 0 12px;
+        }
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+        .progress-step.active .step-circle {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        .progress-step.completed .step-circle {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+        .step-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+        .progress-step.active .step-label { color: var(--primary); }
+        .progress-step.completed .step-label { color: var(--success); }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group.full { grid-column: 1 / -1; }
+        
+        label { font-size: 14px; font-weight: 700; color: var(--navy); }
+        .label-desc { font-size: 13px; color: var(--text-muted); font-weight: 400; margin-top: -2px; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 13px 16px;
+            font-size: 15.5px;
+            font-family: inherit;
+            color: var(--text-main);
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        input::placeholder, textarea::placeholder { color: #94A3B8; }
+        input:hover:not(:disabled), select:hover:not(:disabled), textarea:hover:not(:disabled) {
+            border-color: var(--border-strong);
+        }
+        input:focus, select:focus, textarea:focus {
+            background: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        input:disabled { opacity: 0.55; cursor: not-allowed; }
+        textarea { resize: vertical; min-height: 100px; }
+
+        /* Dynamic Course Items */
+        .dynamic-item {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .dynamic-item:hover { border-color: var(--primary-border); }
+        .dynamic-item .form-group { margin-bottom: 12px; }
+        .dynamic-item .form-group:last-child { margin-bottom: 0; }
+        .dynamic-item input, .dynamic-item select { background: var(--surface); }
+        .dynamic-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .dynamic-item-title {
+            font-weight: 800;
+            font-size: 13.5px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* Selectable Chips */
+        .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+        .chip-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 11px 16px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .chip-label:hover { border-color: var(--border-strong); background: var(--bg); }
+        .chip-label:has(input:checked) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+        .chip-label input[type="checkbox"], .chip-label input[type="radio"] {
+            margin-right: 9px;
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Preset Pills */
+        .preset-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .preset-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--navy-light);
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 8px 14px;
+            min-height: 36px;
+            border-radius: 99px;
+        }
+        .preset-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-border);
+            color: var(--primary);
+        }
+
+        /* Schedule Slots */
+        .schedule-day {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: var(--surface);
+            transition: all 0.2s ease;
+        }
+        .schedule-day:has(input.day-toggle:checked) {
+            border-color: var(--primary);
+            background: #FAFBFD;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.06);
+        }
+        .day-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .day-slots {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-strong);
+        }
+        .time-slot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .time-slot input[type="time"] {
+            width: auto;
+            flex: 1;
+            min-width: 115px;
+            padding: 10px 12px;
+            background: var(--surface);
+        }
+
+        /* Review Summary */
+        .summary-box {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+            margin-bottom: 24px;
+        }
+        .summary-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 16px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .summary-row:first-child { padding-top: 0; }
+        .summary-label { font-weight: 700; color: var(--text-muted); font-size: 13px; }
+        .summary-value { font-weight: 700; color: var(--navy); font-size: 14px; }
+        .summary-value ul li { margin-bottom: 4px; }
+
+        /* Navigation Actions */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            margin-top: 28px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 16px 18px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+        .alert svg { width: 20px; height: 20px; flex: none; margin-top: 2px; }
+        .alert-error { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger); font-weight: 600; }
+        .alert-warning { background: var(--warning-bg); border: 1px solid var(--warning-border); color: #92400E; }
+        .alert-success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); }
+
+        /* Success Screen */
+        .success-screen { text-align: center; padding: 48px 24px; }
+        .success-icon {
+            width: 82px;
+            height: 82px;
+            background: var(--success-bg);
+            color: var(--success);
+            border: 2px solid var(--success-border);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+        .success-icon svg { width: 40px; height: 40px; }
+        .ref-box {
+            display: inline-block;
+            background: var(--bg);
+            border: 2px dashed var(--primary-border);
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin: 22px 0;
+        }
+
+        /* Closed State Screen */
+        .closed-screen {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 48px 28px;
+            background: radial-gradient(circle at top center, rgba(245, 158, 11, 0.09) 0%, transparent 60%),
+                        var(--surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            box-shadow: var(--shadow-card);
+            margin: 12px 0 24px;
+        }
+        .closed-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            color: #B45309;
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #F59E0B;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.7; }
+        }
+        .closed-icon-wrap {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 22px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #FFFBEB 0%, #FEF3C7 100%);
+            border: 1px solid var(--warning-border);
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 24px -8px rgba(217, 119, 6, 0.22), 0 0 0 6px rgba(254, 243, 199, 0.45);
+        }
+        .closed-icon-wrap svg {
+            width: 34px;
+            height: 34px;
+            stroke-width: 2.2;
+        }
+        .closed-screen h2 {
+            font-size: clamp(22px, 4vw, 28px);
+            margin-bottom: 12px;
+            color: var(--navy);
+        }
+        .closed-screen p {
+            max-width: 470px;
+            margin: 0 auto;
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+        .closed-info-strip {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 12px 18px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .closed-info-strip span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .closed-info-strip svg {
+            width: 15px;
+            height: 15px;
+            color: var(--primary);
+            flex: none;
+        }
+        .closed-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding: 32px 20px 44px;
+            text-align: center;
+        }
+        .footer-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            padding-top: 26px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .footer-disclaimer {
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 520px;
+        }
+        .footer-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .dev-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .dev-badge:hover {
+            border-color: var(--primary-border);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+        .dev-badge strong {
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 0.03em;
+        }
+
+        [hidden] { display: none !important; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .steps-grid { grid-template-columns: 1fr; gap: 14px; }
+            .pricing-card { flex-direction: column; text-align: center; align-items: stretch; padding: 28px 22px; }
+            .pricing-content p { max-width: 100%; }
+            .pricing-perks { justify-content: center; }
+            .pricing-box-right { text-align: center; }
+            .pricing-amount { justify-content: center; }
+            .form-grid { grid-template-columns: 1fr; }
+            .summary-row { grid-template-columns: 1fr; gap: 4px; }
+            .wizard-progress::before { display: none; }
+            .wizard-progress { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .progress-step { flex-direction: row; justify-content: flex-start; padding: 8px 10px; background: var(--bg); border-radius: var(--radius-sm); }
+            .progress-step:not(.active):not(.completed) { opacity: 0.6; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 15px; }
+            .hero { padding: 24px 0 40px; }
+            .hero h1 { font-size: 30px; }
+            .hero p { font-size: 15px; }
+            .card { padding: 22px 16px; border-radius: 20px; }
+            .example-plan-wrap { border: 0; overflow: visible; }
+            .example-table, .example-table tbody { display: block; width: 100%; }
+            .example-table thead { display: none; }
+            .example-table tr {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 10px 12px;
+                padding: 15px;
+                margin-bottom: 12px;
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                background: var(--surface);
+                box-shadow: var(--shadow-xs);
+            }
+            .example-table tbody tr:nth-child(even) { background: var(--surface); }
+            .example-table td { display: block; padding: 0; border: 0; overflow-wrap: normal; word-break: normal; }
+            .example-table td:nth-child(1) { grid-column: 1; grid-row: 1; align-self: center; }
+            .example-table td:nth-child(2) { grid-column: 2; grid-row: 1; align-self: center; text-align: right; }
+            .example-table td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; }
+            .example-table td:nth-child(4) { grid-column: 1 / -1; grid-row: 3; color: var(--text-secondary); font-size: 13px; padding-top: 9px; border-top: 1px dashed var(--border); }
+            .form-actions #btnClearDraft { order: 3; width: 100%; }
+            .form-actions .btn { flex: 1; padding: 12px 14px; font-size: 14px; }
+            .closed-screen { padding: 38px 20px; }
+            .closed-actions .btn { width: 100%; }
+        }
+
+        @media (max-width: 420px) {
+            .brand-icon { width: 38px; height: 38px; border-radius: 11px; }
+            .brand-name { font-size: 16.5px; }
+            .brand-sub { font-size: 9.5px; letter-spacing: 0.02em; }
+            .badge { font-size: 11px; padding: 6px 10px; gap: 5px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-wrap">
+    <div class="container">
+        <header class="header">
+            <a href="#" class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="cpu"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">AÖF Plan</span>
+                    <span class="brand-sub">AI Çalışma Sistemi</span>
+                </div>
+            </a>
+            <div class="badge badge-ai">
+                <i data-lucide="sparkles"></i> Yapay Zeka Destekli
+            </div>
+        </header>
+    </div>
+</div>
+
+<div class="container page-body">
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge" style="margin-bottom: 8px;">
+                <i data-lucide="graduation-cap"></i> AÖF Halkla İlişkiler ve Reklamcılık
+            </div>
+            <h1>Sınavlara Ezbere Değil, <span class="text-gradient">Yapay Zeka Destekli Planla</span> Hazırlan.</h1>
+            <p>Aldığın dersleri, zorluk seviyelerini, sınav tarihini ve gün içindeki boş saatlerini yapay zeka destekli sistemimizle analiz ediyor; senin hayat ritmine tam uyan kişisel çalışma programı hazırlıyoruz.</p>
+            
+            <div class="hero-features">
+                <div class="feature-item"><i data-lucide="brain-circuit"></i> AI Destekli Yük Dağılımı</div>
+                <div class="feature-item"><i data-lucide="briefcase-business"></i> Çalışan ve Vardiyalıya Uygun</div>
+                <div class="feature-item"><i data-lucide="target"></i> Hedef Odaklı Ünite Planı</div>
+            </div>
+
+            <div class="hero-cta-group">
+                <button class="btn btn-primary" onclick="document.getElementById('applicationFormWizard').scrollIntoView();">
+                    Kişisel Planımı Oluştur <i data-lucide="arrow-right"></i>
+                </button>
+                <span class="hero-subnote">Formu doldurmak yaklaşık 2 dakika sürer · Ödeme öncesi ön bilgi gerekmez</span>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="steps-grid">
+            <div class="step-card">
+                <div class="step-icon"><i data-lucide="sliders-horizontal"></i></div>
+                <h3>1. Verilerini ve Saatlerini Gir</h3>
+                <p>Dönem derslerini, kaldığın üniteleri, sınav hedefini ve haftalık müsait olduğun saat aralıklarını formda belirt.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i data-lucide="cpu"></i></div>
+                <h3>2. AI Analizi ve Onay</h3>
+                <p>Başvurunu tamamladıktan sonra WhatsApp üzerinden ödeme adımını tamamla; verilerin yapay zeka destekli planlama motoruna aktarılsın.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i data-lucide="file-check-2"></i></div>
+                <h3>3. Sana Özel Program Teslimi</h3>
+                <p>Ders yoğunluğuna ve çalışma düzenine göre optimize edilmiş günlük ve haftalık çalışma programın hazırlanıp sana iletilsin.</p>
+            </div>
+        </section>
+
+        <!-- Pricing Card -->
+        <section class="pricing-card">
+            <div class="pricing-content">
+                <div class="pricing-pill"><i data-lucide="sparkles"></i> Tek Seferlik Kişisel Planlama</div>
+                <h2>Yapay Zeka Destekli Özel Çalışma Programı</h2>
+                <p>Hazır şablonlar yerine senin ders sayına, zorlandığın konulara ve müsait saatlerine göre sıfırdan üretilen kişisel yol haritası.</p>
+                <div class="pricing-perks">
+                    <span><i data-lucide="check-circle-2"></i> Günlük & Saatlik Plan</span>
+                    <span><i data-lucide="check-circle-2"></i> Tekrar ve Soru Günleri</span>
+                    <span><i data-lucide="check-circle-2"></i> Vardiya / İş Uyumlu</span>
+                </div>
+            </div>
+            <div class="pricing-box-right">
+                <div class="pricing-amount">
+                    500 <span>₺</span>
+                </div>
+                <div class="pricing-caption">Dönemlik tek ödeme</div>
+            </div>
+        </section>
+
+        <!-- Example Plan -->
+        <section class="card example-plan-card" aria-labelledby="examplePlanTitle">
+            <div class="example-plan-heading">
+                <div class="step-icon" style="width:42px;height:42px;margin:0;flex:none"><i data-lucide="calendar-check-2"></i></div>
+                <h2 id="examplePlanTitle">Örnek AI Çalışma Programı Çıktısı</h2>
+            </div>
+            <p class="example-plan-note">Temsilî önizleme · Gerçek programın seçtiğin derslere, ünite durumuna ve müsait saatlerine göre özel oluşturulur.</p>
+            <div class="example-plan-wrap">
+                <table class="example-table">
+                    <thead><tr><th scope="col">Gün</th><th scope="col">Saat</th><th scope="col">Ders</th><th scope="col">Etkinlik ve Hedef</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="day-name">Pazartesi</span></td><td><span class="time-label">20:00–20:45</span></td><td><span class="tag-course">Türk Dili I</span></td><td>Ünite 3 konu okuması ve kısa kavram özeti</td></tr>
+                        <tr><td><span class="day-name">Salı</span></td><td><span class="time-label">20:00–21:00</span></td><td><span class="tag-course">İktisada Giriş I</span></td><td>Ünite sonu testleri ve yanlış soru analizi</td></tr>
+                        <tr><td><span class="day-name">Çarşamba</span></td><td><span class="time-label">19:30–20:15</span></td><td><span class="tag-course">Genel İşletme</span></td><td>Ünite 4 başlangıcı ve temel tanımlar</td></tr>
+                        <tr><td><span class="day-name">Perşembe</span></td><td><span class="time-label">20:00–21:00</span></td><td><span class="tag-course">Atatürk İlkeleri</span></td><td>Hızlı ünite tekrarı ve çıkmış soru taraması</td></tr>
+                        <tr><td><span class="day-name">Cumartesi</span></td><td><span class="time-label">14:00–15:00</span></td><td><span class="tag-course">Haftalık Karma</span></td><td>Haftalık mini deneme ve eksik konu telafisi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="example-plan-foot"><i data-lucide="info" aria-hidden="true"></i><span>Her öğrencinin çalışma süresi, iş/vardiya düzeni ve ders zorluğu farklı olduğundan üretilen her plan tamamen kişiye özeldir.</span></p>
+        </section>
+
+        <!-- Application Wizard -->
+        <section class="card" id="applicationFormWizard">
+            
+            <div class="wizard-top-banner">
+                <span><i data-lucide="shield-check"></i> Bilgilerin otomatik olarak taslak kaydedilir; sayfayı kapatsan da kaybolmaz.</span>
+            </div>
+
+            <div class="wizard-progress" id="wizardProgress">
+                <div class="progress-step active" id="p-step-1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Öğrenci & Dersler</div>
+                </div>
+                <div class="progress-step" id="p-step-2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Sınav & Hedefler</div>
+                </div>
+                <div class="progress-step" id="p-step-3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Çalışma Saatleri</div>
+                </div>
+                <div class="progress-step" id="p-step-4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Başvuru Kontrolü</div>
+                </div>
+            </div>
+
+            <div class="alert alert-error" id="formError" hidden>
+                <i data-lucide="alert-circle"></i>
+                <span id="formErrorText">Lütfen zorunlu alanları doldurun.</span>
+            </div>
+
+            <form id="appForm" novalidate>
+                <!-- STEP 1 -->
+                <div class="wizard-step" id="step-1">
+                    <div class="form-header">
+                        <h2>Öğrenci ve Ders Bilgileri</h2>
+                        <p>Yapay zeka planlayıcının ders yükünü doğru dağıtabilmesi için temel bilgilerini ve derslerini gir.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Ad Soyad *</label>
+                            <input type="text" id="fullName" required placeholder="Örn: Ayşe Yılmaz" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="whatsapp">WhatsApp Numarası *</label>
+                            <input type="tel" id="whatsapp" required placeholder="05XX XXX XX XX">
+                        </div>
+                        <div class="form-group full">
+                            <label for="academicYear">Kaçıncı Sınıftasın? *</label>
+                            <select id="academicYear" required>
+                                <option value="">Seçiniz</option>
+                                <option value="1. Sınıf">1. Sınıf</option>
+                                <option value="2. Sınıf">2. Sınıf</option>
+                                <option value="3. Sınıf">3. Sınıf</option>
+                                <option value="4. Sınıf">4. Sınıf</option>
+                                <option value="Uzatmalı Öğrenci">Uzatmalı Öğrenci (Alttan/Üstten Dersler)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full" style="margin-top: 12px;">
+                        <label>Bu Dönem Sorumlu Olduğun Dersler *</label>
+                        <div class="label-desc" style="margin-bottom: 12px;">Zorluk derecesini seçmen, zor derslere daha fazla tekrar ve soru saati ayrılmasını sağlar. Kaldığın üniteyi bilmiyorsan boş bırakabilirsin.</div>
+                        
+                        <div id="courseList"></div>
+                        
+                        <button type="button" class="btn btn-secondary" onclick="addCourse()">
+                            <i data-lucide="plus"></i> Yeni Ders Ekle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="wizard-step" id="step-2" hidden>
+                    <div class="form-header">
+                        <h2>Sınav ve Hedefler</h2>
+                        <p>Sınava kalan süreyi ve hedef notunu belirleyerek günlük tempo yoğunluğunu ayarlayalım.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label for="examType">Hangi Sınava Hazırlanıyorsun? *</label>
+                            <select id="examType" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Güz Dönemi Ara Sınavı">Güz Dönemi Ara Sınavı (Vize)</option>
+                                <option value="Güz Dönemi Dönem Sonu Sınavı">Güz Dönemi Dönem Sonu Sınavı (Final)</option>
+                                <option value="Bahar Dönemi Ara Sınavı">Bahar Dönemi Ara Sınavı (Vize)</option>
+                                <option value="Bahar Dönemi Dönem Sonu Sınavı">Bahar Dönemi Dönem Sonu Sınavı (Final)</option>
+                                <option value="Yaz Okulu Sınavı">Yaz Okulu Sınavı</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="examDate">Sınav Tarihi</label>
+                            <input type="date" id="examDate">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center; margin-top: 24px;">
+                            <label class="chip-label" style="width: 100%;">
+                                <input type="checkbox" id="examDateUnknown"> Sınav tarihi henüz belli değil
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="academicTarget">Temel Hedefin Nedir? *</label>
+                            <select id="academicTarget" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Derslerimi geçmek istiyorum">Derslerimi geçmek istiyorum</option>
+                                <option value="70 ve üzeri not almak istiyorum">70 ve üzeri not almak istiyorum</option>
+                                <option value="85 ve üzeri not almak istiyorum">85 ve üzeri not almak istiyorum (Yüksek Onur)</option>
+                                <option value="Genel not ortalamamı yükseltmek istiyorum">Genel not ortalamamı yükseltmek istiyorum</option>
+                                <option value="Mezuniyetimi hızlandırmak istiyorum">Mezuniyetimi hızlandırmak istiyorum</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="preparationLevel">Şu Anki Hazırlık Durumun *</label>
+                            <select id="preparationLevel" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Henüz çalışmaya başlamadım">Henüz çalışmaya başlamadım</option>
+                                <option value="Bazı konuları biliyorum">Bazı konuları biliyorum</option>
+                                <option value="Derslerin yaklaşık yarısını bitirdim">Derslerin yaklaşık yarısını bitirdim</option>
+                                <option value="Çoğu konuyu bitirdim, tekrar yapmalıyım">Çoğu konuyu bitirdim, tekrar ve soru çözmeliyim</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full" style="margin-top: 12px;">
+                        <label>Ders çalışırken seni en çok ne zorluyor?</label>
+                        <div class="label-desc" style="margin-bottom: 8px;">Seçimlerine göre programına kısa tekrar blokları veya çıkmış soru oturumları eklenir.</div>
+                        <div class="chip-group" id="studyChallenges">
+                            <label class="chip-label"><input type="checkbox" value="Zaman bulamıyorum"> Zaman bulamıyorum</label>
+                            <label class="chip-label"><input type="checkbox" value="Konuları anlamakta zorlanıyorum"> Konuları anlamakta zorlanıyorum</label>
+                            <label class="chip-label"><input type="checkbox" value="Çalıştıklarımı unutuyorum"> Çalıştıklarımı unutuyorum</label>
+                            <label class="chip-label"><input type="checkbox" value="Düzenli çalışamıyorum"> Düzenli çalışamıyorum</label>
+                            <label class="chip-label"><input type="checkbox" value="Soru çözerken zorlanıyorum"> Soru çözerken zorlanıyorum</label>
+                            <label class="chip-label"><input type="checkbox" value="Nereden başlayacağımı bilmiyorum"> Nereden başlayacağımı bilmiyorum</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="wizard-step" id="step-3" hidden>
+                    <div class="form-header">
+                        <h2>Çalışma Saatleri ve Rutin</h2>
+                        <p>Sadece gerçekten masa başına oturabileceğin saatleri seç; uygulanabilir bir plan oluşturalım.</p>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="employmentStatus">Çalışma Durumun *</label>
+                        <select id="employmentStatus" required>
+                            <option value="">Seçiniz</option>
+                            <option value="Tam zamanlı çalışıyorum">Tam zamanlı çalışıyorum</option>
+                            <option value="Yarı zamanlı çalışıyorum">Yarı zamanlı çalışıyorum</option>
+                            <option value="Çalışmıyorum">Çalışmıyorum</option>
+                            <option value="Çalışma saatlerim değişken">Çalışma saatlerim değişken</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Haftalık Müsaitlik Durumun *</label>
+                        <div class="label-desc" style="margin-bottom: 12px;">Ders çalışabileceğin günleri işaretle ve saat aralıklarını düzenle. Dilersen tek tıkla hazır şablon seçebilirsin.</div>
+                        
+                        <div class="preset-bar">
+                            <button type="button" class="btn preset-btn" onclick="applySchedulePreset('weeknights')">Hafta İçi Akşamları</button>
+                            <button type="button" class="btn preset-btn" onclick="applySchedulePreset('weekends')">Sadece Hafta Sonu</button>
+                            <button type="button" class="btn preset-btn" onclick="applySchedulePreset('everyday')">Her Gün Akşam</button>
+                        </div>
+
+                        <div id="scheduleContainer"></div>
+                        <div id="availabilitySummaryText" style="font-size: 13.5px; color: var(--primary); font-weight: 700; margin-top: 12px;"></div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="chip-label" style="width: fit-content;">
+                            <input type="checkbox" id="rotatingShifts"> Vardiyalı veya haftadan haftaya değişen saatlerde çalışıyorum
+                        </label>
+                    </div>
+                    
+                    <div class="form-group full" id="shiftDescContainer" hidden>
+                        <label for="shiftDescription">Vardiya Düzenini Kısaca Açıkla</label>
+                        <textarea id="shiftDescription" placeholder="Örn: 2 gün gündüz (08:00-16:00), 2 gün gece, 2 gün izin şeklinde çalışıyorum."></textarea>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="sessionDuration">Tercih Ettiğin Çalışma Oturumu</label>
+                            <select id="sessionDuration">
+                                <option value="0">Fark etmez (AI optimum süreyi belirlesin)</option>
+                                <option value="25">25 Dakika (Pomodoro tekniği)</option>
+                                <option value="40">40 Dakika (Klasik ders süresi)</option>
+                                <option value="50">50 Dakika (Derin odak oturumu)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="additionalNotes">Eklemek İstediklerin (İsteğe Bağlı)</label>
+                        <textarea id="additionalNotes" placeholder="Örn: Şu dersten alttan kalmamam lazım, şu günler kesinlikle çalışamam vb."></textarea>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="wizard-step" id="step-4" hidden>
+                    <div class="form-header">
+                        <h2>Başvuru Özeti ve Onay</h2>
+                        <p>Girdiğin bilgileri son kez kontrol et; ardından başvurunu tamamlayıp WhatsApp üzerinden onay sürecine geçebilirsin.</p>
+                    </div>
+
+                    <div class="summary-box" id="reviewSummary"></div>
+
+                    <div class="alert alert-warning">
+                        <i data-lucide="info"></i>
+                        <div>
+                            <strong>Ödeme ve Teslimat Süreci</strong><br>
+                            Başvurunu gönderdikten sonra açılacak WhatsApp butonu üzerinden iletişim kurarak 500 TL ödeme bilgilerini alabilirsin. Ödeme onayının ardından yapay zeka destekli kişisel çalışma programın hazırlanarak tarafına teslim edilir.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btnPrev" style="visibility: hidden;">
+                        <i data-lucide="arrow-left"></i> Geri
+                    </button>
+                    <button type="button" class="btn btn-ghost" id="btnClearDraft" style="font-size: 13px;" onclick="clearDraft()">Formu Sıfırla</button>
+                    <button type="button" class="btn btn-primary" id="btnNext">
+                        Sonraki Adım <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmit" hidden>
+                        Başvurumu Tamamla <i data-lucide="check-circle-2"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Success Screen -->
+        <section class="card success-screen" id="successScreen" hidden>
+            <div class="success-icon"><i data-lucide="check"></i></div>
+            <h2>Başvurun Başarıyla Oluşturuldu!</h2>
+            <p style="margin-top: 8px;">Bilgilerin sistemimize kaydedildi. Başvuru takip numaran aşağıdadır:</p>
+            
+            <div class="ref-box" id="referenceNumberDisplay">AOF-XXXXXX</div>
+            
+            <p style="max-width: 520px; margin: 0 auto 30px;">Ödeme bilgilerini almak ve yapay zeka destekli çalışma programının hazırlık sürecini başlatmak için aşağıdaki butondan WhatsApp mesajını göndermen yeterli.</p>
+            
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="whatsappBtn" style="background: #16A34A; border: none; box-shadow: 0 10px 24px rgba(22, 163, 74, 0.3);">
+                <i data-lucide="message-circle"></i> WhatsApp'tan Ödeme Bilgisi İste
+            </a>
+        </section>
+    </main>
+
+    <!-- Closed State Screen -->
+    <main id="closedContent" hidden>
+        <section class="closed-screen">
+            <div class="closed-status-pill">
+                <span class="pulse-dot"></span> Geçici Olarak Kapalı
+            </div>
+            <div class="closed-icon-wrap">
+                <i data-lucide="clock"></i>
+            </div>
+            <h2>Şu Anda Hizmet Veremiyoruz</h2>
+            <p>Sistemimize geçici olarak ara verdik, şu an için yeni başvuru kabul edemiyoruz. Hizmetimiz yeniden aktif olduğunda bu ekran otomatik olarak açılacaktır.</p>
+            
+            <div class="closed-info-strip">
+                <span><i data-lucide="info"></i> Başvurular geçici olarak durduruldu</span>
+                <span><i data-lucide="refresh-cw"></i> Yeniden açıldığında buradan başvurabilirsin</span>
+            </div>
+
+            <div class="closed-actions">
+                <button type="button" class="btn btn-secondary" onclick="window.location.reload()">
+                    <i data-lucide="refresh-cw"></i> Sayfayı Yenile
+                </button>
+                <a href="https://wa.me/905340188445?text=Merhaba%2C%20A%C3%96F%20Plan%20hizmeti%20ne%20zaman%20tekrar%20aktif%20olur%3F" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <i data-lucide="message-circle"></i> WhatsApp'tan Ulaş
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <p class="footer-disclaimer">Bu platform Anadolu Üniversitesi ile resmî bir bağı bulunmayan bağımsız, yapay zeka destekli çalışma planlama hizmetidir.</p>
+            <div class="footer-meta">
+                <span>&copy; 2026 AÖF Plan</span>
+                <span>•</span>
+                <a href="https://berkaytdev.com" target="_blank" rel="noopener noreferrer" class="dev-badge">
+                    Designed &amp; Developed by <strong>BT DEV</strong>
+                </a>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Firebase Integration & Logic -->
+<script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
+    import { getDatabase, ref, push, set, serverTimestamp, update, runTransaction, onValue } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js';
+
+    // Configurations
+    const OWNER_WHATSAPP = '905340188445';
+    const TELEGRAM_BOT_TOKEN = '8441524444:AAHpwZgx3s5dly2P3N6ZmFamqrrJH1Y4RkA';
+    const TELEGRAM_CHAT_ID = '1642514642';
+
+    let SERVICE_PRICE = 500;
+    let applicationsOpen = false;
+    let settingsReady = false;
+    const DRAFT_KEY = 'aof_plan_draft_v2';
+    const VISITOR_KEY = 'aof_plan_visitor_v2';
+    const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+
+    function sendTelegram(text) {
+        if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true,
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: text,
+                parse_mode: 'HTML'
+            })
+        }).catch(() => {});
+    }
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKUs5FM50ejN9tVdvUNzocRGU5Q5lD2eo",
+        authDomain: "urunrakip.firebaseapp.com",
+        databaseURL: "https://urunrakip-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "urunrakip",
+        storageBucket: "urunrakip.appspot.com",
+        messagingSenderId: "893193039416",
+        appId: "1:893193039416:web:8624c79038f5dc9a2ac0cd"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Day definitions
+    const days = [
+        { key: 'monday', label: 'Pazartesi' },
+        { key: 'tuesday', label: 'Salı' },
+        { key: 'wednesday', label: 'Çarşamba' },
+        { key: 'thursday', label: 'Perşembe' },
+        { key: 'friday', label: 'Cuma' },
+        { key: 'saturday', label: 'Cumartesi' },
+        { key: 'sunday', label: 'Pazar' }
+    ];
+
+    // State
+    let currentStep = 1;
+    const totalSteps = 4;
+    let isSubmitting = false;
+
+    // DOM Elements
+    const form = document.getElementById('appForm');
+    const courseList = document.getElementById('courseList');
+    const scheduleContainer = document.getElementById('scheduleContainer');
+    const btnNext = document.getElementById('btnNext');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const formError = document.getElementById('formError');
+    const formErrorText = document.getElementById('formErrorText');
+
+    // Initialize UI
+    function init() {
+        lucide.createIcons();
+        buildScheduleUI();
+        
+        // Listeners
+        document.getElementById('examDateUnknown').addEventListener('change', (e) => {
+            document.getElementById('examDate').disabled = e.target.checked;
+            if(e.target.checked) document.getElementById('examDate').value = '';
+        });
+        
+        document.getElementById('rotatingShifts').addEventListener('change', (e) => {
+            document.getElementById('shiftDescContainer').hidden = !e.target.checked;
+        });
+
+        btnNext.addEventListener('click', handleNext);
+        btnPrev.addEventListener('click', handlePrev);
+        form.addEventListener('submit', handleSubmit);
+        
+        // Autosave listeners
+        form.addEventListener('input', saveDraft);
+        form.addEventListener('change', saveDraft);
+
+        // Load Draft or Add initial course
+        if (!loadDraft()) {
+            addCourse();
+        }
+
+        updateStepUI(false);
+        initVisitorTracking();
+        listenToSiteStatus();
+    }
+
+    // --- Dynamic Courses ---
+    window.addCourse = function(data = null) {
+        const index = courseList.children.length + 1;
+        const item = document.createElement('div');
+        item.className = 'dynamic-item course-item';
+        item.innerHTML = `
+            <div class="dynamic-item-header">
+                <div class="dynamic-item-title">Ders ${index}</div>
+                <button type="button" class="btn btn-ghost" onclick="this.closest('.course-item').remove(); updateCourseNumbers(); saveDraft();">
+                    <i data-lucide="trash-2"></i> Sil
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full">
+                    <input type="text" class="c-name" placeholder="Ders Adı (Örn: İktisada Giriş) *" required value="${escapeHTML(data?.name)}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="c-code" placeholder="Ders Kodu (Opsiyonel)" value="${escapeHTML(data?.code)}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="c-unit" placeholder="Şu Anki Ünite (Örn: Ünite 3)" value="${escapeHTML(data?.currentUnit)}">
+                </div>
+                <div class="form-group full">
+                    <select class="c-diff">
+                        <option value="Kolay" ${data?.difficulty === 'Kolay' ? 'selected' : ''}>Zorluk Derecesi: Kolay</option>
+                        <option value="Orta" ${data?.difficulty === 'Orta' || !data ? 'selected' : ''}>Zorluk Derecesi: Orta</option>
+                        <option value="Zor" ${data?.difficulty === 'Zor' ? 'selected' : ''}>Zorluk Derecesi: Zor</option>
+                    </select>
+                </div>
+            </div>
+        `;
+        courseList.appendChild(item);
+        lucide.createIcons({root: item});
+        if(index > 1 && !data) saveDraft();
+    }
+
+    window.updateCourseNumbers = function() {
+        Array.from(courseList.children).forEach((item, i) => {
+            item.querySelector('.dynamic-item-title').textContent = `Ders ${i + 1}`;
+        });
+    }
+
+    function getCoursesData() {
+        return Array.from(courseList.querySelectorAll('.course-item')).map(item => ({
+            name: item.querySelector('.c-name').value.trim(),
+            code: item.querySelector('.c-code').value.trim(),
+            currentUnit: item.querySelector('.c-unit').value.trim(),
+            difficulty: item.querySelector('.c-diff').value
+        }));
+    }
+
+    // --- Dynamic Schedule ---
+    function buildScheduleUI() {
+        days.forEach(day => {
+            const el = document.createElement('div');
+            el.className = 'schedule-day';
+            el.dataset.day = day.key;
+            el.innerHTML = `
+                <div class="day-header">
+                    <label class="chip-label" style="border: none; background: transparent; padding: 0;">
+                        <input type="checkbox" class="day-toggle" onchange="toggleDay(this)"> ${day.label}
+                    </label>
+                    <button type="button" class="btn btn-ghost add-slot-btn" onclick="addTimeSlot(this)" hidden style="font-size: 12px; padding: 4px 8px;">
+                        <i data-lucide="plus"></i> Saat Aralığı Ekle
+                    </button>
+                </div>
+                <div class="day-slots" hidden></div>
+            `;
+            scheduleContainer.appendChild(el);
+        });
+        lucide.createIcons({root: scheduleContainer});
+    }
+
+    window.toggleDay = function(checkbox) {
+        const container = checkbox.closest('.schedule-day');
+        const slots = container.querySelector('.day-slots');
+        const addBtn = container.querySelector('.add-slot-btn');
+        
+        slots.hidden = !checkbox.checked;
+        addBtn.hidden = !checkbox.checked;
+        
+        if (checkbox.checked && slots.children.length === 0) {
+            addTimeSlot(checkbox);
+        }
+        calculateAvailability();
+        saveDraft();
+    }
+
+    window.addTimeSlot = function(btn, startVal = '19:00', endVal = '21:00') {
+        const container = btn.closest('.schedule-day');
+        const slots = container.querySelector('.day-slots');
+        if (slots.children.length >= 3) return;
+
+        const slot = document.createElement('div');
+        slot.className = 'time-slot';
+        slot.innerHTML = `
+            <input type="time" class="t-start" value="${startVal}" onchange="calculateAvailability(); saveDraft();">
+            <span style="color: var(--text-muted); font-weight: 700;">—</span>
+            <input type="time" class="t-end" value="${endVal}" onchange="calculateAvailability(); saveDraft();">
+            <button type="button" class="btn btn-ghost" onclick="this.closest('.time-slot').remove(); calculateAvailability(); saveDraft();" style="padding: 8px;">
+                <i data-lucide="x"></i>
+            </button>
+        `;
+        slots.appendChild(slot);
+        lucide.createIcons({root: slot});
+        calculateAvailability();
+    }
+
+    window.applySchedulePreset = function(type) {
+        const weeknights = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+        const weekends = ['saturday', 'sunday'];
+        const everyday = days.map(d => d.key);
+        
+        let targetDays = [];
+        if (type === 'weeknights') targetDays = weeknights;
+        if (type === 'weekends') targetDays = weekends;
+        if (type === 'everyday') targetDays = everyday;
+
+        Array.from(scheduleContainer.children).forEach(dayEl => {
+            const key = dayEl.dataset.day;
+            const cb = dayEl.querySelector('.day-toggle');
+            const shouldCheck = targetDays.includes(key);
+            
+            if (cb.checked !== shouldCheck) {
+                cb.checked = shouldCheck;
+                toggleDay(cb);
+            }
+            
+            if (shouldCheck) {
+                const slots = dayEl.querySelector('.day-slots');
+                if (slots.children.length > 0) {
+                    slots.children[0].querySelector('.t-start').value = type === 'weekends' ? '12:00' : '20:00';
+                    slots.children[0].querySelector('.t-end').value = type === 'weekends' ? '15:00' : '22:00';
+                }
+            }
+        });
+        calculateAvailability();
+        saveDraft();
+    }
+
+    function getScheduleData() {
+        const schedule = {};
+        Array.from(scheduleContainer.children).forEach(dayEl => {
+            const key = dayEl.dataset.day;
+            const isChecked = dayEl.querySelector('.day-toggle').checked;
+            schedule[key] = [];
+            
+            if (isChecked) {
+                Array.from(dayEl.querySelectorAll('.time-slot')).forEach(slot => {
+                    schedule[key].push({
+                        start: slot.querySelector('.t-start').value,
+                        end: slot.querySelector('.t-end').value
+                    });
+                });
+            }
+        });
+        return schedule;
+    }
+
+    window.calculateAvailability = function() {
+        let totalMinutes = 0;
+        const schedule = getScheduleData();
+        
+        Object.values(schedule).forEach(slots => {
+            slots.forEach(s => {
+                if (s.start && s.end) {
+                    const [h1, m1] = s.start.split(':').map(Number);
+                    const [h2, m2] = s.end.split(':').map(Number);
+                    const diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+                    if (diff > 0) totalMinutes += diff;
+                }
+            });
+        });
+
+        const hours = (totalMinutes / 60).toFixed(1);
+        document.getElementById('availabilitySummaryText').textContent = totalMinutes > 0 ? `Haftalık Toplam Çalışma Süresi: ${hours} Saat` : '';
+    }
+
+    // --- Navigation & Validation ---
+    function showError(msg) {
+        formErrorText.textContent = msg;
+        formError.hidden = false;
+        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function validateStep(step) {
+        formError.hidden = true;
+        
+        if (step === 1) {
+            if (!document.getElementById('fullName').value.trim()) return showError('Lütfen adını ve soyadını gir.');
+            const phone = document.getElementById('whatsapp').value.replace(/\D/g, '');
+            const normalizedPhone = phone.startsWith('90') ? phone.slice(2) : phone.startsWith('0') ? phone.slice(1) : phone;
+            if (!/^5[0-9]{9}$/.test(normalizedPhone)) return showError('Geçerli bir cep telefonu (WhatsApp) numarası gir.');
+            if (!document.getElementById('academicYear').value) return showError('Lütfen sınıfını seç.');
+            
+            const courses = getCoursesData();
+            if (courses.length === 0) return showError('En az bir ders eklemelisin.');
+            if (courses.some(c => !c.name)) return showError('Eklediğin tüm derslerin adını yazmalısın.');
+        }
+        
+        if (step === 2) {
+            if (!document.getElementById('examType').value) return showError('Hazırlandığın sınav türünü seç.');
+            if (!document.getElementById('examDateUnknown').checked && !document.getElementById('examDate').value) return showError('Sınav tarihini seç veya "Sınav tarihi henüz belli değil" kutusunu işaretle.');
+            if (!document.getElementById('academicTarget').value) return showError('Temel hedefini seç.');
+            if (!document.getElementById('preparationLevel').value) return showError('Mevcut hazırlık durumunu seç.');
+        }
+        
+        if (step === 3) {
+            if (!document.getElementById('employmentStatus').value) return showError('Çalışma durumunu seç.');
+            
+            const sched = getScheduleData();
+            const hasTime = Object.values(sched).some(day => day.length > 0);
+            if (!hasTime) return showError('Haftalık programın için en az bir gün ve saat aralığı seçmelisin.');
+            
+            for (const day of Object.values(sched)) {
+                const ranges = [];
+                for (const slot of day) {
+                    if (!slot.start || !slot.end) return showError('Tüm saat aralıklarını eksiksiz doldur.');
+                    const startMin = slot.start.split(':').map(Number)[0]*60 + slot.start.split(':').map(Number)[1];
+                    const endMin = slot.end.split(':').map(Number)[0]*60 + slot.end.split(':').map(Number)[1];
+                    if (endMin <= startMin) return showError('Bitiş saati başlangıç saatinden sonra olmalıdır.');
+                    ranges.push([startMin, endMin]);
+                }
+                ranges.sort((a,b) => a[0] - b[0]);
+                if (ranges.some((r,i) => i > 0 && r[0] < ranges[i-1][1])) return showError('Aynı gün içindeki saat aralıkları birbiriyle çakışamaz.');
+            }
+        }
+        
+        return true;
+    }
+
+    function generateReview() {
+        const reviewBox = document.getElementById('reviewSummary');
+        const data = collectData();
+        
+        let html = `
+            <div class="summary-row">
+                <span class="summary-label">Ad Soyad</span>
+                <span class="summary-value">${escapeHTML(data.student.fullName)}</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Sınıf</span>
+                <span class="summary-value">${escapeHTML(data.student.academicYear)}</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Sınav</span>
+                <span class="summary-value">${escapeHTML(data.exam.type)} (${escapeHTML(data.exam.date || 'Tarih Belli Değil')})</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Hedef</span>
+                <span class="summary-value">${escapeHTML(data.exam.target)}</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Çalışma Durumu</span>
+                <span class="summary-value">${escapeHTML(data.availability.employmentStatus)}</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Seçilen Dersler</span>
+                <span class="summary-value">
+                    <ul style="margin: 0; padding-left: 16px;">
+                        ${data.courses.map(c => `<li>${escapeHTML(c.name)} (${escapeHTML(c.difficulty)})</li>`).join('')}
+                    </ul>
+                </span>
+            </div>
+        `;
+        reviewBox.innerHTML = html;
+    }
+
+    function updateStepUI(shouldScroll = false) {
+        for (let i = 1; i <= totalSteps; i++) {
+            document.getElementById(`step-${i}`).hidden = (i !== currentStep);
+            
+            const pStep = document.getElementById(`p-step-${i}`);
+            if (i < currentStep) {
+                pStep.className = 'progress-step completed';
+            } else if (i === currentStep) {
+                pStep.className = 'progress-step active';
+            } else {
+                pStep.className = 'progress-step';
+            }
+        }
+        
+        btnPrev.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+        
+        if (currentStep === totalSteps) {
+            btnNext.hidden = true;
+            btnSubmit.hidden = false;
+            generateReview();
+        } else {
+            btnNext.hidden = false;
+            btnSubmit.hidden = true;
+        }
+
+        if (shouldScroll) {
+            document.getElementById('applicationFormWizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (visitorTrackingReady && formStarted) trackVisitorActivity();
+    }
+
+    function handleNext() {
+        if (validateStep(currentStep)) {
+            currentStep++;
+            saveDraft();
+            updateStepUI(true);
+        }
+    }
+
+    function handlePrev() {
+        if (currentStep > 1) {
+            currentStep--;
+            saveDraft();
+            updateStepUI(true);
+        }
+    }
+
+    // --- Data Collection & Firebase ---
+    function collectData() {
+        let phone = document.getElementById('whatsapp').value.replace(/\D/g, '');
+        if (phone.startsWith('90')) phone = phone.slice(2);
+        if (phone.startsWith('0')) phone = phone.slice(1);
+        if (phone.length === 10) phone = '90' + phone;
+
+        return {
+            student: {
+                fullName: document.getElementById('fullName').value.trim(),
+                whatsapp: phone,
+                university: 'Anadolu Üniversitesi',
+                department: 'Halkla İlişkiler ve Reklamcılık',
+                academicYear: document.getElementById('academicYear').value
+            },
+            courses: getCoursesData(),
+            exam: {
+                type: document.getElementById('examType').value,
+                date: document.getElementById('examDateUnknown').checked ? null : document.getElementById('examDate').value,
+                target: document.getElementById('academicTarget').value,
+                preparationLevel: document.getElementById('preparationLevel').value,
+                challenges: Array.from(document.querySelectorAll('#studyChallenges input:checked')).map(cb => cb.value)
+            },
+            availability: {
+                employmentStatus: document.getElementById('employmentStatus').value,
+                weeklySchedule: getScheduleData(),
+                rotatingShifts: document.getElementById('rotatingShifts').checked,
+                shiftDescription: document.getElementById('shiftDescription').value.trim(),
+                preferredSessionMinutes: Number(document.getElementById('sessionDuration').value)
+            },
+            additionalNotes: document.getElementById('additionalNotes').value.trim()
+        };
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (isSubmitting || !settingsReady || !applicationsOpen || currentStep !== 4) {
+            if (!applicationsOpen) showError("Başvurular şu anda kapalı. Lütfen daha sonra tekrar dene.");
+            return;
+        }
+        if (![1,2,3].every(validateStep)) return;
+        
+        isSubmitting = true;
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = 'Kaydediliyor... <i data-lucide="loader"></i>';
+        lucide.createIcons();
+
+        try {
+            const data = collectData();
+            const node = push(ref(db, 'aofApplications'));
+            const refNo = 'AOF-' + node.key.slice(-8).toUpperCase();
+            
+            const payload = {
+                ...data,
+                applicationId: node.key,
+                referenceNumber: refNo,
+                createdAt: serverTimestamp(),
+                status: 'new',
+                paymentStatus: 'pending',
+                priceAtApplication: SERVICE_PRICE
+            };
+
+            await set(node, payload);
+
+            // Telegram New Order Notification
+            sendTelegram(
+                `🎉 <b>YENİ SİPARİŞ GELDİ!</b>\n\n` +
+                `🔖 <b>Başvuru No:</b> <code>${escapeHTML(refNo)}</code>\n` +
+                `👤 <b>Öğrenci:</b> ${escapeHTML(data.student.fullName)}\n` +
+                `📞 <b>WhatsApp:</b> +${escapeHTML(data.student.whatsapp)}\n` +
+                `🎓 <b>Sınıf:</b> ${escapeHTML(data.student.academicYear)}\n` +
+                `📚 <b>Ders Sayısı:</b> ${data.courses.length} Ders\n` +
+                `📝 <b>Sınav:</b> ${escapeHTML(data.exam.type)}\n` +
+                `💰 <b>Tutar:</b> ${SERVICE_PRICE} TL`
+            );
+            
+            // Success State
+            document.getElementById('applicationFormWizard').hidden = true;
+            document.getElementById('successScreen').hidden = false;
+            document.getElementById('referenceNumberDisplay').textContent = refNo;
+            
+            // Setup WA Button
+            const waUrl = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(`Merhaba, AÖF Plan başvurumu tamamladım. Başvuru numaram: ${refNo}. ${SERVICE_PRICE} TL tutarındaki yapay zeka destekli program için ödeme bilgilerini paylaşabilir misiniz?`)}`;
+            document.getElementById('whatsappBtn').href = waUrl;
+            
+            try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+            document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth' });
+            
+            // Track completion
+            if (visitorId) {
+                update(ref(db, 'aofVisitors/' + visitorId), {
+                    completed: true,
+                    state: 'completed',
+                    step: 3,
+                    maxStep: 4,
+                    lastSeen: serverTimestamp()
+                });
+            }
+
+        } catch (err) {
+            showError('Başvuru kaydedilemedi. Lütfen internet bağlantını kontrol edip tekrar dene.');
+            console.error(err);
+        } finally {
+            isSubmitting = false;
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = 'Başvurumu Tamamla <i data-lucide="check-circle-2"></i>';
+            lucide.createIcons();
+        }
+    }
+
+    // --- Autosave ---
+    function saveDraft() {
+        if (document.getElementById('successScreen').hidden === false) return;
+        const data = {
+            values: {},
+            courses: getCoursesData(),
+            schedule: getScheduleData(),
+            currentStep,
+            timestamp: Date.now()
+        };
+        
+        document.querySelectorAll('#appForm input:not([type="time"]):not(.c-name):not(.c-code):not(.c-unit), #appForm select:not(.c-diff), #appForm textarea').forEach(el => {
+            if (el.id) data.values[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+        });
+
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (_) {}
+    }
+
+    function loadDraft() {
+        try {
+            const raw = localStorage.getItem(DRAFT_KEY);
+            if (!raw) return false;
+            const data = JSON.parse(raw);
+            if (Date.now() - data.timestamp > 86400000) {
+                localStorage.removeItem(DRAFT_KEY);
+                return false;
+            }
+
+            Object.entries(data.values).forEach(([id, val]) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = val;
+                    else el.value = val;
+                }
+            });
+
+            document.getElementById('examDate').disabled = document.getElementById('examDateUnknown').checked;
+            document.getElementById('shiftDescContainer').hidden = !document.getElementById('rotatingShifts').checked;
+
+            if (data.courses && data.courses.length > 0) {
+                courseList.innerHTML = '';
+                data.courses.forEach(c => addCourse(c));
+            }
+
+            if (data.schedule) {
+                Object.entries(data.schedule).forEach(([dayKey, slots]) => {
+                    const dayEl = document.querySelector(`.schedule-day[data-day="${dayKey}"]`);
+                    if (dayEl && slots.length > 0) {
+                        const cb = dayEl.querySelector('.day-toggle');
+                        cb.checked = true;
+                        dayEl.querySelector('.day-slots').hidden = false;
+                        dayEl.querySelector('.add-slot-btn').hidden = false;
+                        
+                        slots.forEach(s => addTimeSlot(cb, s.start, s.end));
+                    }
+                });
+                calculateAvailability();
+            }
+            currentStep = Math.min(4, Math.max(1, Number(data.currentStep) || 1));
+            if (!courseList.children.length) addCourse();
+            return true;
+        } catch (e) {
+            console.error("Draft load error", e);
+            return false;
+        }
+    }
+
+    window.clearDraft = function() {
+        if(confirm('Formdaki tüm taslak verileri temizlemek istediğine emin misin?')) {
+            try { localStorage.removeItem(DRAFT_KEY); } catch (_) {}
+            window.location.reload();
+        }
+    }
+
+    // --- Visitor Tracking ---
+    let visitorId = null;
+    try { visitorId = localStorage.getItem(VISITOR_KEY); } catch (_) {}
+    let visitorTrackingReady = false;
+    let formStarted = false;
+    let furthestStep = 0;
+    const sessionStart = Date.now();
+
+    async function initVisitorTracking() {
+        if (!visitorId) {
+            visitorId = crypto.randomUUID();
+            try { localStorage.setItem(VISITOR_KEY, visitorId); } catch (_) {}
+        }
+        
+        try {
+            const visitRef = ref(db, 'aofVisitors/' + visitorId);
+            await runTransaction(visitRef, (current) => {
+                const v = current || {};
+                return {
+                    ...v,
+                    enteredAt: v.enteredAt || Date.now(),
+                    lastSeen: Date.now(),
+                    visitCount: (Number(v.visitCount) || 0) + 1,
+                    step: Math.max(0, Number(v.step) || 0),
+                    maxStep: Math.max(0, Number(v.maxStep) || 0),
+                    state: 'active'
+                };
+            });
+            
+            visitorTrackingReady = true;
+
+            // Telegram New Visitor Notification (Once per browser session)
+            if (!sessionStorage.getItem('tg_visit_notified')) {
+                sessionStorage.setItem('tg_visit_notified', '1');
+                sendTelegram(
+                    `👀 <b>Yeni Ziyaretçi Geldi!</b>\n` +
+                    `🆔 Kod: <code>#${escapeHTML(visitorId.slice(-8).toUpperCase())}</code>\n` +
+                    `📱 Cihaz: ${/Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'Mobil' : 'Masaüstü'}`
+                );
+            }
+
+            const markStarted = () => {
+                formStarted = true;
+                furthestStep = Math.max(furthestStep, currentStep);
+                update(visitRef, { startedForm: true, step: Math.max(0, furthestStep - 1), maxStep: furthestStep, lastSeen: serverTimestamp() }).catch(()=>{});
+                form.removeEventListener('input', markStarted);
+                form.removeEventListener('change', markStarted);
+            };
+            form.addEventListener('input', markStarted);
+            form.addEventListener('change', markStarted);
+            
+            setInterval(() => {
+                if (document.visibilityState === 'visible' && document.getElementById('successScreen').hidden) {
+                    trackVisitorActivity();
+                }
+            }, 30000);
+            
+            document.addEventListener('visibilitychange', () => {
+                if (document.getElementById('successScreen').hidden) {
+                    update(visitRef, { 
+                        state: document.hidden ? 'away' : 'active',
+                        lastSeen: serverTimestamp()
+                    });
+                }
+            });
+
+        } catch(e) { console.warn('Visitor tracking error', e); }
+    }
+
+    function trackVisitorActivity() {
+        if (!visitorId || !visitorTrackingReady || !formStarted) return;
+        furthestStep = Math.max(furthestStep, currentStep);
+        const duration = Math.floor((Date.now() - sessionStart) / 1000);
+        update(ref(db, 'aofVisitors/' + visitorId), {
+            step: Math.max(0, furthestStep - 1),
+            maxStep: furthestStep,
+            durationSeconds: duration,
+            lastSeen: serverTimestamp()
+        }).catch(()=>{});
+    }
+
+    // --- Global Settings (App Open/Closed) ---
+    function listenToSiteStatus() {
+        onValue(ref(db, 'aofSettings/applicationOpen'), (snapshot) => {
+            applicationsOpen = snapshot.val() !== false;
+            settingsReady = true;
+            const isOpen = applicationsOpen;
+            document.getElementById('mainContent').hidden = !isOpen;
+            document.getElementById('closedContent').hidden = isOpen;
+        }, (err) => {
+            applicationsOpen = false; settingsReady = false;
+            console.error('Settings read error, failing safe.', err);
+            document.getElementById('mainContent').hidden = true;
+            document.getElementById('closedContent').hidden = false;
+        });
+    }
+
+    // Price setting: use dashboard price when configured.
+    onValue(ref(db, 'aofSettings/price'), snapshot => {
+        const n = Number(snapshot.val());
+        if (snapshot.exists() && Number.isFinite(n) && n >= 0) {
+            SERVICE_PRICE = n;
+            document.querySelector('.pricing-amount').innerHTML = `${escapeHTML(n.toLocaleString('tr-TR'))} <span>₺</span>`;
+            document.querySelector('#step-4 .alert-warning').innerHTML = `<i data-lucide="info"></i><div><strong>Ödeme ve Teslimat Süreci</strong><br>Başvurunu gönderdikten sonra açılacak WhatsApp butonu üzerinden iletişim kurarak ${escapeHTML(n.toLocaleString('tr-TR'))} TL ödeme bilgilerini alabilirsin. Ödeme onayının ardından yapay zeka destekli kişisel çalışma programın hazırlanarak tarafına teslim edilir.</div>`;
+            lucide.createIcons();
+        }
+    }, () => {});
+
+    // Boot
+    document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
